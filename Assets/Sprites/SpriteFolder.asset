@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a02bdced93f1c94fb5c7559d48fce16, type: 3}
+  m_Name: SpriteFolder
+  m_EditorClassIdentifier: 
+  clubs: {fileID: 21300000, guid: 55d2a09acc86e524b9a31ceebf6b13cf, type: 3}
+  spades: {fileID: 21300000, guid: 3870ccbf54a60f245ba922df1e11ad4c, type: 3}
+  diamonds: {fileID: 21300000, guid: c0dab0e533a61d8418164f1bd81cf10a, type: 3}
+  hearts: {fileID: 21300000, guid: 424aaadc01e82df45b97e5e0a55d1621, type: 3}
+  numbers:
+  - {fileID: 21300000, guid: 5d476652b84e289428fccd40a9844d0b, type: 3}
+  - {fileID: 21300000, guid: af1d3cf2c1c65e3459982c1ba000fe80, type: 3}
+  - {fileID: 21300000, guid: 396de1f933b26d848b4367c6f0498222, type: 3}
+  - {fileID: 21300000, guid: acba6d932deff6840bf1395d3a161e8e, type: 3}
+  - {fileID: 21300000, guid: 4352d183f9445a64993d4cf9be4d82e2, type: 3}
+  - {fileID: 21300000, guid: e83cbfd7c04427e40af281ccabb7f367, type: 3}
+  - {fileID: 21300000, guid: da44bdc802a71b242bf4015702b01736, type: 3}
+  - {fileID: 21300000, guid: 0400d30ef7847cb47a3cf498e9f028ac, type: 3}
+  - {fileID: 21300000, guid: c4d13f43fe82887498219ddefe00a22a, type: 3}
+  - {fileID: 21300000, guid: f562a11fece2d4c49b7be5e8799b4578, type: 3}
+  - {fileID: 21300000, guid: e8c7127a36553ca44b925698199d19ef, type: 3}
