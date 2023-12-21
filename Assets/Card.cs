@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
+    [SerializeField] private bool startUpsideDown;
     [SerializeField] private Animator anim;
 
+    public SpriteRenderer cardSr;
     public SpriteFolder sprites;
-    public Image number;
-    public Image symbol;
-    public Image cardSprite;
+    public SpriteRenderer number;
+    public SpriteRenderer symbol;
+    public SpriteRenderer cardSprite;
 
     public int points;
     public CardColor cardColor;
@@ -22,20 +24,28 @@ public class Card : MonoBehaviour
     {
         symbol.sprite = GetSymbol(blueprint.symbol);
         cardSprite.sprite = blueprint.cardSprite;
-        
+
         points = blueprint.defaultPoints;
         number.sprite = GetNumberSprite(points);
 
         cardColor = blueprint.cardColor;
-        ApplyColor(cardColor);
+        
+        if (!startUpsideDown)
+        {
+            SetColor(cardColor);
+        }
+
+        if (startUpsideDown) anim.Play("Card_UpsideDown");
+        else anim.Play("Card_Idle");
     }
 
     public void Reveal()
     {
-        anim.Play("Card_Reveal");    
+        anim.Play("Card_Reveal");
     }
 
-    private void ApplyColor(CardColor cardColor)
+ 
+    private void SetColor(CardColor cardColor)
     {
         Color color = cardColor == CardColor.Black ? Color.black : Color.red;
         number.color = color;
@@ -88,17 +98,17 @@ public class Card : MonoBehaviour
 
     }
 
-    public void StartColorLerp(Image image, float duration, bool toTransparent)
+    public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
     {
-        StartCoroutine(LerpColorCoroutine(image, duration, toTransparent));
+        StartCoroutine(LerpColorCoroutine(spriteRenderer, duration, toTransparent));
     }
 
-    private IEnumerator LerpColorCoroutine(Image image, float duration, bool toTransparent)
+    private IEnumerator LerpColorCoroutine(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
     {
-        if (image != null)
+        if (spriteRenderer != null)
         {
             float elapsed = 0;
-            Color startColor = image.color;
+            Color startColor = spriteRenderer.color;
             Color endColor = toTransparent ?
                              new Color(startColor.r, startColor.g, startColor.b, 0) :
                              new Color(startColor.r, startColor.g, startColor.b, 1);
@@ -107,11 +117,17 @@ public class Card : MonoBehaviour
             {
                 elapsed += Time.deltaTime;
                 float normalizedTime = elapsed / duration;
-                image.color = Color.Lerp(startColor, endColor, normalizedTime);
+                spriteRenderer.color = Color.Lerp(startColor, endColor, normalizedTime);
                 yield return null;
             }
 
-            image.color = endColor; // Ensure the final color is set
+            spriteRenderer.color = endColor; // Ensure the final color is set
         }
     }
+}
+
+public enum CardStates
+{
+    UpsideDown,
+    Revealed
 }
