@@ -40,6 +40,9 @@ public class CardManager : MonoBehaviour
         int attackingCardDamage = attackingCard.points;
         attackedCard.TakeDamage(attackingCardDamage);
         attackingCard.TakeDamage(attackedCardDamage);
+
+        attackedCard.Shapeshift();
+        attackingCard.Shapeshift();
     }
 
     public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, float to)

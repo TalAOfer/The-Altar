@@ -197,6 +197,7 @@ MonoBehaviour:
   points: 0
   cardColor: 0
   fadeLerpTime: 0
+  shapeshiftHelper: {fileID: 11400000, guid: 1fb28a5f5da5bb04aaf8e75562c5e2c2, type: 2}
 --- !u!95 &3041129387846409227
 Animator:
   serializedVersion: 4

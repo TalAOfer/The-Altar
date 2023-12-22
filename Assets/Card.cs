@@ -21,6 +21,7 @@ public class Card : MonoBehaviour
     public CardColor cardColor;
 
     [SerializeField] private float fadeLerpTime;
+    [SerializeField] private ShapeshiftHelper shapeshiftHelper;
 
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
     {
@@ -41,6 +42,18 @@ public class Card : MonoBehaviour
 
         if (startUpsideDown) anim.Play("Card_UpsideDown");
         else anim.Play("Card_Idle");
+    }
+
+    public void SetNewCardArchetype(CardBlueprint blueprint)
+    {
+        symbolSr.sprite = GetSymbol(blueprint.symbol);
+        iconSr.sprite = blueprint.cardSprite;
+
+        points = blueprint.defaultPoints;
+        numberSr.sprite = GetNumberSprite(points);
+
+        cardColor = blueprint.cardColor;
+        SetColor(cardColor);
     }
 
     public void Reveal()
@@ -110,6 +123,12 @@ public class Card : MonoBehaviour
         points -= damagePoints;
         if (points < 0) points = 0;
         numberSr.sprite = GetNumberSprite(points);
+    }
+
+    public void Shapeshift()
+    {
+        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(points, cardColor);
+        SetNewCardArchetype(newForm);
     }
 
     public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
