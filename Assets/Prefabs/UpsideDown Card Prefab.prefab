@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2190524289179533374}
   - component: {fileID: 2190524289179533375}
   m_Layer: 0
-  m_Name: Card Sprite
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,11 +189,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startUpsideDown: 1
   anim: {fileID: 2190524289567322618}
-  cardSr: {fileID: 2190524289567322616}
   sprites: {fileID: 11400000, guid: f4ed473020af4d6498828631dd3c453b, type: 2}
-  number: {fileID: 2190524289179533375}
-  symbol: {fileID: 2190524290279919929}
-  cardSprite: {fileID: 2190524290218317536}
+  cardSr: {fileID: 2190524289567322616}
+  iconSr: {fileID: 2190524289179533375}
+  numberSr: {fileID: 2190524290279919929}
+  symbolSr: {fileID: 2190524290218317536}
   points: 0
   cardColor: 0
   fadeLerpTime: 0
@@ -231,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultColor: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
+  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
 --- !u!61 &2190524289567322612
 BoxCollider2D:
   m_ObjectHideFlags: 0

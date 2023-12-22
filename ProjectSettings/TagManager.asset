@@ -41,9 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Card
+  - name: Cards 1
     uniqueID: 2618431971
     locked: 0
-  - name: Top
+  - name: Cards 2
     uniqueID: 4160266853
+    locked: 0
+  - name: Hand
+    uniqueID: 572599163
+    locked: 0
+  - name: Curtain
+    uniqueID: 630277737
+    locked: 0
+  - name: Battle 1
+    uniqueID: 846099225
+    locked: 0
+  - name: Battle 2
+    uniqueID: 3182917493
     locked: 0

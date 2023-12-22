@@ -13,6 +13,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     [SerializeField] Color defaultColor;
     [SerializeField] Color hoverColor;
+    [SerializeField] AllEvents events;
 
 
     private void Awake()
@@ -24,7 +25,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-         card.cardSr.color = hoverColor;
+        card.cardSr.color = hoverColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -55,15 +56,14 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         if (eventData.pointerCurrentRaycast.gameObject != null)
         {
-            GameObject hitObject = eventData.pointerCurrentRaycast.gameObject;
-            Debug.Log("Dropped on " + hitObject.name);
-            transform.position = hitObject.transform.position;
+            //GameObject hitObject = eventData.pointerCurrentRaycast.gameObject;
+
+            //Debug.Log("Dropped on " + hitObject.name);
         }
 
         else
         {
             transform.position = startPos;
-
         }
 
         SetCollState(true);
@@ -76,6 +76,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name);
+        Card attackingCard = eventData.pointerDrag.GetComponent<Card>(); 
+        events.OnCardDropOnCard.Raise(card, attackingCard);
     }
 }

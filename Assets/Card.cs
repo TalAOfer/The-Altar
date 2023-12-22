@@ -9,27 +9,31 @@ public class Card : MonoBehaviour
     [SerializeField] private bool startUpsideDown;
     [SerializeField] private Animator anim;
 
-    public SpriteRenderer cardSr;
     public SpriteFolder sprites;
-    public SpriteRenderer number;
-    public SpriteRenderer symbol;
-    public SpriteRenderer cardSprite;
+
+    public SpriteRenderer cardSr;
+
+    public SpriteRenderer iconSr;
+    public SpriteRenderer numberSr;
+    public SpriteRenderer symbolSr;
 
     public int points;
     public CardColor cardColor;
 
     [SerializeField] private float fadeLerpTime;
 
-    public void Init(CardBlueprint blueprint)
+    public void Init(CardBlueprint blueprint, string startingSortingLayer)
     {
-        symbol.sprite = GetSymbol(blueprint.symbol);
-        cardSprite.sprite = blueprint.cardSprite;
+        symbolSr.sprite = GetSymbol(blueprint.symbol);
+        iconSr.sprite = blueprint.cardSprite;
 
         points = blueprint.defaultPoints;
-        number.sprite = GetNumberSprite(points);
+        numberSr.sprite = GetNumberSprite(points);
 
         cardColor = blueprint.cardColor;
-        
+
+        SetSortingLayer(startingSortingLayer);
+
         if (!startUpsideDown)
         {
             SetColor(cardColor);
@@ -44,13 +48,21 @@ public class Card : MonoBehaviour
         anim.Play("Card_Reveal");
     }
 
- 
+
     private void SetColor(CardColor cardColor)
     {
         Color color = cardColor == CardColor.Black ? Color.black : Color.red;
-        number.color = color;
-        symbol.color = color;
-        cardSprite.color = color;
+        numberSr.color = color;
+        symbolSr.color = color;
+        iconSr.color = color;
+    }
+
+    public void SetSortingLayer(string sortingLayerName)
+    {
+        cardSr.sortingLayerName = sortingLayerName;
+        numberSr.sortingLayerName = sortingLayerName;
+        symbolSr.sortingLayerName = sortingLayerName;
+        iconSr.sortingLayerName = sortingLayerName;
     }
 
     private Sprite GetNumberSprite(int currentPoints)
@@ -88,14 +100,16 @@ public class Card : MonoBehaviour
 
     public void ShowSprites()
     {
-        StartColorLerp(symbol, fadeLerpTime, false);
-        StartColorLerp(number, fadeLerpTime, false);
-        StartColorLerp(cardSprite, fadeLerpTime, false);
+        StartColorLerp(symbolSr, fadeLerpTime, false);
+        StartColorLerp(numberSr, fadeLerpTime, false);
+        StartColorLerp(iconSr, fadeLerpTime, false);
     }
 
-    public void FadeSprites()
+    public void TakeDamage(int damagePoints)
     {
-
+        points -= damagePoints;
+        if (points < 0) points = 0;
+        numberSr.sprite = GetNumberSprite(points);
     }
 
     public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
