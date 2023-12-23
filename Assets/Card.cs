@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    [SerializeField] private bool startUpsideDown;
+    public bool isDead {  get; private set; }
+
     [SerializeField] private Animator anim;
 
     public SpriteFolder sprites;
@@ -19,12 +20,18 @@ public class Card : MonoBehaviour
 
     public int points;
     public CardColor cardColor;
+   
+    public CardState cardState { get; private set; }
+    public int index { get; private set; }
 
     [SerializeField] private float fadeLerpTime;
     [SerializeField] private ShapeshiftHelper shapeshiftHelper;
 
-    public void Init(CardBlueprint blueprint, string startingSortingLayer)
+    public void Init(CardBlueprint blueprint, CardState cardState, int index, string startingSortingLayer)
     {
+        this.cardState = cardState;
+        this.index = index; 
+
         symbolSr.sprite = GetSymbol(blueprint.symbol);
         iconSr.sprite = blueprint.cardSprite;
 
@@ -35,12 +42,12 @@ public class Card : MonoBehaviour
 
         SetSortingLayer(startingSortingLayer);
 
-        if (!startUpsideDown)
+        if (cardState != CardState.Reward)
         {
             SetColor(cardColor);
         }
 
-        if (startUpsideDown) anim.Play("Card_UpsideDown");
+        if (cardState == CardState.Reward) anim.Play("Card_UpsideDown");
         else anim.Play("Card_Idle");
     }
 
@@ -131,9 +138,12 @@ public class Card : MonoBehaviour
         SetNewCardArchetype(newForm);
         if (points == 0)
         {
-            StartCoroutine(OnDeath());
+            yield return StartCoroutine(OnDeath());
         }
-        yield break;
+
+        Debug.Log("happened");
+
+        yield return null;
     }
 
     public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
@@ -165,13 +175,15 @@ public class Card : MonoBehaviour
 
     public IEnumerator OnDeath()
     {
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        ///if OnDeath.Lenght == 0;
+        isDead = true;
+        yield return null;
     }
 }
 
-public enum CardStates
+public enum CardState
 {
-    UpsideDown,
-    Revealed
+    Reward,
+    Enemy,
+    Hand
 }

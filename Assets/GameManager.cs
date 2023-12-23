@@ -21,17 +21,22 @@ public class GameManager : MonoBehaviour
     private List<CardBlueprint> deck;
 
 
-
-
-    private Card SpawnCard(CardBlueprint cardBlueprint, CardStates cardState, string sortingLayerName)
+    private void Awake()
     {
-        GameObject prefabToSpawn = cardState == CardStates.UpsideDown ? upsideDownCardPrefab : revealedCardPrefab;
+        deck = new List<CardBlueprint>(deckRecipe.cards);
+        Tools.ShuffleList(deck);
+    }
+
+
+    private Card SpawnCard(CardBlueprint cardBlueprint, CardState cardState, int index, string sortingLayerName)
+    {
+        GameObject prefabToSpawn = cardState == CardState.Reward ? upsideDownCardPrefab : revealedCardPrefab;
         GameObject cardGO = Instantiate(prefabToSpawn, outOfScreenBoundsPosition, Quaternion.identity, mapMasterContainer);
         cardGO.transform.localScale = Vector3.one;
         cardGO.name = cardBlueprint.name;
 
         Card card = cardGO.GetComponent<Card>();
-        card.Init(cardBlueprint, sortingLayerName);
+        card.Init(cardBlueprint, cardState, index, sortingLayerName);
 
         return card;
     }
@@ -39,8 +44,6 @@ public class GameManager : MonoBehaviour
     [Button]
     public void DrawMap()
     {
-        deck = new List<CardBlueprint>(deckRecipe.cards);
-        Tools.ShuffleList(deck);
         StartCoroutine(DealMap());
     }
 
@@ -62,7 +65,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 9; i++)
         {
-            Card card = SpawnCard(DrawCard(), CardStates.UpsideDown, GameConstants.BOTTOM_MAP_LAYER);
+            Card card = SpawnCard(DrawCard(), CardState.Reward, i, GameConstants.BOTTOM_MAP_LAYER);
             card.transform.position = mapCardContainers[i].position;
             yield return new WaitForSeconds(0.25f);
         }
@@ -74,7 +77,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            Card card = SpawnCard(DrawCard(), CardStates.Revealed, GameConstants.HAND_LAYER);
+            Card card = SpawnCard(DrawCard(), CardState.Hand, i, GameConstants.HAND_LAYER);
             card.transform.position = handContainers[i].position;
             yield return new WaitForSeconds(0.25f);
         }
@@ -89,7 +92,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             int containerIndex = (i == 0) ? randomConfig.x : randomConfig.y;
-            Card card = SpawnCard(DrawCard(), CardStates.Revealed, GameConstants.TOP_MAP_LAYER);
+            Card card = SpawnCard(DrawCard(), CardState.Enemy, i, GameConstants.TOP_MAP_LAYER);
             card.transform.position = mapCardContainers[containerIndex].position;
             yield return new WaitForSeconds(0.25f);
         }

@@ -17,31 +17,37 @@ public class BattleManager : MonoBehaviour
     private Vector3 attackingCardOriginalPosition;
 
     public Button battleButton;
+    public Button backButton;
 
     public float backwardSpeed = 5;
     public float moveDistanceBackward = 0.5f;
     public float forwardSpeed = 20f;
     public float moveDistanceForward = 1.5f;
     public float backToPlaceSpeed = 4f;
+    public float toPlaceSpeed = 8f;
+
+    public float battleCardScale = 1.25f;
+    public float scaleLerpSpeed = 5f;
+
     public void OnCardDroppedOnCard(Component sender, object data)
     {
         attackedCard = sender as Card;
         attackingCard = data as Card;
 
-        Debug.Log(attackingCard.name + "is in: " + attackingCard.transform.position);
-        
         attackedCardOriginalPosition = attackedCard.transform.position;
         attackingCardOriginalPosition = attackingCard.GetComponent<CardInteractionHandler>().startPos;
 
         attackedCard.SetSortingLayer(GameConstants.BOTTOM_BATTLE_LAYER);
         attackingCard.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
+
+        StartCoroutine(MoveToPosition(attackedCard.transform, topBattleTransform.position, toPlaceSpeed));
+        StartCoroutine(MoveToPosition(attackingCard.transform, bottomBattleTransform.position, toPlaceSpeed));
         
-        attackedCard.transform.position = topBattleTransform.position;
-        attackingCard.transform.position = bottomBattleTransform.position;
-        attackingCard.transform.localScale = Vector3.one * 1.25f;
-        attackedCard.transform.localScale = Vector3.one * 1.25f;
+        StartCoroutine(LerpToScale(attackedCard.transform, Vector3.one * battleCardScale, scaleLerpSpeed));
+        StartCoroutine(LerpToScale(attackingCard.transform, Vector3.one * battleCardScale, scaleLerpSpeed));
 
         battleButton.gameObject.SetActive(true);
+        backButton.gameObject.SetActive(true);
 
         curtainColl.enabled = true;
         StartColorLerp(curtainSr, 0.5f, 0.7f);
@@ -50,6 +56,7 @@ public class BattleManager : MonoBehaviour
     public void DoBattle()
     {
         battleButton.gameObject.SetActive(false);
+        backButton.gameObject.SetActive(false);
         StartCoroutine(BattleRoutine());
     }
 
@@ -63,8 +70,6 @@ public class BattleManager : MonoBehaviour
         yield return moveAttackedCardBackward;
         yield return moveAttackingCardBackward;
 
-        // Apply damage or any other mid-animation logic here
-        ApplyDamage();
 
         // Move both cards forward to simulate headbutt
         Coroutine moveAttackedCardForward = StartCoroutine(MoveCard(attackedCard, topBattleTransform.position, -moveDistanceForward, forwardSpeed));
@@ -73,6 +78,8 @@ public class BattleManager : MonoBehaviour
         // Wait for both headbutt movements to complete
         yield return moveAttackedCardForward;
         yield return moveAttackingCardForward;
+
+        ApplyDamage();
 
         // Move both cards back to original position
         Coroutine moveAttackedCardBackToPlace = StartCoroutine(MoveToPosition(attackedCard.transform, topBattleTransform.position, backToPlaceSpeed));
@@ -88,22 +95,44 @@ public class BattleManager : MonoBehaviour
         yield return attackedCardShapeshift;
         yield return attackingCardShapeshift;
 
+        if (attackedCard.isDead) attackedCard.gameObject.SetActive(false);
+        if (attackingCard.isDead) attackedCard.gameObject.SetActive(false);
+
         yield return new WaitForSeconds(1f);
 
+        StartCoroutine(GoBackToMap());
+    }
+
+    public IEnumerator GoBackToMap()
+    {
+        backButton.gameObject.SetActive(false);
+        battleButton.gameObject.SetActive(false);
 
         StartColorLerp(curtainSr, 0.5f, 0f);
         curtainColl.enabled = false;
 
-        if (attackingCard != null)
+
+        if (attackingCard != null && !attackingCard.isDead)
         {
-            attackingCard.transform.localScale = Vector3.one;
-            StartCoroutine(MoveToPosition(attackingCard.transform, attackingCardOriginalPosition, 7));
+            attackingCard.SetSortingLayer(GameConstants.HAND_LAYER);
+            Coroutine moveBackToHand = StartCoroutine(MoveToPosition(attackingCard.transform, attackingCardOriginalPosition, 7));
+            Coroutine scaleBackToHandSize = StartCoroutine(LerpToScale(attackingCard.transform, Vector3.one, 5));
+            yield return moveBackToHand;
+            yield return scaleBackToHandSize;
         }
 
-        if (attackedCard != null)
+        if (attackedCard != null && !attackedCard.isDead)
         {
-            attackedCard.transform.localScale = Vector3.one;
-            StartCoroutine(MoveToPosition(attackedCard.transform, attackedCardOriginalPosition, 7));
+            attackedCard.SetSortingLayer(GameConstants.TOP_MAP_LAYER);
+            Coroutine moveBackToMap = StartCoroutine(MoveToPosition(attackedCard.transform, attackedCardOriginalPosition, 7));
+            Coroutine scaleBackToMapSize = StartCoroutine(LerpToScale(attackedCard.transform, Vector3.one, 5));
+            yield return moveBackToMap;
+            yield return scaleBackToMapSize;
+        }
+        
+        else
+        {
+
         }
     }
 
@@ -125,6 +154,19 @@ public class BattleManager : MonoBehaviour
         // Ensure the final position is set accurately
         targetTransform.position = targetPosition;
     }
+
+    private IEnumerator LerpToScale(Transform targetTransform, Vector3 targetScale, float scaleSpeed)
+    {
+        while (Vector3.Distance(targetTransform.localScale, targetScale) > 0.01f)
+        {
+            targetTransform.localScale = Vector3.Lerp(targetTransform.localScale, targetScale, scaleSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        // Ensure the final scale is set accurately
+        targetTransform.localScale = targetScale;
+    }
+
     private void ApplyDamage()
     {
         int attackedCardDamage = attackedCard.points;

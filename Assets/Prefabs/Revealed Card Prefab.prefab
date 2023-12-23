@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 3041129387846409224}
   - component: {fileID: 3041129387846409225}
   - component: {fileID: 3041129387846409230}
+  - component: {fileID: 7960116322067524554}
   - component: {fileID: 3041129387846409227}
   - component: {fileID: 4791120713178788065}
-  - component: {fileID: 7960116322067524554}
   m_Layer: 0
   m_Name: Revealed Card Prefab
   m_TagString: Untagged
@@ -198,6 +198,22 @@ MonoBehaviour:
   cardColor: 0
   fadeLerpTime: 0
   shapeshiftHelper: {fileID: 11400000, guid: 1fb28a5f5da5bb04aaf8e75562c5e2c2, type: 2}
+--- !u!114 &7960116322067524554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3041129387846409231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de952b813ff304b46bbcbfb561e56525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPos: {x: 0, y: 0, z: 0}
+  defaultColor: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
+  hoverColor: {r: 1, g: 1, b: 1, a: 1}
+  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
 --- !u!95 &3041129387846409227
 Animator:
   serializedVersion: 4
@@ -244,21 +260,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.875, y: 2.6875}
   m_EdgeRadius: 0
---- !u!114 &7960116322067524554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3041129387846409231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de952b813ff304b46bbcbfb561e56525, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultColor: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
-  hoverColor: {r: 1, g: 1, b: 1, a: 1}
-  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
 --- !u!1 &3041129388260440855
 GameObject:
   m_ObjectHideFlags: 0
