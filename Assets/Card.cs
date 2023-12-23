@@ -125,10 +125,15 @@ public class Card : MonoBehaviour
         numberSr.sprite = GetNumberSprite(points);
     }
 
-    public void Shapeshift()
+    public IEnumerator Shapeshift()
     {
         CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(points, cardColor);
         SetNewCardArchetype(newForm);
+        if (points == 0)
+        {
+            StartCoroutine(OnDeath());
+        }
+        yield break;
     }
 
     public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
@@ -156,6 +161,12 @@ public class Card : MonoBehaviour
 
             spriteRenderer.color = endColor; // Ensure the final color is set
         }
+    }
+
+    public IEnumerator OnDeath()
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
 }
 

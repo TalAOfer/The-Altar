@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     private Card card;
-    private Vector3 startPos;
+    public Vector3 startPos;
     private Vector3 temp;
     private Collider2D coll;
 

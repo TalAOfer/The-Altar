@@ -1676,7 +1676,7 @@ GameObject:
   - component: {fileID: 1498891917}
   - component: {fileID: 1498891919}
   m_Layer: 0
-  m_Name: Card Manager
+  m_Name: Battle Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1699,6 +1699,11 @@ MonoBehaviour:
   topBattleTransform: {fileID: 1242076502}
   bottomBattleTransform: {fileID: 2114297943}
   battleButton: {fileID: 1600347372}
+  backwardSpeed: 5
+  moveDistanceBackward: 0.5
+  forwardSpeed: 20
+  moveDistanceForward: 1
+  backToPlaceSpeed: 4
 --- !u!4 &1498891918
 Transform:
   m_ObjectHideFlags: 0

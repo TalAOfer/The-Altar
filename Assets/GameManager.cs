@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
         GameObject prefabToSpawn = cardState == CardStates.UpsideDown ? upsideDownCardPrefab : revealedCardPrefab;
         GameObject cardGO = Instantiate(prefabToSpawn, outOfScreenBoundsPosition, Quaternion.identity, mapMasterContainer);
         cardGO.transform.localScale = Vector3.one;
+        cardGO.name = cardBlueprint.name;
 
         Card card = cardGO.GetComponent<Card>();
         card.Init(cardBlueprint, sortingLayerName);
