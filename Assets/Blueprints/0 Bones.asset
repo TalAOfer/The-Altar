@@ -18,6 +18,7 @@ MonoBehaviour:
   cardColor: 0
   defaultPoints: 0
   OnReveal: []
+  BeforeBattle: []
   OnDeath: []
   OnSacrifice: []
   OnActionTaken: []

@@ -62,6 +62,12 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleRoutine()
     {
+        Coroutine ApplyAttackingCardBeforeBattleEffects = StartCoroutine(attackingCard.ApplyBeforeBattleEffects(attackedCard));
+        Coroutine ApplyAttackedCardBeforeBattleEffects = StartCoroutine(attackedCard.ApplyBeforeBattleEffects(attackingCard));
+
+        yield return ApplyAttackingCardBeforeBattleEffects;
+        yield return ApplyAttackedCardBeforeBattleEffects;
+
         // Move both cards backward
         Coroutine moveAttackedCardBackward = StartCoroutine(MoveCard(attackedCard, topBattleTransform.position, moveDistanceBackward, backwardSpeed));
         Coroutine moveAttackingCardBackward = StartCoroutine(MoveCard(attackingCard, bottomBattleTransform.position, -moveDistanceBackward, backwardSpeed));
@@ -70,7 +76,6 @@ public class BattleManager : MonoBehaviour
         yield return moveAttackedCardBackward;
         yield return moveAttackingCardBackward;
 
-
         // Move both cards forward to simulate headbutt
         Coroutine moveAttackedCardForward = StartCoroutine(MoveCard(attackedCard, topBattleTransform.position, -moveDistanceForward, forwardSpeed));
         Coroutine moveAttackingCardForward = StartCoroutine(MoveCard(attackingCard, bottomBattleTransform.position, moveDistanceForward, forwardSpeed));
@@ -78,6 +83,18 @@ public class BattleManager : MonoBehaviour
         // Wait for both headbutt movements to complete
         yield return moveAttackedCardForward;
         yield return moveAttackingCardForward;
+
+        Coroutine calcAttackedCardAttackPoints = StartCoroutine(attackedCard.CalcAttackPoints());
+        Coroutine calcAttackingCardAtackPoints = StartCoroutine(attackingCard.CalcAttackPoints());
+
+        yield return calcAttackedCardAttackPoints;
+        yield return calcAttackingCardAtackPoints;
+
+        Coroutine calcAttackingCardHurtPoints = StartCoroutine(attackingCard.CalcHurtPoints(attackedCard.attackPoints));
+        Coroutine calcAttackedCardHurtPoints = StartCoroutine(attackedCard.CalcHurtPoints(attackingCard.attackPoints));
+
+        yield return calcAttackingCardHurtPoints;
+        yield return calcAttackedCardHurtPoints;
 
         ApplyDamage();
 
@@ -89,21 +106,26 @@ public class BattleManager : MonoBehaviour
         yield return moveAttackingCardBackToPlace;
 
         // Final logic after both cards have moved
-        Coroutine attackedCardShapeshift = StartCoroutine(attackedCard.Shapeshift());
-        Coroutine attackingCardShapeshift = StartCoroutine(attackingCard.Shapeshift());
+        Coroutine attackedCardShapeshift = StartCoroutine(attackedCard.HandleShapeshift());
+        Coroutine attackingCardShapeshift = StartCoroutine(attackingCard.HandleShapeshift());
 
         yield return attackedCardShapeshift;
         yield return attackingCardShapeshift;
 
         if (attackedCard.isDead) attackedCard.gameObject.SetActive(false);
-        if (attackingCard.isDead) attackedCard.gameObject.SetActive(false);
+        if (attackingCard.isDead) attackingCard.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1f);
 
-        StartCoroutine(GoBackToMap());
+        GoBackToMap();
     }
 
-    public IEnumerator GoBackToMap()
+    public void GoBackToMap()
+    {
+        StartCoroutine(BackToMapRoutine());
+    }
+
+    public IEnumerator BackToMapRoutine()
     {
         backButton.gameObject.SetActive(false);
         battleButton.gameObject.SetActive(false);
@@ -111,29 +133,30 @@ public class BattleManager : MonoBehaviour
         StartColorLerp(curtainSr, 0.5f, 0f);
         curtainColl.enabled = false;
 
+        Coroutine moveBackToHand = null;
+        Coroutine scaleBackToHandSize = null;
+        Coroutine moveBackToMap = null;
+        Coroutine scaleBackToMapSize = null;
 
         if (attackingCard != null && !attackingCard.isDead)
         {
             attackingCard.SetSortingLayer(GameConstants.HAND_LAYER);
-            Coroutine moveBackToHand = StartCoroutine(MoveToPosition(attackingCard.transform, attackingCardOriginalPosition, 7));
-            Coroutine scaleBackToHandSize = StartCoroutine(LerpToScale(attackingCard.transform, Vector3.one, 5));
-            yield return moveBackToHand;
-            yield return scaleBackToHandSize;
+            moveBackToHand = StartCoroutine(MoveToPosition(attackingCard.transform, attackingCardOriginalPosition, 7));
+            scaleBackToHandSize = StartCoroutine(LerpToScale(attackingCard.transform, Vector3.one, 5));
         }
 
         if (attackedCard != null && !attackedCard.isDead)
         {
             attackedCard.SetSortingLayer(GameConstants.TOP_MAP_LAYER);
-            Coroutine moveBackToMap = StartCoroutine(MoveToPosition(attackedCard.transform, attackedCardOriginalPosition, 7));
-            Coroutine scaleBackToMapSize = StartCoroutine(LerpToScale(attackedCard.transform, Vector3.one, 5));
-            yield return moveBackToMap;
-            yield return scaleBackToMapSize;
+            moveBackToMap = StartCoroutine(MoveToPosition(attackedCard.transform, attackedCardOriginalPosition, 7));
+            scaleBackToMapSize = StartCoroutine(LerpToScale(attackedCard.transform, Vector3.one, 5));
         }
-        
-        else
-        {
 
-        }
+        if (moveBackToHand != null) yield return moveBackToHand;
+        if (scaleBackToHandSize != null) yield return scaleBackToHandSize;
+        if (moveBackToMap != null) yield return moveBackToMap;
+        if (scaleBackToMapSize != null) yield return scaleBackToMapSize;
+
     }
 
     private IEnumerator MoveCard(Card card, Vector3 originalPosition, float moveDistance, float moveSpeed)
@@ -169,11 +192,8 @@ public class BattleManager : MonoBehaviour
 
     private void ApplyDamage()
     {
-        int attackedCardDamage = attackedCard.points;
-        int attackingCardDamage = attackingCard.points;
-
-        attackedCard.TakeDamage(attackingCardDamage);
-        attackingCard.TakeDamage(attackedCardDamage);
+        attackedCard.TakeDamage();
+        attackingCard.TakeDamage();
     }
 
     public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, float to)

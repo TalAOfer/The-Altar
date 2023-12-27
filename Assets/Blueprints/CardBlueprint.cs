@@ -15,10 +15,12 @@ public class CardBlueprint : ScriptableObject
     public int defaultPoints;
 
     [Title("Effects")]
-    public List<Effect> OnReveal;
-    public List<Effect> OnDeath;
-    public List<Effect> OnSacrifice;
-    public List<Effect> OnActionTaken;
+    public List<EffectBlueprint> OnReveal;
+    public List<EffectBlueprint> BeforeBattle;
+    public List<EffectBlueprint> OnGainPoints;
+    public List<EffectBlueprint> OnDeath;
+    public List<EffectBlueprint> OnSacrifice;
+    public List<EffectBlueprint> OnActionTaken;
 }
 
 public enum CardColor

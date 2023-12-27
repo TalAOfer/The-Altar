@@ -18,6 +18,10 @@ MonoBehaviour:
   cardColor: 0
   defaultPoints: 2
   OnReveal: []
-  OnDeath: []
+  BeforeBattle: []
+  OnGainPoints: []
+  OnDeath:
+  - {fileID: 11400000, guid: c64377aaba46d284589591e72eac0446, type: 2}
+  - {fileID: 11400000, guid: f92542e1f0e32a34a8b7dc01f5b57333, type: 2}
   OnSacrifice: []
   OnActionTaken: []
