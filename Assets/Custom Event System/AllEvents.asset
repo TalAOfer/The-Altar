@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: AllEvents
   m_EditorClassIdentifier: 
   OnCardDropOnCard: {fileID: 11400000, guid: af13426617dc49244b5a4e0140e8062e, type: 2}
+  OnMapCardDead: {fileID: 0}
+  WaitForActiveChoice: {fileID: 11400000, guid: 290c64c7ec3586d4f9c12c20613c04d8, type: 2}

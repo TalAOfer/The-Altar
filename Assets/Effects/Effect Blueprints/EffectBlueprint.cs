@@ -21,16 +21,18 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("effectType", EffectType.GainPoints)]
     public int pointsToAdd;
 
-    [ShowIf("effectType", EffectType.ChangeColor)] 
+    [ShowIf("effectType", EffectType.ChangeColor)]
     public CardColor changeTo;
+
+    [ShowIf("effectType", EffectType.AlterBattlePoints)]
+    public float mult;
+
+    [ShowIf("effectType", EffectType.AlterBattlePoints)]
+    public PointAlterationType alterationType;
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
     {
         GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + effectType.ToString());
-
-        // Set the new GameObject's parent
         newEffectGO.transform.SetParent(parentCard.transform, false);
-
-        // Optionally, reset local position and rotation if needed
         newEffectGO.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
         switch (effectType)
@@ -56,25 +58,37 @@ public class EffectBlueprint : ScriptableObject
             case EffectType.Shapeshift:
                 var shapeShiftEffect = newEffectGO.AddComponent<ShapeshiftEffect>();
                 shapeShiftEffect.InitializeDelay(predelay, postdelay);
-                AddEffectToList(parentCard , triggerType, shapeShiftEffect);   
+                AddEffectToList(parentCard, triggerType, shapeShiftEffect);
+                break;
+            case EffectType.AlterBattlePoints:
+                var hurtPointsAlterationEffect = newEffectGO.AddComponent<BattlePointAlterationEffect>();
+                hurtPointsAlterationEffect.InitializeDelay(predelay, postdelay);
+                hurtPointsAlterationEffect.Initialize(mult, alterationType);
+                AddEffectToList(parentCard, triggerType, hurtPointsAlterationEffect);
                 break;
         }
     }
 
-    public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect effect) 
+    public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect effect)
     {
         switch (triggerType)
         {
             case EffectTrigger.OnReveal:
                 break;
             case EffectTrigger.BeforeBattle:
-                parentCard.BeforeBattleEffects.Add(effect);
+                parentCard.effects.BeforeBattleEffects.Add(effect);
                 break;
             case EffectTrigger.OnGainPoints:
-                parentCard.OnGainPointsEffects.Add(effect);
+                parentCard.effects.OnGainPointsEffects.Add(effect);
                 break;
             case EffectTrigger.OnDeath:
-                parentCard.OnDeathEffects.Add(effect);
+                parentCard.effects.OnDeathEffects.Add(effect);
+                break;
+            case EffectTrigger.HurtPointsAlteration:
+                parentCard.effects.HurtPointsAlterationEffects.Add(effect);
+                break;
+            case EffectTrigger.AttackPointsAlteration:
+                parentCard.effects.AttackPointsAlterationEffects.Add(effect);
                 break;
         }
     }
@@ -96,5 +110,12 @@ public enum EffectType
     GetAdvantageOverColor,
     ChangeColor,
     GainPoints,
-    Shapeshift
+    Shapeshift,
+    AlterBattlePoints,
+}
+
+public enum AlterationType
+{
+    Addition,
+    Mult
 }

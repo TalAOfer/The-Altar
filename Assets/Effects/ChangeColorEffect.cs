@@ -15,7 +15,7 @@ public class ChangeColorEffect : Effect
     {
         yield return new WaitForSeconds(predelay);
 
-        context.InitiatingCard.SetColor(changeToThisColor);
+        context.InitiatingCard.visualHandler.SetSpritesColor(changeToThisColor);
 
         yield return new WaitForSeconds(postdelay);
     }

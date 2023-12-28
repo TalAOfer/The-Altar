@@ -187,17 +187,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5d70b0a00517f4eae03dcff0e60f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startUpsideDown: 1
   anim: {fileID: 2190524289567322618}
   sprites: {fileID: 11400000, guid: f4ed473020af4d6498828631dd3c453b, type: 2}
   cardSr: {fileID: 2190524289567322616}
   iconSr: {fileID: 2190524289179533375}
   numberSr: {fileID: 2190524290279919929}
   symbolSr: {fileID: 2190524290218317536}
+  cardInteractionHandler: {fileID: 2190524289567322619}
   points: 0
+  hurtPoints: 0
+  attackPoints: 0
   cardColor: 0
   fadeLerpTime: 0
   shapeshiftHelper: {fileID: 11400000, guid: 1fb28a5f5da5bb04aaf8e75562c5e2c2, type: 2}
+  BeforeBattleEffects: []
+  OnGainPointsEffects: []
+  OnDeathEffects: []
+  HurtPointsAlterationEffects: []
+  AttackPointsAlterationEffects: []
 --- !u!114 &2190524289567322619
 MonoBehaviour:
   m_ObjectHideFlags: 0

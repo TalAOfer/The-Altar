@@ -21,6 +21,8 @@ public class CardBlueprint : ScriptableObject
     public List<EffectBlueprint> OnDeath;
     public List<EffectBlueprint> OnSacrifice;
     public List<EffectBlueprint> OnActionTaken;
+    public List<EffectBlueprint> HurtPointsAlteration;
+    public List<EffectBlueprint> AttackPointsAlteration;
 }
 
 public enum CardColor

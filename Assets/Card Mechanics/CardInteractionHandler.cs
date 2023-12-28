@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Collider2D))]
 public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    private Card card;
+    [SerializeField] private Card card;
+    [SerializeField] private Collider2D coll;
     public Vector3 startPos;
+    public Vector3 startRotation;
     private Vector3 temp;
-    private Collider2D coll;
 
     [SerializeField] Color defaultColor;
     [SerializeField] Color hoverColor;
@@ -18,24 +19,26 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     private void Awake()
     {
-        coll = GetComponent<Collider2D>();
-        card = GetComponent<Card>();
-        card.cardSr.color = defaultColor;
+        card.visualHandler.SetCardBGColor(defaultColor);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        card.cardSr.color = hoverColor;
+        card.visualHandler.SetCardBGColor(hoverColor);
+        card.visualHandler.SetSortingOrder(10);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        card.cardSr.color = defaultColor;
+        card.visualHandler.SetCardBGColor(defaultColor);
+        card.visualHandler.SetSortingOrder(card.index);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        startPos = transform.position;
+        startPos = card.transform.position;
+        startRotation = card.transform.rotation.eulerAngles;
+        card.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     public void SetCollState(bool enable)
@@ -49,7 +52,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         temp = mousePos;
         temp.z = 0;
-        transform.position = temp;
+        card.transform.position = temp;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -63,7 +66,8 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
         else
         {
-            transform.position = startPos;
+            card.transform.position = startPos;
+            card.transform.localRotation = Quaternion.Euler(startRotation);
         }
 
         SetCollState(true);
@@ -76,7 +80,8 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnDrop(PointerEventData eventData)
     {
-        Card attackingCard = eventData.pointerDrag.GetComponent<Card>(); 
-        events.OnCardDropOnCard.Raise(card, attackingCard);
+        CardInteractionHandler attackingCardInteractionHandler = eventData.pointerDrag.GetComponent<CardInteractionHandler>();
+        Debug.Log(card.name + " attacked by " + attackingCardInteractionHandler.card);
+        events.OnCardDropOnCard.Raise(card, attackingCardInteractionHandler.card);
     }
 }

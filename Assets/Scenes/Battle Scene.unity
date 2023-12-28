@@ -1987,8 +1987,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4da8944102b9747b82a79c5b8142e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackedCardBlueprint: {fileID: 11400000, guid: 59a68ea678d5ac048bdeccfc947f4218, type: 2}
-  attackingCardBlueprint: {fileID: 11400000, guid: 7d92137bd413a844691f7ed4c27959e3, type: 2}
+  attackedCardBlueprint: {fileID: 11400000, guid: 9a9b2f92f3d0f1d4ca12936a04111be6, type: 2}
+  attackingCardBlueprint: {fileID: 11400000, guid: bd334b55247f8154ab669856126e95b3, type: 2}
   revealedCardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
   mapMasterContainer: {fileID: 2139812146}
   topContainer: {fileID: 1801025579}

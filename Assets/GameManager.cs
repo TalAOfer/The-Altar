@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject upsideDownCardPrefab;
     [SerializeField] private GameObject revealedCardPrefab;
 
-    [SerializeField] private Transform[] handContainers;
+    [SerializeField] private HandManager handManager;
 
     [SerializeField] private Transform mapMasterContainer;
     [SerializeField] private Transform[] mapCardContainers;
@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 outOfScreenBoundsPosition;
 
     private List<CardBlueprint> deck;
-
 
     private void Awake()
     {
@@ -63,13 +62,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DealMap()
     {
-        for (int i = 0; i < 9; i++)
-        {
-            Card card = SpawnCard(DrawCard(), CardState.Reward, i, GameConstants.BOTTOM_MAP_LAYER);
-            card.transform.position = mapCardContainers[i].position;
-            yield return new WaitForSeconds(0.25f);
-        }
-
+        //for (int i = 0; i < 9; i++)
+        //{
+        //    Card card = SpawnCard(DrawCard(), CardState.Reward, i, GameConstants.BOTTOM_MAP_LAYER);
+        //    card.transform.position = mapCardContainers[i].position;
+        //    yield return new WaitForSeconds(0.25f);
+        //}
+        yield return null;
         StartCoroutine(DealPlayer());
     }
 
@@ -78,8 +77,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             Card card = SpawnCard(DrawCard(), CardState.Hand, i, GameConstants.HAND_LAYER);
-            card.transform.position = handContainers[i].position;
-            yield return new WaitForSeconds(0.25f);
+            handManager.AddCardToHand(card);
+            yield return new WaitForSeconds(1f);
         }
         StartCoroutine(DealEnemies());
     }

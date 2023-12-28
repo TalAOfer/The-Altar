@@ -18,6 +18,12 @@ MonoBehaviour:
   cardColor: 1
   defaultPoints: 8
   OnReveal: []
+  BeforeBattle: []
+  OnGainPoints: []
   OnDeath: []
   OnSacrifice: []
   OnActionTaken: []
+  HurtPointsAlteration:
+  - {fileID: 11400000, guid: e733d933886b4c747bbc1ffc953046ec, type: 2}
+  AttackPointsAlteration:
+  - {fileID: 11400000, guid: 96c452378c6877640abbe7c9f7c08d74, type: 2}

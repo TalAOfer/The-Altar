@@ -7,4 +7,5 @@ public class AllEvents : ScriptableObject
 {
     public GameEvent OnCardDropOnCard;
     public GameEvent OnMapCardDead;
+    public GameEvent WaitForActiveChoice;
 }
