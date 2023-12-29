@@ -7,31 +7,46 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    public bool isDead { get; private set; }
+    [FoldoutGroup("Card Info")]
+    public bool isDead;
+    [FoldoutGroup("Card Info")]
+    public int points;
 
-    public int points { get; set; }
-    public int hurtPoints { get; set; }
-    public int attackPoints { get; set; }
-    public int index { get; set; }
+    [FoldoutGroup("Card Info")]
+    public int hurtPoints;
 
-    public CardColor cardColor { get; set; }
-    public CardState cardState { get; set; }
+    [FoldoutGroup("Card Info")]
+    public int attackPoints;
+
+    [FoldoutGroup("Card Info")]
+    public int index;
+
+    [FoldoutGroup("Card Info")]
+    public CardColor cardColor;
+
+    [FoldoutGroup("Card Info")]
+    public CardOwner cardOwner;
+
+    [FoldoutGroup("Card Info")]
+    public CardState cardState;
+
 
     public CardEffectHandler effects;
     public CardVisualHandler visualHandler;
     public CardInteractionHandler interactionHandler;
 
-    
+
     [SerializeField] private ShapeshiftHelper shapeshiftHelper;
 
 
-    public void Init(CardBlueprint blueprint, CardState cardState, int index, string startingSortingLayer)
+    public void Init(CardBlueprint blueprint, CardOwner cardOwner, int index, string startingSortingLayer)
     {
-        this.cardState = cardState;
+        this.cardOwner = cardOwner;
         this.index = index;
         points = blueprint.defaultPoints;
 
         effects.Init(blueprint);
+        interactionHandler.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
     }
 
@@ -100,11 +115,52 @@ public class Card : MonoBehaviour
     }
 
     public void SetIsDead(bool isDead) => this.isDead = isDead;
+
+    public IEnumerator ChangeCardState(CardState newState)
+    {
+        if (newState == cardState)
+        {
+            Debug.LogWarning("Trying to switch to same state");
+            yield break;
+        }
+
+        switch (newState)
+        {
+            case CardState.Default:
+                if (cardOwner == CardOwner.Player)
+                {
+                    visualHandler.SetSortingLayer(GameConstants.HAND_LAYER);
+                }
+                else
+                {
+                    visualHandler.SetSortingLayer(GameConstants.TOP_MAP_LAYER);
+                }
+                break;
+            case CardState.Battle:
+                if (cardOwner == CardOwner.Player)
+                {
+                    visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
+                }
+                else
+                {
+                    visualHandler.SetSortingLayer(GameConstants.BOTTOM_BATTLE_LAYER);
+                }
+                break;
+        }
+
+        yield return null;
+    }
+}
+
+public enum CardOwner
+{
+    Reward,
+    Enemy,
+    Player,
 }
 
 public enum CardState
 {
-    Reward,
-    Enemy,
-    Hand
+    Default,
+    Battle
 }

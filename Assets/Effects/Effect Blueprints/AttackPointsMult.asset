@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectType: 4
   predelay: 0
-  postdelay: 1
+  postdelay: 0
   ThisCardIsStronerOn: 0
   advantageAmount: 0
   disadvantageAmount: 0

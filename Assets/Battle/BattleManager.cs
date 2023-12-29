@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
+    public HandManager handManager;
     public SpriteRenderer curtainSr;
     public BoxCollider2D curtainColl;
 
@@ -12,22 +13,12 @@ public class BattleManager : MonoBehaviour
     public Transform bottomBattleTransform;
 
     private Card attackedCard;
-    private Vector3 attackedCardOriginalPosition;
     private Card attackingCard;
-    private Vector3 attackingCardOriginalPosition;
 
     public Button battleButton;
     public Button backButton;
 
-    public float backwardSpeed = 5;
-    public float moveDistanceBackward = 0.5f;
-    public float forwardSpeed = 20f;
-    public float moveDistanceForward = 1.5f;
-    public float backToPlaceSpeed = 4f;
-    public float toPlaceSpeed = 8f;
-
-    public float battleCardScale = 1.25f;
-    public float scaleLerpSpeed = 5f;
+    [SerializeField] private BattleCardMovementData movementData;
 
     public void OnCardDroppedOnCard(Component sender, object data)
     {
@@ -39,28 +30,20 @@ public class BattleManager : MonoBehaviour
 
     public IEnumerator BattleFormationRoutine()
     {
-        attackedCard.interactionHandler.SetCollState(false);
-        attackedCard.interactionHandler.SetCollState(false);
-
-        attackedCardOriginalPosition = attackedCard.interactionHandler.startPos;
-        attackingCardOriginalPosition = attackingCard.interactionHandler.startPos;
-
-        attackedCard.visualHandler.SetSortingLayer(GameConstants.BOTTOM_BATTLE_LAYER);
-        attackingCard.visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
+        StartCoroutine(attackedCard.ChangeCardState(CardState.Battle));
+        StartCoroutine(attackingCard.ChangeCardState(CardState.Battle));
 
         curtainColl.enabled = true;
         StartColorLerp(curtainSr, 0.5f, 0.7f);
 
-        Coroutine moveAttackedCardToTop = StartCoroutine(MoveToPosition(attackedCard.transform, topBattleTransform.position, toPlaceSpeed));
-        Coroutine moveAttackingcardToBottom = StartCoroutine(MoveToPosition(attackingCard.transform, bottomBattleTransform.position, toPlaceSpeed));
+        Coroutine moveAttackedCardToTop = StartCoroutine(attackedCard.interactionHandler.TransformCardUniformly
+            (topBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
 
-        Coroutine lerpAttackingCardScale = StartCoroutine(LerpToScale(attackedCard.transform, Vector3.one * battleCardScale, scaleLerpSpeed));
-        Coroutine lerpAttackedCardScale = StartCoroutine(LerpToScale(attackingCard.transform, Vector3.one * battleCardScale, scaleLerpSpeed));
+        Coroutine moveAttackingcardToBottom = StartCoroutine(attackingCard.interactionHandler.TransformCardUniformly
+            (bottomBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
 
         yield return moveAttackedCardToTop;
         yield return moveAttackingcardToBottom;
-        yield return lerpAttackedCardScale;
-        yield return lerpAttackingCardScale;
 
         battleButton.gameObject.SetActive(true);
         backButton.gameObject.SetActive(true);
@@ -83,21 +66,17 @@ public class BattleManager : MonoBehaviour
         yield return ApplyAttackingCardBeforeBattleEffects;
         yield return ApplyAttackedCardBeforeBattleEffects;
 
-        // Move both cards backward
-        Coroutine moveAttackedCardBackward = StartCoroutine(MoveCard(attackedCard, topBattleTransform.position, moveDistanceBackward, backwardSpeed));
-        Coroutine moveAttackingCardBackward = StartCoroutine(MoveCard(attackingCard, bottomBattleTransform.position, -moveDistanceBackward, backwardSpeed));
+        Coroutine attackedCardReadying = StartCoroutine(attackedCard.interactionHandler.MoveCardByAmountOverTime(movementData.readyingDistance, movementData.readyingDuration));
+        Coroutine attackingCardReadying = StartCoroutine(attackingCard.interactionHandler.MoveCardByAmountOverTime(-movementData.readyingDistance, movementData.readyingDuration));
 
-        // Wait for both backward movements to complete
-        yield return moveAttackedCardBackward;
-        yield return moveAttackingCardBackward;
+        yield return attackedCardReadying;
+        yield return attackingCardReadying;
 
-        // Move both cards forward to simulate headbutt
-        Coroutine moveAttackedCardForward = StartCoroutine(MoveCard(attackedCard, topBattleTransform.position, -moveDistanceForward, forwardSpeed));
-        Coroutine moveAttackingCardForward = StartCoroutine(MoveCard(attackingCard, bottomBattleTransform.position, moveDistanceForward, forwardSpeed));
+        Coroutine attackedCardHeadbutt = StartCoroutine(attackedCard.interactionHandler.MoveCardByAmountOverTime(-movementData.headButtDistance, movementData.headbuttDuration));
+        Coroutine attackingCardHeadbutt = StartCoroutine(attackingCard.interactionHandler.MoveCardByAmountOverTime(movementData.headButtDistance, movementData.headbuttDuration));
 
-        // Wait for both headbutt movements to complete
-        yield return moveAttackedCardForward;
-        yield return moveAttackingCardForward;
+        yield return attackedCardHeadbutt;
+        yield return attackingCardHeadbutt;
 
         Coroutine calcAttackedCardAttackPoints = StartCoroutine(attackedCard.CalcAttackPoints());
         Coroutine calcAttackingCardAtackPoints = StartCoroutine(attackingCard.CalcAttackPoints());
@@ -113,12 +92,13 @@ public class BattleManager : MonoBehaviour
 
         ApplyDamage();
 
-        // Move both cards back to original position
-        Coroutine moveAttackedCardBackToPlace = StartCoroutine(MoveToPosition(attackedCard.transform, topBattleTransform.position, backToPlaceSpeed));
-        Coroutine moveAttackingCardBackToPlace = StartCoroutine(MoveToPosition(attackingCard.transform, bottomBattleTransform.position, backToPlaceSpeed));
+        Coroutine attackedCardBackoff = StartCoroutine(attackedCard.interactionHandler.MoveCardToPositionOverTime(topBattleTransform.position, movementData.backOffDuration));
+        Coroutine attackingCardBackoff = StartCoroutine(attackingCard.interactionHandler.MoveCardToPositionOverTime(bottomBattleTransform.position, movementData.backOffDuration));
 
-        yield return moveAttackedCardBackToPlace;
-        yield return moveAttackingCardBackToPlace;
+        yield return attackedCardBackoff;
+        yield return attackingCardBackoff;
+
+        yield return new WaitForSeconds(movementData.endBattleDelay);
 
         // Final logic after both cards have moved
         Coroutine attackedCardShapeshift = StartCoroutine(attackedCard.HandleShapeshift());
@@ -148,79 +128,30 @@ public class BattleManager : MonoBehaviour
         StartColorLerp(curtainSr, 0.5f, 0f);
         curtainColl.enabled = false;
 
-        Coroutine moveBackToHand = null;
-        Coroutine scaleBackToHandSize = null;
-        Coroutine rotateBackToOriginal = null;
-
-        Coroutine moveBackToMap = null;
-        Coroutine scaleBackToMapSize = null;
+        Coroutine moveAttackingCardBackToHand = null;
+        Coroutine moveAttackedCardBackToMap = null;
+       
 
         if (attackingCard != null && !attackingCard.isDead)
         {
-            attackingCard.visualHandler.SetSortingLayer(GameConstants.HAND_LAYER);
-            moveBackToHand = StartCoroutine(MoveToPosition(attackingCard.transform, attackingCardOriginalPosition, 7));
-            scaleBackToHandSize = StartCoroutine(LerpToScale(attackingCard.transform, Vector3.one, 5));
-            rotateBackToOriginal = StartCoroutine(LerpToRotation(attackingCard.transform, attackingCard.interactionHandler.startRotation, 5));
+            StartCoroutine(attackingCard.ChangeCardState(CardState.Default));
+
+            //handManager.InsertCardBackToHand(attackingCard);
+            moveAttackingCardBackToHand = StartCoroutine(attackingCard.interactionHandler.TransformCardUniformly
+            (attackingCard.interactionHandler.startPos, attackingCard.interactionHandler.startScale, attackingCard.interactionHandler.startRotation, movementData.toFormationDuration));
         }
 
         if (attackedCard != null && !attackedCard.isDead)
         {
-            attackedCard.visualHandler.SetSortingLayer(GameConstants.TOP_MAP_LAYER);
-            moveBackToMap = StartCoroutine(MoveToPosition(attackedCard.transform, attackedCardOriginalPosition, 7));
-            scaleBackToMapSize = StartCoroutine(LerpToScale(attackedCard.transform, Vector3.one, 5));
+            StartCoroutine(attackedCard.ChangeCardState(CardState.Default));
+
+            moveAttackedCardBackToMap = StartCoroutine(attackedCard.interactionHandler.TransformCardUniformly
+            (attackedCard.interactionHandler.startPos, attackedCard.interactionHandler.startScale, Vector3.zero, movementData.toFormationDuration));
         }
 
-        if (moveBackToHand != null) yield return moveBackToHand;
-        if (scaleBackToHandSize != null) yield return scaleBackToHandSize;
-        if (moveBackToMap != null) yield return moveBackToMap;
-        if (scaleBackToMapSize != null) yield return scaleBackToMapSize;
-        if (rotateBackToOriginal != null) yield return rotateBackToOriginal;
+        if (moveAttackingCardBackToHand != null) yield return moveAttackingCardBackToHand;
+        if (moveAttackedCardBackToMap != null) yield return moveAttackedCardBackToMap;
 
-    }
-
-    private IEnumerator MoveCard(Card card, Vector3 originalPosition, float moveDistance, float moveSpeed)
-    {
-        Vector3 targetPosition = originalPosition + new Vector3(0, moveDistance, 0);
-
-        yield return StartCoroutine(MoveToPosition(card.transform, targetPosition, moveSpeed));
-    }
-
-    private IEnumerator MoveToPosition(Transform targetTransform, Vector3 targetPosition, float moveSpeed)
-    {
-        while (Vector3.Distance(targetTransform.position, targetPosition) > 0.01f)
-        {
-            targetTransform.position = Vector3.Lerp(targetTransform.position, targetPosition, moveSpeed * Time.deltaTime);
-            yield return null;
-        }
-
-        // Ensure the final position is set accurately
-        targetTransform.position = targetPosition;
-    }
-
-    private IEnumerator LerpToScale(Transform targetTransform, Vector3 targetScale, float scaleSpeed)
-    {
-        while (Vector3.Distance(targetTransform.localScale, targetScale) > 0.01f)
-        {
-            targetTransform.localScale = Vector3.Lerp(targetTransform.localScale, targetScale, scaleSpeed * Time.deltaTime);
-            yield return null;
-        }
-
-        // Ensure the final scale is set accurately
-        targetTransform.localScale = targetScale;
-    }
-
-    private IEnumerator LerpToRotation(Transform targetTransform, Vector3 targetEulerAngles, float rotationSpeed)
-    {
-        Quaternion targetRotation = Quaternion.Euler(targetEulerAngles);
-
-        while (Quaternion.Angle(targetTransform.rotation, targetRotation) > 0.01f)
-        {
-            targetTransform.rotation = Quaternion.Lerp(targetTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            yield return null;
-        }
-
-        // Ensure the final rotation is set accurately
-        targetTransform.rotation = targetRotation;
     }
 
     private void ApplyDamage()

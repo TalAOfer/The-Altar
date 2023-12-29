@@ -17,14 +17,14 @@ public class BattleSimulator : MonoBehaviour
     [SerializeField] private Vector3 outOfScreenBoundsPosition;
 
 
-    private Card SpawnCard(CardBlueprint cardBlueprint, CardState cardState, int index, string sortingLayerName)
+    private Card SpawnCard(CardBlueprint cardBlueprint, CardOwner cardOwner, int index, string sortingLayerName)
     {
         GameObject cardGO = Instantiate(revealedCardPrefab, outOfScreenBoundsPosition, Quaternion.identity, mapMasterContainer);
         cardGO.transform.localScale = Vector3.one;
         cardGO.name = cardBlueprint.name;
 
         Card card = cardGO.GetComponent<Card>();
-        card.Init(cardBlueprint, cardState, index, sortingLayerName);
+        card.Init(cardBlueprint, cardOwner, index, sortingLayerName);
 
         return card;
     }
@@ -32,9 +32,11 @@ public class BattleSimulator : MonoBehaviour
     [Button]
     public void DrawCards()
     {
-        Card attackedCard = SpawnCard(attackedCardBlueprint, CardState.Enemy, 0, GameConstants.TOP_MAP_LAYER);
+        Card attackedCard = SpawnCard(attackedCardBlueprint, CardOwner.Enemy, 0, GameConstants.TOP_MAP_LAYER);
         attackedCard.transform.position = topContainer.position;
-        Card attackingCard = SpawnCard(attackingCardBlueprint, CardState.Hand, 0, GameConstants.HAND_LAYER);
+        attackedCard.interactionHandler.SetNewDefaultLocation();
+        Card attackingCard = SpawnCard(attackingCardBlueprint, CardOwner.Player, 0, GameConstants.HAND_LAYER);
         attackingCard.transform.position = botttomContainer.position;
+        attackingCard.interactionHandler.SetNewDefaultLocation();
     }
 }

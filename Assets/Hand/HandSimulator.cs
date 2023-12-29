@@ -11,25 +11,27 @@ public class HandSimulator : MonoBehaviour
     [SerializeField] private Transform mapMasterContainer;
     [SerializeField] private int amount;
     [SerializeField] private GameObject revealedCardPrefab;
+    [SerializeField] private float cardScale;
 
     [Button]
     public void DrawCards()
     {
         for (int i = 0; i < amount; i++)
         {
-            Card card = SpawnCard(cardBlueprint, CardState.Enemy, i, GameConstants.TOP_MAP_LAYER);
+            Card card = SpawnCard(cardBlueprint, CardOwner.Player, i, GameConstants.TOP_MAP_LAYER);
             handManager.AddCardToHand(card);
+            card.transform.localScale = Vector3.one * cardScale;
         }
     }
 
-    private Card SpawnCard(CardBlueprint cardBlueprint, CardState cardState, int index, string sortingLayerName)
+    private Card SpawnCard(CardBlueprint cardBlueprint, CardOwner cardOwner, int index, string sortingLayerName)
     {
         GameObject cardGO = Instantiate(revealedCardPrefab, outOfScreenBoundsPosition, Quaternion.identity, mapMasterContainer);
         cardGO.transform.localScale = Vector3.one;
         cardGO.name = cardBlueprint.name;
 
         Card card = cardGO.GetComponent<Card>();
-        card.Init(cardBlueprint, cardState, index, sortingLayerName);
+        card.Init(cardBlueprint, cardOwner, index, sortingLayerName);
 
         return card;
     }

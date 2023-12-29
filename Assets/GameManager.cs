@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 outOfScreenBoundsPosition;
 
     private List<CardBlueprint> deck;
+    [SerializeField] private Transform deckTransform;
+    [SerializeField] private int cardStartingAmount;
+    [SerializeField] private float mapScale;
 
     private void Awake()
     {
@@ -27,15 +30,15 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private Card SpawnCard(CardBlueprint cardBlueprint, CardState cardState, int index, string sortingLayerName)
+    private Card SpawnCard(CardBlueprint cardBlueprint, CardOwner cardOwner, int index, string sortingLayerName)
     {
-        GameObject prefabToSpawn = cardState == CardState.Reward ? upsideDownCardPrefab : revealedCardPrefab;
-        GameObject cardGO = Instantiate(prefabToSpawn, outOfScreenBoundsPosition, Quaternion.identity, mapMasterContainer);
-        cardGO.transform.localScale = Vector3.one;
+        GameObject prefabToSpawn = cardOwner == CardOwner.Reward ? upsideDownCardPrefab : revealedCardPrefab;
+        GameObject cardGO = Instantiate(prefabToSpawn, deckTransform.position, Quaternion.identity, mapMasterContainer);
+        cardGO.transform.localScale = Vector3.one * mapScale;
         cardGO.name = cardBlueprint.name;
 
         Card card = cardGO.GetComponent<Card>();
-        card.Init(cardBlueprint, cardState, index, sortingLayerName);
+        card.Init(cardBlueprint, cardOwner, index, sortingLayerName);
 
         return card;
     }
@@ -74,11 +77,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DealPlayer()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < cardStartingAmount; i++)
         {
-            Card card = SpawnCard(DrawCard(), CardState.Hand, i, GameConstants.HAND_LAYER);
+            Card card = SpawnCard(DrawCard(), CardOwner.Player, i, GameConstants.HAND_LAYER);
             handManager.AddCardToHand(card);
-            yield return new WaitForSeconds(1f);
+            card.interactionHandler.SetNewDefaultLocation();
+            yield return new WaitForSeconds(0.25f);
         }
         StartCoroutine(DealEnemies());
     }
@@ -91,8 +95,9 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             int containerIndex = (i == 0) ? randomConfig.x : randomConfig.y;
-            Card card = SpawnCard(DrawCard(), CardState.Enemy, i, GameConstants.TOP_MAP_LAYER);
+            Card card = SpawnCard(DrawCard(), CardOwner.Enemy, i, GameConstants.TOP_MAP_LAYER);
             card.transform.position = mapCardContainers[containerIndex].position;
+            card.interactionHandler.SetNewDefaultLocation();
             yield return new WaitForSeconds(0.25f);
         }
     }

@@ -1174,14 +1174,7 @@ MonoBehaviour:
   bottomBattleTransform: {fileID: 2114297943}
   battleButton: {fileID: 1600347372}
   backButton: {fileID: 1167495942}
-  backwardSpeed: 5
-  moveDistanceBackward: 0.5
-  forwardSpeed: 20
-  moveDistanceForward: 1
-  backToPlaceSpeed: 4
-  toPlaceSpeed: 5
-  battleCardScale: 1.25
-  scaleLerpSpeed: 5
+  movementData: {fileID: 11400000, guid: 548617b02a8657d4a9f7a4ab16713b10, type: 2}
 --- !u!4 &1498891918
 Transform:
   m_ObjectHideFlags: 0
@@ -1988,7 +1981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackedCardBlueprint: {fileID: 11400000, guid: 9a9b2f92f3d0f1d4ca12936a04111be6, type: 2}
-  attackingCardBlueprint: {fileID: 11400000, guid: bd334b55247f8154ab669856126e95b3, type: 2}
+  attackingCardBlueprint: {fileID: 11400000, guid: 751784a754b25094dbd456567d41a24a, type: 2}
   revealedCardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
   mapMasterContainer: {fileID: 2139812146}
   topContainer: {fileID: 1801025579}

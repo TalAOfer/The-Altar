@@ -9,16 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57af9f270dd4e6a41a0f39c5c24fff27, type: 3}
-  m_Name: HurtPointsMult
+  m_Script: {fileID: 11500000, guid: 7cc48775b08563944829548522289b0a, type: 3}
+  m_Name: OnHandCardStartDrag
   m_EditorClassIdentifier: 
-  effectType: 4
-  predelay: 0
-  postdelay: 0
-  ThisCardIsStronerOn: 0
-  advantageAmount: 0
-  disadvantageAmount: 0
-  pointsToAdd: 0
-  changeTo: 0
-  mult: 0.5
-  alterationType: 0
+  listeners: []

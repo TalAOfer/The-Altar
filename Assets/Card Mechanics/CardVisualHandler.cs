@@ -24,12 +24,12 @@ public class CardVisualHandler : MonoBehaviour
         numberSr.sprite = GetNumberSprite(card.points);
         SetSortingLayer(startingSortingLayer);
 
-        if (card.cardState != CardState.Reward)
+        if (card.cardOwner != CardOwner.Reward)
         {
             SetSpritesColor(blueprint.cardColor);
         }
 
-        if (card.cardState == CardState.Reward) anim.Play("Card_UpsideDown");
+        if (card.cardOwner == CardOwner.Reward) anim.Play("Card_UpsideDown");
         else anim.Play("Card_Idle");
 
     }

@@ -15,3 +15,6 @@ MonoBehaviour:
   OnCardDropOnCard: {fileID: 11400000, guid: af13426617dc49244b5a4e0140e8062e, type: 2}
   OnMapCardDead: {fileID: 0}
   WaitForActiveChoice: {fileID: 11400000, guid: 290c64c7ec3586d4f9c12c20613c04d8, type: 2}
+  OnHandCardStartDrag: {fileID: 11400000, guid: 0425d6e5087599d4081d361623b4f6e2, type: 2}
+  OnHandCardDroppedNowhere: {fileID: 11400000, guid: 9d3e77e387bce3d428f46498eea5c9ba, type: 2}
+  OnDraggedCardHoveredOverHandCard: {fileID: 11400000, guid: 421ce6141f418a14e8bebb089fcfdce2, type: 2}
