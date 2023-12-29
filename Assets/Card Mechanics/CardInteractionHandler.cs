@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Collider2D))]
 public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    [SerializeField] private Card card;
+    public Card card;
     [SerializeField] private Collider2D coll;
     public Vector3 startScale;
     public Vector3 startPos;
@@ -17,23 +17,23 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     [SerializeField] Color hoverColor;
     [SerializeField] AllEvents events;
     [SerializeField] private DragManager dragManager;
+
     public void Initialize()
     {
-        card.visualHandler.SetCardBGColor(defaultColor);
-        SetNewDefaultLocation();
+        SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
     }
 
-    public void SetNewDefaultLocation()
+    public void SetNewDefaultLocation(Vector3 position, Vector3 scale, Vector3 rotation)
     {
-        startScale = card.transform.localScale;
-        startPos = card.transform.localPosition;
-        startRotation = card.transform.rotation.eulerAngles;
+        startPos = position;
+        startScale = scale;
+        startRotation = rotation;
     }
 
     private void RestartTransformToDefault()
     {
         card.transform.localScale = startScale;
-        card.transform.localPosition = startPos;
+        card.transform.position = startPos;
         card.transform.rotation = Quaternion.Euler(startRotation);
     }
 
@@ -43,7 +43,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         {
             card.visualHandler.SetCardBGColor(hoverColor);
             card.visualHandler.SetSortingOrder(10);
-            card.transform.localPosition = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            card.transform.position = new Vector3(startPos.x, startPos.y + 0.5f, startPos.z);
             card.transform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
@@ -96,8 +96,15 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        dragManager.SetDraggedCard(null);
         GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
-        if (goHit == null)
+        CardInteractionHandler cardThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
+        if (cardThatItDroppedOn != null && cardThatItDroppedOn.card.cardOwner == CardOwner.Enemy)
+        {
+
+        }
+
+        else
         {
             events.OnHandCardDroppedNowhere.Raise(card, card);
         }

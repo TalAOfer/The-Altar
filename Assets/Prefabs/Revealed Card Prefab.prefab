@@ -168,6 +168,7 @@ Transform:
   - {fileID: 1076719916005953478}
   - {fileID: 7852895720344620219}
   - {fileID: 182269697388070094}
+  - {fileID: 2106552239818702234}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -235,12 +236,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5d70b0a00517f4eae03dcff0e60f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   points: 0
   hurtPoints: 0
   attackPoints: 0
-  cardColor: 0
-  cardState: 0
   index: 0
+  cardColor: 0
+  cardOwner: 0
+  cardState: 0
   effects: {fileID: 1842295683732825264}
   visualHandler: {fileID: 2216122628612637660}
   interactionHandler: {fileID: 8908100560265494332}
@@ -433,6 +436,64 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &3420094114559231778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2106552239818702234}
+  - component: {fileID: 8661743472469616120}
+  m_Layer: 0
+  m_Name: NonCard Interaction
+  m_TagString: CardBoundry
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2106552239818702234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3420094114559231778}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3041129387846409224}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &8661743472469616120
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3420094114559231778}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.875, y: 2.6875}
+    newSize: {x: 1.875, y: 2.6875}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.875, y: 2.6875}
+  m_EdgeRadius: 0
 --- !u!1 &6305659742823639882
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,8 +622,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 3041129387846409230}
   coll: {fileID: 2105743608168199512}
+  startScale: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0}
   defaultColor: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
+  dragManager: {fileID: 11400000, guid: f7787804271417b42b0212724b0d104f, type: 2}

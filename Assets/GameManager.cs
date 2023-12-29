@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform deckTransform;
     [SerializeField] private int cardStartingAmount;
     [SerializeField] private float mapScale;
+    [SerializeField] private float handScale;
 
     private void Awake()
     {
@@ -81,7 +82,7 @@ public class GameManager : MonoBehaviour
         {
             Card card = SpawnCard(DrawCard(), CardOwner.Player, i, GameConstants.HAND_LAYER);
             handManager.AddCardToHand(card);
-            card.interactionHandler.SetNewDefaultLocation();
+
             yield return new WaitForSeconds(0.25f);
         }
         StartCoroutine(DealEnemies());
@@ -97,7 +98,7 @@ public class GameManager : MonoBehaviour
             int containerIndex = (i == 0) ? randomConfig.x : randomConfig.y;
             Card card = SpawnCard(DrawCard(), CardOwner.Enemy, i, GameConstants.TOP_MAP_LAYER);
             card.transform.position = mapCardContainers[containerIndex].position;
-            card.interactionHandler.SetNewDefaultLocation();
+            card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
             yield return new WaitForSeconds(0.25f);
         }
     }

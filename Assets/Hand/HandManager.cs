@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class HandManager : MonoBehaviour
 {
     public List<Card> cardsInHand = new();
+    public float mapScale = 0.6f;
     public float handCardScale = 1.25f;
 
     public int maxCardAmount;
@@ -21,14 +23,25 @@ public class HandManager : MonoBehaviour
 
     public void AddCardToHand(Card card)
     {
-        card.transform.SetParent(transform);
         cardsInHand.Add(card);
+        card.transform.localScale = Vector3.one * handCardScale;
         ReorderCards();
+    }
+    public void InsertCardInIndex(Component sender, object data)
+    {
+        Card card = data as Card;
+        InsertCardToHandByIndex(card, card.index);
     }
 
     public void InsertCardToHandByIndex(Card card, int index)
     {
-        cardsInHand.Insert(index, card);
+        card.transform.localScale = Vector3.one * handCardScale;
+
+        if (!cardsInHand.Contains(card))
+        {
+            cardsInHand.Insert(card.index, card);
+        }
+
         ReorderCards();
     }
 
@@ -68,19 +81,16 @@ public class HandManager : MonoBehaviour
 
     }
 
-    public void InsertCardInIndex(Component sender, object data)
+
+    public void OnCardDroppedOnCard(Component sender, object data)
     {
         Card card = data as Card;
-
-        cardsInHand.Insert(card.index, card);
-        ReorderCards();
+        RemoveCardFromHand(card);
     }
-
-    public void RemoveCardFromHand(Component sender, object data)
+    public void RemoveCardFromHand(Card card)
     {
-        Card card = data as Card;
-
         cardsInHand.Remove(card);
+        card.transform.localScale = Vector3.one * mapScale;
         ReorderCards();
     }
 
@@ -91,37 +101,51 @@ public class HandManager : MonoBehaviour
 
         if (numOfCards == 1)
         {
-            // Place the only card in the middle
-            cardsInHand[0].transform.localPosition = new Vector3(0, 0, 0);
-            cardsInHand[0].transform.localRotation = Quaternion.Euler(0, 0, 0);
-            cardsInHand[0].interactionHandler.SetNewDefaultLocation();
-        }
+            // Directly set the position for the single card
+            Card card = cardsInHand[0];
+            card.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
+            // Additional settings for the single card
+            card.visualHandler.SetSortingOrder(0);
+            card.interactionHandler.SetNewDefaultLocation(transform.position, card.transform.localScale, transform.rotation.eulerAngles);
+        }
         else
         {
+            // Calculate dynamic values based on the number of cards
             float dynamicSpacing = baseSpacing;
             float dynamicYOffsetFactor = Mathf.Lerp(yOffsetFactorMinMax.x, yOffsetFactorMinMax.y, (numOfCards - 1) / (float)maxCardAmount);
-
             float dynamicRotationAngle = Mathf.Lerp(0, baseRotationAngle, (numOfCards - 1) / (float)maxCardAmount);
 
             for (int i = 0; i < numOfCards; i++)
             {
-                cardsInHand[i].index = i;
-                if (cardsInHand[i] == dragManager.draggedCard)  continue;
+
+                Card currentCard = cardsInHand[i];
+                // Calculate the position offset for this card
                 float xPos = (i - (numOfCards - 1) / 2f) * dynamicSpacing;
-                float yPos = CalculateYPosition(i, numOfCards, dynamicYOffsetFactor);
-                cardsInHand[i].transform.localPosition = new Vector3(xPos, yPos, 0);
+                float yPos = CalculateYPosition(i, numOfCards, dynamicYOffsetFactor); // Assuming this is a method you've defined
 
+                // Apply the hand's position and rotation to this offset
+                Vector3 cardPosition = transform.position + transform.right * xPos + transform.up * yPos;
 
-                // Calculate rotation angle for this card
+                // Calculate and apply rotation
                 float rotationFactor = (float)i / (numOfCards - 1);
                 float angle = Mathf.Lerp(dynamicRotationAngle, -dynamicRotationAngle, rotationFactor);
-                cardsInHand[i].transform.localRotation = Quaternion.Euler(0, 0, angle);
+                Quaternion cardRotation = transform.rotation * Quaternion.Euler(0, 0, angle);
 
-                cardsInHand[i].visualHandler.SetSortingOrder(i);
-                cardsInHand[i].interactionHandler.SetNewDefaultLocation();
+                // Set the card's position and rotation
+                if (cardsInHand[i] != dragManager.draggedCard)
+                {
+                    currentCard.transform.position = cardPosition;
+                    currentCard.transform.rotation = cardRotation;
+                    currentCard.visualHandler.SetSortingOrder(i);
+                }
+
+                currentCard.index = i;
+                currentCard.interactionHandler.SetNewDefaultLocation(cardPosition, currentCard.transform.localScale, cardRotation.eulerAngles);
             }
         }
+
+
     }
 
     private float CalculateYPosition(int index, int totalCards, float yOffsetFactor)

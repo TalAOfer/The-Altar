@@ -34,9 +34,9 @@ public class BattleSimulator : MonoBehaviour
     {
         Card attackedCard = SpawnCard(attackedCardBlueprint, CardOwner.Enemy, 0, GameConstants.TOP_MAP_LAYER);
         attackedCard.transform.position = topContainer.position;
-        attackedCard.interactionHandler.SetNewDefaultLocation();
+        attackedCard.interactionHandler.SetNewDefaultLocation(attackedCard.transform.position, attackedCard.transform.localScale, attackedCard.transform.eulerAngles);
         Card attackingCard = SpawnCard(attackingCardBlueprint, CardOwner.Player, 0, GameConstants.HAND_LAYER);
         attackingCard.transform.position = botttomContainer.position;
-        attackingCard.interactionHandler.SetNewDefaultLocation();
+        attackingCard.interactionHandler.SetNewDefaultLocation(attackingCard.transform.position, attackingCard.transform.localScale, attackingCard.transform.eulerAngles);
     }
 }
