@@ -27,7 +27,7 @@ public class HandManager : MonoBehaviour
         card.transform.localScale = Vector3.one * handCardScale;
         ReorderCards();
     }
-    public void InsertCardInIndex(Component sender, object data)
+    public void OnHandCardDroppedNowhere(Component sender, object data)
     {
         Card card = data as Card;
         InsertCardToHandByIndex(card, card.index);
@@ -39,7 +39,7 @@ public class HandManager : MonoBehaviour
 
         if (!cardsInHand.Contains(card))
         {
-            cardsInHand.Insert(card.index, card);
+            cardsInHand.Insert(index, card);
         }
 
         ReorderCards();
@@ -69,6 +69,9 @@ public class HandManager : MonoBehaviour
     {
         Card hoveredCard = sender as Card;
         Card draggedCard = data as Card;
+
+        Debug.Log(draggedCard + " hovers over " + hoveredCard);
+
         if (cardsInHand.Contains(draggedCard))
         {
             SwitchCards(draggedCard, hoveredCard);

@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,7 +36,7 @@ public class Card : MonoBehaviour
     public CardVisualHandler visualHandler;
     public CardInteractionHandler interactionHandler;
 
-
+    [SerializeField] private AllEvents events;
     [SerializeField] private ShapeshiftHelper shapeshiftHelper;
 
 
@@ -101,6 +102,7 @@ public class Card : MonoBehaviour
     {
         CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(points, cardColor);
         visualHandler.SetNewCardVisual(newForm);
+        gameObject.name = newForm.name;
         yield return new WaitForSeconds(1);
         yield return StartCoroutine(effects.ApplyOnDeathEffects());
     }
@@ -109,6 +111,7 @@ public class Card : MonoBehaviour
     {
         CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(points, cardColor);
         visualHandler.SetNewCardVisual(newForm);
+        gameObject.name = newForm.name;
         yield return StartCoroutine(effects.RemoveCurrentEffects());
         effects.SpawnEffects(newForm);
         yield return new WaitForSeconds(1);
@@ -116,12 +119,27 @@ public class Card : MonoBehaviour
 
     public void SetIsDead(bool isDead) => this.isDead = isDead;
 
+    public void Die()
+    {
+        if (cardOwner == CardOwner.Enemy)
+        {
+            events.OnMapCardDied.Raise(this, index);
+        }
+
+        gameObject.SetActive(false);
+    }
+
     public IEnumerator ChangeCardState(CardState newState)
     {
         if (newState == cardState)
         {
             Debug.LogWarning("Trying to switch to same state");
             yield break;
+        } 
+        
+        else
+        {
+            cardState = newState;
         }
 
         switch (newState)

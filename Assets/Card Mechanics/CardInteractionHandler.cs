@@ -8,9 +8,9 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 {
     public Card card;
     [SerializeField] private Collider2D coll;
-    public Vector3 startScale;
-    public Vector3 startPos;
-    public Vector3 startRotation;
+    public Vector3 defaultPos;
+    public Vector3 defaultScale;
+    public Vector3 defaultRotation;
     private Vector3 temp;
 
     [SerializeField] Color defaultColor;
@@ -25,25 +25,29 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void SetNewDefaultLocation(Vector3 position, Vector3 scale, Vector3 rotation)
     {
-        startPos = position;
-        startScale = scale;
-        startRotation = rotation;
+        defaultPos = position;
+        defaultScale = scale;
+        defaultRotation = rotation;
     }
 
     private void RestartTransformToDefault()
     {
-        card.transform.localScale = startScale;
-        card.transform.position = startPos;
-        card.transform.rotation = Quaternion.Euler(startRotation);
+        card.transform.localScale = defaultScale;
+        card.transform.position = defaultPos;
+        card.transform.rotation = Quaternion.Euler(defaultRotation);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        card.visualHandler.SetCardBGColor(hoverColor);
+
+        if (card.cardOwner != CardOwner.Player) return;
+
         if (!dragManager.isCardDragged)
         {
             card.visualHandler.SetCardBGColor(hoverColor);
             card.visualHandler.SetSortingOrder(10);
-            card.transform.position = new Vector3(startPos.x, startPos.y + 0.5f, startPos.z);
+            card.transform.position = new Vector3(defaultPos.x, defaultPos.y + 0.5f, defaultPos.z);
             card.transform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
@@ -56,28 +60,25 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!dragManager.isCardDragged)
-        {
-            card.visualHandler.SetCardBGColor(defaultColor);
-            card.visualHandler.SetSortingOrder(card.index);
-            RestartTransformToDefault();
-        }
+        card.visualHandler.SetCardBGColor(defaultColor);
+
+        if (card.cardOwner != CardOwner.Player) return;
+        if (dragManager.isCardDragged) return;
+
+        card.visualHandler.SetSortingOrder(card.index);
+        RestartTransformToDefault();
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (card.cardOwner == CardOwner.Enemy) return;
-        if (card.cardState == CardState.Battle) return;
+        if (card.cardOwner != CardOwner.Player) return;
 
         SetCollState(false);
         dragManager.SetDraggedCard(card);
 
         //To take it out of hand
         events.OnHandCardStartDrag.Raise(this, card);
-
-        startPos = card.transform.position;
-        startRotation = card.transform.rotation.eulerAngles;
-        card.transform.localRotation = Quaternion.Euler(Vector3.zero);
         card.visualHandler.SetSortingOrder(15);
     }
 
@@ -88,6 +89,8 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (card.cardOwner != CardOwner.Player) return;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         temp = mousePos;
         temp.z = 0;
@@ -96,12 +99,18 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        dragManager.SetDraggedCard(null);
-        GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
-        CardInteractionHandler cardThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
-        if (cardThatItDroppedOn != null && cardThatItDroppedOn.card.cardOwner == CardOwner.Enemy)
-        {
+        if (card.cardOwner != CardOwner.Player) return;
 
+        dragManager.SetDraggedCard(null);
+        SetCollState(true);
+
+        GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
+        CardInteractionHandler cardIhThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
+        Card droppedCard = cardIhThatItDroppedOn != null ? cardIhThatItDroppedOn.card : null;
+
+        if (droppedCard != null && droppedCard.cardOwner == CardOwner.Enemy)
+        {
+            events.OnCardDropOnCard.Raise(card, droppedCard);
         }
 
         else
@@ -109,13 +118,6 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
             events.OnHandCardDroppedNowhere.Raise(card, card);
         }
 
-        SetCollState(true);
-    }
-
-    public void MoveBackToPlace()
-    {
-        card.transform.position = startPos;
-        card.transform.localRotation = Quaternion.Euler(startRotation);
     }
 
     public void OnPointerClick(PointerEventData eventData)

@@ -22,8 +22,8 @@ public class BattleManager : MonoBehaviour
 
     public void OnCardDroppedOnCard(Component sender, object data)
     {
-        attackedCard = sender as Card;
-        attackingCard = data as Card;
+        attackingCard = sender as Card;
+        attackedCard = data as Card;
 
         StartCoroutine(BattleFormationRoutine());
     }
@@ -107,8 +107,8 @@ public class BattleManager : MonoBehaviour
         yield return attackedCardShapeshift;
         yield return attackingCardShapeshift;
 
-        if (attackedCard.isDead) attackedCard.gameObject.SetActive(false);
-        if (attackingCard.isDead) attackingCard.gameObject.SetActive(false);
+        if (attackedCard.isDead) attackedCard.Die();
+        if (attackingCard.isDead) attackingCard.Die();
 
         yield return new WaitForSeconds(1f);
 
@@ -136,17 +136,16 @@ public class BattleManager : MonoBehaviour
         {
             StartCoroutine(attackingCard.ChangeCardState(CardState.Default));
 
-            //handManager.InsertCardBackToHand(attackingCard);
-            moveAttackingCardBackToHand = StartCoroutine(attackingCard.interactionHandler.TransformCardUniformly
-            (attackingCard.interactionHandler.startPos, attackingCard.interactionHandler.startScale, attackingCard.interactionHandler.startRotation, movementData.toFormationDuration));
+            handManager.InsertCardToHandByIndex(attackingCard, attackingCard.index);
+            //moveAttackingCardBackToHand = StartCoroutine(attackingCard.interactionHandler.TransformCardUniformly
+            //(attackingCard.interactionHandler.defaultPos, attackingCard.interactionHandler.defaultScale, attackingCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
         }
 
         if (attackedCard != null && !attackedCard.isDead)
         {
             StartCoroutine(attackedCard.ChangeCardState(CardState.Default));
-
             moveAttackedCardBackToMap = StartCoroutine(attackedCard.interactionHandler.TransformCardUniformly
-            (attackedCard.interactionHandler.startPos, attackedCard.interactionHandler.startScale, Vector3.zero, movementData.toFormationDuration));
+            (attackedCard.interactionHandler.defaultPos, attackedCard.interactionHandler.defaultScale, attackedCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
         }
 
         if (moveAttackingCardBackToHand != null) yield return moveAttackingCardBackToHand;

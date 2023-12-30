@@ -1,46 +1,90 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MapGridArranger : MonoBehaviour
 {
-    public List<Transform> gridObjects; // List of 9 transforms
-    public Vector3 centerPosition; // Center position of the grid
-    public Vector3 topLeftPosition; // Top left position of the grid
-    public Vector3 topRightPosition; // Top right position of the grid
-    public Vector3 centerTopPosition; // Center top position of the grid
+    [SerializeField] private GameObject mapSlotPrefab;
+    public List<MapSlot> MapSlots; // List of 9 transforms
+    [SerializeField] private List<float> rowY;
+    [SerializeField] private List<float> colX;
 
-    private const int gridSize = 3; // Size of the grid (3x3)
+    public void OnMapCardDead(Component sender, object data)
+    {
+        int slotIndex = (int)data;
+        MapSlot slot = MapSlots[slotIndex];
+        slot.SetCardState(MapSlotState.Done);
+    }
 
+#if UNITY_EDITOR
+    [Button]
+    public void SpawnAndArrange()
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            GameObject slot = PrefabUtility.InstantiatePrefab(mapSlotPrefab) as GameObject;
+            slot.transform.SetParent(transform, false);
+            transform.localScale = Vector3.one;
+            MapSlots.Add(slot.GetComponent<MapSlot>());
+        }
+
+        ArrangeGrid();
+    }
+#endif
 
     [Button]
 
     public void ArrangeGrid()
     {
-        if (gridObjects.Count != gridSize * gridSize)
+        for (int i = 0; i < 9; i++)
         {
-            Debug.LogError("GridArranger requires exactly 9 transforms in the list.");
-            return;
-        }
+            MapSlot slot = MapSlots[i];
+            if (slot == null) continue;
 
-        float horizontalSpacing = (topRightPosition - topLeftPosition).x / (gridSize - 1);
-        // Assuming centerTopPosition is directly above topLeftPosition in the grid
-        float verticalSpacing = Mathf.Abs(centerTopPosition.y - topLeftPosition.y);
-
-        for (int i = 0; i < gridObjects.Count; i++)
-        {
-            if (gridObjects[i] == null) continue;
-
-            int row = i / gridSize;
-            int col = i % gridSize;
+            int row = i / 3;
+            int col = i % 3;
 
             Vector3 localPosition = new Vector3(
-                topLeftPosition.x + col * horizontalSpacing,
-                topLeftPosition.y - row * verticalSpacing, // Adjusting y-coordinate based on row
-                topLeftPosition.z
+                colX[col],
+                rowY[row],
+                0
             );
 
-            gridObjects[i].localPosition = localPosition;
+            slot.index = i;
+            slot.transform.localPosition = localPosition;
+            string rowName = "";
+            string colName = "";
+
+            switch (row)
+            {
+                case 0:
+                    rowName = "Top";
+                    break;
+                case 1:
+                    rowName = "Center";
+                    break;
+                case 2:
+                    rowName = "Bottom";
+                    break;
+            }
+
+            switch (col)
+            {
+                case 0:
+                    colName = "Left";
+                    break;
+                case 1:
+                    colName = "Middle";
+                    break;
+                case 2:
+                    colName = "Right";
+                    break;
+            }
+
+            slot.name = rowName + " " + colName;
         }
     }
 }

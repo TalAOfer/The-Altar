@@ -33,7 +33,10 @@ public class HandCollisionDetector : MonoBehaviour
             Card card = collision.transform.parent.GetComponent<Card>();
             if (card != null)
             {
-                handManager.RemoveCardFromHand(card);
+                if (handManager.dragManager.isCardDragged)
+                {
+                    handManager.RemoveCardFromHand(card);
+                }
             }
 
             else

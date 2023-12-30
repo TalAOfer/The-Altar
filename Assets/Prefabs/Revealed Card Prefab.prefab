@@ -247,6 +247,7 @@ MonoBehaviour:
   effects: {fileID: 1842295683732825264}
   visualHandler: {fileID: 2216122628612637660}
   interactionHandler: {fileID: 8908100560265494332}
+  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   shapeshiftHelper: {fileID: 11400000, guid: 1fb28a5f5da5bb04aaf8e75562c5e2c2, type: 2}
 --- !u!95 &3041129387846409227
 Animator:
@@ -622,9 +623,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 3041129387846409230}
   coll: {fileID: 2105743608168199512}
-  startScale: {x: 0, y: 0, z: 0}
-  startPos: {x: 0, y: 0, z: 0}
-  startRotation: {x: 0, y: 0, z: 0}
+  defaultPos: {x: 0, y: 0, z: 0}
+  defaultScale: {x: 0, y: 0, z: 0}
+  defaultRotation: {x: 0, y: 0, z: 0}
   defaultColor: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}

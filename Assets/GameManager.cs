@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private HandManager handManager;
 
     [SerializeField] private Transform mapMasterContainer;
-    [SerializeField] private Transform[] mapCardContainers;
+    [SerializeField] private MapGridArranger grid;
 
     [SerializeField] private Vector3 outOfScreenBoundsPosition;
 
@@ -95,12 +95,29 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
         {
-            int containerIndex = (i == 0) ? randomConfig.x : randomConfig.y;
-            Card card = SpawnCard(DrawCard(), CardOwner.Enemy, i, GameConstants.TOP_MAP_LAYER);
-            card.transform.position = mapCardContainers[containerIndex].position;
-            card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
+            bool firstCard = (i == 0);
+            int firstCardConfig = randomConfig.x;
+            int secondCardConfig = randomConfig.y;
+
+            int containerIndex = firstCard ? firstCardConfig : secondCardConfig;
+            SpawnEnemyCard(containerIndex);
             yield return new WaitForSeconds(0.25f);
         }
+    }
+
+    private void SpawnEnemyCard(int containerIndex)
+    {
+        Card card = SpawnCard(DrawCard(), CardOwner.Enemy, containerIndex, GameConstants.TOP_MAP_LAYER);
+        card.transform.position = grid.MapSlots[containerIndex].transform.position;
+        grid.MapSlots[containerIndex].SetCardState(MapSlotState.Occupied);
+        card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
+
+    }
+
+    public void OnMapSlotClicked(Component sender, object data)
+    {
+        int slotIndex = (int)data;
+        SpawnEnemyCard(slotIndex);
     }
 
 
