@@ -8,7 +8,6 @@ public class EffectContext
     public Card OtherCard { get; set; }
     public EffectTrigger TriggerType { get; set; }
 
-    public AllEvents Events { get; set; }
 
     public EffectContext(Card initiatingCard, Card otherCard, EffectTrigger triggerType)
     {

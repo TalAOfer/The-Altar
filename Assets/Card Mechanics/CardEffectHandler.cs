@@ -8,6 +8,7 @@ public class CardEffectHandler : MonoBehaviour
 
     public List<Effect> BeforeBattleEffects = new();
     public List<Effect> OnGainPointsEffects = new();
+    public List<Effect> OnSurviveEffects = new();
     public List<Effect> OnDeathEffects = new();
 
     public List<Effect> HurtPointsAlterationEffects = new();
@@ -44,6 +45,11 @@ public class CardEffectHandler : MonoBehaviour
         {
             effect.SpawnEffect(EffectTrigger.AttackPointsAlteration, card);
         }
+
+        foreach(EffectBlueprint effect in blueprint.OnSurvive)
+        {
+            effect.SpawnEffect(EffectTrigger.OnSurvive, card);  
+        }
     }
 
     public IEnumerator RemoveCurrentEffects()
@@ -54,6 +60,7 @@ public class CardEffectHandler : MonoBehaviour
         List<Effect> onDeathToRemove = new(OnDeathEffects);
         List<Effect> hurtPointsToRemove = new(HurtPointsAlterationEffects);
         List<Effect> attackPointsToRemove = new(AttackPointsAlterationEffects);
+        List<Effect> onSurviveToRemove = new(OnSurviveEffects);
         // Remove and destroy the before battle effects
         foreach (Effect effect in beforeBattleToRemove)
         {
@@ -87,6 +94,12 @@ public class CardEffectHandler : MonoBehaviour
             Destroy(effect.gameObject);
         }
 
+        foreach(Effect effect in onSurviveToRemove)
+        {
+            OnSurviveEffects.Remove(effect);
+            Destroy(effect.gameObject);
+        }
+
         // Wait for the next fixed frame update to ensure all Destroy calls have been processed
         yield return new WaitForFixedUpdate();
     }
@@ -106,8 +119,8 @@ public class CardEffectHandler : MonoBehaviour
             yield return StartCoroutine(effect.Apply(new EffectContext(card, null, EffectTrigger.OnDeath)));
         }
 
-        if (card.points != 0) StartCoroutine(card.Shapeshift());
-        card.SetIsDead(card.points == 0);
+        if (!card.IsDead) StartCoroutine(card.Shapeshift());
+
         yield return null;
     }
 
@@ -118,4 +131,12 @@ public class CardEffectHandler : MonoBehaviour
             yield return StartCoroutine(effect.Apply(new EffectContext(card, enemyCard, EffectTrigger.BeforeBattle)));
         }
     }
+
+    public IEnumerator ApplyOnSurviveEffects(Card enemyCard)
+    {
+        foreach (Effect effect in OnSurviveEffects)
+        {
+            yield return StartCoroutine(effect.Apply(new EffectContext(card, enemyCard, EffectTrigger.OnSurvive)));
+        }
+    } 
 }

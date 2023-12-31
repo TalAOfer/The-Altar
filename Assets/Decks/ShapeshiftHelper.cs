@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ShapeshiftHelper")]
 public class ShapeshiftHelper : ScriptableObject
 {
     public CardBlueprint bones;
-    public Deck blackDeck;
-    public Deck redDeck;
+    
+    public Deck Hearts;
+    public Deck Clubs;
 
-    public CardBlueprint GetCardBlueprint(int currentPoints, CardColor cardColor)
+    public Deck Diamonds;
+    public Deck Spades;
+
+    public CardBlueprint GetCardBlueprint(CardOwner cardOwner, int currentPoints, CardColor cardColor)
     {
         if (currentPoints == 0)
         {
@@ -18,9 +23,18 @@ public class ShapeshiftHelper : ScriptableObject
         
         else
         {
+            Deck deck = null;
+            switch (cardOwner)
+            {
+                case CardOwner.Player:
+                    deck = cardColor == CardColor.Red ? Hearts : Clubs;
+                    break;
+                case CardOwner.Enemy:
+                    deck = cardColor == CardColor.Red ? Diamonds : Spades;
+                    break;
+            }
             int index = currentPoints - 1;
-            if (cardColor == CardColor.Black) return blackDeck.cards[index];
-            else return redDeck.cards[index];
+            return deck.cards[index];
         }
     }
 }

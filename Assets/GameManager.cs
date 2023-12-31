@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Deck deckRecipe;
+    [SerializeField] private Deck playerDeckRecipe;
+    [SerializeField] private bool shufflePlayerDeck;
+    private List<CardBlueprint> playerDeck;
+    [SerializeField] private Deck enemyDeckRecipe;
+    [SerializeField] private bool shuffleEnemyDeck;
+    private List<CardBlueprint> enemyDeck;
+
     [SerializeField] private MapConfigs mapConfig;
 
-    [SerializeField] private GameObject upsideDownCardPrefab;
     [SerializeField] private GameObject revealedCardPrefab;
 
     [SerializeField] private HandManager handManager;
@@ -18,7 +23,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Vector3 outOfScreenBoundsPosition;
 
-    private List<CardBlueprint> deck;
     [SerializeField] private Transform deckTransform;
     [SerializeField] private int cardStartingAmount;
     [SerializeField] private float mapScale;
@@ -26,34 +30,16 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        deck = new List<CardBlueprint>(deckRecipe.cards);
-        Tools.ShuffleList(deck);
+        playerDeck = new List<CardBlueprint>(playerDeckRecipe.cards);
+        if (shufflePlayerDeck) Tools.ShuffleList(playerDeck);
+        enemyDeck = new List<CardBlueprint>(enemyDeckRecipe.cards);
+        if (shuffleEnemyDeck) Tools.ShuffleList(enemyDeck);
     }
 
-
-    private Card SpawnCard(CardBlueprint cardBlueprint, CardOwner cardOwner, int index, string sortingLayerName)
+    public CardBlueprint DrawCard(CardOwner cardOwner)
     {
-        GameObject prefabToSpawn = cardOwner == CardOwner.Reward ? upsideDownCardPrefab : revealedCardPrefab;
-        GameObject cardGO = Instantiate(prefabToSpawn, deckTransform.position, Quaternion.identity, mapMasterContainer);
-        cardGO.transform.localScale = Vector3.one * mapScale;
-        cardGO.name = cardBlueprint.name;
+        List<CardBlueprint> deck = cardOwner == CardOwner.Player ? playerDeck : enemyDeck;
 
-        Card card = cardGO.GetComponent<Card>();
-        card.Init(cardBlueprint, cardOwner, index, sortingLayerName);
-
-        return card;
-    }
-
-    [Button]
-    public void DrawMap()
-    {
-        StartCoroutine(DealMap());
-    }
-
-    
-
-    public CardBlueprint DrawCard()
-    {
         if (deck.Count == 0)
         {
             throw new System.InvalidOperationException("No cards left in the deck.");
@@ -62,6 +48,26 @@ public class GameManager : MonoBehaviour
         CardBlueprint drawnCard = deck[0];
         deck.RemoveAt(0); // Remove the card from the deck
         return drawnCard;
+    }
+
+    private Card SpawnCard(CardOwner cardOwner, int index, string sortingLayerName)
+    {
+        CardBlueprint cardBlueprintDrawn = DrawCard(cardOwner);
+        GameObject cardGO = Instantiate(revealedCardPrefab, deckTransform.position, Quaternion.identity, mapMasterContainer);
+        cardGO.transform.localScale = Vector3.one * mapScale;
+        cardGO.name = cardBlueprintDrawn.name;
+
+        Card card = cardGO.GetComponent<Card>();
+        card.Init(cardBlueprintDrawn, index, sortingLayerName);
+
+        return card;
+    }
+
+
+    [Button]
+    public void DrawMap()
+    {
+        StartCoroutine(DealMap());
     }
 
     private IEnumerator DealMap()
@@ -80,7 +86,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < cardStartingAmount; i++)
         {
-            Card card = SpawnCard(DrawCard(), CardOwner.Player, i, GameConstants.HAND_LAYER);
+            Card card = SpawnCard(CardOwner.Player, i, GameConstants.HAND_LAYER);
             handManager.AddCardToHand(card);
 
             yield return new WaitForSeconds(0.25f);
@@ -107,11 +113,11 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemyCard(int containerIndex)
     {
-        Card card = SpawnCard(DrawCard(), CardOwner.Enemy, containerIndex, GameConstants.TOP_MAP_LAYER);
+        Card card = SpawnCard(CardOwner.Enemy, containerIndex, GameConstants.TOP_MAP_LAYER);
         card.transform.position = grid.MapSlots[containerIndex].transform.position;
-        grid.MapSlots[containerIndex].SetCardState(MapSlotState.Occupied);
+        //StartCoroutine(card.interactionHandler.MoveCardToPositionOverTime(grid.MapSlots[containerIndex].transform.position, 1f));
+        StartCoroutine(grid.MapSlots[containerIndex].SetSlotState(MapSlotState.Occupied));
         card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
-
     }
 
     public void OnMapSlotClicked(Component sender, object data)

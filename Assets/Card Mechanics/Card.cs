@@ -9,8 +9,6 @@ using UnityEngine.UI;
 public class Card : MonoBehaviour
 {
     [FoldoutGroup("Card Info")]
-    public bool isDead;
-    [FoldoutGroup("Card Info")]
     public int points;
 
     [FoldoutGroup("Card Info")]
@@ -38,14 +36,18 @@ public class Card : MonoBehaviour
 
     [SerializeField] private AllEvents events;
     [SerializeField] private ShapeshiftHelper shapeshiftHelper;
-
-
-    public void Init(CardBlueprint blueprint, CardOwner cardOwner, int index, string startingSortingLayer)
+    public bool IsDead
     {
-        this.cardOwner = cardOwner;
-        this.index = index;
-        points = blueprint.defaultPoints;
+        get { return points <= 0; }
+    }
 
+
+    public void Init(CardBlueprint blueprint, int index, string startingSortingLayer)
+    {
+        this.index = index;
+
+        points = blueprint.defaultPoints;
+        cardOwner = blueprint.cardOwner;
         effects.Init(blueprint);
         interactionHandler.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
@@ -75,6 +77,7 @@ public class Card : MonoBehaviour
         yield return null;
     }
 
+
     public void TakeDamage()
     {
         points -= hurtPoints;
@@ -94,13 +97,13 @@ public class Card : MonoBehaviour
 
     public IEnumerator HandleShapeshift()
     {
-        if (points == 0) yield return StartCoroutine(TurnToBones());
+        if (IsDead) yield return StartCoroutine(TurnToBones());
         else yield return StartCoroutine(Shapeshift());
     }
 
     public IEnumerator TurnToBones()
     {
-        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(points, cardColor);
+        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
         visualHandler.SetNewCardVisual(newForm);
         gameObject.name = newForm.name;
         yield return new WaitForSeconds(1);
@@ -109,7 +112,7 @@ public class Card : MonoBehaviour
 
     public IEnumerator Shapeshift()
     {
-        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(points, cardColor);
+        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner,points, cardColor);
         visualHandler.SetNewCardVisual(newForm);
         gameObject.name = newForm.name;
         yield return StartCoroutine(effects.RemoveCurrentEffects());
@@ -117,15 +120,8 @@ public class Card : MonoBehaviour
         yield return new WaitForSeconds(1);
     }
 
-    public void SetIsDead(bool isDead) => this.isDead = isDead;
-
     public void Die()
     {
-        if (cardOwner == CardOwner.Enemy)
-        {
-            events.OnMapCardDied.Raise(this, index);
-        }
-
         gameObject.SetActive(false);
     }
 
@@ -168,13 +164,6 @@ public class Card : MonoBehaviour
 
         yield return null;
     }
-}
-
-public enum CardOwner
-{
-    Reward,
-    Enemy,
-    Player,
 }
 
 public enum CardState

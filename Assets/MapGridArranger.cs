@@ -12,12 +12,44 @@ public class MapGridArranger : MonoBehaviour
     [SerializeField] private List<float> rowY;
     [SerializeField] private List<float> colX;
 
+    public void OnMapCardClicked(Component sender, object data)
+    {
+        int clickedCardIndex = (int)data;
+
+        for (int i = 0; i < MapSlots.Count; i++)
+        {
+            MapSlot slot = MapSlots[i];
+            if (i == clickedCardIndex) slot.SetSlotState(MapSlotState.Occupied);
+
+            else if (slot.slotState == MapSlotState.Chooseable)
+            {
+                StartCoroutine(slot.SetSlotState(MapSlotState.Idle));
+            }
+        }
+    }
+
     public void OnMapCardDead(Component sender, object data)
     {
         int slotIndex = (int)data;
-        MapSlot slot = MapSlots[slotIndex];
-        slot.SetCardState(MapSlotState.Done);
+        MapSlot slotOfDeadEnemy = MapSlots[slotIndex];
+        StartCoroutine(slotOfDeadEnemy.SetSlotState(MapSlotState.Done));        
     }
+
+    public void OnFinishedXAnimation(Component sender, object data)
+    {
+        int beatenCardIndex = (int)data;
+        List<int> neighbors = GetNeighbors(beatenCardIndex);
+
+        foreach (int neighborIndex in neighbors)
+        {
+            MapSlot slot = MapSlots[neighborIndex];
+            if (slot.slotState == MapSlotState.Idle)
+            {
+                StartCoroutine(slot.SetSlotState(MapSlotState.Chooseable));
+            }
+        }
+    }
+
 
 #if UNITY_EDITOR
     [Button]
@@ -86,5 +118,34 @@ public class MapGridArranger : MonoBehaviour
 
             slot.name = rowName + " " + colName;
         }
+    }
+
+    private List<int> GetNeighbors(int slotIndex)
+    {
+        List<int> neighbors = new List<int>();
+
+        int row = slotIndex / 3;
+        int col = slotIndex % 3;
+
+        // Check all adjacent slots
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                // Skip the center slot (the slot itself)
+                if (i == 0 && j == 0) continue;
+
+                int neighborRow = row + i;
+                int neighborCol = col + j;
+
+                // Check if the neighbor is within the grid bounds
+                if (neighborRow >= 0 && neighborRow < 3 && neighborCol >= 0 && neighborCol < 3)
+                {
+                    neighbors.Add(neighborRow * 3 + neighborCol);
+                }
+            }
+        }
+
+        return neighbors;
     }
 }

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: AllEvents
   m_EditorClassIdentifier: 
   WaitForActiveChoice: {fileID: 11400000, guid: 290c64c7ec3586d4f9c12c20613c04d8, type: 2}
+  GetRandomCardFromHand: {fileID: 11400000, guid: 76d3cc89e01625f4595db834e40d1365, type: 2}
   OnMapCardDied: {fileID: 11400000, guid: b9928ad4f77166541b69a6ba6a8120df, type: 2}
   OnMapSlotClicked: {fileID: 11400000, guid: b16321b14eb75914f8ce7ee5ae9dd49c, type: 2}
+  OnFinishedXAnimation: {fileID: 11400000, guid: ed9bf4ed06f5929469a9fd389eb78a64, type: 2}
   OnCardDropOnCard: {fileID: 11400000, guid: af13426617dc49244b5a4e0140e8062e, type: 2}
   OnHandCardStartDrag: {fileID: 11400000, guid: 0425d6e5087599d4081d361623b4f6e2, type: 2}
   OnHandCardDroppedNowhere: {fileID: 11400000, guid: 9d3e77e387bce3d428f46498eea5c9ba, type: 2}

@@ -6,7 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Blueprints/Effect")]
 public class EffectBlueprint : ScriptableObject
 {
+    public AllEvents events;
     public EffectType effectType;
+    public ResponseNeeded effectResponseType;
 
     public float predelay = 0f;
     public float postdelay = 1f;
@@ -29,6 +31,7 @@ public class EffectBlueprint : ScriptableObject
 
     [ShowIf("effectType", EffectType.AlterBattlePoints)]
     public PointAlterationType alterationType;
+
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
     {
         GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + effectType.ToString());
@@ -50,10 +53,22 @@ public class EffectBlueprint : ScriptableObject
                 AddEffectToList(parentCard, triggerType, changeColorEffect);
                 break;
             case EffectType.GainPoints:
-                var gainPointsEffect = newEffectGO.AddComponent<GainPointsEffect>();
-                gainPointsEffect.InitializeDelay(predelay, postdelay);
-                gainPointsEffect.Initialize(pointsToAdd);
-                AddEffectToList(parentCard, triggerType, gainPointsEffect);
+                if (effectResponseType == ResponseNeeded.None)
+                {
+                    var gainPointsEffect = newEffectGO.AddComponent<GainPointsEffect>();
+                    gainPointsEffect.InitializeDelay(predelay, postdelay);
+                    gainPointsEffect.Initialize(pointsToAdd);
+                    AddEffectToList(parentCard, triggerType, gainPointsEffect);
+                } 
+                
+                else
+                {
+                    var givePointsEffect = newEffectGO.AddComponent<GivePointsToCardEffect>();
+                    givePointsEffect.InitializeDelay(predelay, postdelay);
+                    givePointsEffect.BaseInitialize(effectResponseType, events);
+                    givePointsEffect.Initialize(pointsToAdd);
+                    AddEffectToList(parentCard, triggerType, givePointsEffect);
+                }
                 break;
             case EffectType.Shapeshift:
                 var shapeShiftEffect = newEffectGO.AddComponent<ShapeshiftEffect>();
@@ -90,6 +105,9 @@ public class EffectBlueprint : ScriptableObject
             case EffectTrigger.AttackPointsAlteration:
                 parentCard.effects.AttackPointsAlterationEffects.Add(effect);
                 break;
+            case EffectTrigger.OnSurvive:
+                parentCard.effects.OnSurviveEffects.Add(effect);
+                break;
         }
     }
 }
@@ -102,7 +120,16 @@ public enum EffectTrigger
     OnGainPoints,
     OnDeath,
     HurtPointsAlteration,
-    AttackPointsAlteration
+    AttackPointsAlteration,
+    OnSurvive,
+}
+
+public enum ResponseNeeded
+{
+    None,
+    Choice,
+    RandomFromHand,
+    RandomFromMap
 }
 
 public enum EffectType

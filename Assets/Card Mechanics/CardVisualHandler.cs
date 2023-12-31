@@ -19,19 +19,11 @@ public class CardVisualHandler : MonoBehaviour
 
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
     {
-        symbolSr.sprite = GetSymbol(blueprint.symbol);
+        SetSpritesColor(blueprint.cardColor);
+        symbolSr.sprite = GetSymbol();
         iconSr.sprite = blueprint.cardSprite;
         numberSr.sprite = GetNumberSprite(card.points);
         SetSortingLayer(startingSortingLayer);
-
-        if (card.cardOwner != CardOwner.Reward)
-        {
-            SetSpritesColor(blueprint.cardColor);
-        }
-
-        if (card.cardOwner == CardOwner.Reward) anim.Play("Card_UpsideDown");
-        else anim.Play("Card_Idle");
-
     }
 
     public void UpdateNumberSprite()
@@ -41,10 +33,10 @@ public class CardVisualHandler : MonoBehaviour
 
     public void SetNewCardVisual(CardBlueprint blueprint)
     {
-        symbolSr.sprite = GetSymbol(blueprint.symbol);
+        SetSpritesColor(card.cardColor);
+        symbolSr.sprite = GetSymbol();
         iconSr.sprite = blueprint.cardSprite;
         numberSr.sprite = GetNumberSprite(card.points);
-        SetSpritesColor(card.cardColor);
     }
 
     public void Reveal()
@@ -88,22 +80,16 @@ public class CardVisualHandler : MonoBehaviour
         return sprites.numbers[currentPoints];
     }
 
-    private Sprite GetSymbol(Symbol currentSymbol)
+    private Sprite GetSymbol()
     {
         Sprite sprite = null;
-        switch (currentSymbol)
+        switch (card.cardOwner)
         {
-            case Symbol.Hearts:
-                sprite = sprites.hearts;
+            case CardOwner.Player:
+                sprite = card.cardColor == CardColor.Red ? sprites.hearts : sprites.clubs;
                 break;
-            case Symbol.Clubs:
-                sprite = sprites.clubs;
-                break;
-            case Symbol.Diamonds:
-                sprite = sprites.diamonds;
-                break;
-            case Symbol.Spades:
-                sprite = sprites.spades;
+            case CardOwner.Enemy:
+                sprite = card.cardColor == CardColor.Red ? sprites.diamonds : sprites.spades;
                 break;
         }
 

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +20,7 @@ public class BattleManager : MonoBehaviour
     public Button battleButton;
     public Button backButton;
 
+    [SerializeField] private AllEvents events;
     [SerializeField] private BattleCardMovementData movementData;
 
     public void OnCardDroppedOnCard(Component sender, object data)
@@ -48,7 +51,6 @@ public class BattleManager : MonoBehaviour
         battleButton.gameObject.SetActive(true);
         backButton.gameObject.SetActive(true);
 
-        
     }
 
     public void DoBattle()
@@ -100,6 +102,15 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(movementData.endBattleDelay);
 
+        Coroutine ApplyAttackingCardOnSurviveEffects = null;
+        Coroutine ApplyAttackedCardOnSurviveEffects = null;
+            
+        if (!attackingCard.IsDead) ApplyAttackingCardOnSurviveEffects = StartCoroutine(attackingCard.effects.ApplyOnSurviveEffects(attackedCard));
+        if (!attackedCard.IsDead) ApplyAttackedCardOnSurviveEffects = StartCoroutine(attackedCard.effects.ApplyOnSurviveEffects(attackingCard));
+        
+        if (ApplyAttackingCardOnSurviveEffects != null) yield return ApplyAttackingCardOnSurviveEffects;
+        if (ApplyAttackedCardOnSurviveEffects != null) yield return ApplyAttackedCardOnSurviveEffects;
+
         // Final logic after both cards have moved
         Coroutine attackedCardShapeshift = StartCoroutine(attackedCard.HandleShapeshift());
         Coroutine attackingCardShapeshift = StartCoroutine(attackingCard.HandleShapeshift());
@@ -107,8 +118,8 @@ public class BattleManager : MonoBehaviour
         yield return attackedCardShapeshift;
         yield return attackingCardShapeshift;
 
-        if (attackedCard.isDead) attackedCard.Die();
-        if (attackingCard.isDead) attackingCard.Die();
+        if (attackedCard.IsDead) attackedCard.Die();
+        if (attackingCard.IsDead) attackingCard.Die();
 
         yield return new WaitForSeconds(1f);
 
@@ -130,9 +141,9 @@ public class BattleManager : MonoBehaviour
 
         Coroutine moveAttackingCardBackToHand = null;
         Coroutine moveAttackedCardBackToMap = null;
-       
 
-        if (attackingCard != null && !attackingCard.isDead)
+
+        if (attackingCard != null && !attackingCard.IsDead)
         {
             StartCoroutine(attackingCard.ChangeCardState(CardState.Default));
 
@@ -141,7 +152,7 @@ public class BattleManager : MonoBehaviour
             //(attackingCard.interactionHandler.defaultPos, attackingCard.interactionHandler.defaultScale, attackingCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
         }
 
-        if (attackedCard != null && !attackedCard.isDead)
+        if (attackedCard != null && !attackedCard.IsDead)
         {
             StartCoroutine(attackedCard.ChangeCardState(CardState.Default));
             moveAttackedCardBackToMap = StartCoroutine(attackedCard.interactionHandler.TransformCardUniformly
@@ -151,6 +162,10 @@ public class BattleManager : MonoBehaviour
         if (moveAttackingCardBackToHand != null) yield return moveAttackingCardBackToHand;
         if (moveAttackedCardBackToMap != null) yield return moveAttackedCardBackToMap;
 
+        if (attackedCard.IsDead)
+        {
+            events.OnMapCardDied.Raise(this, attackedCard.index);
+        }
     }
 
     private void ApplyDamage()

@@ -24,7 +24,7 @@ public class BattleSimulator : MonoBehaviour
         cardGO.name = cardBlueprint.name;
 
         Card card = cardGO.GetComponent<Card>();
-        card.Init(cardBlueprint, cardOwner, index, sortingLayerName);
+        card.Init(cardBlueprint, index, sortingLayerName);
 
         return card;
     }

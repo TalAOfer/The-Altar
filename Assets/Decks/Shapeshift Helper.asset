@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Shapeshift Helper
   m_EditorClassIdentifier: 
   bones: {fileID: 11400000, guid: b589a0b7db1785f41817a86f92516afb, type: 2}
-  blackDeck: {fileID: 11400000, guid: d4157f7b317e7734a87de61a1d116a59, type: 2}
-  redDeck: {fileID: 11400000, guid: d8b1fb480b148334ebd0ac54ec478bdb, type: 2}
+  Hearts: {fileID: 11400000, guid: d8b1fb480b148334ebd0ac54ec478bdb, type: 2}
+  Clubs: {fileID: 11400000, guid: d4157f7b317e7734a87de61a1d116a59, type: 2}
+  Diamonds: {fileID: 11400000, guid: 113cb901a922af342ab9a089bb806d97, type: 2}
+  Spades: {fileID: 11400000, guid: 505bd926b185eee4599d8d385fdbef9e, type: 2}

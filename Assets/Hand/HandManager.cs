@@ -21,6 +21,14 @@ public class HandManager : MonoBehaviour
         dragManager.SetDraggedCard(null);
     }
 
+    public void GetRandomCardFromHand(Component sender, object data)
+    {
+        ActiveEffect askerEffect = (ActiveEffect)data;
+        int rand = UnityEngine.Random.Range(0, cardsInHand.Count);
+        Card randCard = cardsInHand[rand];
+        StartCoroutine(askerEffect.HandleChoice(randCard));
+    }
+
     public void AddCardToHand(Card card)
     {
         cardsInHand.Add(card);
@@ -52,11 +60,9 @@ public class HandManager : MonoBehaviour
 
         if (incomingIndex != -1 && existingIndex != -1)
         {
-            // Swap the cards in the list
             (cardsInHand[existingIndex], cardsInHand[incomingIndex]) = (cardsInHand[incomingIndex], cardsInHand[existingIndex]);
             ReorderCards();
         }
-
 
         else
         {
@@ -69,8 +75,6 @@ public class HandManager : MonoBehaviour
     {
         Card hoveredCard = sender as Card;
         Card draggedCard = data as Card;
-
-        Debug.Log(draggedCard + " hovers over " + hoveredCard);
 
         if (cardsInHand.Contains(draggedCard))
         {
