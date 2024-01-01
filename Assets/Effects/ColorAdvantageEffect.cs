@@ -25,7 +25,7 @@ public class ColorAdvantageEffect : Effect
 
         if (attackedCard.cardColor == ThisCardIsStrongerOn)
         {
-            yield return StartCoroutine(attackingCard.GainPoints(advantageAmount));
+            yield return StartCoroutine(attackingCard.GainPoints(advantageAmount, false));
         }
 
         else

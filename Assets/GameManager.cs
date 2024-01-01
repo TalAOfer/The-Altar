@@ -50,9 +50,8 @@ public class GameManager : MonoBehaviour
         return drawnCard;
     }
 
-    private Card SpawnCard(CardOwner cardOwner, int index, string sortingLayerName)
+    private Card SpawnCard(CardBlueprint cardBlueprintDrawn, int index, string sortingLayerName)
     {
-        CardBlueprint cardBlueprintDrawn = DrawCard(cardOwner);
         GameObject cardGO = Instantiate(revealedCardPrefab, deckTransform.position, Quaternion.identity, mapMasterContainer);
         cardGO.transform.localScale = Vector3.one * mapScale;
         cardGO.name = cardBlueprintDrawn.name;
@@ -86,7 +85,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < cardStartingAmount; i++)
         {
-            Card card = SpawnCard(CardOwner.Player, i, GameConstants.HAND_LAYER);
+            Card card = SpawnCard(DrawCard(CardOwner.Player), i, GameConstants.HAND_LAYER);
             handManager.AddCardToHand(card);
 
             yield return new WaitForSeconds(0.25f);
@@ -113,7 +112,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemyCard(int containerIndex)
     {
-        Card card = SpawnCard(CardOwner.Enemy, containerIndex, GameConstants.TOP_MAP_LAYER);
+        Card card = SpawnCard(DrawCard(CardOwner.Enemy), containerIndex, GameConstants.TOP_MAP_LAYER);
         card.transform.position = grid.MapSlots[containerIndex].transform.position;
         //StartCoroutine(card.interactionHandler.MoveCardToPositionOverTime(grid.MapSlots[containerIndex].transform.position, 1f));
         StartCoroutine(grid.MapSlots[containerIndex].SetSlotState(MapSlotState.Occupied));
@@ -126,5 +125,26 @@ public class GameManager : MonoBehaviour
         SpawnEnemyCard(slotIndex);
     }
 
+    public void OnSpawnCardToHand(Component sender, object data)
+    {
+        ActiveEffect askerEffect = (ActiveEffect)sender;
+        CardBlueprint cardToSpawn = (CardBlueprint)data;
+       
+        //TODO: think about who decides on the indexes
+        Card card = SpawnCard(cardToSpawn, 0, GameConstants.HAND_LAYER);
+        handManager.AddCardToHand(card);
+
+        StartCoroutine(askerEffect.HandleResponse(card));
+    }
+
+    public void OnDrawCardToHand(Component sender, object data)
+    {
+        ActiveEffect askerEffect = (ActiveEffect)sender;
+
+        Card card = SpawnCard(DrawCard(CardOwner.Player), 0, GameConstants.HAND_LAYER);
+        handManager.AddCardToHand(card);
+
+        StartCoroutine(askerEffect.HandleResponse(card));
+    }
 
 }

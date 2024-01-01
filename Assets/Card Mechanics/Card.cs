@@ -34,7 +34,7 @@ public class Card : MonoBehaviour
     public CardVisualHandler visualHandler;
     public CardInteractionHandler interactionHandler;
 
-    [SerializeField] private AllEvents events;
+    public AllEvents events;
     [SerializeField] private ShapeshiftHelper shapeshiftHelper;
     public bool IsDead
     {
@@ -44,10 +44,10 @@ public class Card : MonoBehaviour
 
     public void Init(CardBlueprint blueprint, int index, string startingSortingLayer)
     {
+        cardOwner = blueprint.cardOwner;
         this.index = index;
 
         points = blueprint.defaultPoints;
-        cardOwner = blueprint.cardOwner;
         effects.Init(blueprint);
         interactionHandler.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
@@ -85,7 +85,7 @@ public class Card : MonoBehaviour
         visualHandler.UpdateNumberSprite();
     }
 
-    public IEnumerator GainPoints(int pointsToGain)
+    public IEnumerator GainPoints(int pointsToGain, bool initiateHandleShapeshift)
     {
         points += pointsToGain;
         if (points < 0) points = 0;
@@ -93,6 +93,11 @@ public class Card : MonoBehaviour
         visualHandler.UpdateNumberSprite();
 
         yield return StartCoroutine(effects.ApplyOnGainPointsEffects());
+
+        if (initiateHandleShapeshift)
+        {
+            yield return StartCoroutine(HandleShapeshift());
+        }
     }
 
     public IEnumerator HandleShapeshift()
@@ -120,8 +125,18 @@ public class Card : MonoBehaviour
         yield return new WaitForSeconds(1);
     }
 
+    public IEnumerator ForceShapeshift(CardBlueprint blueprint)
+    {
+        visualHandler.SetNewCardVisual(blueprint);
+        points = blueprint.defaultPoints;
+        gameObject.name = blueprint.name;
+        yield return StartCoroutine(effects.RemoveCurrentEffects());
+        effects.SpawnEffects(blueprint);
+    }
+
     public void Die()
     {
+        events.OnGlobalCardDeath.Raise(this, this);
         gameObject.SetActive(false);
     }
 

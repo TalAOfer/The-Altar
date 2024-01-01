@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: bc40d2b1c5276e84eb03973f337f7a85, type: 3}
   cardName: The Bull
-  cardOwner: 1
+  cardOwner: 0
   cardColor: 0
   defaultPoints: 5
   OnReveal: []
@@ -22,6 +22,7 @@ MonoBehaviour:
   OnGainPoints: []
   OnDeath: []
   OnSacrifice: []
+  OnSurvive: []
   OnActionTaken: []
   HurtPointsAlteration: []
   AttackPointsAlteration: []

@@ -13,6 +13,7 @@ public class CardEffectHandler : MonoBehaviour
 
     public List<Effect> HurtPointsAlterationEffects = new();
     public List<Effect> AttackPointsAlterationEffects = new();
+    public List<Effect> OnGlobalDeathEffects = new();
 
     public void Init(CardBlueprint blueprint)
     {
@@ -50,6 +51,11 @@ public class CardEffectHandler : MonoBehaviour
         {
             effect.SpawnEffect(EffectTrigger.OnSurvive, card);  
         }
+
+        foreach(EffectBlueprint effect in blueprint.OnGlobalDeath)
+        {
+            effect.SpawnEffect(EffectTrigger.OnGlobalDeath, card);  
+        }
     }
 
     public IEnumerator RemoveCurrentEffects()
@@ -61,6 +67,8 @@ public class CardEffectHandler : MonoBehaviour
         List<Effect> hurtPointsToRemove = new(HurtPointsAlterationEffects);
         List<Effect> attackPointsToRemove = new(AttackPointsAlterationEffects);
         List<Effect> onSurviveToRemove = new(OnSurviveEffects);
+        List<Effect> onGlobalDeathToRemove = new(OnGlobalDeathEffects);
+
         // Remove and destroy the before battle effects
         foreach (Effect effect in beforeBattleToRemove)
         {
@@ -97,6 +105,12 @@ public class CardEffectHandler : MonoBehaviour
         foreach(Effect effect in onSurviveToRemove)
         {
             OnSurviveEffects.Remove(effect);
+            Destroy(effect.gameObject);
+        }
+
+        foreach(Effect effect in onGlobalDeathToRemove)
+        {
+            OnGlobalDeathEffects.Remove(effect);
             Destroy(effect.gameObject);
         }
 
@@ -139,4 +153,16 @@ public class CardEffectHandler : MonoBehaviour
             yield return StartCoroutine(effect.Apply(new EffectContext(card, enemyCard, EffectTrigger.OnSurvive)));
         }
     } 
+
+    public void TriggerOnGlobalDeathEffects()
+    {
+        StartCoroutine(ApplyOnGlobalDeathEffects());
+    }
+    public IEnumerator ApplyOnGlobalDeathEffects()
+    {
+        foreach (Effect effect in OnGlobalDeathEffects)
+        {
+            yield return StartCoroutine(effect.Apply(new EffectContext(card, null, EffectTrigger.OnGlobalDeath)));
+        }
+    }
 }

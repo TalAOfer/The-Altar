@@ -13,11 +13,18 @@ MonoBehaviour:
   m_Name: 10H Crusade
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: c10f5c05045b2a84fab0bf3f7f29cdf4, type: 3}
-  symbol: 2
   cardName: Crusade
+  cardOwner: 0
   cardColor: 1
   defaultPoints: 10
   OnReveal: []
+  BeforeBattle: []
+  OnGainPoints: []
   OnDeath: []
   OnSacrifice: []
+  OnSurvive: []
   OnActionTaken: []
+  HurtPointsAlteration: []
+  AttackPointsAlteration: []
+  OnGlobalDeath:
+  - {fileID: 11400000, guid: 49aed45ea97f03b48a8c6c9b6c2800da, type: 2}

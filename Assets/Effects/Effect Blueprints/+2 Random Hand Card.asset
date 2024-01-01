@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: +2 Random Hand Card
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  effectType: 2
-  effectResponseType: 2
+  effectType: 3
   predelay: 0
   postdelay: 1
   ThisCardIsStronerOn: 0
@@ -24,3 +23,4 @@ MonoBehaviour:
   changeTo: 0
   mult: 0
   alterationType: 0
+  cardBlueprintToSpawn: {fileID: 0}

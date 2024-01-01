@@ -8,19 +8,18 @@ public class EffectBlueprint : ScriptableObject
 {
     public AllEvents events;
     public EffectType effectType;
-    public ResponseNeeded effectResponseType;
 
     public float predelay = 0f;
     public float postdelay = 1f;
 
     [ShowIf("effectType", EffectType.GetAdvantageOverColor)]
     public CardColor ThisCardIsStronerOn;
-    [ShowIf("effectType", EffectType.GetAdvantageOverColor)]
+    [ShowIf("@ShouldShowAdvantagePoints()")]
     public int advantageAmount;
     [ShowIf("effectType", EffectType.GetAdvantageOverColor)]
     public int disadvantageAmount;
 
-    [ShowIf("effectType", EffectType.GainPoints)]
+    [ShowIf("@ShouldShowPointsToAdd()")]
     public int pointsToAdd;
 
     [ShowIf("effectType", EffectType.ChangeColor)]
@@ -32,6 +31,9 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("effectType", EffectType.AlterBattlePoints)]
     public PointAlterationType alterationType;
 
+    [ShowIf("@ShouldShowCardBlueprint()")]
+    public CardBlueprint cardBlueprint;
+
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
     {
         GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + effectType.ToString());
@@ -42,44 +44,61 @@ public class EffectBlueprint : ScriptableObject
         {
             case EffectType.GetAdvantageOverColor:
                 var advantageEffect = newEffectGO.AddComponent<ColorAdvantageEffect>();
-                advantageEffect.InitializeDelay(predelay, postdelay);
-                AddEffectToList(parentCard, triggerType, advantageEffect);
+                advantageEffect.BaseInitialize(predelay, postdelay,events);
                 advantageEffect.Initialize(ThisCardIsStronerOn, advantageAmount, disadvantageAmount);
+                AddEffectToList(parentCard, triggerType, advantageEffect);
                 break;
             case EffectType.ChangeColor:
                 var changeColorEffect = newEffectGO.AddComponent<ChangeColorEffect>();
-                changeColorEffect.InitializeDelay(predelay, postdelay);
+                changeColorEffect.BaseInitialize(predelay, postdelay, events);
                 changeColorEffect.Initialize(changeTo);
                 AddEffectToList(parentCard, triggerType, changeColorEffect);
                 break;
             case EffectType.GainPoints:
-                if (effectResponseType == ResponseNeeded.None)
-                {
-                    var gainPointsEffect = newEffectGO.AddComponent<GainPointsEffect>();
-                    gainPointsEffect.InitializeDelay(predelay, postdelay);
-                    gainPointsEffect.Initialize(pointsToAdd);
-                    AddEffectToList(parentCard, triggerType, gainPointsEffect);
-                } 
-                
-                else
-                {
-                    var givePointsEffect = newEffectGO.AddComponent<GivePointsToCardEffect>();
-                    givePointsEffect.InitializeDelay(predelay, postdelay);
-                    givePointsEffect.BaseInitialize(effectResponseType, events);
-                    givePointsEffect.Initialize(pointsToAdd);
-                    AddEffectToList(parentCard, triggerType, givePointsEffect);
-                }
+                var gainPointsEffect = newEffectGO.AddComponent<GainPointsEffect>();
+                gainPointsEffect.BaseInitialize(predelay, postdelay, events);
+                gainPointsEffect.Initialize(pointsToAdd);
+                AddEffectToList(parentCard, triggerType, gainPointsEffect);
                 break;
             case EffectType.Shapeshift:
                 var shapeShiftEffect = newEffectGO.AddComponent<ShapeshiftEffect>();
-                shapeShiftEffect.InitializeDelay(predelay, postdelay);
+                shapeShiftEffect.BaseInitialize(predelay, postdelay, events);
                 AddEffectToList(parentCard, triggerType, shapeShiftEffect);
                 break;
             case EffectType.AlterBattlePoints:
                 var hurtPointsAlterationEffect = newEffectGO.AddComponent<BattlePointAlterationEffect>();
-                hurtPointsAlterationEffect.InitializeDelay(predelay, postdelay);
+                hurtPointsAlterationEffect.BaseInitialize(predelay, postdelay, events);
                 hurtPointsAlterationEffect.Initialize(mult, alterationType);
                 AddEffectToList(parentCard, triggerType, hurtPointsAlterationEffect);
+                break;
+            case EffectType.SummonCard:
+                var summonCardEffect = newEffectGO.AddComponent<SummonCardEffect>();
+                summonCardEffect.BaseInitialize(predelay, postdelay, events);
+                summonCardEffect.Initialize(cardBlueprint);
+                AddEffectToList(parentCard, triggerType, summonCardEffect);
+                break;
+            case EffectType.DrawCard:
+                var drawCardEffect = newEffectGO.AddComponent<DrawCardEffect>();
+                drawCardEffect.BaseInitialize(predelay, postdelay, events);
+                AddEffectToList(parentCard, triggerType, drawCardEffect);
+                break;
+            case EffectType.GivePoints:
+                var givePointsEffect = newEffectGO.AddComponent<GivePointsToCardEffect>();
+                givePointsEffect.BaseInitialize(predelay, postdelay, events);
+                givePointsEffect.Initialize(pointsToAdd);
+                AddEffectToList(parentCard, triggerType, givePointsEffect);
+                break;
+            case EffectType.ForceShapeshift:
+                var forcedShapeshiftEffect = newEffectGO.AddComponent<ForcedShapeshiftEffect>();
+                forcedShapeshiftEffect.BaseInitialize(predelay, postdelay, events);
+                forcedShapeshiftEffect.Initialize(cardBlueprint);
+                AddEffectToList(parentCard, triggerType, forcedShapeshiftEffect);
+                break;
+            case EffectType.GetAdvantageOverStrongerCards:
+                var getAdvantageOverStrongerCardsEffect = newEffectGO.AddComponent<AdvantageOverStrongerCardsEffect>();
+                getAdvantageOverStrongerCardsEffect.BaseInitialize(predelay, postdelay, events);
+                getAdvantageOverStrongerCardsEffect.Initialize(advantageAmount);
+                AddEffectToList(parentCard, triggerType, getAdvantageOverStrongerCardsEffect);
                 break;
         }
     }
@@ -108,7 +127,25 @@ public class EffectBlueprint : ScriptableObject
             case EffectTrigger.OnSurvive:
                 parentCard.effects.OnSurviveEffects.Add(effect);
                 break;
+            case EffectTrigger.OnGlobalDeath:
+                parentCard.effects.OnGlobalDeathEffects.Add(effect);
+                break;
         }
+    }
+
+    private bool ShouldShowPointsToAdd()
+    {
+        return effectType is EffectType.GainPoints or EffectType.GivePoints;
+    }
+
+    private bool ShouldShowAdvantagePoints()
+    {
+        return effectType is EffectType.GetAdvantageOverColor or EffectType.GetAdvantageOverStrongerCards;
+    }
+
+    private bool ShouldShowCardBlueprint()
+    {
+        return effectType is EffectType.SummonCard or EffectType.ForceShapeshift;
     }
 }
 
@@ -122,23 +159,23 @@ public enum EffectTrigger
     HurtPointsAlteration,
     AttackPointsAlteration,
     OnSurvive,
+    OnGlobalDeath
 }
 
-public enum ResponseNeeded
-{
-    None,
-    Choice,
-    RandomFromHand,
-    RandomFromMap
-}
+
 
 public enum EffectType
 {
     GetAdvantageOverColor,
     ChangeColor,
     GainPoints,
+    GivePoints,
     Shapeshift,
     AlterBattlePoints,
+    SummonCard,
+    DrawCard,
+    ForceShapeshift,
+    GetAdvantageOverStrongerCards,
 }
 
 public enum AlterationType

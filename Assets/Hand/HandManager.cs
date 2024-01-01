@@ -26,13 +26,14 @@ public class HandManager : MonoBehaviour
         ActiveEffect askerEffect = (ActiveEffect)data;
         int rand = UnityEngine.Random.Range(0, cardsInHand.Count);
         Card randCard = cardsInHand[rand];
-        StartCoroutine(askerEffect.HandleChoice(randCard));
+        StartCoroutine(askerEffect.HandleResponse(randCard));
     }
 
     public void AddCardToHand(Card card)
     {
         cardsInHand.Add(card);
         card.transform.localScale = Vector3.one * handCardScale;
+        //card.index = cardsInHand.IndexOf(card);
         ReorderCards();
     }
     public void OnHandCardDroppedNowhere(Component sender, object data)

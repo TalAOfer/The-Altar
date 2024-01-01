@@ -27,10 +27,10 @@ public class ShapeshiftHelper : ScriptableObject
             switch (cardOwner)
             {
                 case CardOwner.Player:
-                    deck = cardColor == CardColor.Red ? Hearts : Clubs;
+                    deck = cardColor == CardColor.Red ? Hearts : Spades;
                     break;
                 case CardOwner.Enemy:
-                    deck = cardColor == CardColor.Red ? Diamonds : Spades;
+                    deck = cardColor == CardColor.Red ? Diamonds : Clubs;
                     break;
             }
             int index = currentPoints - 1;

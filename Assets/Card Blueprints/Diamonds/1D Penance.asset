@@ -22,6 +22,8 @@ MonoBehaviour:
   OnGainPoints: []
   OnDeath: []
   OnSacrifice: []
+  OnSurvive: []
   OnActionTaken: []
   HurtPointsAlteration: []
   AttackPointsAlteration: []
+  OnGlobalDeath: []

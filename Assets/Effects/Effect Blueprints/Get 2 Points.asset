@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57af9f270dd4e6a41a0f39c5c24fff27, type: 3}
   m_Name: Get 2 Points
   m_EditorClassIdentifier: 
+  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   effectType: 2
   predelay: 0
   postdelay: 1
@@ -20,3 +21,6 @@ MonoBehaviour:
   disadvantageAmount: 0
   pointsToAdd: 2
   changeTo: 0
+  mult: 0
+  alterationType: 0
+  cardBlueprint: {fileID: 0}

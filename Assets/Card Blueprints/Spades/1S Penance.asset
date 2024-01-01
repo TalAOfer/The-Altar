@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: f23df630311fbae4580a03e5f27e9277, type: 3}
   cardName: Penance
-  cardOwner: 1
+  cardOwner: 0
   cardColor: 0
   defaultPoints: 1
   OnReveal: []
@@ -22,6 +22,7 @@ MonoBehaviour:
   OnGainPoints: []
   OnDeath: []
   OnSacrifice: []
+  OnSurvive: []
   OnActionTaken: []
   HurtPointsAlteration: []
   AttackPointsAlteration: []

@@ -14,7 +14,7 @@ public class GainPointsEffect : Effect
     {
         yield return new WaitForSeconds(predelay);
 
-        yield return StartCoroutine(context.InitiatingCard.GainPoints(amount));
+        yield return StartCoroutine(context.InitiatingCard.GainPoints(amount, false));
 
         yield return new WaitForSeconds(postdelay);
     }

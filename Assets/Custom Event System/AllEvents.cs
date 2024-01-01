@@ -9,6 +9,8 @@ public class AllEvents : ScriptableObject
     [Title("Active Choice")]
     public GameEvent WaitForActiveChoice;
     public GameEvent GetRandomCardFromHand;
+    public GameEvent SpawnCardToHand;
+    public GameEvent DrawCardToHand;
 
     [Title("Map")]
     public GameEvent OnMapCardDied;
@@ -20,4 +22,7 @@ public class AllEvents : ScriptableObject
     public GameEvent OnHandCardStartDrag;
     public GameEvent OnHandCardDroppedNowhere;
     public GameEvent OnDraggedCardHoveredOverHandCard;
+
+    [Title("Global Card Events")]
+    public GameEvent OnGlobalCardDeath;
 }
