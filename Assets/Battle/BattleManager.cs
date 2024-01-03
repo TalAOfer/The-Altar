@@ -1,13 +1,12 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
     public HandManager handManager;
+    public EnemyManager enemyManager;
+
     public SpriteRenderer curtainSr;
     public BoxCollider2D curtainColl;
 
@@ -62,8 +61,6 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleRoutine()
     {
-        //events.OnPrebattleEnemy.Raise(this, enemyCard);
-
         foreach (Card card in handManager.cardsInHand)
         {
             if (card.effects.SupportEffects.Count > 0)
@@ -72,7 +69,14 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(0.25f);
+        foreach (Card card in enemyManager.activeEnemies)
+        {
+            if (card == enemyCard) continue;
+            if (card.effects.SupportEffects.Count > 0)
+            {
+                yield return StartCoroutine(card.effects.ApplySupportEffects(enemyCard));
+            }
+        }
 
         Coroutine ApplyPlayerCardBeforeBattleEffects = StartCoroutine(playerCard.effects.ApplyBeforeBattleEffects(enemyCard));
         Coroutine ApplyEnemyCardBeforeBattleEffects = StartCoroutine(enemyCard.effects.ApplyBeforeBattleEffects(playerCard));
@@ -80,11 +84,33 @@ public class BattleManager : MonoBehaviour
         yield return ApplyPlayerCardBeforeBattleEffects;
         yield return ApplyEnemyCardBeforeBattleEffects;
 
-        Coroutine HandlePlayerPreBattleShapeshift = StartCoroutine(playerCard.HandleShapeshift(ShapeshiftType.Prebattle));
-        Coroutine HandleEnemyPreBattleShapeshift = StartCoroutine(enemyCard.HandleShapeshift(ShapeshiftType.Prebattle));
+        bool battleStartEnded = false;
 
-        yield return HandleEnemyPreBattleShapeshift;
-        yield return HandlePlayerPreBattleShapeshift;
+        while(!battleStartEnded)
+        {
+            bool didPlayerShapeshift = playerCard.ShouldShapeshift();
+            bool didEnemyShapeshift = enemyCard.ShouldShapeshift();
+
+            Coroutine HandlePlayerPreBattleShapeshift = null;
+            Coroutine HandleEnemyPreBattleShapeshift = null;
+
+            if (didPlayerShapeshift) HandlePlayerPreBattleShapeshift = StartCoroutine(playerCard.HandleShapeshift(ShapeshiftType.Prebattle));
+            if (didEnemyShapeshift) HandleEnemyPreBattleShapeshift = StartCoroutine(enemyCard.HandleShapeshift(ShapeshiftType.Prebattle));
+
+            if (HandlePlayerPreBattleShapeshift != null) yield return HandlePlayerPreBattleShapeshift;
+            if (HandleEnemyPreBattleShapeshift != null) yield return HandleEnemyPreBattleShapeshift;
+
+            Coroutine ReapplyPlayerCardBeforeBattleEffects = null;
+            Coroutine ReapplyEnemyCardBeforeBattleEffects = null;
+
+            if (didPlayerShapeshift) ReapplyPlayerCardBeforeBattleEffects = StartCoroutine(playerCard.effects.ApplyBeforeBattleEffects(enemyCard));
+            if (didEnemyShapeshift) ReapplyEnemyCardBeforeBattleEffects = StartCoroutine(enemyCard.effects.ApplyBeforeBattleEffects(playerCard));
+
+            if (ReapplyPlayerCardBeforeBattleEffects != null) yield return ReapplyPlayerCardBeforeBattleEffects;
+            if (ReapplyEnemyCardBeforeBattleEffects != null) yield return ReapplyEnemyCardBeforeBattleEffects;
+
+            battleStartEnded = (!didPlayerShapeshift && !didEnemyShapeshift);
+        }
 
         Coroutine enemyCardReadying = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(movementData.readyingDistance, movementData.readyingDuration));
         Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(-movementData.readyingDistance, movementData.readyingDuration));
@@ -121,35 +147,49 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(movementData.endBattleDelay);
 
         Coroutine ApplyPlayerCardOnSurviveEffects = null;
+        Coroutine ApplyPlayerCardOnDeathEffects = null;
+        
         Coroutine ApplyEnemyCardOnSurviveEffects = null;
+        Coroutine ApplyEnemyCardOnDeathEffects = null;
 
         if (!playerCard.IsDead) ApplyPlayerCardOnSurviveEffects = StartCoroutine(playerCard.effects.ApplyOnSurviveEffects(enemyCard));
+        else ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyOnDeathEffects());
+
         if (!enemyCard.IsDead) ApplyEnemyCardOnSurviveEffects = StartCoroutine(enemyCard.effects.ApplyOnSurviveEffects(playerCard));
+        else ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyOnDeathEffects());
 
         if (ApplyPlayerCardOnSurviveEffects != null) yield return ApplyPlayerCardOnSurviveEffects;
-        if (ApplyEnemyCardOnSurviveEffects != null) yield return ApplyEnemyCardOnSurviveEffects;
+        else if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
 
-        // Final logic after both cards have moved
+        if (ApplyEnemyCardOnSurviveEffects != null) yield return ApplyEnemyCardOnSurviveEffects;
+        else if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
+
         Coroutine HandleEnemyPostBattleShapeshift = StartCoroutine(enemyCard.HandleShapeshift(ShapeshiftType.Postbattle));
         Coroutine HandlePlayerPostBattleShapeshift = StartCoroutine(playerCard.HandleShapeshift(ShapeshiftType.Postbattle));
 
         yield return HandleEnemyPostBattleShapeshift;
         yield return HandlePlayerPostBattleShapeshift;
 
+        //If dead, disable object and raise onglobaldeath
         if (enemyCard.IsDead) enemyCard.Die();
         if (playerCard.IsDead) playerCard.Die();
 
         yield return new WaitForSeconds(1f);
 
-        GoBackToMap();
+        GoBackToMap(true);
     }
 
-    public void GoBackToMap()
+    public void OnPressedBack()
     {
-        StartCoroutine(BackToMapRoutine());
+        StartCoroutine(BackToMapRoutine(false));
     }
 
-    public IEnumerator BackToMapRoutine()
+    public void GoBackToMap(bool didFight)
+    {
+        StartCoroutine(BackToMapRoutine(didFight));
+    }
+
+    public IEnumerator BackToMapRoutine(bool didFight)
     {
         backButton.gameObject.SetActive(false);
         battleButton.gameObject.SetActive(false);
@@ -183,6 +223,12 @@ public class BattleManager : MonoBehaviour
         if (enemyCard.IsDead)
         {
             events.OnMapCardDied.Raise(this, enemyCard.index);
+        }
+
+        if (didFight)
+        {
+            //StartCoroutine(OnAction for player)
+            //StartCoroutine(OnAction for enemy)
         }
     }
 

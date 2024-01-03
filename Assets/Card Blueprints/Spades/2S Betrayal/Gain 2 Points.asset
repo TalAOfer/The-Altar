@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57af9f270dd4e6a41a0f39c5c24fff27, type: 3}
-  m_Name: Force Shapeshift To Betrayed
+  m_Name: Gain 2 Points
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  effectType: 8
+  effectType: 2
+  applicationType: 0
   predelay: 0
   postdelay: 1
   decision: {fileID: 0}
   advantageAmount: 0
   disadvantageAmount: 0
-  pointsToAdd: 0
-  changeTo: 0
+  pointsToAdd: 2
   alterationAmount: 0
   alterationType: 0
-  cardBlueprint: {fileID: 11400000, guid: 40187e0cbd0b3a545a8a69454fb03472, type: 2}
+  cardBlueprint: {fileID: 0}
+  shapeshiftType: 0
   modifierType: 0
+  whoToChange: 0

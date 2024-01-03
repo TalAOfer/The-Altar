@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Enemy Full Deck
   m_EditorClassIdentifier: 
   cards:
+  - {fileID: 11400000, guid: 7d92137bd413a844691f7ed4c27959e3, type: 2}
   - {fileID: 11400000, guid: 6c9bf8fcecb9a844ab545e0baec11638, type: 2}
   - {fileID: 11400000, guid: bd334b55247f8154ab669856126e95b3, type: 2}
   - {fileID: 11400000, guid: 64e196629faa06b4eb3c4837af35278b, type: 2}
-  - {fileID: 11400000, guid: 7d92137bd413a844691f7ed4c27959e3, type: 2}
   - {fileID: 11400000, guid: 7bb0d94eacc5f204b9f20ad1cbb3779a, type: 2}
   - {fileID: 11400000, guid: 272a7c37b01f0894788689f0fb31e5e4, type: 2}
   - {fileID: 11400000, guid: 3096e1d764cc79e468fc728183fe6c9b, type: 2}

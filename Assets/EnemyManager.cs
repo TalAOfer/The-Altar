@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     private int xAmount = 0;
-    private List<Card> activeEnemies;
+    public List<Card> activeEnemies;
 
     public void GetXAmount(Component sender, object data)
     {

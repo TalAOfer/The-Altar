@@ -37,6 +37,7 @@ public class CardVisualHandler : MonoBehaviour
         symbolSr.sprite = GetSymbol();
         iconSr.sprite = blueprint.cardSprite;
         numberSr.sprite = GetNumberSprite(card.points);
+        UpdateNumberSprite();
     }
 
     public void Reveal()

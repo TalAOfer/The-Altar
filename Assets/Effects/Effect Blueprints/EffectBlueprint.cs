@@ -84,7 +84,7 @@ public class EffectBlueprint : ScriptableObject
                 AddEffectToList(parentCard, triggerType, drawCardEffect);
                 break;
             case EffectType.GivePoints:
-                var givePointsEffect = newEffectGO.AddComponent<GivePointsToCardEffect>();
+                var givePointsEffect = newEffectGO.AddComponent<GivePointsToRandomHandCardEffect>();
                 givePointsEffect.BaseInitialize(this);
                 givePointsEffect.Initialize(pointsToAdd);
                 AddEffectToList(parentCard, triggerType, givePointsEffect);

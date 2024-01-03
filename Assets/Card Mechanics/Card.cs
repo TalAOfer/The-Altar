@@ -34,13 +34,15 @@ public class Card : MonoBehaviour
     public CardVisualHandler visualHandler;
     public CardInteractionHandler interactionHandler;
 
+    public List<BattlePointModifier> attackPointsModifiers = new();
+    public List<BattlePointModifier> hurtPointsModifiers = new();
+
     public AllEvents events;
     [SerializeField] private ShapeshiftHelper shapeshiftHelper;
     public bool IsDead
     {
         get { return points <= 0; }
     }
-
 
     public void Init(CardBlueprint blueprint, int index, string startingSortingLayer)
     {
@@ -57,13 +59,27 @@ public class Card : MonoBehaviour
 
     public IEnumerator CalcAttackPoints(Card otherCard)
     {
-        attackPoints += points;
+        attackPoints = points;
 
         foreach (Effect effect in effects.AttackPointsAlterationEffects)
         {
             yield return StartCoroutine(effect.Apply(new EffectContext(this, otherCard, EffectTrigger.AttackPointsAlteration)));
         }
 
+        yield return null;
+    }
+
+    public IEnumerator CalcPoints(int startingValue, List<BattlePointModifier> modifierList)
+    {
+        int value = startingValue;
+        modifierList.Sort((a, b) => a.modifierType.CompareTo(b.modifierType));
+
+        foreach (BattlePointModifier modifier in attackPointsModifiers)
+        {
+            value = modifier.Apply(value);
+        }
+
+        attackPoints = value;
         yield return null;
     }
 
@@ -91,31 +107,24 @@ public class Card : MonoBehaviour
         hurtPoints = 0;
     }
 
-    public IEnumerator GainPoints(int pointsToGain, bool initiateHandleShapeshift)
+    public IEnumerator GainPoints(int pointsToGain)
     {
         points += pointsToGain;
         if (points < 0) points = 0;
         else if (points > 10) points = 10;
-        visualHandler.UpdateNumberSprite();
 
         yield return StartCoroutine(effects.ApplyOnGainPointsEffects());
     }
 
-    public IEnumerator HandleShapeshift(ShapeshiftType shapeshiftType)
+    public bool ShouldShapeshift()
     {
-        if (currentArchetype == shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor)) yield break;
-
-        if (IsDead) yield return StartCoroutine(TurnToBones());
-        else yield return StartCoroutine(Shapeshift(shapeshiftType));
+        return currentArchetype != shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
     }
 
-    public IEnumerator TurnToBones()
+    public IEnumerator HandleShapeshift(ShapeshiftType shapeshiftType)
     {
-        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
-        visualHandler.SetNewCardVisual(newForm);
-        gameObject.name = newForm.name;
-        yield return new WaitForSeconds(1);
-        yield return StartCoroutine(effects.ApplyOnDeathEffects());
+        if (!ShouldShapeshift()) yield break;
+        else yield return StartCoroutine(Shapeshift(shapeshiftType));
     }
 
     public IEnumerator Shapeshift(ShapeshiftType shapeshiftType)

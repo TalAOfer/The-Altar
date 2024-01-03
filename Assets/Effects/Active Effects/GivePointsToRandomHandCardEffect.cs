@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
-public class GivePointsToCardEffect : ActiveEffect
+public class GivePointsToRandomHandCardEffect : ActiveEffect
 {
     public int amount;
     public void Initialize(int amount)
@@ -33,7 +33,8 @@ public class GivePointsToCardEffect : ActiveEffect
 
         foreach (Card card in cardsToChange)
         {
-            yield return StartCoroutine(card.GainPoints(amount, true));
+            yield return StartCoroutine(card.GainPoints(amount));
+            yield return StartCoroutine(card.HandleShapeshift(ShapeshiftType.OutOfBattle));
         }
 
         yield return new WaitForSeconds(postdelay);

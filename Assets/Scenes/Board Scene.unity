@@ -1556,6 +1556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28293bd119beb0149bcbe732c90151f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeEnemies: []
 --- !u!4 &1137211801
 Transform:
   m_ObjectHideFlags: 0
@@ -2103,6 +2104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handManager: {fileID: 1676934223}
+  enemyManager: {fileID: 1137211800}
   curtainSr: {fileID: 501826561}
   curtainColl: {fileID: 501826563}
   topBattleTransform: {fileID: 1242076502}
@@ -3600,6 +3602,7 @@ MonoBehaviour:
   shuffleEnemyDeck: 0
   mapConfig: {fileID: 11400000, guid: b1c31e21c14d0f94c9ba091c2ee630cc, type: 2}
   revealedCardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
+  enemyManager: {fileID: 1137211800}
   handManager: {fileID: 1676934223}
   mapMasterContainer: {fileID: 1125578232}
   grid: {fileID: 417050787}

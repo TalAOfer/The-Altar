@@ -50,11 +50,18 @@ public class HandManager : MonoBehaviour
 
     public void InsertCardToHandByIndex(Card card, int index)
     {
+        int cardIndex = index;
         card.transform.localScale = Vector3.one * handCardScale;
+
+
+        if (index > cardsInHand.Count)
+        {
+            cardIndex = cardsInHand.Count;
+        }
 
         if (!cardsInHand.Contains(card))
         {
-            cardsInHand.Insert(index, card);
+            cardsInHand.Insert(cardIndex, card);
         }
 
         ReorderCards();
