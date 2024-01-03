@@ -10,7 +10,7 @@ public class SummonCardEffect : ActiveEffect
     {
         this.blueprintOfCardToSpawn = blueprintOfCardToSpawn;
     }
-    protected override IEnumerator ApplyEffectOnResponse(Card chosenCard)
+    protected override IEnumerator ApplyEffectOnResponse(Component sender, object response)
     {
         yield return null;
     }

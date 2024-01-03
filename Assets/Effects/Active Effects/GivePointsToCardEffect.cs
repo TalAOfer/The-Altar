@@ -16,11 +16,25 @@ public class GivePointsToCardEffect : ActiveEffect
         events.GetRandomCardFromHand.Raise(this, this);
     }
 
-    protected override IEnumerator ApplyEffectOnResponse(Card chosenCard)
+    protected override IEnumerator ApplyEffectOnResponse(Component sender, object response)
     {
+        List<Card> cardsToChange;
+        switch (response)
+        {
+            case List<Card> cards:
+                cardsToChange = new List<Card>(cards);
+                break;
+            default:
+                Debug.LogError("got wrong data type from " + sender.name);
+                yield break;
+        }
+
         yield return new WaitForSeconds(predelay);
 
-        yield return StartCoroutine(chosenCard.GainPoints(amount, true));
+        foreach (Card card in cardsToChange)
+        {
+            yield return StartCoroutine(card.GainPoints(amount, true));
+        }
 
         yield return new WaitForSeconds(postdelay);
     }

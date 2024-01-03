@@ -1,22 +1,41 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangeColorEffect : Effect
 {
-    public CardColor changeToThisColor;
+    public WhoToChange whoToChange;
 
-    public void Initialize(CardColor changeToThisColor)
+    public void Initialize(WhoToChange whoToChange)
     {
-        this.changeToThisColor = changeToThisColor;
+        this.whoToChange = whoToChange;
     }
 
     public override IEnumerator Apply(EffectContext context)
     {
         yield return new WaitForSeconds(predelay);
 
-        context.InitiatingCard.visualHandler.SetSpritesColor(changeToThisColor);
+        Card cardToChange = whoToChange == WhoToChange.Initiating ? context.InitiatingCard : context.OtherCard;
+
+        ToggleCardColor(cardToChange);
 
         yield return new WaitForSeconds(postdelay);
     }
+
+    private void ToggleCardColor(Card card)
+    {
+        if (card.cardColor == CardColor.Black)
+        {
+            card.cardColor = CardColor.Red;
+        }
+        else
+        {
+            card.cardColor = CardColor.Black;
+        }
+    }
+}
+
+public enum WhoToChange 
+{
+    Initiating,
+    Other
 }

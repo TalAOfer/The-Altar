@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DrawCardEffect : ActiveEffect
 {
-    protected override IEnumerator ApplyEffectOnResponse(Card chosenCard)
+    protected override IEnumerator ApplyEffectOnResponse(Component sender, object response)
     {
         yield return null;
     }

@@ -1,14 +1,13 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="AllEvents")]
+//[CreateAssetMenu(menuName ="AllEvents")]
 public class AllEvents : ScriptableObject
 {
     [Title("Active Choice")]
     public GameEvent WaitForActiveChoice;
     public GameEvent GetRandomCardFromHand;
+    public GameEvent GetAllCardsFromHand;
     public GameEvent SpawnCardToHand;
     public GameEvent DrawCardToHand;
 
@@ -25,4 +24,8 @@ public class AllEvents : ScriptableObject
 
     [Title("Global Card Events")]
     public GameEvent OnGlobalCardDeath;
+
+    [Title("On Prebattle")]
+    public GameEvent OnPrebattlePlayer;
+    public GameEvent OnPrebattleEnemy;
 }

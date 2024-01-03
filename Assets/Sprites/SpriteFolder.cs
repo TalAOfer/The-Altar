@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="SpriteFolder")]
+//[CreateAssetMenu(menuName ="SpriteFolder")]
 public class SpriteFolder : ScriptableObject
 {
     [Title("Symbols")]

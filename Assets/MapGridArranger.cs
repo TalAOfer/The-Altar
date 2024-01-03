@@ -19,7 +19,7 @@ public class MapGridArranger : MonoBehaviour
         for (int i = 0; i < MapSlots.Count; i++)
         {
             MapSlot slot = MapSlots[i];
-            if (i == clickedCardIndex) slot.SetSlotState(MapSlotState.Occupied);
+            if (i == clickedCardIndex) StartCoroutine(slot.SetSlotState(MapSlotState.Occupied));
 
             else if (slot.slotState == MapSlotState.Chooseable)
             {
@@ -32,7 +32,7 @@ public class MapGridArranger : MonoBehaviour
     {
         int slotIndex = (int)data;
         MapSlot slotOfDeadEnemy = MapSlots[slotIndex];
-        StartCoroutine(slotOfDeadEnemy.SetSlotState(MapSlotState.Done));        
+        StartCoroutine(slotOfDeadEnemy.SetSlotState(MapSlotState.Done));    
     }
 
     public void OnFinishedXAnimation(Component sender, object data)

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaitForActiveChoice: {fileID: 11400000, guid: 290c64c7ec3586d4f9c12c20613c04d8, type: 2}
   GetRandomCardFromHand: {fileID: 11400000, guid: 76d3cc89e01625f4595db834e40d1365, type: 2}
+  GetAllCardsFromHand: {fileID: 11400000, guid: b27c21e524e026a49a7c38f0c06b65b5, type: 2}
   SpawnCardToHand: {fileID: 11400000, guid: 3f0d2c56c1ba14e429915d5981f19f4e, type: 2}
   DrawCardToHand: {fileID: 11400000, guid: 5e9e6ae429156d443b2477a9780dd6a3, type: 2}
   OnMapCardDied: {fileID: 11400000, guid: b9928ad4f77166541b69a6ba6a8120df, type: 2}
@@ -24,3 +25,5 @@ MonoBehaviour:
   OnHandCardDroppedNowhere: {fileID: 11400000, guid: 9d3e77e387bce3d428f46498eea5c9ba, type: 2}
   OnDraggedCardHoveredOverHandCard: {fileID: 11400000, guid: 421ce6141f418a14e8bebb089fcfdce2, type: 2}
   OnGlobalCardDeath: {fileID: 11400000, guid: 9e05dbf9491b83a47ba6c0a7e87fb28b, type: 2}
+  OnPrebattlePlayer: {fileID: 11400000, guid: 8f3a1dc6f707d7c498a07f2c6b559b03, type: 2}
+  OnPrebattleEnemy: {fileID: 11400000, guid: 3ee2fa0e4f76c6243948cf9e7bc68eb5, type: 2}

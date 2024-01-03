@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Drag Manager")]
+//[CreateAssetMenu(menuName = "Drag Manager")]
 public class DragManager : ScriptableObject
 {
     public bool isCardDragged;

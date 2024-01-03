@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
+  m_Name: 5S The Bull
+  m_EditorClassIdentifier: 
+  cardSprite: {fileID: 21300000, guid: bc40d2b1c5276e84eb03973f337f7a85, type: 3}
+  cardName: The Bull
+  cardOwner: 0
+  cardColor: 0
+  defaultPoints: 5
+  OnReveal: []
+  BeforeBattle: []
+  OnGainPoints: []
+  OnDeath: []
+  OnSacrifice: []
+  OnSurvive: []
+  OnActionTaken: []
+  HurtPointsAlteration: []
+  AttackPointsAlteration:
+  - {fileID: 11400000, guid: 5de89f21bb7322c40a987c535db56cd7, type: 2}
+  OnGlobalDeath: []

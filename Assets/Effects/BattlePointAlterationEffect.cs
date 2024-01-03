@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class BattlePointAlterationEffect : Effect
 {
-    public float mult;
+    public float amount;
+    public ModifierType modifierType;
     public PointAlterationType alterationType;
-    public void Initialize(float mult, PointAlterationType alterationType)
+    public void Initialize(float amount, ModifierType modifierType, PointAlterationType alterationType)
     {
-        this.mult = mult;
+        this.amount = amount;
+        this.modifierType = modifierType;
         this.alterationType = alterationType;
     }
     public override IEnumerator Apply(EffectContext context)
@@ -17,11 +19,21 @@ public class BattlePointAlterationEffect : Effect
             ? context.InitiatingCard.hurtPoints :
             context.InitiatingCard.attackPoints;
 
+        int roundedCalcPoints = 0;
         // Multiply int with float
-        float calcPoints = pointsToAlter * mult;
-
-        // Round up
-        int roundedCalcPoints = Mathf.CeilToInt(calcPoints);
+        switch (modifierType)
+        {
+            case ModifierType.Addition:
+                roundedCalcPoints = (int)(pointsToAlter + amount);
+                break;
+            case ModifierType.Mult:
+                float calcPoints = pointsToAlter * amount;
+                roundedCalcPoints = Mathf.CeilToInt(calcPoints);
+                break;
+            case ModifierType.Replace:
+                roundedCalcPoints = (int)amount;
+                break;
+        }
 
         switch (alterationType)
         {
@@ -41,4 +53,4 @@ public enum PointAlterationType
 {
     hurtPoints,
     attackPoints
-} 
+}

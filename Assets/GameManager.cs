@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject revealedCardPrefab;
 
+    [SerializeField] private EnemyManager enemyManager;
+
     [SerializeField] private HandManager handManager;
 
     [SerializeField] private Transform mapMasterContainer;
@@ -66,18 +68,6 @@ public class GameManager : MonoBehaviour
     [Button]
     public void DrawMap()
     {
-        StartCoroutine(DealMap());
-    }
-
-    private IEnumerator DealMap()
-    {
-        //for (int i = 0; i < 9; i++)
-        //{
-        //    Card card = SpawnCard(DrawCard(), CardState.Reward, i, GameConstants.BOTTOM_MAP_LAYER);
-        //    card.transform.position = mapCardContainers[i].position;
-        //    yield return new WaitForSeconds(0.25f);
-        //}
-        yield return null;
         StartCoroutine(DealPlayer());
     }
 
@@ -114,6 +104,7 @@ public class GameManager : MonoBehaviour
     {
         Card card = SpawnCard(DrawCard(CardOwner.Enemy), containerIndex, GameConstants.TOP_MAP_LAYER);
         card.transform.position = grid.MapSlots[containerIndex].transform.position;
+        enemyManager.AddEnemyToManager(card);
         //StartCoroutine(card.interactionHandler.MoveCardToPositionOverTime(grid.MapSlots[containerIndex].transform.position, 1f));
         StartCoroutine(grid.MapSlots[containerIndex].SetSlotState(MapSlotState.Occupied));
         card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
@@ -134,7 +125,7 @@ public class GameManager : MonoBehaviour
         Card card = SpawnCard(cardToSpawn, 0, GameConstants.HAND_LAYER);
         handManager.AddCardToHand(card);
 
-        StartCoroutine(askerEffect.HandleResponse(card));
+        StartCoroutine(askerEffect.HandleResponse(this, null));
     }
 
     public void OnDrawCardToHand(Component sender, object data)
@@ -144,7 +135,7 @@ public class GameManager : MonoBehaviour
         Card card = SpawnCard(DrawCard(CardOwner.Player), 0, GameConstants.HAND_LAYER);
         handManager.AddCardToHand(card);
 
-        StartCoroutine(askerEffect.HandleResponse(card));
+        StartCoroutine(askerEffect.HandleResponse(this, null));
     }
 
 }

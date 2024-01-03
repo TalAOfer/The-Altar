@@ -29,7 +29,7 @@ public class Card : MonoBehaviour
     [FoldoutGroup("Card Info")]
     public CardState cardState;
 
-
+    public CardBlueprint currentArchetype;
     public CardEffectHandler effects;
     public CardVisualHandler visualHandler;
     public CardInteractionHandler interactionHandler;
@@ -44,6 +44,8 @@ public class Card : MonoBehaviour
 
     public void Init(CardBlueprint blueprint, int index, string startingSortingLayer)
     {
+        currentArchetype = blueprint;
+
         cardOwner = blueprint.cardOwner;
         this.index = index;
 
@@ -53,25 +55,25 @@ public class Card : MonoBehaviour
         visualHandler.Init(blueprint, startingSortingLayer);
     }
 
-    public IEnumerator CalcAttackPoints()
+    public IEnumerator CalcAttackPoints(Card otherCard)
     {
-        attackPoints = points;
+        attackPoints += points;
 
         foreach (Effect effect in effects.AttackPointsAlterationEffects)
         {
-            yield return StartCoroutine(effect.Apply(new EffectContext(this, null, EffectTrigger.AttackPointsAlteration)));
+            yield return StartCoroutine(effect.Apply(new EffectContext(this, otherCard, EffectTrigger.AttackPointsAlteration)));
         }
 
         yield return null;
     }
 
-    public IEnumerator CalcHurtPoints(int damagePoints)
+    public IEnumerator CalcHurtPoints(Card otherCard, int damagePoints)
     {
         hurtPoints = damagePoints;
 
         foreach (Effect effect in effects.HurtPointsAlterationEffects)
         {
-            yield return StartCoroutine(effect.Apply(new EffectContext(this, null, EffectTrigger.HurtPointsAlteration)));
+            yield return StartCoroutine(effect.Apply(new EffectContext(this, otherCard, EffectTrigger.HurtPointsAlteration)));
         }
 
         yield return null;
@@ -83,6 +85,10 @@ public class Card : MonoBehaviour
         points -= hurtPoints;
         if (points < 0) points = 0;
         visualHandler.UpdateNumberSprite();
+        
+        //Reset attackpoints after battle
+        attackPoints = 0;
+        hurtPoints = 0;
     }
 
     public IEnumerator GainPoints(int pointsToGain, bool initiateHandleShapeshift)
@@ -93,17 +99,14 @@ public class Card : MonoBehaviour
         visualHandler.UpdateNumberSprite();
 
         yield return StartCoroutine(effects.ApplyOnGainPointsEffects());
-
-        if (initiateHandleShapeshift)
-        {
-            yield return StartCoroutine(HandleShapeshift());
-        }
     }
 
-    public IEnumerator HandleShapeshift()
+    public IEnumerator HandleShapeshift(ShapeshiftType shapeshiftType)
     {
+        if (currentArchetype == shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor)) yield break;
+
         if (IsDead) yield return StartCoroutine(TurnToBones());
-        else yield return StartCoroutine(Shapeshift());
+        else yield return StartCoroutine(Shapeshift(shapeshiftType));
     }
 
     public IEnumerator TurnToBones()
@@ -115,23 +118,23 @@ public class Card : MonoBehaviour
         yield return StartCoroutine(effects.ApplyOnDeathEffects());
     }
 
-    public IEnumerator Shapeshift()
+    public IEnumerator Shapeshift(ShapeshiftType shapeshiftType)
     {
         CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner,points, cardColor);
+        currentArchetype = newForm;
         visualHandler.SetNewCardVisual(newForm);
         gameObject.name = newForm.name;
-        yield return StartCoroutine(effects.RemoveCurrentEffects());
+        yield return StartCoroutine(effects.RemoveCurrentEffects(shapeshiftType));
         effects.SpawnEffects(newForm);
         yield return new WaitForSeconds(1);
     }
 
-    public IEnumerator ForceShapeshift(CardBlueprint blueprint)
+    public IEnumerator ForceShapeshift(CardBlueprint blueprint, ShapeshiftType shapeshiftType)
     {
-        visualHandler.SetNewCardVisual(blueprint);
         points = blueprint.defaultPoints;
-        gameObject.name = blueprint.name;
-        yield return StartCoroutine(effects.RemoveCurrentEffects());
-        effects.SpawnEffects(blueprint);
+        cardColor = blueprint.cardColor;
+        visualHandler.UpdateNumberSprite();
+        yield return Shapeshift(shapeshiftType);
     }
 
     public void Die()
@@ -185,4 +188,11 @@ public enum CardState
 {
     Default,
     Battle
+}
+
+public enum ShapeshiftType
+{
+    OutOfBattle,
+    Prebattle,
+    Postbattle
 }

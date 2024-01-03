@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ShapeshiftHelper")]
+//[CreateAssetMenu(menuName = "ShapeshiftHelper")]
 public class ShapeshiftHelper : ScriptableObject
 {
     public CardBlueprint bones;

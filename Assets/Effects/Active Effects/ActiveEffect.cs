@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public abstract class ActiveEffect : Effect
 {
@@ -12,7 +13,7 @@ public abstract class ActiveEffect : Effect
 
         SendEvent();
 
-        while(!didGetResponse)
+        while (!didGetResponse)
         {
             yield return null;
         }
@@ -22,11 +23,11 @@ public abstract class ActiveEffect : Effect
 
     public abstract void SendEvent();
 
-    public IEnumerator HandleResponse(Card chosenCard)
+    public IEnumerator HandleResponse(Component sender, object response)
     {
-        yield return StartCoroutine(ApplyEffectOnResponse(chosenCard));
+        yield return StartCoroutine(ApplyEffectOnResponse(sender, response));
         didGetResponse = true;
     }
 
-    protected abstract IEnumerator ApplyEffectOnResponse(Card chosenCard);
+    protected abstract IEnumerator ApplyEffectOnResponse(Component sender, object response);
 }

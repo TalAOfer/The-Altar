@@ -26,7 +26,13 @@ public class HandManager : MonoBehaviour
         ActiveEffect askerEffect = (ActiveEffect)data;
         int rand = UnityEngine.Random.Range(0, cardsInHand.Count);
         Card randCard = cardsInHand[rand];
-        StartCoroutine(askerEffect.HandleResponse(randCard));
+        StartCoroutine(askerEffect.HandleResponse(this, new List<Card> { randCard }));
+    }
+
+    public void GetAllCardsFromHand(Component sender, object data)
+    {
+        ActiveEffect askerEffect = (ActiveEffect)data;
+        StartCoroutine(askerEffect.HandleResponse(this, new List<Card>(cardsInHand)));
     }
 
     public void AddCardToHand(Card card)

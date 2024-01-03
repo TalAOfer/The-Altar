@@ -14,8 +14,8 @@ public class BattleManager : MonoBehaviour
     public Transform topBattleTransform;
     public Transform bottomBattleTransform;
 
-    private Card attackedCard;
-    private Card attackingCard;
+    private Card enemyCard;
+    private Card playerCard;
 
     public Button battleButton;
     public Button backButton;
@@ -25,27 +25,27 @@ public class BattleManager : MonoBehaviour
 
     public void OnCardDroppedOnCard(Component sender, object data)
     {
-        attackingCard = sender as Card;
-        attackedCard = data as Card;
+        playerCard = sender as Card;
+        enemyCard = data as Card;
 
         StartCoroutine(BattleFormationRoutine());
     }
 
     public IEnumerator BattleFormationRoutine()
     {
-        StartCoroutine(attackedCard.ChangeCardState(CardState.Battle));
-        StartCoroutine(attackingCard.ChangeCardState(CardState.Battle));
+        StartCoroutine(enemyCard.ChangeCardState(CardState.Battle));
+        StartCoroutine(playerCard.ChangeCardState(CardState.Battle));
 
         curtainColl.enabled = true;
         StartColorLerp(curtainSr, 0.5f, 0.7f);
 
-        Coroutine moveAttackedCardToTop = StartCoroutine(attackedCard.interactionHandler.TransformCardUniformly
+        Coroutine moveEnemyCardToTop = StartCoroutine(enemyCard.interactionHandler.TransformCardUniformly
             (topBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
 
-        Coroutine moveAttackingcardToBottom = StartCoroutine(attackingCard.interactionHandler.TransformCardUniformly
+        Coroutine moveAttackingcardToBottom = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly
             (bottomBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
 
-        yield return moveAttackedCardToTop;
+        yield return moveEnemyCardToTop;
         yield return moveAttackingcardToBottom;
 
         battleButton.gameObject.SetActive(true);
@@ -62,64 +62,82 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleRoutine()
     {
-        Coroutine ApplyAttackingCardBeforeBattleEffects = StartCoroutine(attackingCard.effects.ApplyBeforeBattleEffects(attackedCard));
-        Coroutine ApplyAttackedCardBeforeBattleEffects = StartCoroutine(attackedCard.effects.ApplyBeforeBattleEffects(attackingCard));
+        //events.OnPrebattleEnemy.Raise(this, enemyCard);
 
-        yield return ApplyAttackingCardBeforeBattleEffects;
-        yield return ApplyAttackedCardBeforeBattleEffects;
+        foreach (Card card in handManager.cardsInHand)
+        {
+            if (card.effects.SupportEffects.Count > 0)
+            {
+                yield return StartCoroutine(card.effects.ApplySupportEffects(playerCard));
+            }
+        }
 
-        Coroutine attackedCardReadying = StartCoroutine(attackedCard.interactionHandler.MoveCardByAmountOverTime(movementData.readyingDistance, movementData.readyingDuration));
-        Coroutine attackingCardReadying = StartCoroutine(attackingCard.interactionHandler.MoveCardByAmountOverTime(-movementData.readyingDistance, movementData.readyingDuration));
+        yield return new WaitForSeconds(0.25f);
 
-        yield return attackedCardReadying;
-        yield return attackingCardReadying;
+        Coroutine ApplyPlayerCardBeforeBattleEffects = StartCoroutine(playerCard.effects.ApplyBeforeBattleEffects(enemyCard));
+        Coroutine ApplyEnemyCardBeforeBattleEffects = StartCoroutine(enemyCard.effects.ApplyBeforeBattleEffects(playerCard));
 
-        Coroutine attackedCardHeadbutt = StartCoroutine(attackedCard.interactionHandler.MoveCardByAmountOverTime(-movementData.headButtDistance, movementData.headbuttDuration));
-        Coroutine attackingCardHeadbutt = StartCoroutine(attackingCard.interactionHandler.MoveCardByAmountOverTime(movementData.headButtDistance, movementData.headbuttDuration));
+        yield return ApplyPlayerCardBeforeBattleEffects;
+        yield return ApplyEnemyCardBeforeBattleEffects;
 
-        yield return attackedCardHeadbutt;
-        yield return attackingCardHeadbutt;
+        Coroutine HandlePlayerPreBattleShapeshift = StartCoroutine(playerCard.HandleShapeshift(ShapeshiftType.Prebattle));
+        Coroutine HandleEnemyPreBattleShapeshift = StartCoroutine(enemyCard.HandleShapeshift(ShapeshiftType.Prebattle));
 
-        Coroutine calcAttackedCardAttackPoints = StartCoroutine(attackedCard.CalcAttackPoints());
-        Coroutine calcAttackingCardAtackPoints = StartCoroutine(attackingCard.CalcAttackPoints());
+        yield return HandleEnemyPreBattleShapeshift;
+        yield return HandlePlayerPreBattleShapeshift;
 
-        yield return calcAttackedCardAttackPoints;
-        yield return calcAttackingCardAtackPoints;
+        Coroutine enemyCardReadying = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(movementData.readyingDistance, movementData.readyingDuration));
+        Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(-movementData.readyingDistance, movementData.readyingDuration));
 
-        Coroutine calcAttackingCardHurtPoints = StartCoroutine(attackingCard.CalcHurtPoints(attackedCard.attackPoints));
-        Coroutine calcAttackedCardHurtPoints = StartCoroutine(attackedCard.CalcHurtPoints(attackingCard.attackPoints));
+        yield return enemyCardReadying;
+        yield return playerCardReadying;
 
-        yield return calcAttackingCardHurtPoints;
-        yield return calcAttackedCardHurtPoints;
+        Coroutine enemyCardHeadbutt = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(-movementData.headButtDistance, movementData.headbuttDuration));
+        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(movementData.headButtDistance, movementData.headbuttDuration));
+
+        yield return enemyCardHeadbutt;
+        yield return playerCardHeadbutt;
+
+        Coroutine calcEnemyCardAttackPoints = StartCoroutine(enemyCard.CalcAttackPoints(playerCard));
+        Coroutine calcPlayerCardAtackPoints = StartCoroutine(playerCard.CalcAttackPoints(enemyCard));
+
+        yield return calcEnemyCardAttackPoints;
+        yield return calcPlayerCardAtackPoints;
+
+        Coroutine calcPlayerCardHurtPoints = StartCoroutine(playerCard.CalcHurtPoints(enemyCard, enemyCard.attackPoints));
+        Coroutine calcEnemyCardHurtPoints = StartCoroutine(enemyCard.CalcHurtPoints(playerCard, playerCard.attackPoints));
+
+        yield return calcPlayerCardHurtPoints;
+        yield return calcEnemyCardHurtPoints;
 
         ApplyDamage();
 
-        Coroutine attackedCardBackoff = StartCoroutine(attackedCard.interactionHandler.MoveCardToPositionOverTime(topBattleTransform.position, movementData.backOffDuration));
-        Coroutine attackingCardBackoff = StartCoroutine(attackingCard.interactionHandler.MoveCardToPositionOverTime(bottomBattleTransform.position, movementData.backOffDuration));
+        Coroutine enemyCardBackoff = StartCoroutine(enemyCard.interactionHandler.MoveCardToPositionOverTime(topBattleTransform.position, movementData.backOffDuration));
+        Coroutine playerCardBackoff = StartCoroutine(playerCard.interactionHandler.MoveCardToPositionOverTime(bottomBattleTransform.position, movementData.backOffDuration));
 
-        yield return attackedCardBackoff;
-        yield return attackingCardBackoff;
+        yield return enemyCardBackoff;
+        yield return playerCardBackoff;
 
         yield return new WaitForSeconds(movementData.endBattleDelay);
 
-        Coroutine ApplyAttackingCardOnSurviveEffects = null;
-        Coroutine ApplyAttackedCardOnSurviveEffects = null;
-            
-        if (!attackingCard.IsDead) ApplyAttackingCardOnSurviveEffects = StartCoroutine(attackingCard.effects.ApplyOnSurviveEffects(attackedCard));
-        if (!attackedCard.IsDead) ApplyAttackedCardOnSurviveEffects = StartCoroutine(attackedCard.effects.ApplyOnSurviveEffects(attackingCard));
-        
-        if (ApplyAttackingCardOnSurviveEffects != null) yield return ApplyAttackingCardOnSurviveEffects;
-        if (ApplyAttackedCardOnSurviveEffects != null) yield return ApplyAttackedCardOnSurviveEffects;
+        Coroutine ApplyPlayerCardOnSurviveEffects = null;
+        Coroutine ApplyEnemyCardOnSurviveEffects = null;
+
+        if (!playerCard.IsDead) ApplyPlayerCardOnSurviveEffects = StartCoroutine(playerCard.effects.ApplyOnSurviveEffects(enemyCard));
+        if (!enemyCard.IsDead) ApplyEnemyCardOnSurviveEffects = StartCoroutine(enemyCard.effects.ApplyOnSurviveEffects(playerCard));
+
+        if (ApplyPlayerCardOnSurviveEffects != null) yield return ApplyPlayerCardOnSurviveEffects;
+        if (ApplyEnemyCardOnSurviveEffects != null) yield return ApplyEnemyCardOnSurviveEffects;
 
         // Final logic after both cards have moved
-        Coroutine attackedCardShapeshift = StartCoroutine(attackedCard.HandleShapeshift());
-        Coroutine attackingCardShapeshift = StartCoroutine(attackingCard.HandleShapeshift());
+        Coroutine HandleEnemyPostBattleShapeshift = StartCoroutine(enemyCard.HandleShapeshift(ShapeshiftType.Postbattle));
+        Coroutine HandlePlayerPostBattleShapeshift = StartCoroutine(playerCard.HandleShapeshift(ShapeshiftType.Postbattle));
 
-        yield return attackedCardShapeshift;
-        yield return attackingCardShapeshift;
+        yield return HandleEnemyPostBattleShapeshift;
+        yield return HandlePlayerPostBattleShapeshift;
 
-        if (attackedCard.IsDead) attackedCard.Die();
-        if (attackingCard.IsDead) attackingCard.Die();
+        if (enemyCard.IsDead) enemyCard.Die();
+        if (playerCard.IsDead) playerCard.Die();
 
         yield return new WaitForSeconds(1f);
 
@@ -139,39 +157,39 @@ public class BattleManager : MonoBehaviour
         StartColorLerp(curtainSr, 0.5f, 0f);
         curtainColl.enabled = false;
 
-        Coroutine moveAttackingCardBackToHand = null;
-        Coroutine moveAttackedCardBackToMap = null;
+        Coroutine movePlayerCardBackToHand = null;
+        Coroutine moveEnemyCardBackToMap = null;
 
 
-        if (attackingCard != null && !attackingCard.IsDead)
+        if (playerCard != null && !playerCard.IsDead)
         {
-            StartCoroutine(attackingCard.ChangeCardState(CardState.Default));
+            StartCoroutine(playerCard.ChangeCardState(CardState.Default));
 
-            handManager.InsertCardToHandByIndex(attackingCard, attackingCard.index);
-            //moveAttackingCardBackToHand = StartCoroutine(attackingCard.interactionHandler.TransformCardUniformly
-            //(attackingCard.interactionHandler.defaultPos, attackingCard.interactionHandler.defaultScale, attackingCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
+            handManager.InsertCardToHandByIndex(playerCard, playerCard.index);
+            //movePlayerCardBackToHand = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly
+            //(playerCard.interactionHandler.defaultPos, playerCard.interactionHandler.defaultScale, playerCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
         }
 
-        if (attackedCard != null && !attackedCard.IsDead)
+        if (enemyCard != null && !enemyCard.IsDead)
         {
-            StartCoroutine(attackedCard.ChangeCardState(CardState.Default));
-            moveAttackedCardBackToMap = StartCoroutine(attackedCard.interactionHandler.TransformCardUniformly
-            (attackedCard.interactionHandler.defaultPos, attackedCard.interactionHandler.defaultScale, attackedCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
+            StartCoroutine(enemyCard.ChangeCardState(CardState.Default));
+            moveEnemyCardBackToMap = StartCoroutine(enemyCard.interactionHandler.TransformCardUniformly
+            (enemyCard.interactionHandler.defaultPos, enemyCard.interactionHandler.defaultScale, enemyCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
         }
 
-        if (moveAttackingCardBackToHand != null) yield return moveAttackingCardBackToHand;
-        if (moveAttackedCardBackToMap != null) yield return moveAttackedCardBackToMap;
+        if (movePlayerCardBackToHand != null) yield return movePlayerCardBackToHand;
+        if (moveEnemyCardBackToMap != null) yield return moveEnemyCardBackToMap;
 
-        if (attackedCard.IsDead)
+        if (enemyCard.IsDead)
         {
-            events.OnMapCardDied.Raise(this, attackedCard.index);
+            events.OnMapCardDied.Raise(this, enemyCard.index);
         }
     }
 
     private void ApplyDamage()
     {
-        attackedCard.TakeDamage();
-        attackingCard.TakeDamage();
+        enemyCard.TakeDamage();
+        playerCard.TakeDamage();
     }
 
     public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, float to)
@@ -198,6 +216,5 @@ public class BattleManager : MonoBehaviour
             spriteRenderer.color = endColor; // Ensure the final color is set
         }
     }
-
-
 }
+
