@@ -12,10 +12,10 @@ public class Card : MonoBehaviour
     public int points;
 
     [FoldoutGroup("Card Info")]
-    public int hurtPoints;
+    public BattlePoint hurtPoints;
 
     [FoldoutGroup("Card Info")]
-    public int attackPoints;
+    public BattlePoint attackPoints;
 
     [FoldoutGroup("Card Info")]
     public int index;
@@ -55,56 +55,51 @@ public class Card : MonoBehaviour
         effects.Init(blueprint);
         interactionHandler.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
+
+        attackPoints = new BattlePoint(points, BattlePointType.Attack);
+        hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
     }
 
-    public IEnumerator CalcAttackPoints(Card otherCard)
+    public IEnumerator CalcAttackPoints()
     {
-        attackPoints = points;
-
-        foreach (Effect effect in effects.AttackPointsAlterationEffects)
-        {
-            yield return StartCoroutine(effect.Apply(new EffectContext(this, otherCard, EffectTrigger.AttackPointsAlteration)));
-        }
-
-        yield return null;
+        attackPoints.value = points;
+        yield return StartCoroutine(CalcPoints(attackPoints, points));
     }
 
-    public IEnumerator CalcPoints(int startingValue, List<BattlePointModifier> modifierList)
+    public IEnumerator CalcHurtPoints(int damagePoints)
     {
-        int value = startingValue;
+        hurtPoints.value = 0;
+        yield return StartCoroutine(CalcPoints(hurtPoints, damagePoints));
+    }
+
+    public IEnumerator CalcPoints(BattlePoint battlePoint, int startingValue)
+    {
+        int calcValue = startingValue;
+
+        List<BattlePointModifier> modifierList = battlePoint.type == BattlePointType.Attack ? attackPointsModifiers : hurtPointsModifiers;
+
         modifierList.Sort((a, b) => a.modifierType.CompareTo(b.modifierType));
 
-        foreach (BattlePointModifier modifier in attackPointsModifiers)
+        //string listName = battlePoint.type == BattlePointType.Attack ? "attackPointsModifiers" : "hurtPointsModifiers";
+        //Debug.Log(gameObject.name + " has " + modifierList.Count.ToString() + " in " + listName);
+
+        foreach (BattlePointModifier modifier in modifierList)
         {
-            value = modifier.Apply(value);
+            //Debug.Log("Was: " + calcValue);
+            calcValue = modifier.Apply(calcValue);
+            //Debug.Log("Now is: " + calcValue.ToString());
         }
 
-        attackPoints = value;
-        yield return null;
-    }
-
-    public IEnumerator CalcHurtPoints(Card otherCard, int damagePoints)
-    {
-        hurtPoints = damagePoints;
-
-        foreach (Effect effect in effects.HurtPointsAlterationEffects)
-        {
-            yield return StartCoroutine(effect.Apply(new EffectContext(this, otherCard, EffectTrigger.HurtPointsAlteration)));
-        }
-
+        battlePoint.value = calcValue;
         yield return null;
     }
 
 
     public void TakeDamage()
     {
-        points -= hurtPoints;
+        points -= hurtPoints.value;
         if (points < 0) points = 0;
         visualHandler.UpdateNumberSprite();
-        
-        //Reset attackpoints after battle
-        attackPoints = 0;
-        hurtPoints = 0;
     }
 
     public IEnumerator GainPoints(int pointsToGain)
@@ -129,13 +124,20 @@ public class Card : MonoBehaviour
 
     public IEnumerator Shapeshift(ShapeshiftType shapeshiftType)
     {
-        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner,points, cardColor);
+        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
         currentArchetype = newForm;
         visualHandler.SetNewCardVisual(newForm);
         gameObject.name = newForm.name;
         yield return StartCoroutine(effects.RemoveCurrentEffects(shapeshiftType));
+        ResetPointAlterations();
         effects.SpawnEffects(newForm);
         yield return new WaitForSeconds(1);
+    }
+
+    private void ResetPointAlterations()
+    {
+        attackPointsModifiers.Clear();
+        hurtPointsModifiers.Clear();
     }
 
     public IEnumerator ForceShapeshift(CardBlueprint blueprint, ShapeshiftType shapeshiftType)
@@ -158,8 +160,8 @@ public class Card : MonoBehaviour
         {
             Debug.LogWarning("Trying to switch to same state");
             yield break;
-        } 
-        
+        }
+
         else
         {
             cardState = newState;
@@ -191,6 +193,24 @@ public class Card : MonoBehaviour
 
         yield return null;
     }
+}
+
+public class BattlePoint
+{
+    public int value;
+    public BattlePointType type;
+
+    public BattlePoint(int value, BattlePointType type)
+    {
+        this.value = value;
+        this.type = type;
+    }
+}
+
+public enum BattlePointType
+{
+    Attack,
+    Hurt
 }
 
 public enum CardState

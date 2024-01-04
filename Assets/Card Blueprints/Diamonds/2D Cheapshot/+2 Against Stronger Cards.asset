@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   effectType: 0
+  applicationType: 0
   predelay: 0
   postdelay: 1
-  decision: {fileID: 11400000, guid: bbb69fd86ba7cb846b72a1b65fbef4be, type: 2}
-  advantageAmount: 2
-  disadvantageAmount: 0
-  pointsToAdd: 0
-  changeTo: 0
-  alterationAmount: 0
-  alterationType: 0
-  cardBlueprint: {fileID: 0}
+  battlePointType: 0
   modifierType: 0
+  alterationAmount: 2
+  isConditional: 1
+  decision: {fileID: 11400000, guid: bbb69fd86ba7cb846b72a1b65fbef4be, type: 2}
+  pointsToAdd: 0
+  cardBlueprint: {fileID: 0}
+  shapeshiftType: 0
+  whoToChange: 0

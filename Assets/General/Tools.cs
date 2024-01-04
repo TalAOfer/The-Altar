@@ -8,7 +8,11 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public static class Tools
 {
-
+    public static int MultAndRoundUp(float original, float mult)
+    {
+        float calcPoints = original * mult;
+        return Mathf.CeilToInt(calcPoints);
+    }
     public static bool didSucceed(float chance)
     {
         int rand = Random.Range(0, 100);

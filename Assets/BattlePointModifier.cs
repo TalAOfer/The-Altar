@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class BattlePointModifier
 {
     public ModifierType modifierType;
@@ -23,8 +25,7 @@ public class BattlePointModifier
                 returnInt = currentPoints + (int) amount;
                 break;
             case ModifierType.Mult:
-                float calcPoints = currentPoints * amount;
-                returnInt = Mathf.CeilToInt(calcPoints);
+                returnInt = Tools.MultAndRoundUp(currentPoints, amount);
                 break;
             case ModifierType.Replace:
                 returnInt = (int)amount;

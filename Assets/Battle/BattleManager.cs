@@ -61,80 +61,25 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleRoutine()
     {
-        foreach (Card card in handManager.cardsInHand)
-        {
-            if (card.effects.SupportEffects.Count > 0)
-            {
-                yield return StartCoroutine(card.effects.ApplySupportEffects(playerCard));
-            }
-        }
+        yield return StartCoroutine(BattleStartRoutine());
 
-        foreach (Card card in enemyManager.activeEnemies)
-        {
-            if (card == enemyCard) continue;
-            if (card.effects.SupportEffects.Count > 0)
-            {
-                yield return StartCoroutine(card.effects.ApplySupportEffects(enemyCard));
-            }
-        }
+        yield return StartCoroutine(SupportEffectsRoutine());
 
-        Coroutine ApplyPlayerCardBeforeBattleEffects = StartCoroutine(playerCard.effects.ApplyBeforeBattleEffects(enemyCard));
-        Coroutine ApplyEnemyCardBeforeBattleEffects = StartCoroutine(enemyCard.effects.ApplyBeforeBattleEffects(playerCard));
-
-        yield return ApplyPlayerCardBeforeBattleEffects;
-        yield return ApplyEnemyCardBeforeBattleEffects;
-
-        bool battleStartEnded = false;
-
-        while(!battleStartEnded)
-        {
-            bool didPlayerShapeshift = playerCard.ShouldShapeshift();
-            bool didEnemyShapeshift = enemyCard.ShouldShapeshift();
-
-            Coroutine HandlePlayerPreBattleShapeshift = null;
-            Coroutine HandleEnemyPreBattleShapeshift = null;
-
-            if (didPlayerShapeshift) HandlePlayerPreBattleShapeshift = StartCoroutine(playerCard.HandleShapeshift(ShapeshiftType.Prebattle));
-            if (didEnemyShapeshift) HandleEnemyPreBattleShapeshift = StartCoroutine(enemyCard.HandleShapeshift(ShapeshiftType.Prebattle));
-
-            if (HandlePlayerPreBattleShapeshift != null) yield return HandlePlayerPreBattleShapeshift;
-            if (HandleEnemyPreBattleShapeshift != null) yield return HandleEnemyPreBattleShapeshift;
-
-            Coroutine ReapplyPlayerCardBeforeBattleEffects = null;
-            Coroutine ReapplyEnemyCardBeforeBattleEffects = null;
-
-            if (didPlayerShapeshift) ReapplyPlayerCardBeforeBattleEffects = StartCoroutine(playerCard.effects.ApplyBeforeBattleEffects(enemyCard));
-            if (didEnemyShapeshift) ReapplyEnemyCardBeforeBattleEffects = StartCoroutine(enemyCard.effects.ApplyBeforeBattleEffects(playerCard));
-
-            if (ReapplyPlayerCardBeforeBattleEffects != null) yield return ReapplyPlayerCardBeforeBattleEffects;
-            if (ReapplyEnemyCardBeforeBattleEffects != null) yield return ReapplyEnemyCardBeforeBattleEffects;
-
-            battleStartEnded = (!didPlayerShapeshift && !didEnemyShapeshift);
-        }
-
-        Coroutine enemyCardReadying = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(movementData.readyingDistance, movementData.readyingDuration));
-        Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(-movementData.readyingDistance, movementData.readyingDuration));
-
-        yield return enemyCardReadying;
-        yield return playerCardReadying;
-
-        Coroutine enemyCardHeadbutt = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(-movementData.headButtDistance, movementData.headbuttDuration));
-        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(movementData.headButtDistance, movementData.headbuttDuration));
-
-        yield return enemyCardHeadbutt;
-        yield return playerCardHeadbutt;
-
-        Coroutine calcEnemyCardAttackPoints = StartCoroutine(enemyCard.CalcAttackPoints(playerCard));
-        Coroutine calcPlayerCardAtackPoints = StartCoroutine(playerCard.CalcAttackPoints(enemyCard));
+        Coroutine calcEnemyCardAttackPoints = StartCoroutine(enemyCard.CalcAttackPoints());
+        Coroutine calcPlayerCardAtackPoints = StartCoroutine(playerCard.CalcAttackPoints());
 
         yield return calcEnemyCardAttackPoints;
         yield return calcPlayerCardAtackPoints;
 
-        Coroutine calcPlayerCardHurtPoints = StartCoroutine(playerCard.CalcHurtPoints(enemyCard, enemyCard.attackPoints));
-        Coroutine calcEnemyCardHurtPoints = StartCoroutine(enemyCard.CalcHurtPoints(playerCard, playerCard.attackPoints));
+        Coroutine calcPlayerCardHurtPoints = StartCoroutine(playerCard.CalcHurtPoints(enemyCard.attackPoints.value));
+        Coroutine calcEnemyCardHurtPoints = StartCoroutine(enemyCard.CalcHurtPoints(playerCard.attackPoints.value));
 
         yield return calcPlayerCardHurtPoints;
         yield return calcEnemyCardHurtPoints;
+
+        yield return StartCoroutine(ReadyingRoutine());
+
+        yield return StartCoroutine(HeadbuttRoutine());
 
         ApplyDamage();
 
@@ -177,6 +122,82 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         GoBackToMap(true);
+    }
+
+    private IEnumerator SupportEffectsRoutine()
+    {
+        foreach (Card card in handManager.cardsInHand)
+        {
+            if (card.effects.SupportEffects.Count > 0)
+            {
+                yield return StartCoroutine(card.effects.ApplySupportEffects(playerCard));
+            }
+        }
+
+        foreach (Card card in enemyManager.activeEnemies)
+        {
+            if (card == enemyCard) continue;
+            if (card.effects.SupportEffects.Count > 0)
+            {
+                yield return StartCoroutine(card.effects.ApplySupportEffects(enemyCard));
+            }
+        }
+    }
+
+    private IEnumerator BattleStartRoutine()
+    {
+        Coroutine ApplyPlayerCardBeforeBattleEffects = StartCoroutine(playerCard.effects.ApplyBeforeBattleEffects(enemyCard));
+        Coroutine ApplyEnemyCardBeforeBattleEffects = StartCoroutine(enemyCard.effects.ApplyBeforeBattleEffects(playerCard));
+
+        yield return ApplyPlayerCardBeforeBattleEffects;
+        yield return ApplyEnemyCardBeforeBattleEffects;
+
+        bool battleStartEnded = false;
+
+        while (!battleStartEnded)
+        {
+            bool didPlayerShapeshift = playerCard.ShouldShapeshift();
+            bool didEnemyShapeshift = enemyCard.ShouldShapeshift();
+
+            Coroutine HandlePlayerPreBattleShapeshift = null;
+            Coroutine HandleEnemyPreBattleShapeshift = null;
+
+            if (didPlayerShapeshift) HandlePlayerPreBattleShapeshift = StartCoroutine(playerCard.HandleShapeshift(ShapeshiftType.Prebattle));
+            if (didEnemyShapeshift) HandleEnemyPreBattleShapeshift = StartCoroutine(enemyCard.HandleShapeshift(ShapeshiftType.Prebattle));
+
+            if (HandlePlayerPreBattleShapeshift != null) yield return HandlePlayerPreBattleShapeshift;
+            if (HandleEnemyPreBattleShapeshift != null) yield return HandleEnemyPreBattleShapeshift;
+
+            Coroutine ReapplyPlayerCardBeforeBattleEffects = null;
+            Coroutine ReapplyEnemyCardBeforeBattleEffects = null;
+
+            if (didPlayerShapeshift) ReapplyPlayerCardBeforeBattleEffects = StartCoroutine(playerCard.effects.ApplyBeforeBattleEffects(enemyCard));
+            if (didEnemyShapeshift) ReapplyEnemyCardBeforeBattleEffects = StartCoroutine(enemyCard.effects.ApplyBeforeBattleEffects(playerCard));
+
+            if (ReapplyPlayerCardBeforeBattleEffects != null) yield return ReapplyPlayerCardBeforeBattleEffects;
+            if (ReapplyEnemyCardBeforeBattleEffects != null) yield return ReapplyEnemyCardBeforeBattleEffects;
+
+            battleStartEnded = (!didPlayerShapeshift && !didEnemyShapeshift);
+            yield return null;
+        }
+    }
+
+    private IEnumerator ReadyingRoutine()
+    {
+        Coroutine enemyCardReadying = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(movementData.readyingDistance, movementData.readyingDuration));
+        Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(-movementData.readyingDistance, movementData.readyingDuration));
+
+        yield return enemyCardReadying;
+        yield return playerCardReadying;
+    }
+
+    private IEnumerator HeadbuttRoutine()
+    {
+        Coroutine enemyCardHeadbutt = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(-movementData.headButtDistance, movementData.headbuttDuration));
+        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(movementData.headButtDistance, movementData.headbuttDuration));
+
+        yield return enemyCardHeadbutt;
+        yield return playerCardHeadbutt;
     }
 
     public void OnPressedBack()

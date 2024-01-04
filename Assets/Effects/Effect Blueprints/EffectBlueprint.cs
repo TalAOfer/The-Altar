@@ -13,30 +13,29 @@ public class EffectBlueprint : ScriptableObject
     public float predelay = 0f;
     public float postdelay = 1f;
 
-    [ShowIf("effectType", EffectType.Advantage)]
-    public Decision decision;
-    [ShowIf("effectType", EffectType.Advantage)]
-    public int advantageAmount;
-    [ShowIf("effectType", EffectType.Advantage)]
-    public int disadvantageAmount;
+    [ShowIf("effectType", EffectType.AlterBattlePoints)]
+    public BattlePointType battlePointType;
 
-    [ShowIf("@ShouldShowPointsToAdd()")]
-    public int pointsToAdd;
+    [ShowIf("effectType", EffectType.AlterBattlePoints)]
+    public ModifierType modifierType;
 
     [ShowIf("effectType", EffectType.AlterBattlePoints)]
     public float alterationAmount;
 
     [ShowIf("effectType", EffectType.AlterBattlePoints)]
-    public PointAlterationType alterationType;
+    public bool isConditional;
+
+    [ShowIf("@ShouldShowDecision()")]
+    public Decision decision;
+
+    [ShowIf("@ShouldShowPointsToAdd()")]
+    public int pointsToAdd;
 
     [ShowIf("@ShouldShowCardBlueprint()")]
     public CardBlueprint cardBlueprint;
 
     [ShowIf("effectType", EffectType.ForceShapeshift)]
     public ShapeshiftType shapeshiftType;
-
-    [ShowIf("effectType", EffectType.AlterBattlePoints)]
-    public ModifierType modifierType;
 
     public WhoToChange whoToChange;
 
@@ -48,12 +47,6 @@ public class EffectBlueprint : ScriptableObject
 
         switch (effectType)
         {
-            case EffectType.Advantage:
-                var advantagesEffect = newEffectGO.AddComponent<AdvantageEffect>();
-                advantagesEffect.BaseInitialize(this);
-                advantagesEffect.Initialize(whoToChange, decision, advantageAmount, disadvantageAmount);
-                AddEffectToList(parentCard, triggerType, advantagesEffect);
-                break;
             case EffectType.ChangeColor:
                 var changeColorEffect = newEffectGO.AddComponent<ChangeColorEffect>();
                 changeColorEffect.BaseInitialize(this);
@@ -67,9 +60,9 @@ public class EffectBlueprint : ScriptableObject
                 AddEffectToList(parentCard, triggerType, gainPointsEffect);
                 break;
             case EffectType.AlterBattlePoints:
-                var hurtPointsAlterationEffect = newEffectGO.AddComponent<BattlePointAlterationEffect>();
+                var hurtPointsAlterationEffect = newEffectGO.AddComponent<ModifyBattlePointsEffect>();
                 hurtPointsAlterationEffect.BaseInitialize(this);
-                hurtPointsAlterationEffect.Initialize(alterationAmount, modifierType, alterationType);
+                hurtPointsAlterationEffect.Initialize(whoToChange, alterationAmount, modifierType, battlePointType, isConditional, decision);
                 AddEffectToList(parentCard, triggerType, hurtPointsAlterationEffect);
                 break;
             case EffectType.SummonCard:
@@ -108,13 +101,7 @@ public class EffectBlueprint : ScriptableObject
             case EffectTrigger.BeforeBattle:
                 parentCard.effects.BeforeBattleEffects.Add(effect);
                 break;
-            case EffectTrigger.HurtPointsAlteration:
-                parentCard.effects.HurtPointsAlterationEffects.Add(effect);
-                break;
-            case EffectTrigger.AttackPointsAlteration:
-                parentCard.effects.AttackPointsAlterationEffects.Add(effect);
-                break;
-            case EffectTrigger.OnSurvive:
+              case EffectTrigger.OnSurvive:
                 parentCard.effects.OnSurviveEffects.Add(effect);
                 break;
             case EffectTrigger.OnDeath:
@@ -141,6 +128,11 @@ public class EffectBlueprint : ScriptableObject
     {
         return effectType is EffectType.SummonCard or EffectType.ForceShapeshift;
     }
+
+    private bool ShouldShowDecision()
+    {
+        return effectType is EffectType.AlterBattlePoints && isConditional;
+    }
 }
 
 
@@ -151,8 +143,6 @@ public enum EffectTrigger
     BeforeBattle,
     OnGainPoints,
     OnDeath,
-    HurtPointsAlteration,
-    AttackPointsAlteration,
     OnSurvive,
     OnGlobalDeath
 }
@@ -160,17 +150,15 @@ public enum EffectTrigger
 public enum EffectApplicationType
 {
     Base,
-    ForBattle,
     Persistent
 }
 
 public enum EffectType
 {
-    Advantage,
+    AlterBattlePoints,
     ChangeColor,
     GainPoints,
     GivePoints,
-    AlterBattlePoints,
     SummonCard,
     DrawCard,
     ForceShapeshift,

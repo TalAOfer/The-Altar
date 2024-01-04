@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57af9f270dd4e6a41a0f39c5c24fff27, type: 3}
-  m_Name: Half Hurt Points
+  m_Name: Zero out hurt points
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  effectType: 1
+  effectType: 0
   applicationType: 0
   predelay: 0
   postdelay: 0
   battlePointType: 1
-  modifierType: 1
-  alterationAmount: 0.5
+  modifierType: 2
+  alterationAmount: 0
   isConditional: 0
   decision: {fileID: 0}
   pointsToAdd: 0
   cardBlueprint: {fileID: 0}
   shapeshiftType: 0
-  whoToChange: 0
+  whoToChange: 1

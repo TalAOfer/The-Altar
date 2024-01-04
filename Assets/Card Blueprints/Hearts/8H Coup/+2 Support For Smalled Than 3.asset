@@ -17,13 +17,12 @@ MonoBehaviour:
   applicationType: 0
   predelay: 0
   postdelay: 0
+  battlePointType: 0
+  modifierType: 0
+  alterationAmount: 2
+  isConditional: 1
   decision: {fileID: 11400000, guid: 892618a71dce70447b23b60b7f4df745, type: 2}
-  advantageAmount: 2
-  disadvantageAmount: 0
   pointsToAdd: 0
-  alterationAmount: 0
-  alterationType: 0
   cardBlueprint: {fileID: 0}
   shapeshiftType: 0
-  modifierType: 0
   whoToChange: 1

@@ -6,9 +6,9 @@ using UnityEngine;
 public abstract class Effect : MonoBehaviour
 {
     public EffectApplicationType effectApplicationType;
-    public float predelay;
-    public float postdelay;
-    public AllEvents events;
+    protected float predelay;
+    protected float postdelay;
+    protected AllEvents events;
     public void BaseInitialize(EffectBlueprint blueprint)
     {
         effectApplicationType = blueprint.applicationType;

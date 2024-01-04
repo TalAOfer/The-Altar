@@ -7,8 +7,6 @@ public class CardEffectHandler : MonoBehaviour
     [SerializeField] private Card card;
 
     public List<Effect> BeforeBattleEffects = new();
-    public List<Effect> AttackPointsAlterationEffects = new();
-    public List<Effect> HurtPointsAlterationEffects = new();
     public List<Effect> OnSurviveEffects = new();
     public List<Effect> OnDeathEffects = new();
 
@@ -39,16 +37,6 @@ public class CardEffectHandler : MonoBehaviour
             effect.SpawnEffect(EffectTrigger.OnDeath, card);
         }
 
-        foreach (EffectBlueprint effect in blueprint.HurtPointsAlteration)
-        {
-            effect.SpawnEffect(EffectTrigger.HurtPointsAlteration, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.AttackPointsAlteration)
-        {
-            effect.SpawnEffect(EffectTrigger.AttackPointsAlteration, card);
-        }
-
         foreach(EffectBlueprint effect in blueprint.OnSurvive)
         {
             effect.SpawnEffect(EffectTrigger.OnSurvive, card);  
@@ -72,8 +60,6 @@ public class CardEffectHandler : MonoBehaviour
         List<Effect> beforeBattleToRemove = new(BeforeBattleEffects);
         List<Effect> onGainPointsToRemove = new(OnGainPointsEffects);
         List<Effect> onDeathToRemove = new(OnDeathEffects);
-        List<Effect> hurtPointsToRemove = new(HurtPointsAlterationEffects);
-        List<Effect> attackPointsToRemove = new(AttackPointsAlterationEffects);
         List<Effect> onSurviveToRemove = new(OnSurviveEffects);
         List<Effect> onGlobalDeathToRemove = new(OnGlobalDeathEffects);
         List<Effect> supportToRemove = new(SupportEffects);
@@ -82,7 +68,6 @@ public class CardEffectHandler : MonoBehaviour
         foreach (Effect effect in beforeBattleToRemove)
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            if (isPrebattle && effect.effectApplicationType == EffectApplicationType.ForBattle) continue;
             BeforeBattleEffects.Remove(effect);
             Destroy(effect.gameObject);
         }
@@ -91,7 +76,6 @@ public class CardEffectHandler : MonoBehaviour
         foreach (Effect effect in onGainPointsToRemove)
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            if (isPrebattle && effect.effectApplicationType == EffectApplicationType.ForBattle) continue;
             OnGainPointsEffects.Remove(effect);
             Destroy(effect.gameObject);
         }
@@ -100,31 +84,13 @@ public class CardEffectHandler : MonoBehaviour
         foreach (Effect effect in onDeathToRemove)
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            if (isPrebattle && effect.effectApplicationType == EffectApplicationType.ForBattle) continue;
             OnDeathEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        foreach (Effect effect in hurtPointsToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            if (isPrebattle && effect.effectApplicationType == EffectApplicationType.ForBattle) continue;
-            HurtPointsAlterationEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        foreach (Effect effect in attackPointsToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            if (isPrebattle && effect.effectApplicationType == EffectApplicationType.ForBattle) continue;
-            AttackPointsAlterationEffects.Remove(effect);
             Destroy(effect.gameObject);
         }
 
         foreach(Effect effect in onSurviveToRemove)
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            if (isPrebattle && effect.effectApplicationType == EffectApplicationType.ForBattle) continue;
             OnSurviveEffects.Remove(effect);
             Destroy(effect.gameObject);
         }
@@ -132,7 +98,6 @@ public class CardEffectHandler : MonoBehaviour
         foreach(Effect effect in onGlobalDeathToRemove)
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            if (isPrebattle && effect.effectApplicationType == EffectApplicationType.ForBattle) continue;
             OnGlobalDeathEffects.Remove(effect);
             Destroy(effect.gameObject);
         }
@@ -140,7 +105,6 @@ public class CardEffectHandler : MonoBehaviour
         foreach(Effect effect in supportToRemove)
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            if (isPrebattle && effect.effectApplicationType == EffectApplicationType.ForBattle) continue;
             SupportEffects.Remove(effect);
             Destroy(effect.gameObject);
         }

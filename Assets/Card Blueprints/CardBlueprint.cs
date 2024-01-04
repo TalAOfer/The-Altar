@@ -19,10 +19,8 @@ public class CardBlueprint : ScriptableObject
     public List<EffectBlueprint> OnGainPoints;
     public List<EffectBlueprint> OnSacrifice;
 
-    public List<EffectBlueprint> Support;
     public List<EffectBlueprint> BeforeBattle;
-    public List<EffectBlueprint> AttackPointsAlteration;
-    public List<EffectBlueprint> HurtPointsAlteration;
+    public List<EffectBlueprint> Support;
     public List<EffectBlueprint> OnSurvive;
     public List<EffectBlueprint> OnDeath;
     public List<EffectBlueprint> OnGlobalDeath;
