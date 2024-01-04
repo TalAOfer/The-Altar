@@ -37,6 +37,9 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("effectType", EffectType.ForceShapeshift)]
     public ShapeshiftType shapeshiftType;
 
+    [ShowIf("effectType", EffectType.AddGuardian)]
+    public GuardianType guardianType;
+
     public WhoToChange whoToChange;
 
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
@@ -44,6 +47,8 @@ public class EffectBlueprint : ScriptableObject
         GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + effectType.ToString());
         newEffectGO.transform.SetParent(parentCard.transform, false);
         newEffectGO.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+        if (triggerType is EffectTrigger.StartOfBattle && isConditional) Debug.LogError("Conditional effects need to be in before attacking, not start of battle");
 
         switch (effectType)
         {
@@ -88,6 +93,12 @@ public class EffectBlueprint : ScriptableObject
                 forcedShapeshiftEffect.Initialize(cardBlueprint, shapeshiftType);
                 AddEffectToList(parentCard, triggerType, forcedShapeshiftEffect);
                 break;
+            case EffectType.AddGuardian:
+                var addGuardianEffect = newEffectGO.AddComponent<AddGuardianEffect>();
+                addGuardianEffect.BaseInitialize(this);
+                addGuardianEffect.Initialize(guardianType);
+                AddEffectToList(parentCard, triggerType, addGuardianEffect);
+                break;
         }
     }
 
@@ -97,11 +108,14 @@ public class EffectBlueprint : ScriptableObject
         {
             case EffectTrigger.Support:
                 parentCard.effects.SupportEffects.Add(effect); 
-                break;   
-            case EffectTrigger.BeforeBattle:
-                parentCard.effects.BeforeBattleEffects.Add(effect);
                 break;
-              case EffectTrigger.OnSurvive:
+            case EffectTrigger.StartOfBattle:
+                parentCard.effects.StartOfBattleEffects.Add(effect);
+                break;
+            case EffectTrigger.BeforeAttacking:
+                parentCard.effects.BeforeAttackingEffects.Add(effect);
+                break;
+            case EffectTrigger.OnSurvive:
                 parentCard.effects.OnSurviveEffects.Add(effect);
                 break;
             case EffectTrigger.OnDeath:
@@ -138,13 +152,14 @@ public class EffectBlueprint : ScriptableObject
 
 public enum EffectTrigger
 {
-    OnReveal,
+    StartOfBattle,
     Support,
-    BeforeBattle,
-    OnGainPoints,
-    OnDeath,
+    BeforeAttacking,
     OnSurvive,
-    OnGlobalDeath
+    OnDeath,
+    OnGlobalDeath,
+    OnReveal,
+    OnGainPoints,
 }
 
 public enum EffectApplicationType
@@ -162,11 +177,6 @@ public enum EffectType
     SummonCard,
     DrawCard,
     ForceShapeshift,
+    AddGuardian
 }
 
-public enum ModifierType
-{
-    Addition,
-    Mult,
-    Replace
-}

@@ -19,7 +19,8 @@ public class CardBlueprint : ScriptableObject
     public List<EffectBlueprint> OnGainPoints;
     public List<EffectBlueprint> OnSacrifice;
 
-    public List<EffectBlueprint> BeforeBattle;
+    public List<EffectBlueprint> StartOfBattle;
+    public List<EffectBlueprint> BeforeAttacking;
     public List<EffectBlueprint> Support;
     public List<EffectBlueprint> OnSurvive;
     public List<EffectBlueprint> OnDeath;

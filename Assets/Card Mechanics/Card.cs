@@ -37,6 +37,8 @@ public class Card : MonoBehaviour
     public List<BattlePointModifier> attackPointsModifiers = new();
     public List<BattlePointModifier> hurtPointsModifiers = new();
 
+    public List<Guardian> guardians = new();
+
     public AllEvents events;
     [SerializeField] private ShapeshiftHelper shapeshiftHelper;
     public bool IsDead
@@ -97,9 +99,40 @@ public class Card : MonoBehaviour
 
     public void TakeDamage()
     {
-        points -= hurtPoints.value;
+        guardians.Sort((a, b) => a.guardianType.CompareTo(b.guardianType));
+
+        if (guardians.Count == 0)
+        {
+            points -= hurtPoints.value;
+            if (points < 0)
+            {
+                points = 0;
+            }
+        }
+
+        else
+        {
+            foreach (var guardian in guardians)
+            {
+                hurtPoints.value = (guardian.ApplyAndGetRestOfDamage(hurtPoints.value, points));
+                points -= hurtPoints.value;
+                if (points < 0)
+                {
+                    points = 0;
+                    break;
+                }
+            }
+        }
+
+        visualHandler.UpdateNumberSprite();
+    }
+
+    public void TakeDirectDamage(int damage)
+    {
+        points -= damage;
         if (points < 0) points = 0;
         visualHandler.UpdateNumberSprite();
+        StartCoroutine(HandleShapeshift(ShapeshiftType.OutOfBattle));
     }
 
     public IEnumerator GainPoints(int pointsToGain)
@@ -205,6 +238,13 @@ public class BattlePoint
         this.value = value;
         this.type = type;
     }
+}
+
+public enum ModifierType
+{
+    Addition,
+    Mult,
+    Replace
 }
 
 public enum BattlePointType

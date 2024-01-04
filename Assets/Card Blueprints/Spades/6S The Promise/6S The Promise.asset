@@ -18,11 +18,13 @@ MonoBehaviour:
   cardColor: 0
   defaultPoints: 6
   OnReveal: []
-  BeforeBattle: []
   OnGainPoints: []
-  OnDeath: []
   OnSacrifice: []
+  StartOfBattle: []
+  BeforeAttacking: []
+  Support:
+  - {fileID: 11400000, guid: 7e3943034161d7a41986f866bcbc28b9, type: 2}
   OnSurvive: []
+  OnDeath: []
+  OnGlobalDeath: []
   OnActionTaken: []
-  HurtPointsAlteration: []
-  AttackPointsAlteration: []
