@@ -99,8 +99,6 @@ public class Card : MonoBehaviour
 
     public void TakeDamage()
     {
-        guardians.Sort((a, b) => a.guardianType.CompareTo(b.guardianType));
-
         if (guardians.Count == 0)
         {
             points -= hurtPoints.value;
@@ -112,19 +110,38 @@ public class Card : MonoBehaviour
 
         else
         {
-            foreach (var guardian in guardians)
-            {
-                hurtPoints.value = (guardian.ApplyAndGetRestOfDamage(hurtPoints.value, points));
-                points -= hurtPoints.value;
-                if (points < 0)
-                {
-                    points = 0;
-                    break;
-                }
-            }
+            DealWithGuardians();
         }
 
         visualHandler.UpdateNumberSprite();
+    }
+
+    private void DealWithGuardians()
+    {
+        guardians.Sort((a, b) => a.guardianType.CompareTo(b.guardianType));
+
+        List<Guardian> guardiansToRemove = new();
+
+        foreach (var guardian in guardians)
+        {
+            hurtPoints.value = (guardian.ApplyAndGetRestOfDamage(hurtPoints.value, points));
+            points -= hurtPoints.value;
+            if (guardian.applicationType != EffectApplicationType.Persistent)
+            {
+                guardiansToRemove.Add(guardian);
+            }
+
+            if (points <= 0)
+            {
+                // DEAL WITH DEATH
+                break;
+            }
+        }
+
+        foreach (var guardian in guardiansToRemove)
+        {
+            guardians.Remove(guardian);
+        }
     }
 
     public void TakeDirectDamage(int damage)
@@ -132,7 +149,7 @@ public class Card : MonoBehaviour
         points -= damage;
         if (points < 0) points = 0;
         visualHandler.UpdateNumberSprite();
-        StartCoroutine(HandleShapeshift(ShapeshiftType.OutOfBattle));
+        StartCoroutine(HandleShapeshift());
     }
 
     public IEnumerator GainPoints(int pointsToGain)
@@ -149,19 +166,19 @@ public class Card : MonoBehaviour
         return currentArchetype != shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
     }
 
-    public IEnumerator HandleShapeshift(ShapeshiftType shapeshiftType)
+    public IEnumerator HandleShapeshift()
     {
         if (!ShouldShapeshift()) yield break;
-        else yield return StartCoroutine(Shapeshift(shapeshiftType));
+        else yield return StartCoroutine(Shapeshift());
     }
 
-    public IEnumerator Shapeshift(ShapeshiftType shapeshiftType)
+    public IEnumerator Shapeshift()
     {
         CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
         currentArchetype = newForm;
         visualHandler.SetNewCardVisual(newForm);
         gameObject.name = newForm.name;
-        yield return StartCoroutine(effects.RemoveCurrentEffects(shapeshiftType));
+        yield return StartCoroutine(effects.RemoveCurrentEffects());
         ResetPointAlterations();
         effects.SpawnEffects(newForm);
         yield return new WaitForSeconds(1);
@@ -173,18 +190,12 @@ public class Card : MonoBehaviour
         hurtPointsModifiers.Clear();
     }
 
-    public IEnumerator ForceShapeshift(CardBlueprint blueprint, ShapeshiftType shapeshiftType)
+    public IEnumerator ForceShapeshift(CardBlueprint blueprint)
     {
         points = blueprint.defaultPoints;
         cardColor = blueprint.cardColor;
         visualHandler.UpdateNumberSprite();
-        yield return Shapeshift(shapeshiftType);
-    }
-
-    public void Die()
-    {
-        events.OnGlobalCardDeath.Raise(this, this);
-        gameObject.SetActive(false);
+        yield return Shapeshift();
     }
 
     public IEnumerator ChangeCardState(CardState newState)
@@ -228,40 +239,9 @@ public class Card : MonoBehaviour
     }
 }
 
-public class BattlePoint
-{
-    public int value;
-    public BattlePointType type;
-
-    public BattlePoint(int value, BattlePointType type)
-    {
-        this.value = value;
-        this.type = type;
-    }
-}
-
-public enum ModifierType
-{
-    Addition,
-    Mult,
-    Replace
-}
-
-public enum BattlePointType
-{
-    Attack,
-    Hurt
-}
-
 public enum CardState
 {
     Default,
-    Battle
-}
-
-public enum ShapeshiftType
-{
-    OutOfBattle,
-    Prebattle,
-    Postbattle
+    Battle,
+    Choosable
 }

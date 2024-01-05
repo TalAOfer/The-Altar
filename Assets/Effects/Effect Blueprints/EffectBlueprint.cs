@@ -34,11 +34,11 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("@ShouldShowCardBlueprint()")]
     public CardBlueprint cardBlueprint;
 
-    [ShowIf("effectType", EffectType.ForceShapeshift)]
-    public ShapeshiftType shapeshiftType;
-
     [ShowIf("effectType", EffectType.AddGuardian)]
     public GuardianType guardianType;
+
+    [ShowIf("effectType", EffectType.AddGuardian)]
+    public EffectApplicationType guardianApplicationType;
 
     public WhoToChange whoToChange;
 
@@ -52,57 +52,54 @@ public class EffectBlueprint : ScriptableObject
 
         switch (effectType)
         {
+            case EffectType.DummyEffect:
+                BaseInitializeEffect<DummyEffect>(newEffectGO, triggerType, parentCard);
+                break;
             case EffectType.ChangeColor:
-                var changeColorEffect = newEffectGO.AddComponent<ChangeColorEffect>();
-                changeColorEffect.BaseInitialize(this);
+                var changeColorEffect = BaseInitializeEffect<ChangeColorEffect>(newEffectGO, triggerType, parentCard);
                 changeColorEffect.Initialize(whoToChange);
-                AddEffectToList(parentCard, triggerType, changeColorEffect);
                 break;
             case EffectType.GainPoints:
-                var gainPointsEffect = newEffectGO.AddComponent<GainPointsEffect>();
-                gainPointsEffect.BaseInitialize(this);
+                var gainPointsEffect = BaseInitializeEffect<GainPointsEffect>(newEffectGO, triggerType, parentCard);
                 gainPointsEffect.Initialize(pointsToAdd);
-                AddEffectToList(parentCard, triggerType, gainPointsEffect);
                 break;
             case EffectType.AlterBattlePoints:
-                var hurtPointsAlterationEffect = newEffectGO.AddComponent<ModifyBattlePointsEffect>();
-                hurtPointsAlterationEffect.BaseInitialize(this);
+                var hurtPointsAlterationEffect = BaseInitializeEffect<ModifyBattlePointsEffect>(newEffectGO, triggerType, parentCard);
                 hurtPointsAlterationEffect.Initialize(whoToChange, alterationAmount, modifierType, battlePointType, isConditional, decision);
-                AddEffectToList(parentCard, triggerType, hurtPointsAlterationEffect);
                 break;
             case EffectType.SummonCard:
-                var summonCardEffect = newEffectGO.AddComponent<SummonCardEffect>();
-                summonCardEffect.BaseInitialize(this);
+                var summonCardEffect = BaseInitializeEffect<SummonCardEffect>(newEffectGO, triggerType, parentCard);
                 summonCardEffect.Initialize(cardBlueprint);
-                AddEffectToList(parentCard, triggerType, summonCardEffect);
                 break;
             case EffectType.DrawCard:
-                var drawCardEffect = newEffectGO.AddComponent<DrawCardEffect>();
-                drawCardEffect.BaseInitialize(this);
-                AddEffectToList(parentCard, triggerType, drawCardEffect);
+                BaseInitializeEffect<DrawCardEffect>(newEffectGO, triggerType, parentCard);
                 break;
             case EffectType.GivePoints:
-                var givePointsEffect = newEffectGO.AddComponent<GivePointsToRandomHandCardEffect>();
-                givePointsEffect.BaseInitialize(this);
+                var givePointsEffect = BaseInitializeEffect<GivePointsToRandomHandCardEffect>(newEffectGO, triggerType, parentCard);
                 givePointsEffect.Initialize(pointsToAdd);
-                AddEffectToList(parentCard, triggerType, givePointsEffect);
                 break;
             case EffectType.ForceShapeshift:
-                var forcedShapeshiftEffect = newEffectGO.AddComponent<ForcedShapeshiftEffect>();
-                forcedShapeshiftEffect.BaseInitialize(this);
-                forcedShapeshiftEffect.Initialize(cardBlueprint, shapeshiftType);
-                AddEffectToList(parentCard, triggerType, forcedShapeshiftEffect);
+                var forcedShapeshiftEffect = BaseInitializeEffect<ForcedShapeshiftEffect>(newEffectGO, triggerType, parentCard);
+                forcedShapeshiftEffect.Initialize(cardBlueprint);
                 break;
             case EffectType.AddGuardian:
-                var addGuardianEffect = newEffectGO.AddComponent<AddGuardianEffect>();
-                addGuardianEffect.BaseInitialize(this);
-                addGuardianEffect.Initialize(guardianType);
-                AddEffectToList(parentCard, triggerType, addGuardianEffect);
+                var addGuardianEffect = BaseInitializeEffect<AddGuardianEffect>(newEffectGO, triggerType, parentCard);
+                addGuardianEffect.Initialize(guardianType, guardianApplicationType);
                 break;
         }
     }
 
-    public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect effect)
+    public T BaseInitializeEffect<T>(GameObject newEffectGO, EffectTrigger triggerType, Card parentCard) where T : Effect
+    {
+        T effect = newEffectGO.AddComponent<T>();
+        effect.BaseInitialize(this, parentCard); // Assuming BaseInitialize is a method in T or its base class
+
+        AddEffectToList(parentCard, triggerType, effect);
+
+        return effect;
+    }
+
+public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect effect)
     {
         switch (triggerType)
         {
@@ -122,7 +119,11 @@ public class EffectBlueprint : ScriptableObject
                 parentCard.effects.OnDeathEffects.Add(effect);
                 break;
 
-            case EffectTrigger.OnReveal:
+            case EffectTrigger.OnObtain:
+                parentCard.effects.OnObtainEffects.Add(effect);
+                break;
+            case EffectTrigger.StartOfTurn:
+                parentCard.effects.StartOfTurnEffects.Add(effect);
                 break;
             case EffectTrigger.OnGainPoints:
                 parentCard.effects.OnGainPointsEffects.Add(effect);
@@ -152,24 +153,31 @@ public class EffectBlueprint : ScriptableObject
 
 public enum EffectTrigger
 {
+    OnObtain,
+    StartOfTurn,
+
     StartOfBattle,
     Support,
     BeforeAttacking,
     OnSurvive,
     OnDeath,
     OnGlobalDeath,
-    OnReveal,
+
+    OnSacrifice,
     OnGainPoints,
+    OnActionTaken,
 }
 
 public enum EffectApplicationType
 {
     Base,
+    Bond,
     Persistent
 }
 
 public enum EffectType
 {
+    DummyEffect,
     AlterBattlePoints,
     ChangeColor,
     GainPoints,

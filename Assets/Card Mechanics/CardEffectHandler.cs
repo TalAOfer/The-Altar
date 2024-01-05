@@ -12,14 +12,17 @@ public class CardEffectHandler : MonoBehaviour
     public List<Effect> OnDeathEffects = new();
 
     public List<Effect> OnGainPointsEffects = new();
-
     public List<Effect> OnGlobalDeathEffects = new();
     public List<Effect> SupportEffects = new();
-    
+    public List<Effect> OnActionTakenEffects = new();
+    public List<Effect> OnObtainEffects = new();
+    public List<Effect> OnSacrificeEffects = new();
+    public List<Effect> StartOfTurnEffects = new();
+
     public void Init(CardBlueprint blueprint)
     {
         SpawnEffects(blueprint);
-    } 
+    }
 
     public void SpawnEffects(CardBlueprint blueprint)
     {
@@ -43,206 +46,135 @@ public class CardEffectHandler : MonoBehaviour
             effect.SpawnEffect(EffectTrigger.OnDeath, card);
         }
 
-        foreach(EffectBlueprint effect in blueprint.OnSurvive)
+        foreach (EffectBlueprint effect in blueprint.OnSurvive)
         {
-            effect.SpawnEffect(EffectTrigger.OnSurvive, card);  
+            effect.SpawnEffect(EffectTrigger.OnSurvive, card);
         }
 
-        foreach(EffectBlueprint effect in blueprint.OnGlobalDeath)
+        foreach (EffectBlueprint effect in blueprint.OnGlobalDeath)
         {
-            effect.SpawnEffect(EffectTrigger.OnGlobalDeath, card);  
+            effect.SpawnEffect(EffectTrigger.OnGlobalDeath, card);
         }
 
-        foreach(EffectBlueprint effect in blueprint.Support)
+        foreach (EffectBlueprint effect in blueprint.Support)
         {
-            effect.SpawnEffect(EffectTrigger.Support, card);    
+            effect.SpawnEffect(EffectTrigger.Support, card);
+        }
+
+        foreach (EffectBlueprint effect in blueprint.OnActionTaken)
+        {
+            effect.SpawnEffect(EffectTrigger.OnActionTaken, card);
+        }
+
+        foreach (EffectBlueprint effect in blueprint.OnObtain)
+        {
+            effect.SpawnEffect(EffectTrigger.OnObtain, card);
+        }
+
+        foreach (EffectBlueprint effect in blueprint.OnSacrifice)
+        {
+            effect.SpawnEffect(EffectTrigger.OnSacrifice, card);
+        }
+
+        foreach (EffectBlueprint effect in blueprint.StartOfTurn)
+        {
+            effect.SpawnEffect(EffectTrigger.StartOfTurn, card);
         }
     }
 
-    public IEnumerator RemoveCurrentEffects(ShapeshiftType shapeshiftType)
+    public IEnumerator RemoveCurrentEffects()
     {
-        bool isPrebattle = shapeshiftType == ShapeshiftType.Prebattle;
-        // Create lists to hold the effects to be removed
-        List<Effect> startOfBattleToRemove = new(StartOfBattleEffects);
-        List<Effect> beforeAttackingToRemove = new(BeforeAttackingEffects);
-        List<Effect> onGainPointsToRemove = new(OnGainPointsEffects);
-        List<Effect> onDeathToRemove = new(OnDeathEffects);
-        List<Effect> onSurviveToRemove = new(OnSurviveEffects);
-        List<Effect> onGlobalDeathToRemove = new(OnGlobalDeathEffects);
-        List<Effect> supportToRemove = new(SupportEffects);
+        RemoveEffects(StartOfBattleEffects);
+        RemoveEffects(BeforeAttackingEffects);
+        RemoveEffects(OnSurviveEffects);
+        RemoveEffects(OnDeathEffects);
+        RemoveEffects(OnGainPointsEffects);
+        RemoveEffects(OnGlobalDeathEffects);
+        RemoveEffects(SupportEffects);
+        RemoveEffects(OnActionTakenEffects);
+        RemoveEffects(OnObtainEffects);
+        RemoveEffects(OnSacrificeEffects);
+        RemoveEffects(StartOfTurnEffects);
 
-        // Remove and destroy the before battle effects
-        foreach (Effect effect in startOfBattleToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            StartOfBattleEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        foreach (Effect effect in beforeAttackingToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            BeforeAttackingEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        } 
-
-        // Remove and destroy the on gain points effects
-        foreach (Effect effect in onGainPointsToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            OnGainPointsEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        // Remove and destroy the on death effects
-        foreach (Effect effect in onDeathToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            OnDeathEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        foreach(Effect effect in onSurviveToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            OnSurviveEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        foreach(Effect effect in onGlobalDeathToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            OnGlobalDeathEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        foreach(Effect effect in supportToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            SupportEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        // Wait for the next fixed frame update to ensure all Destroy calls have been processed
         yield return new WaitForFixedUpdate();
     }
 
-    public IEnumerator ApplyOnGainPointsEffects()
+    private void RemoveEffects(List<Effect> effects)
     {
-        foreach (Effect effect in OnGainPointsEffects)
-        {
-            yield return StartCoroutine(effect.Apply(new EffectContext(card, null, EffectTrigger.OnGainPoints)));
-        }
+        if (effects.Count <= 0) return;
 
-        List<Effect> onGainPointsToRemove = new(OnGainPointsEffects);
-
-        foreach (Effect effect in onGainPointsToRemove)
+        List<Effect> toRemove = new List<Effect>(effects);
+        foreach (Effect effect in toRemove)
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            OnGainPointsEffects.Remove(effect);
+            effects.Remove(effect);
             Destroy(effect.gameObject);
         }
+    }
+
+    // Apply methods for each effect type
+    public IEnumerator ApplyStartOfBattleEffects(Card otherCard)
+    {
+        yield return ApplyEffects(StartOfBattleEffects, otherCard, EffectTrigger.StartOfBattle);
     }
 
     public IEnumerator ApplyBeforeAttackingEffects(Card otherCard)
     {
-        foreach (Effect effect in BeforeAttackingEffects)
-        {
-            yield return StartCoroutine(effect.Apply(new EffectContext(card, otherCard, EffectTrigger.BeforeAttacking)));
-        }
+        yield return ApplyEffects(BeforeAttackingEffects, otherCard, EffectTrigger.BeforeAttacking);
+    }
 
-        List<Effect> BeforeAttackingToRemove = new(BeforeAttackingEffects);
-
-        foreach (Effect effect in BeforeAttackingToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            BeforeAttackingEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
+    public IEnumerator ApplyOnSurviveEffects(Card otherCard)
+    {
+        yield return ApplyEffects(OnSurviveEffects, otherCard, EffectTrigger.OnSurvive);
     }
 
     public IEnumerator ApplyOnDeathEffects()
     {
-        foreach (Effect effect in OnDeathEffects)
-        {
-            yield return StartCoroutine(effect.Apply(new EffectContext(card, null, EffectTrigger.OnDeath)));
-
-
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-        }
-
-        List<Effect> onDeathToRemove = new(OnDeathEffects);
-
-        // Remove and destroy the on death effects
-        foreach (Effect effect in onDeathToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            OnDeathEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        yield return null;
+        yield return ApplyEffects(OnDeathEffects, null, EffectTrigger.OnDeath);
     }
 
-    public IEnumerator ApplyStartOfBattleEffects(Card enemyCard)
+    public IEnumerator ApplyOnGainPointsEffects()
     {
-        foreach (Effect effect in StartOfBattleEffects)
-        {
-            yield return StartCoroutine(effect.Apply(new EffectContext(card, enemyCard, EffectTrigger.StartOfBattle)));
-        }
-
-        List<Effect> startOfBattleToRemove = new(StartOfBattleEffects);
-
-        foreach (Effect effect in startOfBattleToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            StartOfBattleEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-
-        yield return null;
+        yield return ApplyEffects(OnGainPointsEffects, null, EffectTrigger.OnGainPoints);
     }
 
-    public IEnumerator ApplyOnSurviveEffects(Card enemyCard)
+    public IEnumerator ApplyOnGlobalDeathEffects()
     {
-        foreach (Effect effect in OnSurviveEffects)
-        {
-            yield return StartCoroutine(effect.Apply(new EffectContext(card, enemyCard, EffectTrigger.OnSurvive)));
-        }
-
-        List<Effect> onSurviveToRemove = new(OnSurviveEffects);
-
-        foreach (Effect effect in onSurviveToRemove)
-        {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            OnSurviveEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
-    } 
-
-    public void TriggerOnGlobalDeathEffects()
-    {
-        StartCoroutine(ApplyOnGlobalDeathEffects());
-    }
-    private IEnumerator ApplyOnGlobalDeathEffects()
-    {
-        foreach (Effect effect in OnGlobalDeathEffects)
-        {
-            //Apply
-            yield return StartCoroutine(effect.Apply(new EffectContext(card, null, EffectTrigger.OnGlobalDeath)));
-            
-            //Remove upon application
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
-            OnGlobalDeathEffects.Remove(effect);
-            Destroy(effect.gameObject);
-        }
+        yield return ApplyEffects(OnGlobalDeathEffects, null, EffectTrigger.OnGlobalDeath);
     }
 
-    public IEnumerator ApplySupportEffects(Card battlingCard)
+    public IEnumerator ApplySupportEffects(Card otherCard)
     {
-        foreach (Effect effect in SupportEffects)
+        yield return ApplyEffects(SupportEffects, otherCard, EffectTrigger.Support);
+    }
+
+    public IEnumerator ApplyOnActionTakenEffects()
+    {
+        yield return ApplyEffects(OnActionTakenEffects, null, EffectTrigger.OnActionTaken);
+    }
+
+    public IEnumerator ApplyOnObtainEffects()
+    {
+        yield return ApplyEffects(OnObtainEffects, null, EffectTrigger.OnObtain);
+        RemoveEffects(OnObtainEffects);
+    }
+
+    public IEnumerator ApplyOnSacrificeEffects()
+    {
+        yield return ApplyEffects(OnSacrificeEffects, null, EffectTrigger.OnSacrifice);
+    }
+
+    public IEnumerator ApplyStartOfTurnEffects()
+    {
+        yield return ApplyEffects(StartOfTurnEffects, null, EffectTrigger.StartOfTurn);
+        RemoveEffects(StartOfTurnEffects);
+    }
+
+    private IEnumerator ApplyEffects(List<Effect> effects, Card otherCard, EffectTrigger trigger)
+    {
+        foreach (Effect effect in effects)
         {
-            yield return StartCoroutine(effect.Apply(new EffectContext(card, battlingCard, EffectTrigger.Support)));
+            yield return StartCoroutine(effect.Apply(new EffectContext(card, otherCard, trigger)));
         }
     }
 }

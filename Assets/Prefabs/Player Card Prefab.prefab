@@ -105,13 +105,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 3041129387846409230}
-  BeforeBattleEffects: []
-  OnGainPointsEffects: []
+  StartOfBattleEffects: []
+  BeforeAttackingEffects: []
   OnSurviveEffects: []
   OnDeathEffects: []
-  HurtPointsAlterationEffects: []
-  AttackPointsAlterationEffects: []
+  OnGainPointsEffects: []
   OnGlobalDeathEffects: []
+  SupportEffects: []
+  OnActionTakenEffects: []
+  OnRevealEffects: []
+  OnSacrificeEffects: []
 --- !u!1 &3041129387492191692
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +232,7 @@ Transform:
   m_Children:
   - {fileID: 1076719916005953478}
   - {fileID: 7852895720344620219}
-  - {fileID: 182269697388070094}
+  - {fileID: 6044097040204284315}
   - {fileID: 2106552239818702234}
   - {fileID: 3733574649767103460}
   m_Father: {fileID: 0}
@@ -300,15 +303,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 0
-  hurtPoints: 0
-  attackPoints: 0
   index: 0
   cardColor: 0
   cardOwner: 0
   cardState: 0
+  currentArchetype: {fileID: 0}
   effects: {fileID: 1842295683732825264}
   visualHandler: {fileID: 2216122628612637660}
-  interactionHandler: {fileID: 8908100560265494332}
+  interactionHandler: {fileID: 5647458465599032516}
+  attackPointsModifiers: []
+  hurtPointsModifiers: []
+  guardians: []
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   shapeshiftHelper: {fileID: 11400000, guid: 1fb28a5f5da5bb04aaf8e75562c5e2c2, type: 2}
 --- !u!95 &3041129387846409227
@@ -557,6 +562,87 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.875, y: 2.6875}
   m_EdgeRadius: 0
+--- !u!1 &4586292960706168592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6044097040204284315}
+  - component: {fileID: 4332693668557929980}
+  - component: {fileID: 5647458465599032516}
+  m_Layer: 0
+  m_Name: Interaction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6044097040204284315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586292960706168592}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3041129387846409224}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &4332693668557929980
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586292960706168592}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.875, y: 2.6875}
+    newSize: {x: 1.875, y: 2.6875}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.875, y: 2.6875}
+  m_EdgeRadius: 0
+--- !u!114 &5647458465599032516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586292960706168592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de952b813ff304b46bbcbfb561e56525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 3041129387846409230}
+  coll: {fileID: 4332693668557929980}
+  defaultPos: {x: 0, y: 0, z: 0}
+  defaultScale: {x: 0, y: 0, z: 0}
+  defaultRotation: {x: 0, y: 0, z: 0}
+  hoverHeightBoostAmount: 0.75
+  defaultColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
+  hoverColor: {r: 1, g: 1, b: 1, a: 1}
+  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
+  dragManager: {fileID: 11400000, guid: f7787804271417b42b0212724b0d104f, type: 2}
 --- !u!1 &5467078236433060743
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,83 +730,3 @@ MonoBehaviour:
   numberSr: {fileID: 3041129388556926152}
   symbolSr: {fileID: 3041129388260440849}
   fadeLerpTime: 1
---- !u!1 &7269319280051539837
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 182269697388070094}
-  - component: {fileID: 2105743608168199512}
-  - component: {fileID: 8908100560265494332}
-  m_Layer: 0
-  m_Name: Interaction
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &182269697388070094
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7269319280051539837}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3041129387846409224}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &2105743608168199512
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7269319280051539837}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.875, y: 2.6875}
-    newSize: {x: 1.875, y: 2.6875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.875, y: 2.6875}
-  m_EdgeRadius: 0
---- !u!114 &8908100560265494332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7269319280051539837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de952b813ff304b46bbcbfb561e56525, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  card: {fileID: 3041129387846409230}
-  coll: {fileID: 2105743608168199512}
-  defaultPos: {x: 0, y: 0, z: 0}
-  defaultScale: {x: 0, y: 0, z: 0}
-  defaultRotation: {x: 0, y: 0, z: 0}
-  defaultColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
-  hoverColor: {r: 1, g: 1, b: 1, a: 1}
-  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  dragManager: {fileID: 11400000, guid: f7787804271417b42b0212724b0d104f, type: 2}

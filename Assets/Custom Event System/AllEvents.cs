@@ -10,11 +10,14 @@ public class AllEvents : ScriptableObject
     public GameEvent GetAllCardsFromHand;
     public GameEvent SpawnCardToHand;
     public GameEvent DrawCardToHand;
+    public GameEvent GetXAmount;
 
     [Title("Map")]
+    public GameEvent OnEnemyDeathMarked;
     public GameEvent OnMapCardDied;
     public GameEvent OnMapSlotClicked;
     public GameEvent OnFinishedXAnimation;
+    public GameEvent OnPlayerDrewCardMidGame;
 
     [Title("Card Interaction")]
     public GameEvent OnCardDropOnCard;

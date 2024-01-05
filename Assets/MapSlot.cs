@@ -77,7 +77,7 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
                 StopBlinking();
                 sr.color = defaultColor;
                 break;
-            case MapSlotState.Chooseable:
+            case MapSlotState.Choosable:
                 StartBlinking();
                 coll.enabled = true;
                 break;
@@ -107,7 +107,7 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (slotState != MapSlotState.Chooseable) return;
+        if (slotState != MapSlotState.Choosable) return;
         events.OnMapSlotClicked.Raise(this, index);
     }
 
@@ -125,7 +125,7 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 public enum MapSlotState
 {
     Idle,
-    Chooseable,
+    Choosable,
     Occupied,
     Done
 }

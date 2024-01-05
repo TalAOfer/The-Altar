@@ -12,45 +12,6 @@ public class MapGridArranger : MonoBehaviour
     [SerializeField] private List<float> rowY;
     [SerializeField] private List<float> colX;
 
-    public void OnMapCardClicked(Component sender, object data)
-    {
-        int clickedCardIndex = (int)data;
-
-        for (int i = 0; i < MapSlots.Count; i++)
-        {
-            MapSlot slot = MapSlots[i];
-            if (i == clickedCardIndex) StartCoroutine(slot.SetSlotState(MapSlotState.Occupied));
-
-            else if (slot.slotState == MapSlotState.Chooseable)
-            {
-                StartCoroutine(slot.SetSlotState(MapSlotState.Idle));
-            }
-        }
-    }
-
-    public void OnMapCardDead(Component sender, object data)
-    {
-        int slotIndex = (int)data;
-        MapSlot slotOfDeadEnemy = MapSlots[slotIndex];
-        StartCoroutine(slotOfDeadEnemy.SetSlotState(MapSlotState.Done));    
-    }
-
-    public void OnFinishedXAnimation(Component sender, object data)
-    {
-        int beatenCardIndex = (int)data;
-        List<int> neighbors = GetNeighbors(beatenCardIndex);
-
-        foreach (int neighborIndex in neighbors)
-        {
-            MapSlot slot = MapSlots[neighborIndex];
-            if (slot.slotState == MapSlotState.Idle)
-            {
-                StartCoroutine(slot.SetSlotState(MapSlotState.Chooseable));
-            }
-        }
-    }
-
-
 #if UNITY_EDITOR
     [Button]
     public void SpawnAndArrange()
@@ -120,7 +81,7 @@ public class MapGridArranger : MonoBehaviour
         }
     }
 
-    private List<int> GetNeighbors(int slotIndex)
+    public List<int> GetNeighbors(int slotIndex)
     {
         List<int> neighbors = new List<int>();
 

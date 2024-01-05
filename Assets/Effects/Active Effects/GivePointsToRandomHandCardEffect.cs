@@ -34,7 +34,7 @@ public class GivePointsToRandomHandCardEffect : ActiveEffect
         foreach (Card card in cardsToChange)
         {
             yield return StartCoroutine(card.GainPoints(amount));
-            yield return StartCoroutine(card.HandleShapeshift(ShapeshiftType.OutOfBattle));
+            yield return StartCoroutine(card.HandleShapeshift());
         }
 
         yield return new WaitForSeconds(postdelay);

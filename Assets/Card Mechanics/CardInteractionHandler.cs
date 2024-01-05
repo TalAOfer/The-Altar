@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+[System.Serializable]
 [RequireComponent(typeof(Collider2D))]
 public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
@@ -13,9 +14,11 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public Vector3 defaultRotation;
     private Vector3 temp;
 
-    [SerializeField] Color defaultColor;
-    [SerializeField] Color hoverColor;
-    [SerializeField] AllEvents events;
+
+    [SerializeField] private float hoverHeightBoostAmount;
+    [SerializeField] private Color defaultColor;
+    [SerializeField] private Color hoverColor;
+    [SerializeField] private AllEvents events;
     [SerializeField] private DragManager dragManager;
 
     public void Initialize()
@@ -47,7 +50,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         {
             card.visualHandler.SetCardBGColor(hoverColor);
             card.visualHandler.SetSortingOrder(10);
-            card.transform.position = new Vector3(defaultPos.x, defaultPos.y + 0.5f, defaultPos.z);
+            card.transform.position = new Vector3(defaultPos.x, defaultPos.y + hoverHeightBoostAmount, defaultPos.z);
             card.transform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
@@ -122,6 +125,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerClick(PointerEventData eventData)
     {
+
     }
 
     public void OnDrop(PointerEventData eventData)

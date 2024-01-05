@@ -15,7 +15,8 @@ public class CardBlueprint : ScriptableObject
     public int defaultPoints;
 
     [Title("Effects")]
-    public List<EffectBlueprint> OnReveal;
+    public List<EffectBlueprint> StartOfTurn;
+    public List<EffectBlueprint> OnObtain;
     public List<EffectBlueprint> OnGainPoints;
     public List<EffectBlueprint> OnSacrifice;
 

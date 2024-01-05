@@ -10,10 +10,12 @@ public class Guardian
 
     public Card guardianCard;
 
-    public Guardian(GuardianType guardianType, Card guardianCard)
+    public EffectApplicationType applicationType;
+    public Guardian(GuardianType guardianType, Card guardianCard, EffectApplicationType applicationType)
     {
         this.guardianType = guardianType;
         this.guardianCard = guardianCard;
+        this.applicationType = applicationType;
     }
 
     public int ApplyAndGetRestOfDamage(int totalDamage, int currentCardPoints)

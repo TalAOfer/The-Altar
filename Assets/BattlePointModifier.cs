@@ -35,3 +35,10 @@ public class BattlePointModifier
         return returnInt;
     }
 }
+
+public enum ModifierType
+{
+    Addition,
+    Mult,
+    Replace
+}

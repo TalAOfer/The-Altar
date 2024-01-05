@@ -9,12 +9,15 @@ public abstract class Effect : MonoBehaviour
     protected float predelay;
     protected float postdelay;
     protected AllEvents events;
-    public void BaseInitialize(EffectBlueprint blueprint)
+    protected Card parentCard;
+    public void BaseInitialize(EffectBlueprint blueprint, Card parentCard)
     {
         effectApplicationType = blueprint.applicationType;
         predelay = blueprint.predelay;
         postdelay = blueprint.postdelay;
         events = blueprint.events;
+
+        this.parentCard = parentCard;
     }
     public abstract IEnumerator Apply(EffectContext context);
 }

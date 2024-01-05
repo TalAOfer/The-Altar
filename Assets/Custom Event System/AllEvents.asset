@@ -17,9 +17,12 @@ MonoBehaviour:
   GetAllCardsFromHand: {fileID: 11400000, guid: b27c21e524e026a49a7c38f0c06b65b5, type: 2}
   SpawnCardToHand: {fileID: 11400000, guid: 3f0d2c56c1ba14e429915d5981f19f4e, type: 2}
   DrawCardToHand: {fileID: 11400000, guid: 5e9e6ae429156d443b2477a9780dd6a3, type: 2}
+  GetXAmount: {fileID: 11400000, guid: faa576c9f15c7004382bd19a3b164658, type: 2}
+  OnEnemyDeathMarked: {fileID: 11400000, guid: 02b35fcec29910c48a740ffe206a3b80, type: 2}
   OnMapCardDied: {fileID: 11400000, guid: b9928ad4f77166541b69a6ba6a8120df, type: 2}
   OnMapSlotClicked: {fileID: 11400000, guid: b16321b14eb75914f8ce7ee5ae9dd49c, type: 2}
   OnFinishedXAnimation: {fileID: 11400000, guid: ed9bf4ed06f5929469a9fd389eb78a64, type: 2}
+  OnPlayerDrewCardMidGame: {fileID: 11400000, guid: ae161ba7b4fab0c4f8a850a926145633, type: 2}
   OnCardDropOnCard: {fileID: 11400000, guid: af13426617dc49244b5a4e0140e8062e, type: 2}
   OnHandCardStartDrag: {fileID: 11400000, guid: 0425d6e5087599d4081d361623b4f6e2, type: 2}
   OnHandCardDroppedNowhere: {fileID: 11400000, guid: 9d3e77e387bce3d428f46498eea5c9ba, type: 2}

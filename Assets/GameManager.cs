@@ -75,11 +75,11 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < cardStartingAmount; i++)
         {
-            Card card = SpawnCard(DrawCard(CardOwner.Player), i, GameConstants.HAND_LAYER);
-            handManager.AddCardToHand(card);
+            SpawnPlayerCard();
 
             yield return new WaitForSeconds(0.25f);
         }
+
         StartCoroutine(DealEnemies());
     }
 
@@ -98,8 +98,24 @@ public class GameManager : MonoBehaviour
             SpawnEnemyCard(containerIndex);
             yield return new WaitForSeconds(0.25f);
         }
+
+        StartCoroutine(OnObtainRoutine());
     }
 
+    private IEnumerator OnObtainRoutine()
+    {
+        foreach (Card card in handManager.cardsInHand)
+        {
+            yield return StartCoroutine(card.effects.ApplyOnObtainEffects());
+        }
+    }
+
+    public void SpawnPlayerCard()
+    {
+        //TODO: who's in charge of indexes?
+        Card card = SpawnCard(DrawCard(CardOwner.Player), 0, GameConstants.HAND_LAYER);
+        handManager.AddCardToHand(card);
+    }
     private void SpawnEnemyCard(int containerIndex)
     {
         Card card = SpawnCard(DrawCard(CardOwner.Enemy), containerIndex, GameConstants.TOP_MAP_LAYER);
@@ -109,6 +125,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(grid.MapSlots[containerIndex].SetSlotState(MapSlotState.Occupied));
         card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
     }
+
 
     public void OnMapSlotClicked(Component sender, object data)
     {

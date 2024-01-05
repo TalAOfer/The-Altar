@@ -5,15 +5,13 @@ using UnityEngine;
 public class ForcedShapeshiftEffect : Effect
 {
     public CardBlueprint blueprint;
-    public ShapeshiftType shapeshiftType;
-    public void Initialize(CardBlueprint blueprint, ShapeshiftType shapeshiftType)
+    public void Initialize(CardBlueprint blueprint)
     {
         this.blueprint = blueprint;
-        this.shapeshiftType = shapeshiftType;
     }
 
     public override IEnumerator Apply(EffectContext context)
     {
-        yield return StartCoroutine(context.InitiatingCard.ForceShapeshift(blueprint, shapeshiftType));
+        yield return StartCoroutine(context.InitiatingCard.ForceShapeshift(blueprint));
     }
 }
