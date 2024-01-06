@@ -726,9 +726,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 3041129387846409230}
   anim: {fileID: 3041129387846409227}
+  shaderMaterial: {fileID: 2100000, guid: e0d43abb29fa86741bb3eed349a2259c, type: 2}
   sprites: {fileID: 11400000, guid: f4ed473020af4d6498828631dd3c453b, type: 2}
   cardSr: {fileID: 3041129387846409225}
   iconSr: {fileID: 3041129387492191694}
   numberSr: {fileID: 3041129388556926152}
   symbolSr: {fileID: 3041129388260440849}
-  fadeLerpTime: 1
+  fadeLerpDuration: 2
+  fadeCurve: {fileID: 11400000, guid: dc50be7569df87f45aabb6e9c4b80988, type: 2}
