@@ -40,6 +40,7 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("effectType", EffectType.AddGuardian)]
     public EffectApplicationType guardianApplicationType;
 
+    [ShowIf("@ShouldShowWhoToChange()")]
     public WhoToChange whoToChange;
 
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
@@ -74,7 +75,7 @@ public class EffectBlueprint : ScriptableObject
             case EffectType.DrawCard:
                 BaseInitializeEffect<DrawCardEffect>(newEffectGO, triggerType, parentCard);
                 break;
-            case EffectType.GivePoints:
+            case EffectType.GivePointsToRandomPlayerCard:
                 var givePointsEffect = BaseInitializeEffect<GivePointsToRandomHandCardEffect>(newEffectGO, triggerType, parentCard);
                 givePointsEffect.Initialize(pointsToAdd);
                 break;
@@ -85,6 +86,18 @@ public class EffectBlueprint : ScriptableObject
             case EffectType.AddGuardian:
                 var addGuardianEffect = BaseInitializeEffect<AddGuardianEffect>(newEffectGO, triggerType, parentCard);
                 addGuardianEffect.Initialize(guardianType, guardianApplicationType);
+                break;
+            case EffectType.AddBattlePointsPerX:
+                BaseInitializeEffect<AddBattlePointsAccordingToXEffect>(newEffectGO, triggerType, parentCard);
+                break;
+            case EffectType.AddBattlePointsAccordingToOtherRevealedEnemyCard:
+                BaseInitializeEffect<AddBattlePointsAccordingToOtherRevealedCardEffect>(newEffectGO, triggerType, parentCard);
+                break;
+            case EffectType.GivePointsToOtherRevealedEnemyCard:
+                BaseInitializeEffect<GivePointsToOtherRevealedEnemyCardEffect>(newEffectGO, triggerType, parentCard);
+                break;
+            case EffectType.ChangeColorToAllRevealedEnemies:
+                BaseInitializeEffect<ChangeColorToAllRevealedEnemies>(newEffectGO, triggerType, parentCard);
                 break;
         }
     }
@@ -131,12 +144,18 @@ public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect e
             case EffectTrigger.OnGlobalDeath:
                 parentCard.effects.OnGlobalDeathEffects.Add(effect);
                 break;
+            case EffectTrigger.OnActionTaken:
+                parentCard.effects.OnActionTakenEffects.Add(effect);
+                break;
+            case EffectTrigger.EndOfTurn:
+                parentCard.effects.EndOfTurnEffects.Add(effect);
+                break;
         }
     }
 
     private bool ShouldShowPointsToAdd()
     {
-        return effectType is EffectType.GainPoints or EffectType.GivePoints;
+        return effectType is EffectType.GainPoints or EffectType.GivePointsToRandomPlayerCard;
     }
 
     private bool ShouldShowCardBlueprint()
@@ -147,6 +166,11 @@ public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect e
     private bool ShouldShowDecision()
     {
         return effectType is EffectType.AlterBattlePoints && isConditional;
+    }
+
+    private bool ShouldShowWhoToChange()
+    {
+        return effectType is EffectType.ChangeColor or EffectType.AlterBattlePoints;
     }
 }
 
@@ -165,6 +189,7 @@ public enum EffectTrigger
 
     OnSacrifice,
     OnGainPoints,
+    EndOfTurn,
     OnActionTaken,
 }
 
@@ -181,10 +206,14 @@ public enum EffectType
     AlterBattlePoints,
     ChangeColor,
     GainPoints,
-    GivePoints,
+    GivePointsToRandomPlayerCard,
     SummonCard,
     DrawCard,
     ForceShapeshift,
-    AddGuardian
+    AddGuardian,
+    AddBattlePointsPerX,
+    AddBattlePointsAccordingToOtherRevealedEnemyCard,
+    GivePointsToOtherRevealedEnemyCard,
+    ChangeColorToAllRevealedEnemies,
 }
 

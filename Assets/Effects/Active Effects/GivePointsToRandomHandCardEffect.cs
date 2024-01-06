@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering.LookDev;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GivePointsToRandomHandCardEffect : ActiveEffect
@@ -13,29 +13,29 @@ public class GivePointsToRandomHandCardEffect : ActiveEffect
 
     public override void SendEvent()
     {
-        events.GetRandomCardFromHand.Raise(this, this);
+        events.GetAllCardsFromHand.Raise(this, this);
     }
 
     protected override IEnumerator ApplyEffectOnResponse(Component sender, object response)
     {
-        List<Card> cardsToChange;
+        List<Card> cardsInHand;
+
+        
         switch (response)
         {
             case List<Card> cards:
-                cardsToChange = new List<Card>(cards);
+                cardsInHand = new List<Card>(cards);
                 break;
             default:
                 Debug.LogError("got wrong data type from " + sender.name);
                 yield break;
         }
 
-        yield return new WaitForSeconds(predelay);
-
-        foreach (Card card in cardsToChange)
-        {
-            yield return StartCoroutine(card.GainPoints(amount));
-            yield return StartCoroutine(card.HandleShapeshift());
-        }
+        //So that it doesn't apply it on itself
+        cardsInHand.Remove(parentCard);
+        int rand = Random.Range(0, cardsInHand.Count);
+        Card randCard = cardsInHand[rand];
+        yield return StartCoroutine(randCard.GainPoints(amount));
 
         yield return new WaitForSeconds(postdelay);
     }

@@ -6,7 +6,6 @@ public class DummyEffect : Effect
 {
     public override IEnumerator Apply(EffectContext context)
     {
-        Debug.Log("Effect applied");
         yield return null;
     }
 }

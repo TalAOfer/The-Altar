@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Change Other Card Color
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  effectType: 1
+  effectType: 2
   applicationType: 0
   predelay: 0
   postdelay: 1
@@ -24,5 +24,6 @@ MonoBehaviour:
   decision: {fileID: 0}
   pointsToAdd: 0
   cardBlueprint: {fileID: 0}
-  shapeshiftType: 0
+  guardianType: 0
+  guardianApplicationType: 0
   whoToChange: 1

@@ -21,8 +21,7 @@ public class ModifyBattlePointsEffect : Effect
     }
     public override IEnumerator Apply(EffectContext context)
     {
-        if (isConditional && decision.Decide(context)) yield break;
-
+        if (isConditional && !decision.Decide(context)) yield break;
         Card cardToChange = whoToChange is WhoToChange.Initiating ? 
         context.InitiatingCard : 
         context.OtherCard;

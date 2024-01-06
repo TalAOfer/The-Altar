@@ -7,26 +7,20 @@ public class EnemyManager : MonoBehaviour
     private int xAmount = 0;
     public List<Card> activeEnemies;
     [SerializeField] private MapGridArranger grid;
-    public void GetXAmount(Component sender, object data)
-    {
-        ActiveEffect askerEffect = (ActiveEffect)sender;
-
-        StartCoroutine(askerEffect.HandleResponse(this, xAmount));
-    }
 
     public void AddEnemyToManager(Card card)
     {
         activeEnemies.Add(card);
     }
 
-    public void OnMapCardClicked(Component sender, object data)
+    public void OnMapSlotClicked(Component sender, object data)
     {
-        int clickedCardIndex = (int)data;
+        int clickedSlotIndex = (int)data;
 
         for (int i = 0; i < grid.MapSlots.Count; i++)
         {
             MapSlot slot = grid.MapSlots[i];
-            if (i == clickedCardIndex) StartCoroutine(slot.SetSlotState(MapSlotState.Occupied));
+            if (i == clickedSlotIndex) StartCoroutine(slot.SetSlotState(MapSlotState.Occupied));
 
             else if (slot.slotState == MapSlotState.Choosable)
             {
@@ -35,7 +29,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void HandleEnemyDeath(Card enemyCard)
+    public void MarkAndDestroyDeadEnemy(Card enemyCard)
     {
         //Draw X
         int slotIndex = enemyCard.index;
@@ -48,9 +42,8 @@ public class EnemyManager : MonoBehaviour
         Destroy(enemyCard);
     }
 
-    public void HightlightNeighboringSlots(Component sender, object data)
+    public void HightlightNeighboringSlots(int beatenCardIndex)
     {
-        int beatenCardIndex = (int)data;
         List<int> neighbors = grid.GetNeighbors(beatenCardIndex);
 
         foreach (int neighborIndex in neighbors)
@@ -63,5 +56,20 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    #region Event Getters
+    public void GetXAmount(Component sender, object data)
+    {
+        ActiveEffect askerEffect = (ActiveEffect)sender;
 
+        StartCoroutine(askerEffect.HandleResponse(this, xAmount));
+    }
+
+    public void GetRevealedEnemyCards(Component sender, object data)
+    {
+        ActiveEffect askerEffect = (ActiveEffect)sender;
+
+        StartCoroutine(askerEffect.HandleResponse(this, activeEnemies));
+    }
+
+    #endregion
 }

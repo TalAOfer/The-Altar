@@ -18,6 +18,7 @@ public class CardEffectHandler : MonoBehaviour
     public List<Effect> OnObtainEffects = new();
     public List<Effect> OnSacrificeEffects = new();
     public List<Effect> StartOfTurnEffects = new();
+    public List<Effect> EndOfTurnEffects = new();
 
     public void Init(CardBlueprint blueprint)
     {
@@ -80,6 +81,12 @@ public class CardEffectHandler : MonoBehaviour
         {
             effect.SpawnEffect(EffectTrigger.StartOfTurn, card);
         }
+
+        foreach (EffectBlueprint effect in blueprint.EndOfTurn)
+        {
+            effect.SpawnEffect(EffectTrigger.EndOfTurn, card);
+        }
+
     }
 
     public IEnumerator RemoveCurrentEffects()
@@ -95,6 +102,7 @@ public class CardEffectHandler : MonoBehaviour
         RemoveEffects(OnObtainEffects);
         RemoveEffects(OnSacrificeEffects);
         RemoveEffects(StartOfTurnEffects);
+        RemoveEffects(EndOfTurnEffects);
 
         yield return new WaitForFixedUpdate();
     }
@@ -167,6 +175,12 @@ public class CardEffectHandler : MonoBehaviour
     public IEnumerator ApplyStartOfTurnEffects()
     {
         yield return ApplyEffects(StartOfTurnEffects, null, EffectTrigger.StartOfTurn);
+        RemoveEffects(StartOfTurnEffects);
+    }
+
+    public IEnumerator ApplyEndOfTurnEffects()
+    {
+        yield return ApplyEffects(EndOfTurnEffects, null, EffectTrigger.StartOfTurn);
         RemoveEffects(StartOfTurnEffects);
     }
 

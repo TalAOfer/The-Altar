@@ -27,7 +27,7 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void SetNewCard(Card card)
     {
-        card.interactionHandler.MoveCardToPositionOverTime(transform.position, 1);
+        StartCoroutine(card.interactionHandler.MoveCardToPositionOverTime(transform.position, 1));
     }
 
     private void StartBlinking()

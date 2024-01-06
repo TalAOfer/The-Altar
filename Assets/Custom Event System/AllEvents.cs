@@ -6,11 +6,11 @@ public class AllEvents : ScriptableObject
 {
     [Title("Active Choice")]
     public GameEvent WaitForActiveChoice;
-    public GameEvent GetRandomCardFromHand;
     public GameEvent GetAllCardsFromHand;
     public GameEvent SpawnCardToHand;
     public GameEvent DrawCardToHand;
     public GameEvent GetXAmount;
+    public GameEvent GetRevealedEnemyCards;
 
     [Title("Map")]
     public GameEvent OnEnemyDeathMarked;

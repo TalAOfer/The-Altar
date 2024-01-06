@@ -39,6 +39,8 @@ public class Card : MonoBehaviour
 
     public List<Guardian> guardians = new();
 
+    private ShapeshiftLock shapeshiftLock;
+
     public AllEvents events;
     [SerializeField] private ShapeshiftHelper shapeshiftHelper;
     public bool IsDead
@@ -244,4 +246,9 @@ public enum CardState
     Default,
     Battle,
     Choosable
+}
+
+public class ShapeshiftLock
+{
+    int threshold;
 }

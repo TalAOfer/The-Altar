@@ -9,7 +9,7 @@ public abstract class Effect : MonoBehaviour
     protected float predelay;
     protected float postdelay;
     protected AllEvents events;
-    protected Card parentCard;
+    public Card parentCard;
     public void BaseInitialize(EffectBlueprint blueprint, Card parentCard)
     {
         effectApplicationType = blueprint.applicationType;

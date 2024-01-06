@@ -27,6 +27,7 @@ public class CardBlueprint : ScriptableObject
     public List<EffectBlueprint> OnDeath;
     public List<EffectBlueprint> OnGlobalDeath;
     public List<EffectBlueprint> OnActionTaken;
+    public List<EffectBlueprint> EndOfTurn;
 }
 
 public enum CardColor

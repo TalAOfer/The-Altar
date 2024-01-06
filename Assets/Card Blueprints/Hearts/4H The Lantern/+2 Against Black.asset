@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: +2 Against Black
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  effectType: 0
+  effectType: 1
+  applicationType: 0
   predelay: 0
   postdelay: 1
-  decision: {fileID: 11400000, guid: eb62a7418736ae24da8cda6fb40301f0, type: 2}
-  advantageAmount: 2
-  disadvantageAmount: 2
-  pointsToAdd: 0
-  changeTo: 0
-  alterationAmount: 0
-  alterationType: 0
-  cardBlueprint: {fileID: 0}
+  battlePointType: 0
   modifierType: 0
+  alterationAmount: 2
+  isConditional: 1
+  decision: {fileID: 11400000, guid: eb62a7418736ae24da8cda6fb40301f0, type: 2}
+  pointsToAdd: 0
+  cardBlueprint: {fileID: 0}
+  guardianType: 0
+  guardianApplicationType: 0
+  whoToChange: 0

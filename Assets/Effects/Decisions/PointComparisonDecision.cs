@@ -8,7 +8,7 @@ public class PointComparisonDecision : Decision
 {
     public enum Comparison
     {
-        OtherBiggerThan, OtherEquals, OtherSmallerThan
+        OtherBiggerThan, OtherEquals, OtherSmallerThan, OtherBiggerOrEquals, OtherSmallerOrEquals
     }
 
     public enum CompareTo
@@ -39,6 +39,14 @@ public class PointComparisonDecision : Decision
             case Comparison.OtherSmallerThan:
                 if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points < context.InitiatingCard.points;
                 else isTrue = context.OtherCard.points < amount;
+                break;
+            case Comparison.OtherSmallerOrEquals:
+                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points <= context.InitiatingCard.points;
+                else isTrue = context.OtherCard.points <= amount;
+                break;
+            case Comparison.OtherBiggerOrEquals:
+                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points >= context.InitiatingCard.points;
+                else isTrue = context.OtherCard.points >= amount; 
                 break;
         }
 

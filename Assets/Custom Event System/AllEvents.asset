@@ -18,6 +18,7 @@ MonoBehaviour:
   SpawnCardToHand: {fileID: 11400000, guid: 3f0d2c56c1ba14e429915d5981f19f4e, type: 2}
   DrawCardToHand: {fileID: 11400000, guid: 5e9e6ae429156d443b2477a9780dd6a3, type: 2}
   GetXAmount: {fileID: 11400000, guid: faa576c9f15c7004382bd19a3b164658, type: 2}
+  GetRevealedEnemyCards: {fileID: 11400000, guid: 8454859f48ef24a41a8f297ed30d8dcd, type: 2}
   OnEnemyDeathMarked: {fileID: 11400000, guid: 02b35fcec29910c48a740ffe206a3b80, type: 2}
   OnMapCardDied: {fileID: 11400000, guid: b9928ad4f77166541b69a6ba6a8120df, type: 2}
   OnMapSlotClicked: {fileID: 11400000, guid: b16321b14eb75914f8ce7ee5ae9dd49c, type: 2}

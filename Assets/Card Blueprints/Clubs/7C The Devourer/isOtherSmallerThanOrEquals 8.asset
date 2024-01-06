@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cc48775b08563944829548522289b0a, type: 3}
-  m_Name: GetRandomCardFromHand
+  m_Script: {fileID: 11500000, guid: 630960a6b399fbd41b7a952476ef7bd4, type: 3}
+  m_Name: isOtherSmallerThanOrEquals 8
   m_EditorClassIdentifier: 
-  listeners: []
+  comparison: 4
+  compareTo: 1
+  amount: 7

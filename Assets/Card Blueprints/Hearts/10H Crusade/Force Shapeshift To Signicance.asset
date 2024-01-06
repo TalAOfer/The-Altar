@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: Force Shapeshift To Signicance
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  effectType: 8
+  effectType: 7
+  applicationType: 0
   predelay: 0
   postdelay: 1
-  ThisCardIsStronerOn: 0
-  advantageAmount: 0
-  disadvantageAmount: 0
+  battlePointType: 0
+  modifierType: 0
+  alterationAmount: 0
+  isConditional: 0
+  decision: {fileID: 0}
   pointsToAdd: 0
-  changeTo: 0
-  mult: 0
-  alterationType: 0
   cardBlueprint: {fileID: 11400000, guid: 6bf09854ffbbe844889c036161edb6aa, type: 2}
+  guardianType: 0
+  guardianApplicationType: 0
+  whoToChange: 0

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GetPointsAccordingToXEffect : ActiveEffect
+public class AddBattlePointsAccordingToXEffect : ActiveEffect
 {
     public override void SendEvent()
     {
@@ -14,6 +14,7 @@ public class GetPointsAccordingToXEffect : ActiveEffect
     {
         int xAmount = (int)response;
         parentCard.attackPointsModifiers.Add(new BattlePointModifier(ModifierType.Addition, xAmount));
+        //Debug.Log(parentCard.name + " got +" + xAmount);
         yield return null;
     }
 }
