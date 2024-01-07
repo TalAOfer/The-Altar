@@ -60,6 +60,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &440729347214292791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6822694256342567579}
+  m_Layer: 0
+  m_Name: Falling Damage Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6822694256342567579
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440729347214292791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.7, y: 1.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1076719916005953478}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2121944486881803788
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,6 +268,7 @@ Transform:
   - {fileID: 6044097040204284315}
   - {fileID: 2106552239818702234}
   - {fileID: 3733574649767103460}
+  - {fileID: 8789791157258439763}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -710,6 +742,7 @@ Transform:
   - {fileID: 3041129388556926153}
   - {fileID: 3041129388260440854}
   - {fileID: 8793152008821582200}
+  - {fileID: 6822694256342567579}
   m_Father: {fileID: 3041129387846409224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -728,6 +761,8 @@ MonoBehaviour:
   card: {fileID: 3041129387846409230}
   anim: {fileID: 3041129387846409227}
   shaderMaterial: {fileID: 2100000, guid: e0d43abb29fa86741bb3eed349a2259c, type: 2}
+  fallingDamagePrefab: {fileID: 2430946055613964823, guid: e7ab0e69567e7e04d946a2a403b7ee75, type: 3}
+  fallingDamageTransform: {fileID: 6822694256342567579}
   sprites: {fileID: 11400000, guid: f4ed473020af4d6498828631dd3c453b, type: 2}
   cardSr: {fileID: 3041129387846409225}
   iconSr: {fileID: 3041129387492191694}
@@ -735,8 +770,40 @@ MonoBehaviour:
   symbolSr: {fileID: 3041129388260440849}
   damageDigit: {fileID: 3512095750078070261}
   damageSymbol: {fileID: 273757475263846629}
-  fadeLerpDuration: 2
+  overallFadeLerpDuration: 2
+  spritesFadeLerpDuration: 1.25
   fadeCurve: {fileID: 11400000, guid: dc50be7569df87f45aabb6e9c4b80988, type: 2}
+--- !u!1 &6357231208468480025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8789791157258439763}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8789791157258439763
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6357231208468480025}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.72, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3041129387846409224}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6426371047462717849
 GameObject:
   m_ObjectHideFlags: 0

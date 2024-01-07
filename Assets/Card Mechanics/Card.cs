@@ -118,6 +118,7 @@ public class Card : MonoBehaviour
         if (guardians.Count == 0)
         {
             points -= hurtPoints.value;
+            visualHandler.SpawnFallingDamage(hurtPoints.value);
             if (points < 0)
             {
                 points = 0;
@@ -138,21 +139,19 @@ public class Card : MonoBehaviour
 
         List<Guardian> guardiansToRemove = new();
 
+        int damageLeft = hurtPoints.value;
+
         foreach (var guardian in guardians)
         {
-            hurtPoints.value = (guardian.ApplyAndGetRestOfDamage(hurtPoints.value, points));
-            points -= hurtPoints.value;
+            damageLeft = (guardian.ApplyAndGetRestOfDamage(hurtPoints.value, points));
             if (guardian.applicationType != EffectApplicationType.Persistent)
             {
                 guardiansToRemove.Add(guardian);
             }
-
-            if (points <= 0)
-            {
-                // DEAL WITH DEATH
-                break;
-            }
         }
+        
+        points -= damageLeft;
+        visualHandler.SpawnFallingDamage(damageLeft);
 
         foreach (var guardian in guardiansToRemove)
         {
@@ -192,12 +191,20 @@ public class Card : MonoBehaviour
     {
         CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
         currentArchetype = newForm;
+
+        if (IsDead) 
+        {
+            yield return StartCoroutine(visualHandler.ToggleOverallVanish(true));
+            yield break;         
+        }
+
+        yield return visualHandler.ToggleSpritesVanish(true);
         visualHandler.SetNewCardVisual(newForm);
         gameObject.name = newForm.name;
         yield return StartCoroutine(effects.RemoveCurrentEffects());
         ResetPointAlterations();
         effects.SpawnEffects(newForm);
-        yield return new WaitForSeconds(1);
+        yield return visualHandler.ToggleSpritesVanish(false);
     }
 
     private void ResetPointAlterations()

@@ -9,6 +9,10 @@ public class CardVisualHandler : MonoBehaviour
     [SerializeField] private Card card;
     [SerializeField] private Animator anim;
     [SerializeField] private Material shaderMaterial;
+
+    [SerializeField] private GameObject fallingDamagePrefab;
+    [SerializeField] private Transform fallingDamageTransform;
+
     private Material cardMaterial;
     private Material spritesMaterial;
 
@@ -23,7 +27,8 @@ public class CardVisualHandler : MonoBehaviour
     public SpriteRenderer damageDigit;
     public SpriteRenderer damageSymbol;
 
-    [SerializeField] private float fadeLerpDuration;
+    [SerializeField] private float overallFadeLerpDuration = 2f;
+    [SerializeField] private float spritesFadeLerpDuration = 1.25f;
     [SerializeField] private ScriptableAnimationCurve fadeCurve;
 
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
@@ -117,27 +122,48 @@ public class CardVisualHandler : MonoBehaviour
         return sprite;
     }
 
-    public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
+    public void SpawnFallingDamage(int damage)
     {
-        StartCoroutine(LerpColorCoroutine(spriteRenderer, duration, toTransparent));
+        GameObject fallingDamageGo = Instantiate(fallingDamagePrefab, fallingDamageTransform.position, Quaternion.identity);
+        FallingDamage fallingDamage = fallingDamageGo.GetComponent<FallingDamage>();
+        fallingDamage.Initialize(damage);
     }
 
-    [Button]
-    public void StartVanishLerp()
+    //public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
+    //{
+    //    StartCoroutine(LerpColorCoroutine(spriteRenderer, duration, toTransparent));
+    //}
+
+
+    //[Button]
+    //public void StartVanishLerp()
+    //{
+    //    StartCoroutine(LerpVanish(cardMaterial, true));
+    //    StartCoroutine(LerpVanish(spritesMaterial, true)); 
+    //}
+
+    public IEnumerator ToggleOverallVanish(bool toBlank)
     {
-        StartCoroutine(LerpVanish(cardMaterial, true));
-        StartCoroutine(LerpVanish(spritesMaterial, true)); 
+        Coroutine cardVanish = StartCoroutine(LerpVanish(cardMaterial, toBlank, overallFadeLerpDuration));
+        Coroutine spritesVanish = StartCoroutine(LerpVanish(spritesMaterial, toBlank, overallFadeLerpDuration));
+        yield return cardVanish;
+        yield return spritesVanish;
     }
 
-    private IEnumerator LerpVanish(Material material, bool toVisible)
+    public IEnumerator ToggleSpritesVanish(bool toBlank)
+    {
+        yield return StartCoroutine(LerpVanish(spritesMaterial, toBlank, spritesFadeLerpDuration));
+    }
+
+    private IEnumerator LerpVanish(Material material, bool toTransparent, float duration)
     {
         float timeElapsed = 0f;
-        float startValue = toVisible ? -0.5f : 1f;
-        float endValue = toVisible ? 1f : -0.5f;
+        float startValue = toTransparent ? -0.5f : 1f;
+        float endValue = toTransparent ? 1f : -0.5f;
 
-        while (timeElapsed < fadeLerpDuration)
+        while (timeElapsed < duration)
         {
-            float t = timeElapsed / fadeLerpDuration;
+            float t = timeElapsed / duration;
             float curveValue = fadeCurve.curve.Evaluate(t); // This will give you a value based on the curve's shape
             // Now map the curveValue (0-1) to your desired range (-0.5 to 1)
             float value = Mathf.Lerp(startValue, endValue, curveValue);

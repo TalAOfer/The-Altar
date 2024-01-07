@@ -737,6 +737,7 @@ Transform:
   - {fileID: 3041129388556926153}
   - {fileID: 3041129388260440854}
   - {fileID: 3416591100479703048}
+  - {fileID: 6288405492887606795}
   m_Father: {fileID: 3041129387846409224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -755,6 +756,8 @@ MonoBehaviour:
   card: {fileID: 3041129387846409230}
   anim: {fileID: 3041129387846409227}
   shaderMaterial: {fileID: 2100000, guid: e0d43abb29fa86741bb3eed349a2259c, type: 2}
+  fallingDamagePrefab: {fileID: 2430946055613964823, guid: e7ab0e69567e7e04d946a2a403b7ee75, type: 3}
+  fallingDamageTransform: {fileID: 6288405492887606795}
   sprites: {fileID: 11400000, guid: f4ed473020af4d6498828631dd3c453b, type: 2}
   cardSr: {fileID: 3041129387846409225}
   iconSr: {fileID: 3041129387492191694}
@@ -762,7 +765,8 @@ MonoBehaviour:
   symbolSr: {fileID: 3041129388260440849}
   damageDigit: {fileID: 490227062413637206}
   damageSymbol: {fileID: 455636893205906281}
-  fadeLerpDuration: 2
+  overallFadeLerpDuration: 2
+  spritesFadeLerpDuration: 1.25
   fadeCurve: {fileID: 11400000, guid: dc50be7569df87f45aabb6e9c4b80988, type: 2}
 --- !u!1 &7269319280051539837
 GameObject:
@@ -845,3 +849,34 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   dragManager: {fileID: 11400000, guid: f7787804271417b42b0212724b0d104f, type: 2}
+--- !u!1 &8642278388335200295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6288405492887606795}
+  m_Layer: 0
+  m_Name: Falling Damage Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6288405492887606795
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8642278388335200295}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.7, y: 1.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1076719916005953478}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

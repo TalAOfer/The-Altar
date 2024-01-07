@@ -17,13 +17,18 @@ MonoBehaviour:
   cardOwner: 0
   cardColor: 1
   defaultPoints: 3
-  OnReveal: []
-  BeforeBattle: []
+  description: If this card survives, summon another Devotion to your hand before
+    changing.  If this card is sacrificed, A random card in your hand loses 1 point.
+  StartOfTurn: []
+  OnObtain: []
   OnGainPoints: []
-  OnDeath: []
   OnSacrifice: []
+  StartOfBattle: []
+  BeforeAttacking: []
+  Support: []
   OnSurvive:
   - {fileID: 11400000, guid: 34cec67b455314e40889b7f45be0527c, type: 2}
+  OnDeath: []
+  OnGlobalDeath: []
   OnActionTaken: []
-  HurtPointsAlteration: []
-  AttackPointsAlteration: []
+  EndOfTurn: []
