@@ -31,4 +31,8 @@ public class AllEvents : ScriptableObject
     [Title("On Prebattle")]
     public GameEvent OnPrebattlePlayer;
     public GameEvent OnPrebattleEnemy;
+
+    [Title("Tooltip")]
+    public GameEvent ShowTooltip;
+    public GameEvent HideTooltip;
 }

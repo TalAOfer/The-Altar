@@ -20,6 +20,9 @@ public class CardVisualHandler : MonoBehaviour
     public SpriteRenderer numberSr;
     public SpriteRenderer symbolSr;
 
+    public SpriteRenderer damageDigit;
+    public SpriteRenderer damageSymbol;
+
     [SerializeField] private float fadeLerpDuration;
     [SerializeField] private ScriptableAnimationCurve fadeCurve;
 
@@ -89,6 +92,8 @@ public class CardVisualHandler : MonoBehaviour
         numberSr.sortingLayerName = sortingLayerName;
         symbolSr.sortingLayerName = sortingLayerName;
         iconSr.sortingLayerName = sortingLayerName;
+        damageDigit.sortingLayerName = sortingLayerName;
+        damageSymbol.sortingLayerName = sortingLayerName;
     }
 
     private Sprite GetNumberSprite(int currentPoints)
@@ -167,5 +172,27 @@ public class CardVisualHandler : MonoBehaviour
             spriteRenderer.color = endColor; // Ensure the final color is set
         }
     }
+
+    #region Damage Visualizer
+
+    public void EnableDamageVisual(int amount)
+    {
+        damageDigit.gameObject.SetActive(true);
+        damageSymbol.gameObject.SetActive(true);
+
+        bool isDamage = amount >= 0;
+        int absAmount = Mathf.Abs(amount);
+
+        damageDigit.sprite = sprites.digits[absAmount];
+        damageSymbol.sprite = isDamage ? sprites.damageIcon : sprites.regenIcon;
+    }
+
+    public void DisableDamageVisual()
+    {
+        damageSymbol.gameObject.SetActive(false);
+        damageDigit.gameObject.SetActive(false);
+    }
+
+    #endregion
 
 }

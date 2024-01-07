@@ -43,6 +43,12 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("@ShouldShowWhoToChange()")]
     public WhoToChange whoToChange;
 
+    [ShowIf("effectType", EffectType.AddEffect)]
+    public EffectBlueprint blueprintToAdd;
+
+    [ShowIf("effectType", EffectType.AddEffect)]
+    public EffectTrigger whenToTriggerAddedEffect;
+
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
     {
         GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + effectType.ToString());
@@ -98,6 +104,10 @@ public class EffectBlueprint : ScriptableObject
                 break;
             case EffectType.ChangeColorToAllRevealedEnemies:
                 BaseInitializeEffect<ChangeColorToAllRevealedEnemies>(newEffectGO, triggerType, parentCard);
+                break;
+            case EffectType.AddEffect:
+                var addEffectEffect = BaseInitializeEffect<AddEffectEffect>(newEffectGO, triggerType, parentCard);
+                addEffectEffect.Initialize(blueprintToAdd, whenToTriggerAddedEffect, whoToChange);
                 break;
         }
     }
@@ -170,7 +180,7 @@ public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect e
 
     private bool ShouldShowWhoToChange()
     {
-        return effectType is EffectType.ChangeColor or EffectType.AlterBattlePoints;
+        return effectType is EffectType.ChangeColor or EffectType.AlterBattlePoints or EffectType.AddEffect;
     }
 }
 
@@ -215,5 +225,6 @@ public enum EffectType
     AddBattlePointsAccordingToOtherRevealedEnemyCard,
     GivePointsToOtherRevealedEnemyCard,
     ChangeColorToAllRevealedEnemies,
+    AddEffect
 }
 

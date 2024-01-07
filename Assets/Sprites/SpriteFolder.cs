@@ -14,4 +14,9 @@ public class SpriteFolder : ScriptableObject
 
     [Title("Numbers")]
     public List<Sprite> numbers;
+    public List<Sprite> digits;
+    public Sprite plus;
+    public Sprite minus;
+    public Sprite damageIcon;
+    public Sprite regenIcon;
 }

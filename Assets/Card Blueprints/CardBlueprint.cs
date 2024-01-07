@@ -13,6 +13,7 @@ public class CardBlueprint : ScriptableObject
     public CardOwner cardOwner;
     public CardColor cardColor;
     public int defaultPoints;
+    public string description;
 
     [Title("Effects")]
     public List<EffectBlueprint> StartOfTurn;

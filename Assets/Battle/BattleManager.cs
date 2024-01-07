@@ -86,6 +86,9 @@ public class BattleManager : MonoBehaviour
 
         yield return StartCoroutine(CalculateBattlePointsRoutine());
 
+        playerCard.ToggleDamageVisual(true);
+        enemyCard.ToggleDamageVisual(true);
+
         yield return StartCoroutine(ReadyingRoutine());
 
         yield return StartCoroutine(HeadbuttRoutine());
@@ -95,6 +98,9 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         ApplyDamage();
+
+        playerCard.ToggleDamageVisual(false);
+        enemyCard.ToggleDamageVisual(false);
 
         yield return new WaitForSeconds(movementData.endBattleDelay);
 
@@ -265,10 +271,10 @@ public class BattleManager : MonoBehaviour
         Coroutine ApplyEnemyCardOnDeathEffects = null;
 
         if (!playerCard.IsDead) ApplyPlayerCardOnSurviveEffects = StartCoroutine(playerCard.effects.ApplyOnSurviveEffects(enemyCard));
-        else ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyOnDeathEffects());
+        else ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyOnDeathEffects(enemyCard));
 
         if (!enemyCard.IsDead) ApplyEnemyCardOnSurviveEffects = StartCoroutine(enemyCard.effects.ApplyOnSurviveEffects(playerCard));
-        else ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyOnDeathEffects());
+        else ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyOnDeathEffects(playerCard));
 
         if (ApplyPlayerCardOnSurviveEffects != null) yield return ApplyPlayerCardOnSurviveEffects;
         else if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;

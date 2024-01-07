@@ -17,13 +17,16 @@ MonoBehaviour:
   cardOwner: 0
   cardColor: 1
   defaultPoints: 6
-  OnReveal: []
-  BeforeBattle: []
+  StartOfTurn: []
+  OnObtain: []
   OnGainPoints: []
-  OnDeath: []
   OnSacrifice: []
+  StartOfBattle: []
+  BeforeAttacking: []
+  Support: []
   OnSurvive: []
-  OnActionTaken: []
-  HurtPointsAlteration: []
-  AttackPointsAlteration: []
+  OnDeath:
+  - {fileID: 11400000, guid: 2c53112a7168d8d40a80c50e388e66f2, type: 2}
   OnGlobalDeath: []
+  OnActionTaken: []
+  EndOfTurn: []

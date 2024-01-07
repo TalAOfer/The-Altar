@@ -70,6 +70,20 @@ public class Card : MonoBehaviour
         yield return StartCoroutine(CalcPoints(attackPoints, points));
     }
 
+    public void ToggleDamageVisual(bool enable)
+    {
+        if (enable)
+        {
+            visualHandler.EnableDamageVisual(attackPoints.value);
+        } 
+        
+        else
+        {
+            visualHandler.DisableDamageVisual();
+        }
+
+    }
+
     public IEnumerator CalcHurtPoints(int damagePoints)
     {
         hurtPoints.value = 0;

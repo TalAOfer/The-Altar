@@ -28,3 +28,20 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c4d13f43fe82887498219ddefe00a22a, type: 3}
   - {fileID: 21300000, guid: f562a11fece2d4c49b7be5e8799b4578, type: 3}
   - {fileID: 21300000, guid: e8c7127a36553ca44b925698199d19ef, type: 3}
+  digits:
+  - {fileID: -1162149386, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: 581007562, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: -262815719, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: -1222428601, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: 256065402, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: 429401223, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: 817838580, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: 1311756391, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: 261681679, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: 378720977, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: 869248661, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  - {fileID: -1411021512, guid: c46861bd74d3f48428affd5b5e2bda98, type: 3}
+  plus: {fileID: 0}
+  minus: {fileID: 0}
+  damageIcon: {fileID: 21300000, guid: 4f0a04a40b9029c4c86496db79f00e6a, type: 3}
+  regenIcon: {fileID: 21300000, guid: 043e4e85a2495f84a8215e63b41b24e1, type: 3}

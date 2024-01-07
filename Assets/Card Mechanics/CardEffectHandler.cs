@@ -136,9 +136,9 @@ public class CardEffectHandler : MonoBehaviour
         yield return ApplyEffects(OnSurviveEffects, otherCard, EffectTrigger.OnSurvive);
     }
 
-    public IEnumerator ApplyOnDeathEffects()
+    public IEnumerator ApplyOnDeathEffects(Card killingCard)
     {
-        yield return ApplyEffects(OnDeathEffects, null, EffectTrigger.OnDeath);
+        yield return ApplyEffects(OnDeathEffects, killingCard, EffectTrigger.OnDeath);
     }
 
     public IEnumerator ApplyOnGainPointsEffects()

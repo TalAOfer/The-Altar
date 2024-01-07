@@ -43,6 +43,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerEnter(PointerEventData eventData)
     {
         card.visualHandler.SetCardBGColor(hoverColor);
+        events.ShowTooltip.Raise(this, card.currentArchetype);
 
         if (card.cardOwner != CardOwner.Player) return;
 
@@ -64,6 +65,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerExit(PointerEventData eventData)
     {
         card.visualHandler.SetCardBGColor(defaultColor);
+        events.HideTooltip.Raise();
 
         if (card.cardOwner != CardOwner.Player) return;
         if (dragManager.isCardDragged) return;
