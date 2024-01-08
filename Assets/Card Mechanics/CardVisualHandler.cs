@@ -1,73 +1,111 @@
 using Sirenix.OdinInspector;
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class CardVisualHandler : MonoBehaviour
 {
-    [SerializeField] private Card card;
-    [SerializeField] private Animator anim;
-    [SerializeField] private Material shaderMaterial;
+    [SerializeField] CardVisualData data;
 
+    [FoldoutGroup("Components")]
+    [SerializeField] private Card card;
+    [FoldoutGroup("Components")]
+    [SerializeField] private Animator anim;
+
+    [FoldoutGroup("Sprites Dependencies")]
+    [SerializeField] private Material shaderMaterial;
+    [FoldoutGroup("Sprites Dependencies")]
+    public SpriteFolder sprites;
+
+    [FoldoutGroup("Falling Damage")]
     [SerializeField] private GameObject fallingDamagePrefab;
+    [FoldoutGroup("Falling Damage")]
     [SerializeField] private Transform fallingDamageTransform;
+
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] Transform damageTransform;
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private SpriteRenderer damageDigit;
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private SpriteRenderer damageSymbol;
 
     private Material cardMaterial;
     private Material spritesMaterial;
 
-    public SpriteFolder sprites;
+    [FoldoutGroup("Card Renderers")]
+    [SerializeField] private SpriteRenderer cardSr;
+    [FoldoutGroup("Card Renderers")]
+    [SerializeField] private SpriteRenderer iconSr;
+    [FoldoutGroup("Card Renderers")]
+    [SerializeField] private SpriteRenderer numberSr;
+    [FoldoutGroup("Card Renderers")]
+    [SerializeField] private SpriteRenderer symbolSr;
 
-    public SpriteRenderer cardSr;
-
-    public SpriteRenderer iconSr;
-    public SpriteRenderer numberSr;
-    public SpriteRenderer symbolSr;
-
-    public SpriteRenderer damageDigit;
-    public SpriteRenderer damageSymbol;
-
-    [SerializeField] private float overallFadeLerpDuration = 2f;
-    [SerializeField] private float spritesFadeLerpDuration = 1.25f;
-    [SerializeField] private ScriptableAnimationCurve fadeCurve;
-
+    #region Initialization
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
+    {
+        InitializeCardMaterial();
+        InitializeSpritesMaterial();
+        InitializeDamageVisualizerPosition();
+
+        SetNewCardVisual();
+        SetSortingLayer(startingSortingLayer);
+    }
+
+    private void InitializeCardMaterial()
     {
         cardMaterial = new Material(shaderMaterial);
         cardSr.material = cardMaterial;
         cardMaterial.SetColor("_Color", Color.white);
         cardMaterial.SetColor("_Outline_Color", Color.black);
         cardMaterial.SetInt("_Outline_On", 1);
+    }
 
+    private void InitializeSpritesMaterial()
+    {
         spritesMaterial = new Material(shaderMaterial);
         symbolSr.material = spritesMaterial;
         iconSr.material = spritesMaterial;
         numberSr.material = spritesMaterial;
-
-        SetSpritesColor(blueprint.cardColor);
-        symbolSr.sprite = GetSymbol();
-        iconSr.sprite = blueprint.cardSprite;
-        numberSr.sprite = GetNumberSprite(card.points);
-        SetSortingLayer(startingSortingLayer);
     }
 
-    public void UpdateNumberSprite()
+    private void InitializeDamageVisualizerPosition()
     {
-        numberSr.sprite = GetNumberSprite(card.points);
+        damageTransform.localPosition = card.cardOwner == CardOwner.Player ? data.playerDamageVisualizerPosition : data.enemyDamageVisualizerPosition;
     }
 
-    public void SetNewCardVisual(CardBlueprint blueprint)
+    #endregion
+
+    #region Setters
+    public void SetNumberSprites()
     {
-        SetSpritesColor(card.cardColor);
-        symbolSr.sprite = GetSymbol();
-        iconSr.sprite = blueprint.cardSprite;
-        numberSr.sprite = GetNumberSprite(card.points);
-        UpdateNumberSprite();
+        numberSr.sprite = sprites.numbers[card.points];
+    }
+    public void SetNewCardVisual()
+    {
+        SetSpritesColor();
+        SetCardIcon();
+        SetCardSymbol();
+        SetNumberSprites();
     }
 
-    public void Reveal()
+    private void SetCardIcon()
     {
-        anim.Play("Card_Reveal");
+        iconSr.sprite = card.currentArchetype.cardSprite;
+    }
+    private void SetCardSymbol()
+    {
+        Sprite sprite = null;
+        switch (card.cardOwner)
+        {
+            case CardOwner.Player:
+                sprite = card.cardColor == CardColor.Red ? sprites.hearts : sprites.clubs;
+                break;
+            case CardOwner.Enemy:
+                sprite = card.cardColor == CardColor.Red ? sprites.diamonds : sprites.spades;
+                break;
+        }
+
+        symbolSr.sprite = sprite;
     }
 
     public void SetCardBGColor(Color color)
@@ -75,9 +113,8 @@ public class CardVisualHandler : MonoBehaviour
         cardSr.color = color;
     }
 
-    public void SetSpritesColor(CardColor newColor)
+    public void SetSpritesColor()
     {
-        card.cardColor = newColor;
         Color color = card.cardColor == CardColor.Black ? Color.black : Color.red;
         spritesMaterial.SetColor("_Color", color);
     }
@@ -101,61 +138,29 @@ public class CardVisualHandler : MonoBehaviour
         damageSymbol.sortingLayerName = sortingLayerName;
     }
 
-    private Sprite GetNumberSprite(int currentPoints)
+    #endregion
+
+    public void Reveal()
     {
-        return sprites.numbers[currentPoints];
+        anim.Play("Card_Reveal");
     }
 
-    private Sprite GetSymbol()
-    {
-        Sprite sprite = null;
-        switch (card.cardOwner)
-        {
-            case CardOwner.Player:
-                sprite = card.cardColor == CardColor.Red ? sprites.hearts : sprites.clubs;
-                break;
-            case CardOwner.Enemy:
-                sprite = card.cardColor == CardColor.Red ? sprites.diamonds : sprites.spades;
-                break;
-        }
-
-        return sprite;
-    }
-
-    public void SpawnFallingDamage(int damage)
-    {
-        GameObject fallingDamageGo = Instantiate(fallingDamagePrefab, fallingDamageTransform.position, Quaternion.identity);
-        FallingDamage fallingDamage = fallingDamageGo.GetComponent<FallingDamage>();
-        fallingDamage.Initialize(damage);
-    }
-
-    //public void StartColorLerp(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
-    //{
-    //    StartCoroutine(LerpColorCoroutine(spriteRenderer, duration, toTransparent));
-    //}
-
-
-    //[Button]
-    //public void StartVanishLerp()
-    //{
-    //    StartCoroutine(LerpVanish(cardMaterial, true));
-    //    StartCoroutine(LerpVanish(spritesMaterial, true)); 
-    //}
+    #region Vanish Effect
 
     public IEnumerator ToggleOverallVanish(bool toBlank)
     {
-        Coroutine cardVanish = StartCoroutine(LerpVanish(cardMaterial, toBlank, overallFadeLerpDuration));
-        Coroutine spritesVanish = StartCoroutine(LerpVanish(spritesMaterial, toBlank, overallFadeLerpDuration));
+        Coroutine cardVanish = StartCoroutine(LerpVanish(cardMaterial, toBlank, data.overallFadeDuration, data.overallFadeCurve));
+        Coroutine spritesVanish = StartCoroutine(LerpVanish(spritesMaterial, toBlank, data.overallFadeDuration, data.overallFadeCurve));
         yield return cardVanish;
         yield return spritesVanish;
     }
 
     public IEnumerator ToggleSpritesVanish(bool toBlank)
     {
-        yield return StartCoroutine(LerpVanish(spritesMaterial, toBlank, spritesFadeLerpDuration));
+        yield return StartCoroutine(LerpVanish(spritesMaterial, toBlank, data.spritesFadeDuration, data.spritesFadeCurve));
     }
 
-    private IEnumerator LerpVanish(Material material, bool toTransparent, float duration)
+    private IEnumerator LerpVanish(Material material, bool toTransparent, float duration, AnimationCurve fadeCurve)
     {
         float timeElapsed = 0f;
         float startValue = toTransparent ? -0.5f : 1f;
@@ -164,7 +169,7 @@ public class CardVisualHandler : MonoBehaviour
         while (timeElapsed < duration)
         {
             float t = timeElapsed / duration;
-            float curveValue = fadeCurve.curve.Evaluate(t); // This will give you a value based on the curve's shape
+            float curveValue = fadeCurve.Evaluate(t); // This will give you a value based on the curve's shape
             // Now map the curveValue (0-1) to your desired range (-0.5 to 1)
             float value = Mathf.Lerp(startValue, endValue, curveValue);
             material.SetFloat("_Vanish", value);
@@ -177,29 +182,16 @@ public class CardVisualHandler : MonoBehaviour
         material.SetFloat("_Vanish", endValue);
     }
 
-    private IEnumerator LerpColorCoroutine(SpriteRenderer spriteRenderer, float duration, bool toTransparent)
-    {
-        if (spriteRenderer != null)
-        {
-            float elapsed = 0;
-            Color startColor = spriteRenderer.color;
-            Color endColor = toTransparent ?
-                             new Color(startColor.r, startColor.g, startColor.b, 0) :
-                             new Color(startColor.r, startColor.g, startColor.b, 1);
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float normalizedTime = elapsed / duration;
-                spriteRenderer.color = Color.Lerp(startColor, endColor, normalizedTime);
-                yield return null;
-            }
-
-            spriteRenderer.color = endColor; // Ensure the final color is set
-        }
-    }
+    #endregion
 
     #region Damage Visualizer
+
+    public void SpawnFallingDamage(int damage)
+    {
+        GameObject fallingDamageGo = Instantiate(fallingDamagePrefab, fallingDamageTransform.position, Quaternion.identity);
+        FallingDamage fallingDamage = fallingDamageGo.GetComponent<FallingDamage>();
+        fallingDamage.Initialize(damage);
+    }
 
     public void EnableDamageVisual(int amount)
     {

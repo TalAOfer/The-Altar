@@ -8,14 +8,20 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
+    [FoldoutGroup("Dependencies")]
+    public AllEvents events;
+    [FoldoutGroup("Dependencies")]
+    [SerializeField] private ShapeshiftHelper shapeshiftHelper;
+
+    [FoldoutGroup("Child Components")]
+    public CardEffectHandler effects;
+    [FoldoutGroup("Child Components")]
+    public CardVisualHandler visualHandler;
+    [FoldoutGroup("Child Components")]
+    public CardInteractionHandler interactionHandler;
+
     [FoldoutGroup("Card Info")]
     public int points;
-
-    [FoldoutGroup("Card Info")]
-    public BattlePoint hurtPoints;
-
-    [FoldoutGroup("Card Info")]
-    public BattlePoint attackPoints;
 
     [FoldoutGroup("Card Info")]
     public int index;
@@ -29,20 +35,26 @@ public class Card : MonoBehaviour
     [FoldoutGroup("Card Info")]
     public CardState cardState;
 
+    [FoldoutGroup("Card Info")]
     public CardBlueprint currentArchetype;
-    public CardEffectHandler effects;
-    public CardVisualHandler visualHandler;
-    public CardInteractionHandler interactionHandler;
 
+    [FoldoutGroup("Battle Points")]
+    public BattlePoint attackPoints;
+
+    [FoldoutGroup("Battle Points")]
+    public BattlePoint hurtPoints;
+
+    [FoldoutGroup("Battle Points")]
     public List<BattlePointModifier> attackPointsModifiers = new();
+    
+    [FoldoutGroup("Battle Points")]
     public List<BattlePointModifier> hurtPointsModifiers = new();
 
+    [FoldoutGroup("Battle Points")]
     public List<Guardian> guardians = new();
 
     private ShapeshiftLock shapeshiftLock;
 
-    public AllEvents events;
-    [SerializeField] private ShapeshiftHelper shapeshiftHelper;
     public bool IsDead
     {
         get { return points <= 0; }
@@ -51,17 +63,25 @@ public class Card : MonoBehaviour
     public void Init(CardBlueprint blueprint, int index, string startingSortingLayer)
     {
         currentArchetype = blueprint;
+        SetCardColor(blueprint.cardColor);
+        
+        points = blueprint.defaultPoints;
+        attackPoints = new BattlePoint(points, BattlePointType.Attack);
+        hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
 
         cardOwner = blueprint.cardOwner;
+        effects.Init(blueprint);
+
         this.index = index;
 
-        points = blueprint.defaultPoints;
-        effects.Init(blueprint);
         interactionHandler.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
 
-        attackPoints = new BattlePoint(points, BattlePointType.Attack);
-        hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
+    }
+
+    public void SetCardColor(CardColor newColor)
+    {
+        cardColor = newColor;
     }
 
     public IEnumerator CalcAttackPoints()
@@ -130,7 +150,7 @@ public class Card : MonoBehaviour
             DealWithGuardians();
         }
 
-        visualHandler.UpdateNumberSprite();
+        visualHandler.SetNumberSprites();
     }
 
     private void DealWithGuardians()
@@ -163,7 +183,7 @@ public class Card : MonoBehaviour
     {
         points -= damage;
         if (points < 0) points = 0;
-        visualHandler.UpdateNumberSprite();
+        visualHandler.SetNumberSprites();
         StartCoroutine(HandleShapeshift());
     }
 
@@ -199,7 +219,7 @@ public class Card : MonoBehaviour
         }
 
         yield return visualHandler.ToggleSpritesVanish(true);
-        visualHandler.SetNewCardVisual(newForm);
+        visualHandler.SetNewCardVisual();
         gameObject.name = newForm.name;
         yield return StartCoroutine(effects.RemoveCurrentEffects());
         ResetPointAlterations();
@@ -217,7 +237,6 @@ public class Card : MonoBehaviour
     {
         points = blueprint.defaultPoints;
         cardColor = blueprint.cardColor;
-        visualHandler.UpdateNumberSprite();
         yield return Shapeshift();
     }
 

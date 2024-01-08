@@ -28,9 +28,8 @@ public class AllEvents : ScriptableObject
     [Title("Global Card Events")]
     public GameEvent OnGlobalCardDeath;
 
-    [Title("On Prebattle")]
-    public GameEvent OnPrebattlePlayer;
-    public GameEvent OnPrebattleEnemy;
+    [Title("Game Log")]
+    public GameEvent AddLogEntry;
 
     [Title("Tooltip")]
     public GameEvent ShowTooltip;

@@ -23,7 +23,7 @@ public class BattleManager : MonoBehaviour
     public Button backButton;
 
     [SerializeField] private AllEvents events;
-    [SerializeField] private BattleCardMovementData movementData;
+    [SerializeField] private BattleManagerData movementData;
 
     #region Event & button handlers
     public void OnCardDroppedOnCard(Component sender, object data)
@@ -50,6 +50,8 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleFormationRoutine()
     {
+        events.AddLogEntry.Raise(this, "Formation");
+
         StartCoroutine(enemyCard.ChangeCardState(CardState.Battle));
         StartCoroutine(playerCard.ChangeCardState(CardState.Battle));
 
@@ -80,15 +82,19 @@ public class BattleManager : MonoBehaviour
     {
         yield return StartCoroutine(StartOfBattleRoutine());
 
+        events.AddLogEntry.Raise(this, "Support");
         yield return StartCoroutine(SupportEffectsRoutine());
 
+        events.AddLogEntry.Raise(this, "Before Attacking");
         yield return StartCoroutine(BeforeAttackingRoutine());
 
+        events.AddLogEntry.Raise(this, "Calculating Battle Points");
         yield return StartCoroutine(CalculateBattlePointsRoutine());
 
         playerCard.ToggleDamageVisual(true);
         enemyCard.ToggleDamageVisual(true);
 
+        events.AddLogEntry.Raise(this, "Battle Animation");
         yield return StartCoroutine(ReadyingRoutine());
 
         yield return StartCoroutine(HeadbuttRoutine());
@@ -104,10 +110,13 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(movementData.endBattleDelay);
 
+        events.AddLogEntry.Raise(this, "Death & Survive");
         yield return StartCoroutine(DeathAndSurviveRoutine());
 
+        events.AddLogEntry.Raise(this, "Global Death");
         yield return StartCoroutine(GlobalDeathRoutine());
 
+        events.AddLogEntry.Raise(this, "Aftermath Shapeshifts");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
         //If dead, disable object and raise onglobaldeath
@@ -116,13 +125,17 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
+        events.AddLogEntry.Raise(this, "Back To Map");
         yield return StartCoroutine(BackToMapRoutine());
+
         yield return StartCoroutine(PostBattleRoutine());
     }
 
     #region Battle Routines
     private IEnumerator StartOfBattleRoutine()
     {
+        events.AddLogEntry.Raise(this, "Start Of Battle");
+
         Coroutine ApplyPlayerCardStartOfBattleEffects = StartCoroutine(playerCard.effects.ApplyStartOfBattleEffects(enemyCard));
         Coroutine ApplyEnemyCardStartOfBattleEffects = StartCoroutine(enemyCard.effects.ApplyStartOfBattleEffects(playerCard));
 
@@ -130,9 +143,17 @@ public class BattleManager : MonoBehaviour
         yield return ApplyEnemyCardStartOfBattleEffects;
 
         bool battleStartEnded = false;
+        int amountOfOccurances = 1;
 
         while (!battleStartEnded)
         {
+            if (amountOfOccurances > 1)
+            {
+                string eventName = "Start Of Battle " + amountOfOccurances.ToString(); 
+                events.AddLogEntry.Raise(this, eventName);
+            }
+            amountOfOccurances++;
+
             bool didPlayerShapeshift = playerCard.ShouldShapeshift();
             bool didEnemyShapeshift = enemyCard.ShouldShapeshift();
             battleStartEnded = (!didPlayerShapeshift && !didEnemyShapeshift);
@@ -151,8 +172,6 @@ public class BattleManager : MonoBehaviour
             if (ReapplyPlayerCardStartOfBattleEffects != null) yield return ReapplyPlayerCardStartOfBattleEffects;
             if (ReapplyEnemyCardStartOfBattleEffects != null) yield return ReapplyEnemyCardStartOfBattleEffects;
 
-            
-
             yield return null;
         }
     }
@@ -160,7 +179,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator HandleAllShapeshiftsUntilStable()
     {
         bool changesOccurred;
-        List<Card> allCards = new (enemyManager.activeEnemies);
+        List<Card> allCards = new(enemyManager.activeEnemies);
         allCards.AddRange(handManager.cardsInHand);
         allCards.Add(playerCard);
 
@@ -336,20 +355,23 @@ public class BattleManager : MonoBehaviour
 
         if (didEnemyDie)
         {
+            events.AddLogEntry.Raise(this, "Marking Death");
             enemyManager.MarkAndDestroyDeadEnemy(enemyCard);
             //Wait for player to draw
             yield return StartCoroutine(playerDeck.DrawAfterBattleRoutine());
         }
 
+        events.AddLogEntry.Raise(this, "On Obtain");
         yield return StartCoroutine(playerCard.effects.ApplyOnObtainEffects());
 
+        events.AddLogEntry.Raise(this, "After On Obtain Shapeshift");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
         if (didEnemyDie)
         {
             enemyManager.HightlightNeighboringSlots(deathIndex);
-        } 
-        
+        }
+
         else
         {
             yield return StartCoroutine(EndOfTurnRoutine());
@@ -363,12 +385,20 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator EndOfTurnRoutine()
     {
+        events.AddLogEntry.Raise(this, "On Action");
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(OnActionEffectsRoutine());
+
+        events.AddLogEntry.Raise(this, "After On Action Shapeshift");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
+        events.AddLogEntry.Raise(this, "End Of Turn");
         yield return StartCoroutine(EndOfTurnEffectsRoutine());
+
+        events.AddLogEntry.Raise(this, "After End Of Turn Shapeshift");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+
+        events.AddLogEntry.Raise(this, "New Turn Started");
     }
 
     private IEnumerator OnActionEffectsRoutine()
