@@ -26,7 +26,15 @@ public class AddBattlePointsAccordingToOtherRevealedCardEffect : ActiveEffect
 
         int buffAmount = Tools.MultAndRoundUp(otherRevealedCard.points, 0.5f);
         parentCard.attackPointsModifiers.Add(new BattlePointModifier(ModifierType.Addition, buffAmount));
-        Debug.Log(parentCard.name + " got +" + buffAmount);
+
+        //SendLog(parentCard, buffAmount);
+
         yield return null;
+    }
+
+    private void SendLog(Card thisCard, int buffAmount)
+    {
+        string log = thisCard.name + " got +" + buffAmount.ToString() + "attack points from other revealed card";
+        events.AddLogEntry.Raise(this, log);
     }
 }

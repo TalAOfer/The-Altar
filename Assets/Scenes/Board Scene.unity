@@ -253,7 +253,6 @@ GameObject:
   m_Component:
   - component: {fileID: 91171107}
   - component: {fileID: 91171110}
-  - component: {fileID: 91171111}
   - component: {fileID: 91171109}
   - component: {fileID: 91171108}
   m_Layer: 5
@@ -353,20 +352,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91171106}
   m_CullTransparentMesh: 1
---- !u!114 &91171111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 91171106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6715c8a34e4308a439a20d32e4d9efa8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logText: {fileID: 1954048292}
-  scrollRect: {fileID: 91171108}
 --- !u!1 &94199389
 GameObject:
   m_ObjectHideFlags: 0
@@ -2342,7 +2327,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 91171111}
+      - m_Target: {fileID: 1101381850}
         m_TargetAssemblyTypeName: GameLogHandler, Assembly-CSharp
         m_MethodName: AddLogEntry
         m_Mode: 0
@@ -2754,6 +2739,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1101381849}
+  - component: {fileID: 1101381850}
   m_Layer: 5
   m_Name: Game Log Handler
   m_TagString: Untagged
@@ -2785,6 +2771,20 @@ RectTransform:
   m_AnchoredPosition: {x: -25, y: -25}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &1101381850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101381848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6715c8a34e4308a439a20d32e4d9efa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logText: {fileID: 1954048292}
+  scrollRect: {fileID: 91171108}
 --- !u!1 &1125578231
 GameObject:
   m_ObjectHideFlags: 0
@@ -4273,6 +4273,7 @@ Transform:
   - {fileID: 930396948}
   - {fileID: 1832501216}
   - {fileID: 1760112422}
+  - {fileID: 1989929503}
   m_Father: {fileID: 2140117004}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5584,6 +5585,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954048289}
   m_CullTransparentMesh: 1
+--- !u!1 &1989929502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989929503}
+  - component: {fileID: 1989929504}
+  m_Layer: 0
+  m_Name: SetGameState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1989929503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989929502}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1724318658}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1989929504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989929502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2087eb1c8d9093c47bb0f04a270fa87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 3650101820fec8e43a86faf84e5e0e3e, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2140117007}
+        m_TargetAssemblyTypeName: GameStateManager, Assembly-CSharp
+        m_MethodName: SetGameState
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1996714689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5998,6 +6059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2140117004}
   - component: {fileID: 2140117006}
+  - component: {fileID: 2140117007}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -6048,3 +6110,17 @@ MonoBehaviour:
   cardStartingAmount: 3
   mapScale: 0.7
   handScale: 1
+  events: {fileID: 0}
+--- !u!114 &2140117007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140117003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2fa97783021104187d8747b6ad941e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: {fileID: 11400000, guid: f2df26a8c52270049a8d6cf95d1fda1a, type: 2}

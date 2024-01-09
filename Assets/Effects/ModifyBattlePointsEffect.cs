@@ -34,4 +34,25 @@ public class ModifyBattlePointsEffect : Effect
 
         yield return null;
     }
+
+    private void SendLog(Card changedCard)
+    {
+        string pointType = battlePointType is BattlePointType.Attack ? "attack points" : "hurt points";
+        string modifier = "";
+        switch (modifierType)
+        {
+            case ModifierType.Addition:
+                modifier = "+";
+                break;
+            case ModifierType.Mult:
+                modifier = "*";
+                break;
+            case ModifierType.Replace:
+                modifier = "flattened out to ";
+                break;
+        }
+        string log = changedCard.name + " got " + modifier + amount + " " + pointType;
+        if (changedCard != parentCard) log += "from " + parentCard.name;
+        events.AddLogEntry.Raise(this, log);
+    }
 }

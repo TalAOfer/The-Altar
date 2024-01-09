@@ -17,6 +17,8 @@ public class SummonCardEffect : ActiveEffect
 
     public override void SendEvent()
     {
+        //string log = parentCard.name + " added " +blueprintOfCardToSpawn.name + " to player's hand";
+        //events.AddLogEntry.Raise(this, log);
         events.SpawnCardToHand.Raise(this, blueprintOfCardToSpawn);
     }
 }

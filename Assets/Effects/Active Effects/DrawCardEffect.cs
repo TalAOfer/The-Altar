@@ -12,6 +12,8 @@ public class DrawCardEffect : ActiveEffect
 
     public override void SendEvent()
     {
+        //string log = parentCard.name + " added a card to player's hand";
+        //events.AddLogEntry.Raise(this, log);
         events.DrawCardToHand.Raise(this, this);
     }
 }

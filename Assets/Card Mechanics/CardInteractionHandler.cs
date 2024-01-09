@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,21 +6,29 @@ using UnityEngine.EventSystems;
 
 [System.Serializable]
 [RequireComponent(typeof(Collider2D))]
-public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [FoldoutGroup("Components")]
     public Card card;
+    [FoldoutGroup("Components")]
     [SerializeField] private Collider2D coll;
+
+    [FoldoutGroup("Dependencies")]
+    [SerializeField] private DragManager dragManager;
+    [FoldoutGroup("Dependencies")]
+    [SerializeField] private CurrentGameState gameState;
+
+    [FoldoutGroup("Default Transforms")]
     public Vector3 defaultPos;
+    [FoldoutGroup("Default Transforms")]
     public Vector3 defaultScale;
+    [FoldoutGroup("Default Transforms")]
     public Vector3 defaultRotation;
     private Vector3 temp;
-
 
     [SerializeField] private float hoverHeightBoostAmount;
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color hoverColor;
-    [SerializeField] private AllEvents events;
-    [SerializeField] private DragManager dragManager;
 
     public void Initialize()
     {
@@ -43,35 +52,31 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerEnter(PointerEventData eventData)
     {
         card.visualHandler.SetCardBGColor(hoverColor);
-        events.ShowTooltip.Raise(this, card.currentArchetype);
 
-        if (card.cardOwner != CardOwner.Player) return;
+        if (ShouldHoverTriggerTooltip) card.events.ShowTooltip.Raise(this, card.currentArchetype);
 
-        if (!dragManager.isCardDragged)
+        if (ShouldHoverBoostHeight)
         {
-            card.visualHandler.SetCardBGColor(hoverColor);
             card.visualHandler.SetSortingOrder(10);
             card.transform.position = new Vector3(defaultPos.x, defaultPos.y + hoverHeightBoostAmount, defaultPos.z);
             card.transform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
-        else
-        {
-            events.OnDraggedCardHoveredOverHandCard.Raise(card, dragManager.draggedCard);
-        }
+        if (ShouldHoverTriggerHandPlaceSwitch) card.events.OnDraggedCardHoveredOverHandCard.Raise(card, dragManager.draggedCard);
 
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         card.visualHandler.SetCardBGColor(defaultColor);
-        events.HideTooltip.Raise();
 
-        if (card.cardOwner != CardOwner.Player) return;
-        if (dragManager.isCardDragged) return;
+        if (ShouldHoverTriggerTooltip) card.events.HideTooltip.Raise();
 
-        card.visualHandler.SetSortingOrder(card.index);
-        RestartTransformToDefault();
+        if (ShouldHoverBoostHeight)
+        {
+            card.visualHandler.SetSortingOrder(card.index);
+            RestartTransformToDefault();
+        }
 
     }
 
@@ -83,7 +88,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         dragManager.SetDraggedCard(card);
 
         //To take it out of hand
-        events.OnHandCardStartDrag.Raise(this, card);
+        card.events.OnHandCardStartDrag.Raise(this, card);
         card.visualHandler.SetSortingOrder(15);
     }
 
@@ -115,14 +120,13 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
         if (droppedCard != null && droppedCard.cardOwner == CardOwner.Enemy)
         {
-            events.OnCardDropOnCard.Raise(card, droppedCard);
+            card.events.OnCardDropOnCard.Raise(card, droppedCard);
         }
 
         else
         {
-            events.OnHandCardDroppedNowhere.Raise(card, card);
+            card.events.OnHandCardDroppedNowhere.Raise(card, card);
         }
-
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -130,21 +134,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     }
 
-    public void OnDrop(PointerEventData eventData)
-    {
-        //CardInteractionHandler attackingCardInteractionHandler = eventData.pointerDrag.GetComponent<CardInteractionHandler>();
-        //if (attackingCardInteractionHandler != null)
-        //{
-        //    if (card.cardOwner == CardOwner.Enemy)
-        //    {
-        //        events.OnCardDropOnCard.Raise(card, attackingCardInteractionHandler.card);
-        //    }
-        //    else
-        //    {
-        //        attackingCardInteractionHandler.MoveBackToPlace();
-        //    }
-        //}
-    }
+    #region Movement Routines
 
     public IEnumerator MoveCardToPositionOverTime(Vector3 targetPosition, float duration)
     {
@@ -216,4 +206,43 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
             card.transform.rotation = endRotation;
         }
     }
+
+    #endregion
+
+    #region Helpers
+
+    public void OnGameStateChange(Component sender, object data)
+    {
+        GameState newGameState = (GameState)data;
+        switch (newGameState)
+        {
+            case GameState.Idle:
+                coll.enabled = true;
+                break;
+            case GameState.BattleFormation:
+                if (card.cardState != CardState.Battle) coll.enabled = false;
+                break;
+            case GameState.Battle:
+                break;
+            case GameState.SacrificeFormation:
+                break;
+            case GameState.Sacrifice:
+                break;
+            case GameState.ChoosePlayerCard:
+                break;
+            case GameState.ChooseEnemyCard:
+                break;
+            case GameState.Pregame:
+                break;
+        }
+    }
+
+    private bool ShouldHoverTriggerTooltip => (gameState.currentState is GameState.Idle
+                              || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
+
+    private bool ShouldHoverBoostHeight => (gameState.currentState is GameState.Idle && !dragManager.isCardDragged && card.cardOwner is CardOwner.Player);
+
+    private bool ShouldHoverTriggerHandPlaceSwitch => (gameState.currentState is GameState.Idle && dragManager.isCardDragged && card.cardOwner is CardOwner.Player);
+
+    #endregion
 }

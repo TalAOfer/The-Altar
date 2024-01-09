@@ -18,6 +18,14 @@ public class AddGuardianEffect : Effect
 
         context.OtherCard.guardians.Add(new Guardian(guardianType, context.InitiatingCard, applicationType));
 
+        SendLog(context.OtherCard);
+
         yield return new WaitForSeconds(postdelay);
+    }
+
+    private void SendLog(Card otherCard)
+    {
+        string log = parentCard.name + " added " + guardianType.ToString() + " to " + otherCard.name + "'s guardians";
+        events.AddLogEntry.Raise(this, log);
     }
 }

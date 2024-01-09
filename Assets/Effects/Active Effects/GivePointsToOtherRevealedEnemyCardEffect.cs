@@ -24,11 +24,16 @@ public class GivePointsToOtherRevealedEnemyCardEffect : ActiveEffect
             }
         }
 
-
         yield return StartCoroutine(otherRevealedCard.GainPoints(2));
-        yield return StartCoroutine(otherRevealedCard.HandleShapeshift());
 
+        SendLog(otherRevealedCard, 2);
 
         yield return new WaitForSeconds(postdelay);
+    }
+
+    private void SendLog(Card otherCard, int amount)
+    {
+        string log = otherCard.name + " got +" + amount + " from " + parentCard.name;
+        events.AddLogEntry.Raise(this, log);
     }
 }

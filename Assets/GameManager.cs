@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int cardStartingAmount;
     [SerializeField] private float mapScale;
     [SerializeField] private float handScale;
+    [SerializeField] private AllEvents events;
 
     private void Awake()
     {
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
         if (shufflePlayerDeck) Tools.ShuffleList(playerDeck);
         enemyDeck = new List<CardBlueprint>(enemyDeckRecipe.cards);
         if (shuffleEnemyDeck) Tools.ShuffleList(enemyDeck);
+
+        events.SetGameState.Raise(this, GameState.Pregame);
     }
 
     public CardBlueprint DrawCard(CardOwner cardOwner)
@@ -108,6 +111,8 @@ public class GameManager : MonoBehaviour
         {
             yield return StartCoroutine(card.effects.ApplyOnObtainEffects());
         }
+
+        events.SetGameState.Raise(this, GameState.Idle);
     }
 
     public void SpawnPlayerCard()

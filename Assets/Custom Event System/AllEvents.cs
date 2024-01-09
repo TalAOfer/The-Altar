@@ -28,10 +28,10 @@ public class AllEvents : ScriptableObject
     [Title("Global Card Events")]
     public GameEvent OnGlobalCardDeath;
 
-    [Title("Game Log")]
-    public GameEvent AddLogEntry;
 
-    [Title("Tooltip")]
+    [Title("Global Handling")]
     public GameEvent ShowTooltip;
     public GameEvent HideTooltip;
+    public GameEvent AddLogEntry;
+    public GameEvent SetGameState;
 }

@@ -16,6 +16,14 @@ public class GainPointsEffect : Effect
 
         yield return StartCoroutine(context.InitiatingCard.GainPoints(amount));
 
+        SendLog();
+
         yield return new WaitForSeconds(postdelay);
+    }
+
+    private void SendLog()
+    {
+        string log = parentCard.name + "got " + "+ " + amount;
+        events.AddLogEntry.Raise(this, log);
     }
 }

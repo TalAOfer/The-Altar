@@ -23,6 +23,7 @@ public class FallingDamage : MonoBehaviour
     {
         bool isPositive = damage >= 0;
         int absDamage = Mathf.Abs(damage);
+        if (absDamage > 10) absDamage = 10;
         mathSymbolSr.sprite = isPositive ? sprites.minus : sprites.plus;
         digitSr.sprite = sprites.digits[absDamage];
         

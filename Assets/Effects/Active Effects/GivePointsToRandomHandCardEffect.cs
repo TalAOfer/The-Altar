@@ -35,8 +35,16 @@ public class GivePointsToRandomHandCardEffect : ActiveEffect
         cardsInHand.Remove(parentCard);
         int rand = Random.Range(0, cardsInHand.Count);
         Card randCard = cardsInHand[rand];
+
+        SendLog(randCard, amount);
         yield return StartCoroutine(randCard.GainPoints(amount));
 
         yield return new WaitForSeconds(postdelay);
+    }
+
+    private void SendLog(Card otherCard, int amount)
+    {
+        string log = otherCard.name + " got +" + amount + " from " + parentCard.name;
+        events.AddLogEntry.Raise(this, log);
     }
 }

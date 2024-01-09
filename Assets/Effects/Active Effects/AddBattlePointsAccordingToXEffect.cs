@@ -14,7 +14,13 @@ public class AddBattlePointsAccordingToXEffect : ActiveEffect
     {
         int xAmount = (int)response;
         parentCard.attackPointsModifiers.Add(new BattlePointModifier(ModifierType.Addition, xAmount));
-        //Debug.Log(parentCard.name + " got +" + xAmount);
+        //SendLog(xAmount);
         yield return null;
+    }
+
+    private void SendLog(int amount)
+    {
+        string log = parentCard + "got +" + amount + "attack points for Xs on map";
+        events.AddLogEntry.Raise(this, log);
     }
 }

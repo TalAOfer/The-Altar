@@ -19,7 +19,13 @@ public class AddEffectEffect : Effect
         Card cardToAddTo = whoToAddTo == WhoToChange.Initiating ? context.InitiatingCard : context.OtherCard;
 
         blueprintToAdd.SpawnEffect(triggerType, cardToAddTo);
-
+        SendLog(cardToAddTo);
         yield return new WaitForSeconds(postdelay);
+    }
+
+    private void SendLog(Card cardToAddTo)
+    {
+        string log = parentCard.currentArchetype.cardName + " added " + blueprintToAdd.name + " to " + cardToAddTo.currentArchetype.cardName;
+        events.AddLogEntry.Raise(this, log);
     }
 }

@@ -13,6 +13,31 @@ public class EnemyManager : MonoBehaviour
         activeEnemies.Add(card);
     }
 
+    public void OnGameStateChange(Component sender, object data)
+    {
+        GameState newGameState = (GameState)data;
+        switch (newGameState)
+        {
+            case GameState.Idle:
+
+                break;
+            case GameState.BattleFormation:
+                break;
+            case GameState.Battle:
+                break;
+            case GameState.SacrificeFormation:
+                break;
+            case GameState.Sacrifice:
+                break;
+            case GameState.ChoosePlayerCard:
+                break;
+            case GameState.ChooseEnemyCard:
+                break;
+            case GameState.Pregame:
+                break;
+        }
+    }
+
     public void OnMapSlotClicked(Component sender, object data)
     {
         int clickedSlotIndex = (int)data;

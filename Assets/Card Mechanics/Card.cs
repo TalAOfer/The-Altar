@@ -121,11 +121,13 @@ public class Card : MonoBehaviour
         //string listName = battlePoint.type == BattlePointType.Attack ? "attackPointsModifiers" : "hurtPointsModifiers";
         //Debug.Log(gameObject.name + " has " + modifierList.Count.ToString() + " in " + listName);
 
+        string log = currentArchetype.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
+        events.AddLogEntry.Raise(this, log);
+
         foreach (BattlePointModifier modifier in modifierList)
         {
-            //Debug.Log("Was: " + calcValue);
             calcValue = modifier.Apply(calcValue);
-            //Debug.Log("Now is: " + calcValue.ToString());
+            log = currentArchetype.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
         }
 
         battlePoint.value = calcValue;

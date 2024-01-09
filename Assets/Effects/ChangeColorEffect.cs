@@ -16,21 +16,31 @@ public class ChangeColorEffect : Effect
 
         Card cardToChange = whoToChange == WhoToChange.Initiating ? context.InitiatingCard : context.OtherCard;
 
-        ToggleCardColor(cardToChange);
+        string ColorChangedTo = ToggleCardColor(cardToChange);
+
+        SendLog(cardToChange, ColorChangedTo);
 
         yield return new WaitForSeconds(postdelay);
     }
 
-    private void ToggleCardColor(Card card)
+    private string ToggleCardColor(Card card)
     {
         if (card.cardColor == CardColor.Black)
         {
             card.cardColor = CardColor.Red;
+            return "red";
         }
         else
         {
             card.cardColor = CardColor.Black;
+            return "black";
         }
+    }
+
+    private void SendLog(Card changedCard, string colorChangedTo)
+    {
+        string log = changedCard.name + " changed to " + colorChangedTo;
+        events.AddLogEntry.Raise(this, log);
     }
 }
 
