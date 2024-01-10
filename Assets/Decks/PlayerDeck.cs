@@ -1,20 +1,22 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PlayerDeck : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class PlayerDeck : Deck, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public bool canDraw;
     private bool hasDrawn;
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private SpriteRenderer sr;
+    [SerializeField] private HandManager handManager;
+
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color hoverColor;
-    [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private AllEvents events;
     [SerializeField] private float blinkingDuration = 0.75f;
-    private void Awake()
+
+    private void Start()
     {
         sr.color = defaultColor;
     }
@@ -28,7 +30,7 @@ public class PlayerDeck : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         canDraw = true;
         hasDrawn = false;
-        while(!hasDrawn)
+        while (!hasDrawn)
         {
             yield return StartCoroutine(LerpBetweenColors(defaultColor, hoverColor));
             yield return StartCoroutine(LerpBetweenColors(hoverColor, defaultColor));
@@ -49,14 +51,19 @@ public class PlayerDeck : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!canDraw) return;
-        gameManager.SpawnPlayerCard();
+        DrawPlayerCard();
 
-        hasDrawn = true; 
+        hasDrawn = true;
         canDraw = false;
         sr.color = defaultColor;
     }
 
-
+    public void DrawPlayerCard()
+    {
+        //TODO: who's in charge of indexes?
+        Card card = SpawnCard(DrawCard(CardOwner.Player), 0, GameConstants.HAND_LAYER);
+        handManager.AddCardToHand(card);
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -70,6 +77,16 @@ public class PlayerDeck : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         sr.color = defaultColor;
     }
 
+    public void OnSpawnCardToHand(Component sender, object data)
+    {
+        ActiveEffect askerEffect = (ActiveEffect)sender;
+        CardBlueprint cardToSpawn = (CardBlueprint)data;
 
+        //TODO: think about who decides on the indexes
+        Card card = SpawnCard(cardToSpawn, 0, GameConstants.HAND_LAYER);
+        handManager.AddCardToHand(card);
+
+        StartCoroutine(askerEffect.HandleResponse(this, null));
+    }
 
 }

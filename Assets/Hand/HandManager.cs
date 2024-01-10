@@ -9,16 +9,69 @@ public class HandManager : MonoBehaviour
     public List<Card> cardsInHand = new();
     public float mapScale = 0.6f;
     public float handCardScale = 1.25f;
+    [SerializeField] private int maxCardAmount = 5;
+    //Hand Fan Formation
+    [SerializeField] private HandData formationData;
+    private float baseSpacing;
+    private float baseRotationAngle;
+    private Vector2 yOffsetFactorMinMax;
 
-    public int maxCardAmount;
-    public float baseSpacing = 1.5f;
-    public float baseRotationAngle = 20f;
-    public Vector2 yOffsetFactorMinMax = new(0.1f, 0.3f);
     public DragManager dragManager;
+    private Vector3 startingPos;
+    private HandState state;
+    [SerializeField] private AllEvents events;
 
     private void Awake()
     {
         dragManager.SetDraggedCard(null);
+        startingPos = transform.position;
+        baseSpacing = formationData.baseSpacing;
+        baseRotationAngle = formationData.baseRotationAngle;
+        yOffsetFactorMinMax = formationData.yOffsetFactorMinMax;
+    }
+
+    public void ChangeHandState(HandState newState)
+    {
+        if (state == newState) return;
+
+        state = newState;
+
+        switch (newState)
+        {
+            case HandState.Idle:
+                //Handle pos
+                transform.position = startingPos;
+
+                //Handle formation
+                baseSpacing = formationData.baseSpacing;
+                baseRotationAngle = formationData.baseRotationAngle;
+                yOffsetFactorMinMax = formationData.yOffsetFactorMinMax;
+
+                //Handle SortingLayers
+                foreach (Card card in cardsInHand)
+                {
+                    StartCoroutine(card.ChangeCardState(CardState.Default));
+                }
+                break;
+            case HandState.Select:
+                //Handle pos
+                transform.position = new Vector3(startingPos.x, startingPos.y + formationData.selectStateHeightIncrease, startingPos.z);
+
+                //Handle formation
+                baseSpacing = 2;
+                baseRotationAngle = 0;
+                yOffsetFactorMinMax = Vector2.zero;
+
+                //Handle SortingLayers
+                foreach (Card card in cardsInHand)
+                {
+                    StartCoroutine(card.ChangeCardState(CardState.Selectable));
+                }
+
+                break;
+        }
+
+        ReorderCards();
     }
 
     public void GetAllCardsFromHand(Component sender, object data)
@@ -157,8 +210,6 @@ public class HandManager : MonoBehaviour
                 currentCard.interactionHandler.SetNewDefaultLocation(cardPosition, currentCard.transform.localScale, cardRotation.eulerAngles);
             }
         }
-
-
     }
 
     private float CalculateYPosition(int index, int totalCards, float yOffsetFactor)
@@ -169,4 +220,9 @@ public class HandManager : MonoBehaviour
         // Apply a quadratic curve (parabola) for Y position
         return yOffsetFactor * (4 * normalizedIndex * (1 - normalizedIndex) - 1);
     }
+}
+public enum HandState
+{
+    Idle,
+    Select
 }

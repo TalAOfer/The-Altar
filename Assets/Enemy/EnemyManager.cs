@@ -29,16 +29,16 @@ public class EnemyManager : MonoBehaviour
                 break;
             case GameState.Sacrifice:
                 break;
-            case GameState.ChoosePlayerCard:
+            case GameState.SelectPlayerCard:
                 break;
             case GameState.ChooseEnemyCard:
                 break;
-            case GameState.Pregame:
+            case GameState.Setup:
                 break;
         }
     }
 
-    public void OnMapSlotClicked(Component sender, object data)
+    public void RestartSlotBlinking(Component sender, object data)
     {
         int clickedSlotIndex = (int)data;
 

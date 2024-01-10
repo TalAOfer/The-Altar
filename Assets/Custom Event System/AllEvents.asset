@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55f9cf3e9615c940894c0ea0504abb0, type: 3}
   m_Name: AllEvents
   m_EditorClassIdentifier: 
+  DrawPlayerCardToHand: {fileID: 11400000, guid: 5e9e6ae429156d443b2477a9780dd6a3, type: 2}
+  DrawEnemyCardToMapIndex: {fileID: 11400000, guid: 6ea3f86ea39b0b64d92e0df689730817, type: 2}
   WaitForActiveChoice: {fileID: 11400000, guid: 290c64c7ec3586d4f9c12c20613c04d8, type: 2}
   GetAllCardsFromHand: {fileID: 11400000, guid: b27c21e524e026a49a7c38f0c06b65b5, type: 2}
   SpawnCardToHand: {fileID: 11400000, guid: 3f0d2c56c1ba14e429915d5981f19f4e, type: 2}
-  DrawCardToHand: {fileID: 11400000, guid: 5e9e6ae429156d443b2477a9780dd6a3, type: 2}
   GetXAmount: {fileID: 11400000, guid: faa576c9f15c7004382bd19a3b164658, type: 2}
   GetRevealedEnemyCards: {fileID: 11400000, guid: 8454859f48ef24a41a8f297ed30d8dcd, type: 2}
   OnEnemyDeathMarked: {fileID: 11400000, guid: 02b35fcec29910c48a740ffe206a3b80, type: 2}
@@ -27,8 +28,11 @@ MonoBehaviour:
   OnHandCardStartDrag: {fileID: 11400000, guid: 0425d6e5087599d4081d361623b4f6e2, type: 2}
   OnHandCardDroppedNowhere: {fileID: 11400000, guid: 9d3e77e387bce3d428f46498eea5c9ba, type: 2}
   OnDraggedCardHoveredOverHandCard: {fileID: 11400000, guid: 421ce6141f418a14e8bebb089fcfdce2, type: 2}
+  OnCardClicked: {fileID: 11400000, guid: 9c13345a5e5a68b4da23c3ffec39c05f, type: 2}
   OnGlobalCardDeath: {fileID: 11400000, guid: 9e05dbf9491b83a47ba6c0a7e87fb28b, type: 2}
   ShowTooltip: {fileID: 11400000, guid: 3f57ab7a3da91534687cbff9eb570801, type: 2}
   HideTooltip: {fileID: 11400000, guid: 1cf37e7275063cd4690e2e1ee133c575, type: 2}
   AddLogEntry: {fileID: 11400000, guid: 7fbe4126d4f0ed3448bef5017807a3a6, type: 2}
+  ToggleCurtain: {fileID: 11400000, guid: a756f1251c9f77e428347c7923c7a92e, type: 2}
   SetGameState: {fileID: 11400000, guid: 3650101820fec8e43a86faf84e5e0e3e, type: 2}
+  OnGameStateChange: {fileID: 0}

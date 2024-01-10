@@ -5,11 +5,11 @@ public class ShapeshiftHelper : ScriptableObject
 {
     public CardBlueprint bones;
     
-    public Deck Hearts;
-    public Deck Clubs;
+    public DeckBlueprint Hearts;
+    public DeckBlueprint Clubs;
 
-    public Deck Diamonds;
-    public Deck Spades;
+    public DeckBlueprint Diamonds;
+    public DeckBlueprint Spades;
 
     public CardBlueprint GetCardBlueprint(CardOwner cardOwner, int currentPoints, CardColor cardColor)
     {
@@ -20,7 +20,7 @@ public class ShapeshiftHelper : ScriptableObject
         
         else
         {
-            Deck deck = null;
+            DeckBlueprint deck = null;
             switch (cardOwner)
             {
                 case CardOwner.Player:

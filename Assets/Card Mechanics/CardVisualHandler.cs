@@ -188,6 +188,8 @@ public class CardVisualHandler : MonoBehaviour
 
     public void SpawnFallingDamage(int damage)
     {
+        StartCoroutine(HurtAnimation());
+
         GameObject fallingDamageGo = Instantiate(fallingDamagePrefab, fallingDamageTransform.position, Quaternion.identity);
         FallingDamage fallingDamage = fallingDamageGo.GetComponent<FallingDamage>();
         fallingDamage.Initialize(damage);
@@ -209,6 +211,15 @@ public class CardVisualHandler : MonoBehaviour
     {
         damageSymbol.gameObject.SetActive(false);
         damageDigit.gameObject.SetActive(false);
+    }
+
+    public IEnumerator HurtAnimation()
+    {
+        Vector3 startingScale = transform.localScale;
+        Vector3 HeartbeatScale = startingScale * 1.2f;
+        card.transform.localScale = HeartbeatScale;
+        yield return new WaitForSeconds(0.15f);
+        card.transform.localScale = startingScale;
     }
 
     #endregion

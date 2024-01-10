@@ -14,7 +14,7 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [SerializeField] private Color hoverColor;
     [SerializeField] private Color doneColor;
     [SerializeField] private AllEvents events;
-    private bool isLerping;
+    private bool isBlinking;
     [SerializeField] private float blinkingDuration;
 
     [SerializeField] private List<Sprite> xAnimationSprites;
@@ -23,6 +23,7 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     private void Awake()
     {
         sr.color = defaultColor;
+
     }
 
     public void SetNewCard(Card card)
@@ -32,13 +33,13 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     private void StartBlinking()
     {
-        isLerping = true;
+        isBlinking = true;
         StartCoroutine(BlinkingRoutine());
     }
 
     private IEnumerator BlinkingRoutine()
     {
-        while (isLerping)
+        while (isBlinking)
         {
             yield return StartCoroutine(LerpBetweenColors(defaultColor, hoverColor));
             yield return StartCoroutine(LerpBetweenColors(hoverColor, defaultColor));
@@ -47,14 +48,14 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     private void StopBlinking()
     {
-        isLerping = false;
+        isBlinking = false;
     }
 
 
     private IEnumerator LerpBetweenColors(Color start, Color end)
     {
         float time = 0;
-        while (time < blinkingDuration && isLerping)
+        while (time < blinkingDuration && isBlinking)
         {
             sr.color = Color.Lerp(start, end, time / blinkingDuration);
             time += Time.deltaTime;
@@ -64,7 +65,7 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void StopLerping()
     {
-        isLerping = false;
+        isBlinking = false;
     }
 
     public IEnumerator SetSlotState(MapSlotState newState)
@@ -107,7 +108,6 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (slotState != MapSlotState.Choosable) return;
         events.OnMapSlotClicked.Raise(this, index);
     }
 

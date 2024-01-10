@@ -109,6 +109,10 @@ public class EffectBlueprint : ScriptableObject
                 var addEffectEffect = BaseInitializeEffect<AddEffectEffect>(newEffectGO, triggerType, parentCard);
                 addEffectEffect.Initialize(blueprintToAdd, whenToTriggerAddedEffect, whoToChange);
                 break;
+            case EffectType.AddGuardianToSelectedCard:
+                BaseInitializeEffect<AddGuardianToSelectedCard>(newEffectGO, triggerType, parentCard);
+                //.Initialize(guardianType, guardianApplicationType);
+                break;
         }
     }
 
@@ -225,6 +229,7 @@ public enum EffectType
     AddBattlePointsAccordingToOtherRevealedEnemyCard,
     GivePointsToOtherRevealedEnemyCard,
     ChangeColorToAllRevealedEnemies,
-    AddEffect
+    AddEffect,
+    AddGuardianToSelectedCard,
 }
 

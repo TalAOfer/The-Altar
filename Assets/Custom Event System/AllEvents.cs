@@ -4,11 +4,14 @@ using UnityEngine;
 //[CreateAssetMenu(menuName ="AllEvents")]
 public class AllEvents : ScriptableObject
 {
+    [Title("Decks")]
+    public GameEvent DrawPlayerCardToHand;
+    public GameEvent DrawEnemyCardToMapIndex;
+
     [Title("Active Choice")]
     public GameEvent WaitForActiveChoice;
     public GameEvent GetAllCardsFromHand;
     public GameEvent SpawnCardToHand;
-    public GameEvent DrawCardToHand;
     public GameEvent GetXAmount;
     public GameEvent GetRevealedEnemyCards;
 
@@ -24,6 +27,7 @@ public class AllEvents : ScriptableObject
     public GameEvent OnHandCardStartDrag;
     public GameEvent OnHandCardDroppedNowhere;
     public GameEvent OnDraggedCardHoveredOverHandCard;
+    public GameEvent OnCardClicked;
 
     [Title("Global Card Events")]
     public GameEvent OnGlobalCardDeath;
@@ -33,5 +37,8 @@ public class AllEvents : ScriptableObject
     public GameEvent ShowTooltip;
     public GameEvent HideTooltip;
     public GameEvent AddLogEntry;
+    public GameEvent ToggleCurtain;
+
     public GameEvent SetGameState;
+    public GameEvent OnGameStateChange;
 }

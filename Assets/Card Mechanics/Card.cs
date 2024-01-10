@@ -46,7 +46,7 @@ public class Card : MonoBehaviour
 
     [FoldoutGroup("Battle Points")]
     public List<BattlePointModifier> attackPointsModifiers = new();
-    
+
     [FoldoutGroup("Battle Points")]
     public List<BattlePointModifier> hurtPointsModifiers = new();
 
@@ -64,7 +64,7 @@ public class Card : MonoBehaviour
     {
         currentArchetype = blueprint;
         SetCardColor(blueprint.cardColor);
-        
+
         points = blueprint.defaultPoints;
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
         hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
@@ -95,8 +95,8 @@ public class Card : MonoBehaviour
         if (enable)
         {
             visualHandler.EnableDamageVisual(attackPoints.value);
-        } 
-        
+        }
+
         else
         {
             visualHandler.DisableDamageVisual();
@@ -171,7 +171,7 @@ public class Card : MonoBehaviour
                 guardiansToRemove.Add(guardian);
             }
         }
-        
+
         points -= damageLeft;
         visualHandler.SpawnFallingDamage(damageLeft);
 
@@ -214,10 +214,10 @@ public class Card : MonoBehaviour
         CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
         currentArchetype = newForm;
 
-        if (IsDead) 
+        if (IsDead)
         {
             yield return StartCoroutine(visualHandler.ToggleOverallVanish(true));
-            yield break;         
+            yield break;
         }
 
         yield return visualHandler.ToggleSpritesVanish(true);
@@ -277,6 +277,11 @@ public class Card : MonoBehaviour
                     visualHandler.SetSortingLayer(GameConstants.BOTTOM_BATTLE_LAYER);
                 }
                 break;
+            case CardState.Selectable:
+                visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
+                break;
+            case CardState.Selected:
+                break;
         }
 
         yield return null;
@@ -287,7 +292,8 @@ public enum CardState
 {
     Default,
     Battle,
-    Choosable
+    Selectable,
+    Selected
 }
 
 public class ShapeshiftLock

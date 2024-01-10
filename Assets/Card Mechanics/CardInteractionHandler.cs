@@ -35,6 +35,11 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
     }
 
+    public void SetCollState(bool enable)
+    {
+        coll.enabled = enable;
+    }
+
     public void SetNewDefaultLocation(Vector3 position, Vector3 scale, Vector3 rotation)
     {
         defaultPos = position;
@@ -82,8 +87,9 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (card.cardOwner != CardOwner.Player) return;
+        if (!CanDrag) return;
 
+        card.events.HideTooltip.Raise();
         SetCollState(false);
         dragManager.SetDraggedCard(card);
 
@@ -92,14 +98,9 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         card.visualHandler.SetSortingOrder(15);
     }
 
-    public void SetCollState(bool enable)
-    {
-        coll.enabled = enable;
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
-        if (card.cardOwner != CardOwner.Player) return;
+        if (!CanDrag) return;
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         temp = mousePos;
@@ -109,7 +110,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (card.cardOwner != CardOwner.Player) return;
+        if (!CanDrag) return;
 
         dragManager.SetDraggedCard(null);
         SetCollState(true);
@@ -131,7 +132,10 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerClick(PointerEventData eventData)
     {
-
+        if (CanClick)
+        {
+            card.events.OnCardClicked.Raise(this, card);
+        }
     }
 
     #region Movement Routines
@@ -228,21 +232,26 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
                 break;
             case GameState.Sacrifice:
                 break;
-            case GameState.ChoosePlayerCard:
+            case GameState.SelectPlayerCard:
                 break;
             case GameState.ChooseEnemyCard:
                 break;
-            case GameState.Pregame:
+            case GameState.Setup:
                 break;
         }
     }
 
-    private bool ShouldHoverTriggerTooltip => (gameState.currentState is GameState.Idle
+    private bool ShouldHoverTriggerTooltip => (!dragManager.isCardDragged && gameState.currentState is GameState.Idle
                               || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
 
     private bool ShouldHoverBoostHeight => (gameState.currentState is GameState.Idle && !dragManager.isCardDragged && card.cardOwner is CardOwner.Player);
 
     private bool ShouldHoverTriggerHandPlaceSwitch => (gameState.currentState is GameState.Idle && dragManager.isCardDragged && card.cardOwner is CardOwner.Player);
+
+    private bool CanDrag => (gameState.currentState is GameState.Idle &&  card.cardOwner is CardOwner.Player);
+
+    private bool CanClick => (gameState.currentState is GameState.SelectPlayerCard && card.cardOwner is CardOwner.Player
+        && card.cardState is CardState.Selectable or CardState.Selected);
 
     #endregion
 }

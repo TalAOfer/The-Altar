@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu (menuName ="Game State")]
+[System.Serializable]
 public class CurrentGameState : ScriptableObject
 {
     public GameState currentState;
@@ -17,7 +18,7 @@ public enum GameState
     PickEnemySlot,
     SacrificeFormation,
     Sacrifice,
-    ChoosePlayerCard,
+    SelectPlayerCard,
     ChooseEnemyCard,
-    Pregame
+    Setup
 }

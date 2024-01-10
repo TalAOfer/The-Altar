@@ -56,11 +56,10 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleFormationRoutine()
     {
-        events.SetGameState.Raise(this, GameState.BattleFormation);
         StartCoroutine(enemyCard.ChangeCardState(CardState.Battle));
         StartCoroutine(playerCard.ChangeCardState(CardState.Battle));
 
-        ToggleCurtain(true);
+        events.SetGameState.Raise(this, GameState.BattleFormation);
 
         yield return StartCoroutine(MoveCardsToFormation());
 
@@ -108,7 +107,7 @@ public class BattleManager : MonoBehaviour
 
         yield return StartCoroutine(BackoffRoutine());
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.15f);
 
         ApplyDamage();
 
@@ -346,7 +345,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator BackToMapRoutine()
     {
         ToggleButtons(false);
-        ToggleCurtain(false);
+        events.ToggleCurtain.Raise(this, false);
 
         Coroutine returnPlayerCard = StartCoroutine(ReturnPlayerCardToHand());
         Coroutine returnEnemyCard = StartCoroutine(ReturnEnemyCardToMap());
@@ -482,43 +481,12 @@ public class BattleManager : MonoBehaviour
         playerCard.TakeDamage();
     }
 
-    private void ToggleCurtain(bool enable)
-    {
-        float curtainAlpha = enable ? 0.7f : 0f;
-        StartColorLerp(curtainSr, 0.5f, curtainAlpha);
-        //curtainColl.enabled = enable;
-    }
-
     private void ToggleButtons(bool enable)
     {
         backButton.gameObject.SetActive(enable);
         battleButton.gameObject.SetActive(enable);
     }
 
-    private void StartColorLerp(SpriteRenderer spriteRenderer, float duration, float to)
-    {
-        StartCoroutine(LerpColorCoroutine(spriteRenderer, duration, to));
-    }
-
-    private IEnumerator LerpColorCoroutine(SpriteRenderer spriteRenderer, float duration, float to)
-    {
-        if (spriteRenderer != null)
-        {
-            float elapsed = 0;
-            Color startColor = spriteRenderer.color;
-            Color endColor = new(startColor.r, startColor.g, startColor.b, to);
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float normalizedTime = elapsed / duration;
-                spriteRenderer.color = Color.Lerp(startColor, endColor, normalizedTime);
-                yield return null;
-            }
-
-            spriteRenderer.color = endColor; // Ensure the final color is set
-        }
-    }
 
     #endregion
 }

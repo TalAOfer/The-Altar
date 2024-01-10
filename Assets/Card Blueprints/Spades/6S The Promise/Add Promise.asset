@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Add Promise
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  effectType: 8
+  effectType: 14
   applicationType: 0
   predelay: 0
   postdelay: 0
@@ -27,3 +27,5 @@ MonoBehaviour:
   guardianType: 0
   guardianApplicationType: 2
   whoToChange: 1
+  blueprintToAdd: {fileID: 0}
+  whenToTriggerAddedEffect: 0
