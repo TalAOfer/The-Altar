@@ -10,7 +10,6 @@ public class CardBlueprint : ScriptableObject
     public Sprite cardSprite;
 
     public string cardName;
-    public CardOwner cardOwner;
     public CardColor cardColor;
     public int defaultPoints;
     public string description;

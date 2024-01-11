@@ -63,7 +63,7 @@ public class PlayerDeck : Deck, IPointerEnterHandler, IPointerExitHandler, IPoin
     public void DrawPlayerCard()
     {
         //TODO: who's in charge of indexes?
-        Card card = SpawnCard(DrawCard(CardOwner.Player), 0, GameConstants.HAND_LAYER);
+        Card card = SpawnCard(DrawCard(), 0, GameConstants.HAND_LAYER);
         playerManager.activeCards.Add(card);
         handManager.AddCardToHand(card);
 

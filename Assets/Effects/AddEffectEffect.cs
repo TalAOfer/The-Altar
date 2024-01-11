@@ -25,7 +25,7 @@ public class AddEffectEffect : Effect
 
     private void SendLog(Card cardToAddTo)
     {
-        string log = parentCard.currentArchetype.cardName + " added " + blueprintToAdd.name + " to " + cardToAddTo.currentArchetype.cardName;
+        string log = parentCard.currentOverride.cardName + " added " + blueprintToAdd.name + " to " + cardToAddTo.currentOverride.cardName;
         events.AddLogEntry.Raise(this, log);
     }
 }

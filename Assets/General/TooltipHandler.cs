@@ -7,8 +7,8 @@ public class TooltipHandler : MonoBehaviour
     [SerializeField] Tooltip tooltip;
     public void ShowTooltip(Component sender, object data)
     {
-        CardBlueprint cardBlueprint = (CardBlueprint)data;
-        tooltip.InitializeTooltip(cardBlueprint);
+        Card card = (Card)data;
+        tooltip.InitializeTooltip(card);
         tooltip.gameObject.SetActive(true);
     }
     public void HideTooltip()

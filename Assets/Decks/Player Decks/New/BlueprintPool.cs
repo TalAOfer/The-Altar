@@ -23,7 +23,7 @@ public class BlueprintPool : ScriptableObject
     public CardBlueprint GetCardOverride(CardArchetype archetype)
     {
         List<CardBlueprint> targetDeck = archetype.color is CardColor.Black ? black : red;
-        return targetDeck[archetype.number];
+        return targetDeck[archetype.points];
     }
 
     public void OverrideCard(CardBlueprint cardBlueprint)

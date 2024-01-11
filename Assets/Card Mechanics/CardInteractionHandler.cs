@@ -58,7 +58,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         card.visualHandler.SetCardBGColor(hoverColor);
 
-        if (ShouldHoverTriggerTooltip) card.events.ShowTooltip.Raise(this, card.currentArchetype);
+        if (ShouldHoverTriggerTooltip) card.events.ShowTooltip.Raise(this, card);
 
         if (ShouldHoverBoostHeight)
         {

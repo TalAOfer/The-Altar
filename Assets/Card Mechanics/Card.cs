@@ -10,8 +10,8 @@ public class Card : MonoBehaviour
 {
     [FoldoutGroup("Dependencies")]
     public AllEvents events;
-    [FoldoutGroup("Dependencies")]
-    [SerializeField] private ShapeshiftHelper shapeshiftHelper;
+    
+    private BlueprintPool pool;
 
     [FoldoutGroup("Child Components")]
     public CardEffectHandler effects;
@@ -36,7 +36,7 @@ public class Card : MonoBehaviour
     public CardState cardState;
 
     [FoldoutGroup("Card Info")]
-    public CardBlueprint currentArchetype;
+    public CardBlueprint currentOverride;
 
     [FoldoutGroup("Battle Points")]
     public BattlePoint attackPoints;
@@ -60,16 +60,18 @@ public class Card : MonoBehaviour
         get { return points <= 0; }
     }
 
-    public void Init(CardBlueprint blueprint, int index, string startingSortingLayer)
+    public void Init(BlueprintPool pool, CardBlueprint blueprint, CardOwner cardOwner, int index, string startingSortingLayer)
     {
-        currentArchetype = blueprint;
+        this.pool = pool;
+
+        currentOverride = blueprint;
         SetCardColor(blueprint.cardColor);
 
         points = blueprint.defaultPoints;
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
         hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
 
-        cardOwner = blueprint.cardOwner;
+        this.cardOwner = cardOwner;
         effects.Init(blueprint);
 
         this.index = index;
@@ -77,6 +79,11 @@ public class Card : MonoBehaviour
         interactionHandler.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
 
+    }
+
+    public CardBlueprint GetCurrentOverride()
+    {
+        return pool.GetCardOverride(new CardArchetype(points, cardColor));
     }
 
     public void SetCardColor(CardColor newColor)
@@ -121,13 +128,13 @@ public class Card : MonoBehaviour
         //string listName = battlePoint.type == BattlePointType.Attack ? "attackPointsModifiers" : "hurtPointsModifiers";
         //Debug.Log(gameObject.name + " has " + modifierList.Count.ToString() + " in " + listName);
 
-        string log = currentArchetype.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
+        string log = currentOverride.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
         events.AddLogEntry.Raise(this, log);
 
         foreach (BattlePointModifier modifier in modifierList)
         {
             calcValue = modifier.Apply(calcValue);
-            log = currentArchetype.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
+            log = currentOverride.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
         }
 
         battlePoint.value = calcValue;
@@ -200,7 +207,7 @@ public class Card : MonoBehaviour
 
     public bool ShouldShapeshift()
     {
-        return currentArchetype != shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
+        return currentOverride != GetCurrentOverride();
     }
 
     public IEnumerator HandleShapeshift()
@@ -211,8 +218,8 @@ public class Card : MonoBehaviour
 
     public IEnumerator Shapeshift()
     {
-        CardBlueprint newForm = shapeshiftHelper.GetCardBlueprint(cardOwner, points, cardColor);
-        currentArchetype = newForm;
+        CardBlueprint newForm = pool.GetCardOverride(new CardArchetype(points, cardColor));
+        currentOverride = newForm;
 
         if (IsDead)
         {

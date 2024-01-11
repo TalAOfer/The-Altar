@@ -90,7 +90,7 @@ public class CardVisualHandler : MonoBehaviour
 
     private void SetCardIcon()
     {
-        iconSr.sprite = card.currentArchetype.cardSprite;
+        iconSr.sprite = card.currentOverride.cardSprite;
     }
     private void SetCardSymbol()
     {

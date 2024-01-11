@@ -14,7 +14,7 @@ public class EnemyDeck : Deck
     }
     public void SpawnEnemyCard(int containerIndex)
     {
-        Card card = SpawnCard(DrawCard(CardOwner.Enemy), containerIndex, GameConstants.TOP_MAP_LAYER);
+        Card card = SpawnCard(DrawCard(), containerIndex, GameConstants.TOP_MAP_LAYER);
         card.transform.position = grid.MapSlots[containerIndex].transform.position;
         enemyManager.AddEnemyToManager(card);
         //StartCoroutine(card.interactionHandler.MoveCardToPositionOverTime(grid.MapSlots[containerIndex].transform.position, 1f));

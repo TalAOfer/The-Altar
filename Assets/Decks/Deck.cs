@@ -6,56 +6,50 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
+    [FoldoutGroup("Dependencies")]
     [SerializeField] private AllEvents events;
-    
+    [FoldoutGroup("Dependencies")]
     [SerializeField] private Transform mapMasterContainer;
+    [FoldoutGroup("Dependencies")]
     [SerializeField] private GameObject cardPrefab;
 
+    [FoldoutGroup("Deck")]
+    [SerializeField] protected BlueprintPool blueprintPool;
+
+    [FoldoutGroup("Deck")]
     [SerializeField] protected bool shouldShuffleDeck;
-    [SerializeField] protected DeckBlueprint deckBlueprint;
-    protected List<CardBlueprint> deck;
-    public List<CardArchetype> newDeck;
-    [SerializeField] BlueprintPool blueprintPool;
+
+    [FoldoutGroup("Deck")]
+    CardOwner cardOwner;
+
+    public List<CardArchetype> deck;
 
     private void Awake()
     {
-        deck = new List<CardBlueprint>(deckBlueprint.cards);
-        if (shouldShuffleDeck) Tools.ShuffleList(deck);
+        InitializeDeck();
     }
-    protected CardBlueprint DrawCard(CardOwner cardOwner)
+    protected CardBlueprint DrawCard()
     {
         if (deck.Count == 0)
         {
             throw new System.InvalidOperationException("No cards left in the deck.");
         }
 
-        CardBlueprint drawnCard = deck[0];
+        CardArchetype drawnArchetype = deck[0];
         deck.RemoveAt(0); // Remove the card from the deck
-        return drawnCard;
-    }
-
-    protected CardBlueprint DrawNewCard()
-    {
-        if (deck.Count == 0)
-        {
-            throw new System.InvalidOperationException("No cards left in the deck.");
-        }
-
-        CardArchetype drawnArchetype = newDeck[0];
-        newDeck.RemoveAt(0); // Remove the card from the deck
         CardBlueprint drawnBlueprint = blueprintPool.GetCardOverride(drawnArchetype);
         return drawnBlueprint;
     }
 
 
-    protected Card SpawnCard(CardBlueprint cardBlueprintDrawn, int index, string sortingLayerName)
+    protected Card SpawnCard(CardBlueprint cardBlueprint, int index, string sortingLayerName)
     {
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, mapMasterContainer);
         cardGO.transform.localScale = Vector3.one * GameConstants.MapScale;
-        cardGO.name = cardBlueprintDrawn.name;
+        cardGO.name = cardBlueprint.name;
 
         Card card = cardGO.GetComponent<Card>();
-        card.Init(cardBlueprintDrawn, index, sortingLayerName);
+        card.Init(blueprintPool, cardBlueprint, cardOwner, index, sortingLayerName);
 
         return card;
     }
@@ -64,18 +58,18 @@ public class Deck : MonoBehaviour
     [Button]
     public void InitializeDeck()
     {
-        newDeck = new();
+        deck = new();
         for (int i = 0; i < blueprintPool.maxDrawableBlack; i++)
         {
-            newDeck.Add(new CardArchetype(i+1, CardColor.Black));
+            deck.Add(new CardArchetype(i+1, CardColor.Black));
         }
 
         for (int i = 0; i <blueprintPool.maxDrawableRed;  i++)
         {
-            newDeck.Add(new CardArchetype(i+1, CardColor.Red));
+            deck.Add(new CardArchetype(i+1, CardColor.Red));
         }
 
-        if (shouldShuffleDeck) Tools.ShuffleList(newDeck);
+        if (shouldShuffleDeck) Tools.ShuffleList(deck);
     }
 
     [Button]
@@ -89,12 +83,12 @@ public class Deck : MonoBehaviour
 [Serializable]
 public class CardArchetype
 {
-    public int number;
+    public int points;
     public CardColor color;
 
-    public CardArchetype(int number, CardColor color)
+    public CardArchetype(int points, CardColor color)
     {
-        this.number = number;
+        this.points = points;
         this.color = color;
     }
 }

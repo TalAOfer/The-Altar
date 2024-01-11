@@ -18,21 +18,9 @@ public class HandSimulator : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            Card card = SpawnCard(cardBlueprint, CardOwner.Player, i, GameConstants.TOP_MAP_LAYER);
-            handManager.AddCardToHand(card);
-            card.transform.localScale = Vector3.one * cardScale;
+            //Card card = SpawnCard(cardBlueprint, CardOwner.Player, i, GameConstants.TOP_MAP_LAYER);
+            //handManager.AddCardToHand(card);
+            //card.transform.localScale = Vector3.one * cardScale;
         }
-    }
-
-    private Card SpawnCard(CardBlueprint cardBlueprint, CardOwner cardOwner, int index, string sortingLayerName)
-    {
-        GameObject cardGO = Instantiate(revealedCardPrefab, outOfScreenBoundsPosition, Quaternion.identity, mapMasterContainer);
-        cardGO.transform.localScale = Vector3.one;
-        cardGO.name = cardBlueprint.name;
-
-        Card card = cardGO.GetComponent<Card>();
-        card.Init(cardBlueprint, index, sortingLayerName);
-
-        return card;
     }
 }

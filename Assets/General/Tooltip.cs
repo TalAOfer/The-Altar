@@ -9,23 +9,23 @@ public class Tooltip : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cardArchetype;
     [SerializeField] private TextMeshProUGUI cardDescription;
 
-    public void InitializeTooltip(CardBlueprint cardBlueprint)
+    public void InitializeTooltip(Card card)
     {
-        cardName.text = cardBlueprint.cardName;
-        cardArchetype.text = cardBlueprint.defaultPoints.ToString() + " of " + GetSymbolName(cardBlueprint);
-        cardDescription.text = cardBlueprint.description;
+        cardName.text = card.currentOverride.cardName;
+        cardArchetype.text = card.points.ToString() + " of " + GetSymbolName(card);
+        cardDescription.text = card.currentOverride.description;
     }
 
-    private string GetSymbolName(CardBlueprint blueprint)
+    private string GetSymbolName(Card card)
     {
         string symbolName = "";
-        switch (blueprint.cardOwner)
+        switch (card.cardOwner)
         {
             case CardOwner.Player:
-                symbolName = blueprint.cardColor == CardColor.Red ? "Hearts" : "Clubs";
+                symbolName = card.cardColor == CardColor.Red ? "Hearts" : "Clubs";
                 break;
             case CardOwner.Enemy:
-                symbolName = blueprint.cardColor == CardColor.Red ? "Diamonds" : "Spades";
+                symbolName = card.cardColor == CardColor.Red ? "Diamonds" : "Spades";
                 break;
         }
         return symbolName;
