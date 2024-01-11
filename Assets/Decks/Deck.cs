@@ -1,3 +1,5 @@
+using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +14,9 @@ public class Deck : MonoBehaviour
     [SerializeField] protected bool shouldShuffleDeck;
     [SerializeField] protected DeckBlueprint deckBlueprint;
     protected List<CardBlueprint> deck;
+    public List<CardArchetype> newDeck;
+    [SerializeField] BlueprintPool blueprintPool;
+
     private void Awake()
     {
         deck = new List<CardBlueprint>(deckBlueprint.cards);
@@ -29,6 +34,20 @@ public class Deck : MonoBehaviour
         return drawnCard;
     }
 
+    protected CardBlueprint DrawNewCard()
+    {
+        if (deck.Count == 0)
+        {
+            throw new System.InvalidOperationException("No cards left in the deck.");
+        }
+
+        CardArchetype drawnArchetype = newDeck[0];
+        newDeck.RemoveAt(0); // Remove the card from the deck
+        CardBlueprint drawnBlueprint = blueprintPool.GetCardOverride(drawnArchetype);
+        return drawnBlueprint;
+    }
+
+
     protected Card SpawnCard(CardBlueprint cardBlueprintDrawn, int index, string sortingLayerName)
     {
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, mapMasterContainer);
@@ -41,4 +60,41 @@ public class Deck : MonoBehaviour
         return card;
     }
 
+
+    [Button]
+    public void InitializeDeck()
+    {
+        newDeck = new();
+        for (int i = 0; i < blueprintPool.maxDrawableBlack; i++)
+        {
+            newDeck.Add(new CardArchetype(i+1, CardColor.Black));
+        }
+
+        for (int i = 0; i <blueprintPool.maxDrawableRed;  i++)
+        {
+            newDeck.Add(new CardArchetype(i+1, CardColor.Red));
+        }
+
+        if (shouldShuffleDeck) Tools.ShuffleList(newDeck);
+    }
+
+    [Button]
+    public void AddToBlueprintPool(CardBlueprint blueprint)
+    {
+        blueprintPool.OverrideCard(blueprint);
+    }
+
+}
+
+[Serializable]
+public class CardArchetype
+{
+    public int number;
+    public CardColor color;
+
+    public CardArchetype(int number, CardColor color)
+    {
+        this.number = number;
+        this.color = color;
+    }
 }

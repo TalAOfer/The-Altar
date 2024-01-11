@@ -163,6 +163,11 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         yield return StartCoroutine(MoveCardToPositionOverTime(targetPosition, duration));
     }
 
+    public IEnumerator TransformCardUniformlyToDefault(float duration)
+    {
+        yield return StartCoroutine(TransformCardUniformly(defaultPos, defaultScale, defaultRotation, duration));
+    }
+
     public IEnumerator TransformCardUniformly(Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float duration)
     {
         Vector3 startPosition = card.transform.position;

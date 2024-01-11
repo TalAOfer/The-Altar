@@ -278,9 +278,13 @@ public class Card : MonoBehaviour
                 }
                 break;
             case CardState.Selectable:
-                visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
+                visualHandler.SetSortingLayer(GameConstants.BOTTOM_BATTLE_LAYER);
                 break;
             case CardState.Selected:
+                visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
+                break;
+            case CardState.Selecting:
+                visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
                 break;
         }
 
@@ -293,7 +297,8 @@ public enum CardState
     Default,
     Battle,
     Selectable,
-    Selected
+    Selected,
+    Selecting
 }
 
 public class ShapeshiftLock

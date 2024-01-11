@@ -11,6 +11,13 @@ public class AddGuardianToSelectedCard : ActiveEffect
 
     protected override IEnumerator ApplyEffectOnResponse(Component sender, object response)
     {
-        throw new System.NotImplementedException();
+        SelectManager selectManager = sender as SelectManager;
+
+        yield return StartCoroutine(selectManager.BringBackToDefault());
+
+        Card chosenCard = (Card)response;
+        string log = parentCard.name + " chose " + chosenCard.name;
+        events.AddLogEntry.Raise(this, log);
+        yield return null;
     }
 }

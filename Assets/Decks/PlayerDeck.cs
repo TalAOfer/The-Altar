@@ -10,6 +10,8 @@ public class PlayerDeck : Deck, IPointerEnterHandler, IPointerExitHandler, IPoin
     public bool canDraw;
     private bool hasDrawn;
     [SerializeField] private SpriteRenderer sr;
+
+    [SerializeField] private PlayerManager playerManager;
     [SerializeField] private HandManager handManager;
 
     [SerializeField] private Color defaultColor;
@@ -62,7 +64,9 @@ public class PlayerDeck : Deck, IPointerEnterHandler, IPointerExitHandler, IPoin
     {
         //TODO: who's in charge of indexes?
         Card card = SpawnCard(DrawCard(CardOwner.Player), 0, GameConstants.HAND_LAYER);
+        playerManager.activeCards.Add(card);
         handManager.AddCardToHand(card);
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -84,6 +88,8 @@ public class PlayerDeck : Deck, IPointerEnterHandler, IPointerExitHandler, IPoin
 
         //TODO: think about who decides on the indexes
         Card card = SpawnCard(cardToSpawn, 0, GameConstants.HAND_LAYER);
+
+        playerManager.activeCards.Add(card);
         handManager.AddCardToHand(card);
 
         StartCoroutine(askerEffect.HandleResponse(this, null));

@@ -12,6 +12,8 @@ public class GameSetupManager : MonoBehaviour
     [FoldoutGroup("Player")]
     [SerializeField] private HandManager handManager;
     [FoldoutGroup("Player")]
+    [SerializeField] private PlayerManager playerManager;
+    [FoldoutGroup("Player")]
     [SerializeField] private int cardStartingAmount;
 
     [FoldoutGroup("Enemy")]
@@ -75,7 +77,7 @@ public class GameSetupManager : MonoBehaviour
 
     private IEnumerator OnObtainRoutine()
     {
-        foreach (Card card in handManager.cardsInHand)
+        foreach (Card card in playerManager.activeCards)
         {
             yield return StartCoroutine(card.effects.ApplyOnObtainEffects());
         }

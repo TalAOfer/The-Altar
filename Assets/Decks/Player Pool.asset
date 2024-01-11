@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a260979a624e15479764db623cfbf42, type: 3}
+  m_Name: Player Pool
+  m_EditorClassIdentifier: 
+  black:
+  - {fileID: 11400000, guid: b589a0b7db1785f41817a86f92516afb, type: 2}
+  - {fileID: 11400000, guid: 6ced79b5eb9f63d449f474a8d5e6354c, type: 2}
+  - {fileID: 11400000, guid: 293f576d100f3d24e9517155f1c8edea, type: 2}
+  - {fileID: 11400000, guid: c07a5d3e5f1031741a82e92e3079fa39, type: 2}
+  - {fileID: 11400000, guid: bcf74b7e186539548a54c9926d08ff81, type: 2}
+  - {fileID: 11400000, guid: 1fb2035668f898b4cb0aee2aed2312b5, type: 2}
+  maxDrawableBlack: 5
+  red:
+  - {fileID: 11400000, guid: b589a0b7db1785f41817a86f92516afb, type: 2}
+  - {fileID: 11400000, guid: 843204793e8104e40807519fea83c46d, type: 2}
+  - {fileID: 11400000, guid: ba74cc0b9e7e838409ef3c541b6551a0, type: 2}
+  - {fileID: 11400000, guid: 706c9746c8dff5a42a3441c7fa9df6e6, type: 2}
+  - {fileID: 11400000, guid: 543e2e0f93c04944ba817849ea119896, type: 2}
+  - {fileID: 11400000, guid: ca08bd2cd11aa1f4789edd2ca086249c, type: 2}
+  maxDrawableRed: 5

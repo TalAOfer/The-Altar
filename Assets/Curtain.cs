@@ -5,17 +5,18 @@ using UnityEngine;
 public class Curtain : MonoBehaviour
 {
     [SerializeField] SpriteRenderer sr;
+    private bool isCurtainOn = false;
     public void OnToggleCurtain(Component sender, object data)
     {
-        ToggleCurtain((bool)data);
+        StartCoroutine(ToggleCurtain((bool)data));
     }
 
-    private void ToggleCurtain(bool enable)
+    private IEnumerator ToggleCurtain(bool enable)
     {
+        if (isCurtainOn == enable) yield break;
         float curtainAlpha = enable ? 0.7f : 0f;
-        StartCoroutine(LerpColorCoroutine(sr, 0.5f, curtainAlpha));
-
-        //curtainColl.enabled = enable;
+        yield return StartCoroutine(LerpColorCoroutine(sr, 0.5f, curtainAlpha));
+        isCurtainOn = enable;
     }
 
     private IEnumerator LerpColorCoroutine(SpriteRenderer spriteRenderer, float duration, float to)

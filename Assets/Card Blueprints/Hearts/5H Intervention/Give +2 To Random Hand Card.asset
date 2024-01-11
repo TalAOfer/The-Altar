@@ -16,7 +16,7 @@ MonoBehaviour:
   effectType: 4
   applicationType: 0
   predelay: 0
-  postdelay: 1
+  postdelay: 0.25
   battlePointType: 0
   modifierType: 0
   alterationAmount: 0
@@ -27,3 +27,5 @@ MonoBehaviour:
   guardianType: 0
   guardianApplicationType: 0
   whoToChange: 0
+  blueprintToAdd: {fileID: 0}
+  whenToTriggerAddedEffect: 0

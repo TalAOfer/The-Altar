@@ -59,6 +59,7 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(enemyCard.ChangeCardState(CardState.Battle));
         StartCoroutine(playerCard.ChangeCardState(CardState.Battle));
 
+        events.ToggleCurtain.Raise(this, true);
         events.SetGameState.Raise(this, GameState.BattleFormation);
 
         yield return StartCoroutine(MoveCardsToFormation());

@@ -32,7 +32,7 @@ public class HandManager : MonoBehaviour
 
     public void ChangeHandState(HandState newState)
     {
-        if (state == newState) return;
+        //if (state == newState) return;
 
         state = newState;
 
