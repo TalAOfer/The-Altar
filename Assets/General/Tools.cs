@@ -29,4 +29,34 @@ public static class Tools
             list[randomIndex] = temp;
         }
     }
+
+    public static List<int> DivideRandomly(int number, int minPart, int maxPart)
+    {
+        var parts = new List<int>();
+        int remaining = number;
+
+        while (remaining > 0)
+        {
+            int rangeMax = Mathf.Min(remaining, maxPart);
+            int nextNumber = Random.Range(minPart, rangeMax + 1);
+            parts.Add(nextNumber);
+            remaining -= nextNumber;
+        }
+
+        return parts;
+    }
+
+    public static List<int> GetXUniqueRandoms(int count, int min, int max)
+    {
+        List<int> uniqueRandoms = new();
+        while (uniqueRandoms.Count < count)
+        {
+            int randomNumber = Random.Range(min, max);
+            if (!uniqueRandoms.Contains(randomNumber))
+            {
+                uniqueRandoms.Add(randomNumber);
+            }
+        }
+        return uniqueRandoms;
+    }
 }

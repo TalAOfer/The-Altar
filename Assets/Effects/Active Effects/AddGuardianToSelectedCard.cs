@@ -6,7 +6,7 @@ public class AddGuardianToSelectedCard : ActiveEffect
 {
     public override void SendEvent()
     {
-        events.WaitForActiveChoice.Raise(this, this);
+        events.WaitForPlayerSelection.Raise(this, this);
     }
 
     protected override IEnumerator ApplyEffectOnResponse(Component sender, object response)

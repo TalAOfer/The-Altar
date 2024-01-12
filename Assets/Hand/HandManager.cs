@@ -7,8 +7,6 @@ using UnityEngine;
 public class HandManager : MonoBehaviour
 {
     public List<Card> cardsInHand = new();
-    public float mapScale = 0.6f;
-    public float handCardScale = 1.25f;
     [SerializeField] private int maxCardAmount = 5;
     //Hand Fan Formation
     [SerializeField] private HandData formationData;
@@ -32,7 +30,7 @@ public class HandManager : MonoBehaviour
 
     public void ChangeHandState(HandState newState)
     {
-        //if (state == newState) return;
+        if (state == newState) return;
 
         state = newState;
 
@@ -50,7 +48,7 @@ public class HandManager : MonoBehaviour
                 //Handle SortingLayers
                 foreach (Card card in cardsInHand)
                 {
-                    StartCoroutine(card.ChangeCardState(CardState.Default));
+                    card.ChangeCardState(CardState.Default);
                 }
                 break;
             case HandState.Select:
@@ -65,7 +63,7 @@ public class HandManager : MonoBehaviour
                 //Handle SortingLayers
                 foreach (Card card in cardsInHand)
                 {
-                    StartCoroutine(card.ChangeCardState(CardState.Selectable));
+                    card.ChangeCardState(CardState.Selectable);
                 }
 
                 break;
@@ -83,7 +81,7 @@ public class HandManager : MonoBehaviour
     public void AddCardToHand(Card card)
     {
         cardsInHand.Add(card);
-        card.transform.localScale = Vector3.one * handCardScale;
+        card.transform.localScale = Vector3.one * GameConstants.HandScale;
         //card.index = cardsInHand.IndexOf(card);
         ReorderCards();
     }
@@ -96,7 +94,7 @@ public class HandManager : MonoBehaviour
     public void InsertCardToHandByIndex(Card card, int index)
     {
         int cardIndex = index;
-        card.transform.localScale = Vector3.one * handCardScale;
+        card.transform.localScale = Vector3.one * GameConstants.HandScale;
 
 
         if (index > cardsInHand.Count)
@@ -156,7 +154,7 @@ public class HandManager : MonoBehaviour
     public void RemoveCardFromHand(Card card)
     {
         cardsInHand.Remove(card);
-        card.transform.localScale = Vector3.one * mapScale;
+        card.transform.localScale = Vector3.one * GameConstants.MapScale;
         ReorderCards();
     }
 

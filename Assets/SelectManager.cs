@@ -11,6 +11,8 @@ public class SelectManager : MonoBehaviour
     private ActiveEffect currentAsker;
 
     [SerializeField] private HandManager handManager;
+    [SerializeField] private PlayerManager playerManager;
+
     [SerializeField] private Transform askerTransform;
     [SerializeField] private Transform selectTransform;
     public Button selectButton;
@@ -26,19 +28,13 @@ public class SelectManager : MonoBehaviour
         }
 
         handManager.ChangeHandState(HandState.Select);
-        //if (currentAsker != null)
-        //{ 
-        //    StartCoroutine(currentAsker.parentCard.ChangeCardState(CardState.Selectable));
-        //    Debug.Log("happened");
-        //}
-        //selectedCard = null;
 
         events.ToggleCurtain.Raise(this, true);
         selectButton.gameObject.SetActive(true);
         selectButton.interactable = false;
 
         handManager.RemoveCardFromHand(selectingCard);
-        StartCoroutine(selectingCard.ChangeCardState(CardState.Selecting));
+        selectingCard.ChangeCardState(CardState.Selecting);
         StartCoroutine(selectingCard.interactionHandler.TransformCardUniformly(askerTransform.position, Vector3.one, Vector3.zero, 0.15f));
         events.SetGameState.Raise(this, GameState.SelectPlayerCard);
         currentAsker = asker;
@@ -51,15 +47,12 @@ public class SelectManager : MonoBehaviour
 
     public IEnumerator BringBackToDefault()
     {
-        handManager.AddCardToHand(selectedCard);
-        yield return StartCoroutine(selectedCard.ChangeCardState(CardState.Default));
-
-        Card selectingCard = currentAsker.parentCard;
-        handManager.AddCardToHand(selectingCard);
-        yield return StartCoroutine(selectingCard.ChangeCardState(CardState.Default));
+        playerManager.SetAllCardState(CardState.Default);
 
         selectedCard = null;
         currentAsker = null;
+
+        yield return null;
     }
 
     public void OnCardClicked(Component sender, object data)
@@ -67,7 +60,7 @@ public class SelectManager : MonoBehaviour
         Card cardClicked = data as Card;
         if (cardClicked == selectedCard)
         {
-            StartCoroutine(selectedCard.ChangeCardState(CardState.Selectable));
+            selectedCard.ChangeCardState(CardState.Selectable);
             handManager.InsertCardToHandByIndex(cardClicked, cardClicked.index);
             selectButton.interactable = false;
             selectedCard = null;
@@ -77,13 +70,13 @@ public class SelectManager : MonoBehaviour
         {
             if (selectedCard != null)
             {
-                StartCoroutine(selectedCard.ChangeCardState(CardState.Selectable));
+                selectedCard.ChangeCardState(CardState.Selectable);
                 handManager.InsertCardToHandByIndex(selectedCard, selectedCard.index);
             }
 
             selectedCard = cardClicked;
 
-            StartCoroutine(cardClicked.ChangeCardState(CardState.Selected));
+            cardClicked.ChangeCardState(CardState.Selected);
             handManager.cardsInHand.Remove(cardClicked);
             StartCoroutine(cardClicked.interactionHandler.TransformCardUniformly
                 (selectTransform.position, Vector3.one * GameConstants.SelectCardScale, Vector3.zero, 0.15f));

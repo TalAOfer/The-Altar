@@ -13,31 +13,6 @@ public class EnemyManager : MonoBehaviour
         activeEnemies.Add(card);
     }
 
-    public void OnGameStateChange(Component sender, object data)
-    {
-        GameState newGameState = (GameState)data;
-        switch (newGameState)
-        {
-            case GameState.Idle:
-
-                break;
-            case GameState.BattleFormation:
-                break;
-            case GameState.Battle:
-                break;
-            case GameState.SacrificeFormation:
-                break;
-            case GameState.Sacrifice:
-                break;
-            case GameState.SelectPlayerCard:
-                break;
-            case GameState.ChooseEnemyCard:
-                break;
-            case GameState.Setup:
-                break;
-        }
-    }
-
     public void RestartSlotBlinking(Component sender, object data)
     {
         int clickedSlotIndex = (int)data;

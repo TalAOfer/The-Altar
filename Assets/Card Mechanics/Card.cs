@@ -11,7 +11,7 @@ public class Card : MonoBehaviour
     [FoldoutGroup("Dependencies")]
     public AllEvents events;
     
-    private BlueprintPool pool;
+    private BlueprintPoolInstance pool;
 
     [FoldoutGroup("Child Components")]
     public CardEffectHandler effects;
@@ -60,7 +60,7 @@ public class Card : MonoBehaviour
         get { return points <= 0; }
     }
 
-    public void Init(BlueprintPool pool, CardBlueprint blueprint, CardOwner cardOwner, int index, string startingSortingLayer)
+    public void Init(BlueprintPoolInstance pool, CardBlueprint blueprint, CardOwner cardOwner, int index, string startingSortingLayer)
     {
         this.pool = pool;
 
@@ -249,12 +249,12 @@ public class Card : MonoBehaviour
         yield return Shapeshift();
     }
 
-    public IEnumerator ChangeCardState(CardState newState)
+    public void ChangeCardState(CardState newState)
     {
         if (newState == cardState)
         {
             Debug.LogWarning("Trying to switch to same state");
-            yield break;
+            return;
         }
 
         else
@@ -294,8 +294,6 @@ public class Card : MonoBehaviour
                 visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
                 break;
         }
-
-        yield return null;
     }
 }
 

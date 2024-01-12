@@ -9,7 +9,7 @@ public class AllEvents : ScriptableObject
     public GameEvent DrawEnemyCardToMapIndex;
 
     [Title("Active Choice")]
-    public GameEvent WaitForActiveChoice;
+    public GameEvent WaitForPlayerSelection;
     public GameEvent GetAllCardsFromHand;
     public GameEvent SpawnCardToHand;
     public GameEvent GetXAmount;

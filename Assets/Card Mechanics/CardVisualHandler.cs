@@ -1,10 +1,13 @@
 using Sirenix.OdinInspector;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CardVisualHandler : MonoBehaviour
 {
     [SerializeField] CardVisualData data;
+    private Material cardMaterial;
+    private Material spritesMaterial;
 
     [FoldoutGroup("Components")]
     [SerializeField] private Card card;
@@ -27,9 +30,10 @@ public class CardVisualHandler : MonoBehaviour
     [SerializeField] private SpriteRenderer damageDigit;
     [FoldoutGroup("Damage Visualizer")]
     [SerializeField] private SpriteRenderer damageSymbol;
-
-    private Material cardMaterial;
-    private Material spritesMaterial;
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private List<Sprite> slashAnimationSprites;
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private float slashAnimationIntervals = 0.1f;
 
     [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer cardSr;
@@ -39,6 +43,9 @@ public class CardVisualHandler : MonoBehaviour
     [SerializeField] private SpriteRenderer numberSr;
     [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer symbolSr;
+    [FoldoutGroup("Card Renderers")]
+    [SerializeField] private SpriteRenderer slashSr;
+
 
     #region Initialization
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
@@ -98,10 +105,10 @@ public class CardVisualHandler : MonoBehaviour
         switch (card.cardOwner)
         {
             case CardOwner.Player:
-                sprite = card.cardColor == CardColor.Red ? sprites.hearts : sprites.clubs;
+                sprite = card.cardColor == CardColor.Red ? sprites.hearts : sprites.spades;
                 break;
             case CardOwner.Enemy:
-                sprite = card.cardColor == CardColor.Red ? sprites.diamonds : sprites.spades;
+                sprite = card.cardColor == CardColor.Red ? sprites.diamonds : sprites.clubs;
                 break;
         }
 
@@ -121,11 +128,12 @@ public class CardVisualHandler : MonoBehaviour
 
     public void SetSortingOrder(int index)
     {
-        int calcIndex = index * 4;
+        int calcIndex = index * 5;
         cardSr.sortingOrder = calcIndex;
         iconSr.sortingOrder = calcIndex + 1;
         numberSr.sortingOrder = calcIndex + 2;
         symbolSr.sortingOrder = calcIndex + 3;
+        slashSr.sortingOrder= calcIndex + 4;
     }
 
     public void SetSortingLayer(string sortingLayerName)
@@ -136,6 +144,7 @@ public class CardVisualHandler : MonoBehaviour
         iconSr.sortingLayerName = sortingLayerName;
         damageDigit.sortingLayerName = sortingLayerName;
         damageSymbol.sortingLayerName = sortingLayerName;
+        slashSr.sortingLayerName = sortingLayerName;
     }
 
     #endregion
@@ -215,11 +224,21 @@ public class CardVisualHandler : MonoBehaviour
 
     public IEnumerator HurtAnimation()
     {
+        StartCoroutine(Animate(slashSr, slashAnimationSprites, slashAnimationIntervals));
         Vector3 startingScale = transform.localScale;
         Vector3 HeartbeatScale = startingScale * 1.2f;
         card.transform.localScale = HeartbeatScale;
         yield return new WaitForSeconds(0.15f);
         card.transform.localScale = startingScale;
+    }
+
+    public static IEnumerator Animate(SpriteRenderer sr, List<Sprite> sprites, float changeInterval)
+    {
+        foreach (Sprite sprite in sprites)
+        {
+            sr.sprite = sprite;
+            yield return new WaitForSeconds(changeInterval);
+        }
     }
 
     #endregion

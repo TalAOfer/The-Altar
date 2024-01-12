@@ -20,12 +20,6 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [SerializeField] private List<Sprite> xAnimationSprites;
     [SerializeField] private float xAnimationIntervals = 0.1f;
 
-    private void Awake()
-    {
-        sr.color = defaultColor;
-
-    }
-
     public void SetNewCard(Card card)
     {
         StartCoroutine(card.interactionHandler.MoveCardToPositionOverTime(transform.position, 1));
@@ -84,8 +78,8 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
                 break;
             case MapSlotState.Occupied:
                 coll.enabled = false;
-                StopBlinking();
-                sr.color = defaultColor;
+                //StopBlinking();
+                //sr.color = defaultColor;
                 break;
             case MapSlotState.Done:
                 coll.enabled = false;

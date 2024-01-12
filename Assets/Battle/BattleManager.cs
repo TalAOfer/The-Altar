@@ -56,8 +56,8 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BattleFormationRoutine()
     {
-        StartCoroutine(enemyCard.ChangeCardState(CardState.Battle));
-        StartCoroutine(playerCard.ChangeCardState(CardState.Battle));
+        enemyCard.ChangeCardState(CardState.Battle);
+        playerCard.ChangeCardState(CardState.Battle);
 
         events.ToggleCurtain.Raise(this, true);
         events.SetGameState.Raise(this, GameState.BattleFormation);
@@ -365,7 +365,7 @@ public class BattleManager : MonoBehaviour
             //events.AddLogEntry.Raise(this, "Marking Death");
             enemyManager.MarkAndDestroyDeadEnemy(enemyCard);
             //Wait for player to draw
-            yield return StartCoroutine(playerDeck.DrawAfterBattleRoutine());
+            playerDeck.DrawPlayerCard();
         }
 
         //events.AddLogEntry.Raise(this, "On Obtain");
@@ -374,24 +374,6 @@ public class BattleManager : MonoBehaviour
         //events.AddLogEntry.Raise(this, "After On Obtain Shapeshift");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
-        if (didEnemyDie)
-        {
-            enemyManager.HightlightNeighboringSlots(deathIndex);
-        }
-
-        else
-        {
-            yield return StartCoroutine(EndOfTurnRoutine());
-        }
-    }
-
-    public void StartEndOfTurnRoutine()
-    {
-        StartCoroutine(EndOfTurnRoutine());
-    }
-
-    private IEnumerator EndOfTurnRoutine()
-    {
         //events.AddLogEntry.Raise(this, "On Action");
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(OnActionEffectsRoutine());
@@ -408,6 +390,8 @@ public class BattleManager : MonoBehaviour
         events.AddLogEntry.Raise(this, "New Turn Started");
         events.SetGameState.Raise(this, GameState.Idle);
     }
+
+
 
     private IEnumerator OnActionEffectsRoutine()
     {
@@ -458,7 +442,7 @@ public class BattleManager : MonoBehaviour
     {
         if (playerCard == null || playerCard.IsDead) yield break;
         {
-            yield return StartCoroutine(playerCard.ChangeCardState(CardState.Default));
+            playerCard.ChangeCardState(CardState.Default);
             handManager.InsertCardToHandByIndex(playerCard, playerCard.index);
         }
     }
@@ -467,7 +451,7 @@ public class BattleManager : MonoBehaviour
     {
         if (enemyCard == null || enemyCard.IsDead) yield break;
 
-        StartCoroutine(enemyCard.ChangeCardState(CardState.Default));
+        enemyCard.ChangeCardState(CardState.Default);
         yield return StartCoroutine(enemyCard.interactionHandler.TransformCardUniformly
         (enemyCard.interactionHandler.defaultPos, enemyCard.interactionHandler.defaultScale, enemyCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
     }
