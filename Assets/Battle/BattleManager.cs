@@ -363,7 +363,7 @@ public class BattleManager : MonoBehaviour
         if (didEnemyDie)
         {
             //events.AddLogEntry.Raise(this, "Marking Death");
-            enemyManager.MarkAndDestroyDeadEnemy(enemyCard);
+            //enemyManager.MarkAndDestroyDeadEnemy(enemyCard);
             //Wait for player to draw
             playerDeck.DrawPlayerCard();
         }

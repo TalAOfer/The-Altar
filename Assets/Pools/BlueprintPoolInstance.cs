@@ -6,10 +6,18 @@ using UnityEngine;
 [Serializable]
 public class BlueprintPoolInstance
 {
-    public List<CardBlueprint> black;
-    public List<CardBlueprint> red;
+    public List<CardBlueprint> black = new();
+    public List<CardBlueprint> red = new();
 
-    public void Initialize(BlueprintPoolBlueprint poolBlueprint)
+    public void InitializeAsPool(BlueprintPoolInstance pool)
+    {
+        black?.Clear();
+        red?.Clear();
+        black = new(pool.black);
+        red = new(pool.red);
+    }
+
+    public void InitializeAsCodex(BlueprintPoolBlueprint poolBlueprint)
     {
         black?.Clear();
         red?.Clear();

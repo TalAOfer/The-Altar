@@ -1,5 +1,5 @@
 using Sirenix.OdinInspector;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +8,11 @@ public class CardBlueprint : ScriptableObject
 {
     [PreviewField(150)]
     public Sprite cardSprite;
+    public bool isDefault;
 
     public string cardName;
     public CardColor cardColor;
+    public CardOwner cardOwner;
     public int defaultPoints;
     public string description;
 
@@ -40,4 +42,18 @@ public enum CardOwner
     Player,
     Enemy,
 }
+
+[Serializable]
+public class CardArchetype
+{
+    public int points;
+    public CardColor color;
+
+    public CardArchetype(int points, CardColor color)
+    {
+        this.points = points;
+        this.color = color;
+    }
+}
+
 

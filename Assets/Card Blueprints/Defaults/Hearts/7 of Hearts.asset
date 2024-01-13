@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: 7 of Hearts
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 0}
+  isDefault: 1
   cardName: 
   cardColor: 1
+  cardOwner: 0
   defaultPoints: 7
   description: 
   StartOfTurn: []

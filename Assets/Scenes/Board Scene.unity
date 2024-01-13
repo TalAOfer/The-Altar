@@ -279,12 +279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947f56011e6cbbb41bc2dc775728bfe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   mapMasterContainer: {fileID: 1125578232}
   cardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
-  defaultBlueprintPool:
-    black: []
-    red: []
   blueprintPoolInstance:
     black: []
     red: []
@@ -2429,12 +2425,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a980926fd56044d42b81588c3d030a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   mapMasterContainer: {fileID: 1125578232}
   cardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
-  defaultBlueprintPool:
-    black: []
-    red: []
   blueprintPoolInstance:
     black: []
     red: []
@@ -2598,11 +2590,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e29efb9eb99a14a9ae7ef7e8d75aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPoolRecipe: {fileID: 11400000, guid: 3535bc0482ae4e842b8c28e1b14ba84e, type: 2}
-  enemyRuntimePool:
-    pools: []
   playerPoolRecipe: {fileID: 11400000, guid: 56056c9c7e42a0a448d8a386cddaae61, type: 2}
   playerRuntimePool:
+    pools: []
+  enemyPoolRecipe: {fileID: 11400000, guid: 3535bc0482ae4e842b8c28e1b14ba84e, type: 2}
+  enemyRuntimePool:
     pools: []
 --- !u!4 &1025729002
 Transform:
@@ -2869,12 +2861,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43db45f9296d45a4fb4dad5e94f12b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDeckRecipe: {fileID: 11400000, guid: 9a055224e18694e4397df5dcb5b1aaa0, type: 2}
-  enemyRuntimeDeck:
-    black: []
-    red: []
   playerDeckRecipe: {fileID: 11400000, guid: 6e947d23683a9ca4bbe10b97e8b9be31, type: 2}
   playerRuntimeDeck:
+    black: []
+    red: []
+  enemyDeckRecipe: {fileID: 11400000, guid: 9a055224e18694e4397df5dcb5b1aaa0, type: 2}
+  enemyRuntimeDeck:
     black: []
     red: []
 --- !u!4 &1129781632
@@ -4357,6 +4349,97 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1819762033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1819762035}
+  - component: {fileID: 1819762034}
+  m_Layer: 0
+  m_Name: Player Card Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1819762034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819762033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e3f430e5dee3f43a37d55894b3003b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardPrefab: {fileID: 0}
+  spawnContainer: {fileID: 0}
+  blueprintPoolInstance:
+    black: []
+    red: []
+  deck:
+    cards:
+    - points: 1
+      color: 0
+    - points: 2
+      color: 0
+    - points: 3
+      color: 0
+    - points: 4
+      color: 0
+    - points: 5
+      color: 0
+    - points: 6
+      color: 0
+    - points: 7
+      color: 0
+    - points: 8
+      color: 0
+    - points: 9
+      color: 0
+    - points: 10
+      color: 0
+    - points: 1
+      color: 1
+    - points: 2
+      color: 1
+    - points: 3
+      color: 1
+    - points: 4
+      color: 1
+    - points: 5
+      color: 1
+    - points: 6
+      color: 1
+    - points: 7
+      color: 1
+    - points: 8
+      color: 1
+    - points: 9
+      color: 1
+    - points: 10
+      color: 1
+--- !u!4 &1819762035
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819762033}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2805159, y: 0.5141689, z: 0.031293437}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 29
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1825253401
 GameObject:
   m_ObjectHideFlags: 0

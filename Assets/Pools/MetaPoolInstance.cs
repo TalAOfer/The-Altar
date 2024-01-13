@@ -1,8 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class MetaPoolInstance
@@ -18,7 +16,7 @@ public class MetaPoolInstance
         for (int i = 0; i < recipe.pools.Count; i++)
         {
             BlueprintPoolInstance pool = new();
-            pool.Initialize(recipe.pools[i]);
+            pool.InitializeAsPool(recipe.pools[i]);
             pools.Add(pool);
         }
     }

@@ -7,17 +7,12 @@ using UnityEngine;
 public class Deck : MonoBehaviour
 {
     [FoldoutGroup("Dependencies")]
-    [SerializeField] private AllEvents events;
-    [FoldoutGroup("Dependencies")]
     [SerializeField] private Transform mapMasterContainer;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private GameObject cardPrefab;
-
+    
     [FoldoutGroup("Deck")]
-    [SerializeField] protected BlueprintPoolInstance defaultBlueprintPool;
-    [FoldoutGroup("Deck")]
-    [SerializeField] protected BlueprintPoolInstance blueprintPoolInstance;
-
+    public BlueprintPoolInstance blueprintPoolInstance;
     [FoldoutGroup("Deck")]
     [SerializeField] protected bool shouldShuffleDeck;
 
@@ -47,31 +42,9 @@ public class Deck : MonoBehaviour
         cardGO.name = cardBlueprint.name;
 
         Card card = cardGO.GetComponent<Card>();
-        card.Init(blueprintPoolInstance, cardBlueprint, cardOwner, index, sortingLayerName);
+        //card.Init(blueprintPoolInstance, cardBlueprint, index, sortingLayerName);
 
         return card;
     }
 
-
-    
-
-    [Button]
-    public void AddToBlueprintPool(CardBlueprint blueprint)
-    {
-        blueprintPoolInstance.OverrideCard(blueprint);
-    }
-
-}
-
-[Serializable]
-public class CardArchetype
-{
-    public int points;
-    public CardColor color;
-
-    public CardArchetype(int points, CardColor color)
-    {
-        this.points = points;
-        this.color = color;
-    }
 }

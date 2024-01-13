@@ -60,21 +60,19 @@ public class Card : MonoBehaviour
         get { return points <= 0; }
     }
 
-    public void Init(BlueprintPoolInstance pool, CardBlueprint blueprint, CardOwner cardOwner, int index, string startingSortingLayer)
+    public void Init(BlueprintPoolInstance pool, CardBlueprint blueprint, string startingSortingLayer)
     {
         this.pool = pool;
 
         currentOverride = blueprint;
         SetCardColor(blueprint.cardColor);
-
+        cardOwner = blueprint.cardOwner;
         points = blueprint.defaultPoints;
+
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
         hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
 
-        this.cardOwner = cardOwner;
         effects.Init(blueprint);
-
-        this.index = index;
 
         interactionHandler.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
