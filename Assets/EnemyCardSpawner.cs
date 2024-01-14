@@ -5,19 +5,19 @@ using UnityEngine;
 public class EnemyCardSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cardPrefab;
-    public BattleRoom currentRoom;
-
-    public BlueprintPoolInstance codex;
+    [SerializeField] private RunData runData;
+    [SerializeField] private BattleRoom room;
+    private BlueprintPoolInstance codex => runData.enemyCodex;
 
     public Card SpawnEnemyInIndexByStrength(int containerIndex, int strength)
     {
         CardBlueprint cardBlueprint = DrawRandomEnemyByStrength(strength);
 
-        Card card = SpawnCard(cardBlueprint, GameConstants.TOP_MAP_LAYER, currentRoom.grid[containerIndex].transform);
+        Card card = SpawnCard(cardBlueprint, GameConstants.TOP_MAP_LAYER, room.grid[containerIndex].transform);
         card.transform.localPosition = Vector3.zero;
         card.index = containerIndex;
 
-        StartCoroutine(currentRoom.grid[containerIndex].SetSlotState(MapSlotState.Occupied));
+        StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Occupied));
         card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
         return card;
     }

@@ -12,18 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: 4B Deserter
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: ad60053e64c85574eb209c57f277a49a, type: 3}
+  cardSprite: {fileID: 21300000, guid: b5d009dd4509c05419f0b3291d128330, type: 3}
+  isDefault: 0
   cardName: Deserter
-  cardOwner: 1
   cardColor: 0
+  cardOwner: 1
   defaultPoints: 4
-  OnReveal: []
-  BeforeBattle: []
+  description: 
+  StartOfTurn: []
+  OnObtain: []
   OnGainPoints: []
-  OnDeath: []
   OnSacrifice: []
+  StartOfBattle: []
+  BeforeAttacking: []
+  Support: []
   OnSurvive: []
-  OnActionTaken: []
-  HurtPointsAlteration: []
-  AttackPointsAlteration: []
+  OnDeath: []
   OnGlobalDeath: []
+  OnActionTaken: []
+  EndOfTurn: []

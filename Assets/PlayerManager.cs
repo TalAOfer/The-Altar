@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private AllEvents events;
     public List<Card> activeCards = new();
-    [SerializeField] private HandManager hand;
+    public HandManager hand;
     [SerializeField] private PlayerCardSpawner spawner;
 
     public void FillHandToMinimum()

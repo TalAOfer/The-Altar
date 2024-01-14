@@ -6,40 +6,23 @@ using UnityEngine;
 public class SetupManager : MonoBehaviour
 {
     [SerializeField] private AllEvents events;
+    [SerializeField] private RunData runData;
     [SerializeField] private bool setupOnAwake;
 
     [FoldoutGroup("Player Deck")]
     [SerializeField] private int minDrawability;
     [FoldoutGroup("Player Deck")]
     [SerializeField] private int maxDrawability;
-    [FoldoutGroup("Player Deck")]
-    [SerializeField] private DeckInstance playerArchetypeDeck;
 
-    [FoldoutGroup("Player Codex")]
+    [FoldoutGroup("Codex")]
     [SerializeField] private BlueprintPoolBlueprint playerCodexRecipe;
-    [FoldoutGroup("Player Codex")]
-    [SerializeField] private BlueprintPoolInstance playerCodex;
-    [FoldoutGroup("Player Codex")]
-    [SerializeField] private PlayerCardSpawner playerSpawner;
-
-    [FoldoutGroup("Enemy Codex")]
+    [FoldoutGroup("Codex")]
     [SerializeField] private BlueprintPoolBlueprint enemyCodexRecipe;
-    [FoldoutGroup("Enemy Codex")]
-    [SerializeField] private BlueprintPoolInstance enemyCodex;
-    [FoldoutGroup("Enemy Codex")]
-    [SerializeField] private EnemyCardSpawner enemySpawner;
 
-    [FoldoutGroup("Player Pools")]
+    [FoldoutGroup("Pools")]
     [SerializeField] private MetaPoolRecipe playerPoolRecipe;
-    [FoldoutGroup("Player Pools")]
-    [SerializeField] private MetaPoolInstance playerRuntimePool;
-
-    [FoldoutGroup("Enemy Pools")]
+    [FoldoutGroup("Pools")]
     [SerializeField] private MetaPoolRecipe enemyPoolRecipe;
-    [FoldoutGroup("Enemy Pools")]
-    [SerializeField] private MetaPoolInstance enemyRuntimePool;
-
-
 
     public void Awake()
     {
@@ -57,29 +40,24 @@ public class SetupManager : MonoBehaviour
 
     private void InitializePlayerDeck()
     {
-        playerArchetypeDeck = new DeckInstance(minDrawability, maxDrawability, true);
-        playerSpawner.deck = playerArchetypeDeck;
+        runData.playerDeck = new DeckInstance(minDrawability, maxDrawability, true);
     }
 
     private void InitializeRuntimeCodexes()
     {
-        playerCodex = new();
-        playerCodex.InitializeAsCodex(playerCodexRecipe);
-        playerSpawner.codex = playerCodex;
+        runData.playerCodex = new();
+        runData.playerCodex.InitializeAsCodex(playerCodexRecipe);
 
-        enemyCodex = new();
-        enemyCodex.InitializeAsCodex(enemyCodexRecipe);
-        enemySpawner.codex = enemyCodex;
+        runData.enemyCodex = new();
+        runData.enemyCodex.InitializeAsCodex(enemyCodexRecipe);
     }
 
     private void InitializeRuntimePools()
     {
-        playerRuntimePool = new();
-        playerRuntimePool.Initialize(playerPoolRecipe);
+        runData.playerPool = new();
+        runData.playerPool.Initialize(playerPoolRecipe);
 
-        enemyRuntimePool = new();
-        enemyRuntimePool.Initialize(enemyPoolRecipe);
+        runData.enemyPool = new();
+        runData.enemyPool.Initialize(enemyPoolRecipe);
     }
-
-
 }

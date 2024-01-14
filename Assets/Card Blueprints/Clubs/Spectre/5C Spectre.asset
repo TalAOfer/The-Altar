@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: 5C Spectre
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: 09f2a60d001efe24dba90549bf814339, type: 3}
+  cardSprite: {fileID: 21300000, guid: 65d50eecc49251a498064ecd9b98cfa9, type: 3}
+  isDefault: 0
   cardName: Spectre
-  cardOwner: 1
   cardColor: 0
+  cardOwner: 1
   defaultPoints: 5
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
@@ -28,5 +30,5 @@ MonoBehaviour:
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
-  EndOfTurn: []
   OnActionTaken: []
+  EndOfTurn: []

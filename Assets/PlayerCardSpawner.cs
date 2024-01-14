@@ -6,9 +6,10 @@ public class PlayerCardSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cardPrefab;
     public Transform spawnContainer;
-    
-    public BlueprintPoolInstance codex;
-    public DeckInstance deck;
+
+    [SerializeField] private RunData runData;
+    private BlueprintPoolInstance codex => runData.playerCodex;
+    private DeckInstance deck => runData.playerDeck;
 
     public CardBlueprint DrawCard()
     {

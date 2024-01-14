@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: 2B Venom
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: ed23c68d1842f694eb36ea14a27bc913, type: 3}
+  cardSprite: {fileID: 21300000, guid: a7bf8705356e09e4fb7545f83c732f83, type: 3}
   isDefault: 0
   cardName: The Betrayal
   cardColor: 0

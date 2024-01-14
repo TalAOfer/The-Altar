@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8cf6966e56deb147836aeb38ca252e4, type: 3}
   m_Name: Room 1
   m_EditorClassIdentifier: 
-  roomType: 0
+  roomType: 1
   difficulty: 4
-  minDraw: 0
-  maxDraw: 0
+  minDraw: 2
+  maxDraw: 5

@@ -20,6 +20,7 @@ public enum GameState
     Sacrifice,
     SelectPlayerCard,
     ChooseEnemyCard,
+    ChooseNewBlueprints,
     GameSetup,
     RoomSetup
 }

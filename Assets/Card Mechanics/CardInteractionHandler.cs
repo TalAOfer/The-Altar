@@ -234,8 +234,9 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         }
     }
 
-    private bool ShouldHoverTriggerTooltip => (!dragManager.isCardDragged && gameState.currentState is GameState.Idle
-                              || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
+    private bool ShouldHoverTriggerTooltip => gameState.currentState is GameState.ChooseNewBlueprints || 
+        (!dragManager.isCardDragged && gameState.currentState is GameState.Idle
+         || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
 
     private bool ShouldHoverBoostHeight => (gameState.currentState is GameState.Idle && !dragManager.isCardDragged && card.cardOwner is CardOwner.Player);
 
@@ -243,7 +244,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     private bool CanDrag => (gameState.currentState is GameState.Idle &&  card.cardOwner is CardOwner.Player);
 
-    private bool CanClick => (gameState.currentState is GameState.SelectPlayerCard && card.cardOwner is CardOwner.Player
+    private bool CanClick => gameState.currentState == GameState.ChooseNewBlueprints || (gameState.currentState is GameState.SelectPlayerCard && card.cardOwner is CardOwner.Player
         && card.cardState is CardState.Selectable or CardState.Selected);
 
     #endregion
