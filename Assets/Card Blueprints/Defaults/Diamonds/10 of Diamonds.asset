@@ -16,7 +16,7 @@ MonoBehaviour:
   isDefault: 1
   cardName: 
   cardColor: 1
-  cardOwner: 0
+  cardOwner: 1
   defaultPoints: 10
   description: 
   StartOfTurn: []

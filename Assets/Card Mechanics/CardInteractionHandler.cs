@@ -231,18 +231,6 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
             case GameState.BattleFormation:
                 if (card.cardState != CardState.Battle) coll.enabled = false;
                 break;
-            case GameState.Battle:
-                break;
-            case GameState.SacrificeFormation:
-                break;
-            case GameState.Sacrifice:
-                break;
-            case GameState.SelectPlayerCard:
-                break;
-            case GameState.ChooseEnemyCard:
-                break;
-            case GameState.Setup:
-                break;
         }
     }
 

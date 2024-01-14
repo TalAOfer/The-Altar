@@ -12,7 +12,6 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [SerializeField] private SpriteRenderer xSr;
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color hoverColor;
-    [SerializeField] private Color doneColor;
     [SerializeField] private AllEvents events;
     private bool isBlinking;
     [SerializeField] private float blinkingDuration;
@@ -24,6 +23,59 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         StartCoroutine(card.interactionHandler.MoveCardToPositionOverTime(transform.position, 1));
     }
+
+    public IEnumerator SetSlotState(MapSlotState newState)
+    {
+        slotState = newState;
+        switch (slotState)
+        {
+            case MapSlotState.Idle:
+                coll.enabled = false;
+                StopBlinking();
+                sr.color = defaultColor;
+                break;
+            case MapSlotState.Choosable:
+                StartBlinking();
+                coll.enabled = true;
+                break;
+            case MapSlotState.Occupied:
+                coll.enabled = false;
+                break;
+            case MapSlotState.Done:
+                coll.enabled = false;
+                yield return StartCoroutine(AnimateX(xAnimationSprites, xAnimationIntervals));
+                events.OnFinishedXAnimation.Raise(this, index);
+                break;
+        }
+
+        yield return null;
+    }
+
+    private IEnumerator AnimateX(List<Sprite> sprites, float changeInterval)
+    {
+        foreach (Sprite sprite in sprites)
+        {
+            xSr.sprite = sprite;
+            yield return new WaitForSeconds(changeInterval);
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        events.OnMapSlotClicked.Raise(this, index);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        //sr.color = hoverColor;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        //sr.color = defaultColor;
+    }
+
+    #region Visuals
 
     private void StartBlinking()
     {
@@ -62,58 +114,7 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         isBlinking = false;
     }
 
-    public IEnumerator SetSlotState(MapSlotState newState)
-    {
-        slotState = newState;
-        switch (slotState)
-        {
-            case MapSlotState.Idle:
-                coll.enabled = false;
-                StopBlinking();
-                sr.color = defaultColor;
-                break;
-            case MapSlotState.Choosable:
-                StartBlinking();
-                coll.enabled = true;
-                break;
-            case MapSlotState.Occupied:
-                coll.enabled = false;
-                //StopBlinking();
-                //sr.color = defaultColor;
-                break;
-            case MapSlotState.Done:
-                coll.enabled = false;
-                yield return StartCoroutine(AnimateX(xAnimationSprites, xAnimationIntervals));
-                events.OnFinishedXAnimation.Raise(this, index);
-                break;
-        }
-
-        yield return null;
-    }
-
-    private IEnumerator AnimateX(List<Sprite> sprites, float changeInterval)
-    {
-        foreach (Sprite sprite in sprites)
-        {
-            xSr.sprite = sprite;
-            yield return new WaitForSeconds(changeInterval);
-        }
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        events.OnMapSlotClicked.Raise(this, index);
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        //sr.color = hoverColor;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        //sr.color = defaultColor;
-    }
+    #endregion
 }
 
 public enum MapSlotState

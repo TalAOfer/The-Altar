@@ -7,9 +7,6 @@ public class GameStateManager : MonoBehaviour
     public CurrentGameState gameState;
     [SerializeField] private AllEvents events;
 
-    [SerializeField] private HandManager handManager;
-    [SerializeField] private SelectManager selectManager;
-
     public void SetGameState(Component sender, object data)
     {
         GameState newGameState = (GameState)data;
@@ -29,10 +26,9 @@ public class GameStateManager : MonoBehaviour
         switch (gameState.currentState)
         {
             case GameState.Idle:
-                events.ToggleCurtain.Raise(this, false);
-                handManager.ChangeHandState(HandState.Idle);
-                selectManager.selectButton.gameObject.SetActive(false);
-
+                //events.ToggleCurtain.Raise(this, false);
+                //handManager.ChangeHandState(HandState.Idle);
+                //selectManager.selectButton.gameObject.SetActive(false);
                 break;
             case GameState.BattleFormation:
                 break;
@@ -47,13 +43,13 @@ public class GameStateManager : MonoBehaviour
             case GameState.Sacrifice:
                 break;
             case GameState.SelectPlayerCard:
-                
                 break;
             case GameState.ChooseEnemyCard:
                 break;
-            case GameState.Setup:
+            case GameState.RoomSetup:
+                break;
+            case GameState.GameSetup:
                 break;
         }
-
     }
 }

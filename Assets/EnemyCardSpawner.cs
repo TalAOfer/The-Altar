@@ -5,35 +5,33 @@ using UnityEngine;
 public class EnemyCardSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cardPrefab;
-    public Transform spawnContainer;
-    public MapGridArranger grid;
+    public BattleRoom currentRoom;
 
-    public BlueprintPoolInstance blueprintPoolInstance;
+    public BlueprintPoolInstance codex;
 
     public Card SpawnEnemyInIndexByStrength(int containerIndex, int strength)
     {
         CardBlueprint cardBlueprint = DrawRandomEnemyByStrength(strength);
 
-        Card card = SpawnCard(cardBlueprint, GameConstants.TOP_MAP_LAYER, grid.MapSlots[containerIndex].transform);
+        Card card = SpawnCard(cardBlueprint, GameConstants.TOP_MAP_LAYER, currentRoom.grid[containerIndex].transform);
         card.transform.localPosition = Vector3.zero;
+        card.index = containerIndex;
 
-        StartCoroutine(grid.MapSlots[containerIndex].SetSlotState(MapSlotState.Occupied));
+        StartCoroutine(currentRoom.grid[containerIndex].SetSlotState(MapSlotState.Occupied));
         card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
         return card;
     }
 
-
-
     private CardBlueprint DrawEnemyByArchetype(CardArchetype archetype)
     {
-        return blueprintPoolInstance.GetCardOverride(archetype);
+        return codex.GetCardOverride(archetype);
     }
 
 
     private CardBlueprint DrawRandomEnemyByStrength(int strength)
     {
         CardColor randomColor = (CardColor)Random.Range(0, 2);
-        return blueprintPoolInstance.GetCardOverride(new CardArchetype(strength, randomColor));
+        return codex.GetCardOverride(new CardArchetype(strength, randomColor));
     }
 
     private Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName, Transform parent)
@@ -41,7 +39,7 @@ public class EnemyCardSpawner : MonoBehaviour
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, parent);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
-        card.Init(blueprintPoolInstance, cardBlueprint, sortingLayerName);
+        card.Init(codex, cardBlueprint, sortingLayerName);
 
         return card;
     }

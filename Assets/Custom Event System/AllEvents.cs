@@ -16,6 +16,8 @@ public class AllEvents : ScriptableObject
     public GameEvent GetRevealedEnemyCards;
 
     [Title("Map")]
+    public GameEvent OnNewRoom;
+
     public GameEvent OnEnemyDeathMarked;
     public GameEvent OnMapCardDied;
     public GameEvent OnMapSlotClicked;

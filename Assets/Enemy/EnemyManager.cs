@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-
-
-    [SerializeField] private MapGridArranger grid;
+    public EnemyCardSpawner spawner;
     public List<Card> activeEnemies;
 
     public void AddEnemyToManager(Card card)

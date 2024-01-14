@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Floor")]
 public class Floor : ScriptableObject
 {
-    public List<int> difficulties;
+    public List<RoomBlueprint> rooms;
 }

@@ -6,7 +6,7 @@ public class EnemyDeck : Deck
 {
     [SerializeField] private MapGridArranger grid;
     [SerializeField] private EnemyManager enemyManager;
-    [SerializeField] private LevelManager levelManager;
+    [SerializeField] private BattleRoom levelManager;
 
     public void DrawEnemyCardToMapIndex(Component sender, object data)
     {

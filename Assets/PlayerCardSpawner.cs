@@ -7,28 +7,28 @@ public class PlayerCardSpawner : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
     public Transform spawnContainer;
     
-    public BlueprintPoolInstance blueprintPoolInstance;
+    public BlueprintPoolInstance codex;
     public DeckInstance deck;
 
-    private CardBlueprint DrawCard()
+    public CardBlueprint DrawCard()
     {
         if (deck.cards.Count == 0)
         {
-            deck.Reinitialize();
+            deck.Reinitialize(true);
         }
 
         CardArchetype drawnArchetype = deck.cards[0];
         deck.cards.RemoveAt(0); // Remove the card from the deck
-        CardBlueprint drawnBlueprint = blueprintPoolInstance.GetCardOverride(drawnArchetype);
+        CardBlueprint drawnBlueprint = codex.GetCardOverride(drawnArchetype);
         return drawnBlueprint;
     }
 
-    private Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName)
+    public Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName)
     {
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, spawnContainer);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
-        card.Init(blueprintPoolInstance, cardBlueprint, sortingLayerName);
+        card.Init(codex, cardBlueprint, sortingLayerName);
 
         return card;
     }

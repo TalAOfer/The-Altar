@@ -7,24 +7,33 @@ using UnityEngine;
 public class DeckInstance
 {
     public List<CardArchetype> cards = new();
+    public int min;
+    public int max;
 
-    public DeckInstance()
+    public DeckInstance(int min, int max, bool shouldShuffle)
     {
-        Reinitialize();
+        this.min = min;
+        this.max = max;
+        Reinitialize(shouldShuffle);
     }
 
-    public void Reinitialize()
+    public void Reinitialize(bool shouldShuffle)
     {
         cards?.Clear();
 
-        for (int i = 1; i <= 10; i++)
+        for (int i = min; i <= max; i++)
         {
             cards.Add(new CardArchetype(i, CardColor.Black));
         }
 
-        for (int i = 1; i <= 10; i++)
+        for (int i = min; i <= max; i++)
         {
             cards.Add(new CardArchetype(i, CardColor.Red));
+        }
+
+        if (shouldShuffle)
+        {
+            Tools.ShuffleList(cards);
         }
     }
 }

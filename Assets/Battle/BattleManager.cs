@@ -7,11 +7,8 @@ using UnityEngine.UI;
 public class BattleManager : MonoBehaviour
 {
     public HandManager handManager;
-    public EnemyManager enemyManager;
+    public BattleRoom roomManager;
     public PlayerDeck playerDeck;
-
-    public SpriteRenderer curtainSr;
-    public BoxCollider2D curtainColl;
 
     public Transform topBattleTransform;
     public Transform bottomBattleTransform;
@@ -26,6 +23,11 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private BattleManagerData movementData;
 
     #region Event & button handlers
+    public void InitializeNewRoom(Component sender, object data)
+    {
+        roomManager = (BattleRoom)data; 
+    }
+
     public void OnCardDroppedOnCard(Component sender, object data)
     {
         playerCard = sender as Card;
@@ -70,6 +72,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator MoveCardsToFormation()
     {
+        enemyCard.transform.SetParent(topBattleTransform, true);
         Coroutine moveEnemyCardToTop = StartCoroutine(enemyCard.interactionHandler.TransformCardUniformly
             (topBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
 
@@ -186,7 +189,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator HandleAllShapeshiftsUntilStable()
     {
         bool changesOccurred;
-        List<Card> allCards = new(enemyManager.activeEnemies);
+        List<Card> allCards = new(roomManager.activeEnemies);
         allCards.AddRange(handManager.cardsInHand);
         allCards.Add(playerCard);
 
@@ -236,7 +239,7 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        foreach (Card card in enemyManager.activeEnemies)
+        foreach (Card card in roomManager.activeEnemies)
         {
             if (card == enemyCard) continue;
             if (card.effects.SupportEffects.Count > 0)
@@ -320,7 +323,7 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
-            foreach (Card card in enemyManager.activeEnemies)
+            foreach (Card card in roomManager.activeEnemies)
             {
                 if (!card.IsDead && card.effects.SupportEffects.Count > 0)
                 {
@@ -365,7 +368,8 @@ public class BattleManager : MonoBehaviour
             //events.AddLogEntry.Raise(this, "Marking Death");
             //enemyManager.MarkAndDestroyDeadEnemy(enemyCard);
             //Wait for player to draw
-            playerDeck.DrawPlayerCard();
+            //playerDeck.DrawPlayerCard();
+            roomManager.RemoveEnemyFromManager(enemyCard);
         }
 
         //events.AddLogEntry.Raise(this, "On Obtain");
@@ -406,7 +410,7 @@ public class BattleManager : MonoBehaviour
         }
 
         //Debug.Log("Starting enemy on action effects application");
-        foreach (Card card in enemyManager.activeEnemies)
+        foreach (Card card in roomManager.activeEnemies)
         {
             if (card.effects.OnActionTakenEffects.Count > 0)
             {
@@ -428,7 +432,7 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        foreach (Card card in enemyManager.activeEnemies)
+        foreach (Card card in roomManager.activeEnemies)
         {
             if (card.effects.EndOfTurnEffects.Count > 0)
             {
@@ -451,9 +455,11 @@ public class BattleManager : MonoBehaviour
     {
         if (enemyCard == null || enemyCard.IsDead) yield break;
 
+        Transform originalParent = roomManager.grid[enemyCard.index].transform;
+        enemyCard.transform.SetParent(originalParent, true);
         enemyCard.ChangeCardState(CardState.Default);
         yield return StartCoroutine(enemyCard.interactionHandler.TransformCardUniformly
-        (enemyCard.interactionHandler.defaultPos, enemyCard.interactionHandler.defaultScale, enemyCard.interactionHandler.defaultRotation, movementData.toFormationDuration));
+        (originalParent.position, Vector3.one, Vector3.zero, movementData.toFormationDuration));
     }
 
     #endregion

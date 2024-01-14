@@ -23,7 +23,7 @@ public class GameSetupManager : MonoBehaviour
 
     private void Awake()
     {
-        events.SetGameState.Raise(this, GameState.Setup);
+        events.SetGameState.Raise(this, GameState.GameSetup);
     }
 
     [Button]
