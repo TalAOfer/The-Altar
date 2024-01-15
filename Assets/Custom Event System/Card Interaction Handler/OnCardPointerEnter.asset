@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8cf6966e56deb147836aeb38ca252e4, type: 3}
-  m_Name: Room 4
+  m_Script: {fileID: 11500000, guid: 7cc48775b08563944829548522289b0a, type: 3}
+  m_Name: OnCardPointerEnter
   m_EditorClassIdentifier: 
-  roomType: 0
-  difficulty: 7
-  minDraw: 0
-  maxDraw: 0
+  listeners: []

@@ -14,8 +14,8 @@ public class RunData : ScriptableObject
     public MetaPoolInstance playerPool;
 
     [FoldoutGroup("Enemy")]
-    public MetaPoolInstance enemyPool;
-    [FoldoutGroup("Enemy")]
     public BlueprintPoolInstance enemyCodex;
+    [FoldoutGroup("Enemy")]
+    public MetaPoolInstance enemyPool;
 
 }

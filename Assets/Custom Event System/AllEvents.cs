@@ -17,19 +17,22 @@ public class AllEvents : ScriptableObject
 
     [Title("Map")]
     public GameEvent OnNewRoom;
-
-    public GameEvent OnEnemyDeathMarked;
     public GameEvent OnMapCardDied;
     public GameEvent OnMapSlotClicked;
-    public GameEvent OnFinishedXAnimation;
-    public GameEvent OnPlayerDrewCardMidGame;
 
     [Title("Card Interaction")]
+    public GameEvent OnCardPointerEnter;
+    public GameEvent OnCardPointerExit;
+    public GameEvent OnCardBeginDrag;
+    public GameEvent OnCardDrag;
+    public GameEvent OnCardEndDrag;
+    public GameEvent OnCardClicked;
+
+
     public GameEvent OnCardDropOnCard;
     public GameEvent OnHandCardStartDrag;
     public GameEvent OnHandCardDroppedNowhere;
     public GameEvent OnDraggedCardHoveredOverHandCard;
-    public GameEvent OnCardClicked;
 
     [Title("Global Card Events")]
     public GameEvent OnGlobalCardDeath;

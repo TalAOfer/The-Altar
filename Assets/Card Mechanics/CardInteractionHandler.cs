@@ -47,7 +47,7 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         defaultRotation = rotation;
     }
 
-    private void RestartTransformToDefault()
+    public void RestartTransformToDefault()
     {
         card.transform.localScale = defaultScale;
         card.transform.position = defaultPos;
@@ -56,51 +56,58 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        card.visualHandler.SetCardBGColor(hoverColor);
+        card.events.OnCardPointerEnter.Raise(card, eventData);
+        //card.visualHandler.SetCardBGColor(hoverColor);
 
-        if (ShouldHoverTriggerTooltip) card.events.ShowTooltip.Raise(this, card);
+        //if (ShouldHoverTriggerTooltip) card.events.ShowTooltip.Raise(this, card);
 
-        if (ShouldHoverBoostHeight)
-        {
-            card.visualHandler.SetSortingOrder(10);
-            card.transform.position = new Vector3(defaultPos.x, defaultPos.y + hoverHeightBoostAmount, defaultPos.z);
-            card.transform.rotation = Quaternion.Euler(Vector3.zero);
-        }
+        //if (ShouldHoverBoostHeight)
+        //{
+        //    card.visualHandler.SetSortingOrder(10);
+        //    card.transform.position = new Vector3(defaultPos.x, defaultPos.y + hoverHeightBoostAmount, defaultPos.z);
+        //    card.transform.rotation = Quaternion.Euler(Vector3.zero);
+        //}
 
-        if (ShouldHoverTriggerHandPlaceSwitch) card.events.OnDraggedCardHoveredOverHandCard.Raise(card, dragManager.draggedCard);
+        //if (ShouldHoverTriggerHandPlaceSwitch) card.events.OnDraggedCardHoveredOverHandCard.Raise(card, dragManager.draggedCard);
 
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        card.visualHandler.SetCardBGColor(defaultColor);
+        card.events.OnCardPointerExit.Raise(card, eventData);
 
-        if (ShouldHoverTriggerTooltip) card.events.HideTooltip.Raise();
+        //card.visualHandler.SetCardBGColor(defaultColor);
 
-        if (ShouldHoverBoostHeight)
-        {
-            card.visualHandler.SetSortingOrder(card.index);
-            RestartTransformToDefault();
-        }
+        //if (ShouldHoverTriggerTooltip) card.events.HideTooltip.Raise();
+
+        //if (ShouldHoverBoostHeight)
+        //{
+        //    card.visualHandler.SetSortingOrder(card.index);
+        //    RestartTransformToDefault();
+        //}
 
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!CanDrag) return;
+        card.events.OnCardBeginDrag.Raise(card, eventData);
 
-        card.events.HideTooltip.Raise();
-        SetCollState(false);
-        dragManager.SetDraggedCard(card);
+        //if (!CanDrag) return;
 
-        //To take it out of hand
-        card.events.OnHandCardStartDrag.Raise(this, card);
-        card.visualHandler.SetSortingOrder(15);
+        //card.events.HideTooltip.Raise();
+        //SetCollState(false);
+        //dragManager.SetDraggedCard(card);
+
+        ////To take it out of hand
+        //card.events.OnHandCardStartDrag.Raise(this, card);
+        //card.visualHandler.SetSortingOrder(15);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!CanDrag) return;
+        card.events.OnCardDrag.Raise(card, eventData);
+
+        //if (!CanDrag) return;
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         temp = mousePos;
@@ -110,32 +117,34 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!CanDrag) return;
+        card.events.OnCardEndDrag.Raise(card, eventData);
 
-        dragManager.SetDraggedCard(null);
-        SetCollState(true);
+        //if (!CanDrag) return;
 
-        GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
-        CardInteractionHandler cardIhThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
-        Card droppedCard = cardIhThatItDroppedOn != null ? cardIhThatItDroppedOn.card : null;
+        //dragManager.SetDraggedCard(null);
+        //SetCollState(true);
 
-        if (droppedCard != null && droppedCard.cardOwner == CardOwner.Enemy)
-        {
-            card.events.OnCardDropOnCard.Raise(card, droppedCard);
-        }
+        //GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
+        //CardInteractionHandler cardIhThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
+        //Card droppedCard = cardIhThatItDroppedOn != null ? cardIhThatItDroppedOn.card : null;
 
-        else
-        {
-            card.events.OnHandCardDroppedNowhere.Raise(card, card);
-        }
+        //if (droppedCard != null && droppedCard.cardOwner == CardOwner.Enemy)
+        //{
+        //    card.events.OnCardDropOnCard.Raise(card, droppedCard);
+        //}
+
+        //else
+        //{
+        //    card.events.OnHandCardDroppedNowhere.Raise(card, card);
+        //}
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (CanClick)
-        {
-            card.events.OnCardClicked.Raise(this, card);
-        }
+        //if (CanClick)
+        //{
+            card.events.OnCardClicked.Raise(card, eventData);
+        //}
     }
 
     #region Movement Routines
@@ -233,19 +242,6 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
                 break;
         }
     }
-
-    private bool ShouldHoverTriggerTooltip => gameState.currentState is GameState.ChooseNewBlueprints || 
-        (!dragManager.isCardDragged && gameState.currentState is GameState.Idle
-         || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
-
-    private bool ShouldHoverBoostHeight => (gameState.currentState is GameState.Idle && !dragManager.isCardDragged && card.cardOwner is CardOwner.Player);
-
-    private bool ShouldHoverTriggerHandPlaceSwitch => (gameState.currentState is GameState.Idle && dragManager.isCardDragged && card.cardOwner is CardOwner.Player);
-
-    private bool CanDrag => (gameState.currentState is GameState.Idle &&  card.cardOwner is CardOwner.Player);
-
-    private bool CanClick => gameState.currentState == GameState.ChooseNewBlueprints || (gameState.currentState is GameState.SelectPlayerCard && card.cardOwner is CardOwner.Player
-        && card.cardState is CardState.Selectable or CardState.Selected);
 
     #endregion
 }

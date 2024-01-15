@@ -13,7 +13,23 @@ MonoBehaviour:
   m_Name: Floor 1
   m_EditorClassIdentifier: 
   rooms:
-  - {fileID: 11400000, guid: c40d7eeeac128fc4e8267d6cc22530b7, type: 2}
-  - {fileID: 11400000, guid: 38703ca17d23c9843b930996b3d2029a, type: 2}
-  - {fileID: 11400000, guid: 04a9325581c393e458e86b3aec7e8cca, type: 2}
-  - {fileID: 11400000, guid: 0f959115c3a870242bf4c1c0f0164379, type: 2}
+  - roomType: 1
+    difficulty: 0
+    amountOfOptions: 2
+    minDraw: 2
+    maxDraw: 5
+  - roomType: 0
+    difficulty: 0
+    amountOfOptions: 0
+    minDraw: 0
+    maxDraw: 0
+  - roomType: 0
+    difficulty: 0
+    amountOfOptions: 0
+    minDraw: 0
+    maxDraw: 0
+  - roomType: 0
+    difficulty: 0
+    amountOfOptions: 0
+    minDraw: 0
+    maxDraw: 0

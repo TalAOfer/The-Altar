@@ -38,6 +38,7 @@ public class FloorManager : MonoBehaviour
         currentRoom.InitializeRoom(this, CurrentRoomBlueprint);
 
         yield return StartCoroutine(LerpPosition(currentRoom.transform, Vector3.zero, swipeDuration));
+        currentRoom.OnRoomFinishedLerping();
 
         if (CurrentRoomBlueprint.roomType == RoomType.Battle)
         {
@@ -64,6 +65,8 @@ public class FloorManager : MonoBehaviour
 
         previousRoom.OnRoomFinished();
         yield return StartCoroutine(LerpPosition(previousRoom.transform, oldRoomSwipePos.position, swipeDuration));
+
+        currentRoom.OnRoomFinishedLerping();
 
         if (CurrentRoomBlueprint.roomType == RoomType.Battle)
         {

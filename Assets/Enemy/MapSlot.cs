@@ -44,7 +44,6 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             case MapSlotState.Done:
                 coll.enabled = false;
                 yield return StartCoroutine(AnimateX(xAnimationSprites, xAnimationIntervals));
-                events.OnFinishedXAnimation.Raise(this, index);
                 break;
         }
 

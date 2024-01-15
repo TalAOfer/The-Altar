@@ -26,6 +26,11 @@ public class BattleRoom : Room
         SpawnEnemies();
     }
 
+    public override void OnRoomFinishedLerping()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void OnRoomFinished()
     {
 

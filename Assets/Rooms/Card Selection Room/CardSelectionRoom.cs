@@ -9,6 +9,7 @@ public class CardSelectionRoom : Room
     [SerializeField] private AllEvents events;
     private FloorManager floorManager;
     [SerializeField] private RunData runData;
+    [SerializeField] List<GameObject> texts;
 
     [SerializeField] private GameObject cardPrefab;
 
@@ -17,7 +18,7 @@ public class CardSelectionRoom : Room
     [SerializeField] private float defaultSpacingX;
     [SerializeField] private float defaultSpacingY;
 
-    private List<LinkedCards> linkedCardsList = new();
+    public List<LinkedCards> linkedCardsList = new();
 
     private Vector3 temp = new();
 
@@ -25,17 +26,34 @@ public class CardSelectionRoom : Room
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
         this.floorManager = floorManager;
-        int cardAmount = 2;
 
         events.SetGameState.Raise(this, GameState.ChooseNewBlueprints);
 
+        ToggleTexts(true);
+
         linkedCardsList.Clear();
+        SpawnLinkedCards(roomBlueprint);
+    }
+    public override void OnRoomFinishedLerping()
+    {
+        foreach (LinkedCards linkedCards in linkedCardsList)
+        {
+            linkedCards.playerCard.interactionHandler.SetNewDefaultLocation(linkedCards.playerCard.transform.position, Vector3.one, Vector3.zero);
+            linkedCards.enemyCard.interactionHandler.SetNewDefaultLocation(linkedCards.enemyCard.transform.position, Vector3.one, Vector3.zero);
+        }
+    }
+
+    public void SpawnLinkedCards(RoomBlueprint roomBlueprint)
+    {
+        int minDraw = roomBlueprint.minDraw;
+        int maxDraw = roomBlueprint.maxDraw;
+        int cardAmount = roomBlueprint.amountOfOptions;
 
         float startOffset = -defaultSpacingX * (cardAmount - 1) / 2;
 
         for (int i = 0; i < cardAmount; i++)
         {
-            CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(roomBlueprint.minDraw, roomBlueprint.maxDraw);
+            CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(minDraw, maxDraw);
             Card playerCard = SpawnCard(playerDrawnBlueprint, GameConstants.BOTTOM_BATTLE_LAYER, runData.playerCodex);
             playerCard.index = i;
             temp.x = startOffset + i * defaultSpacingX;
@@ -43,7 +61,7 @@ public class CardSelectionRoom : Room
             playerCard.transform.position = temp;
             playerCard.interactionHandler.SetNewDefaultLocation(playerCard.transform.position, playerCard.transform.localScale, Vector3.zero);
 
-            CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(roomBlueprint.minDraw, roomBlueprint.maxDraw);
+            CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(minDraw, maxDraw);
             Card enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.BOTTOM_BATTLE_LAYER, runData.enemyCodex);
             enemyCard.index = i;
             temp.y = enemyCard.transform.position.y + defaultSpacingY;
@@ -53,9 +71,18 @@ public class CardSelectionRoom : Room
             linkedCardsList.Add(new(playerCard, enemyCard));
         }
     }
+
     public override void OnRoomFinished()
     {
-        throw new System.NotImplementedException();
+        ToggleTexts(false);
+    }
+
+    private void ToggleTexts(bool enable)
+    {
+        foreach (GameObject text in texts)
+        {
+            text.SetActive(enable);
+        }
     }
 
     public void HandleCardClick(Component sender, object data)

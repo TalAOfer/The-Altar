@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class Room : MonoBehaviour
 {
     public abstract void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint);
+
+    public abstract void OnRoomFinishedLerping();
     public abstract void OnRoomFinished();
 }
 
