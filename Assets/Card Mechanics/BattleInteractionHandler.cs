@@ -15,26 +15,38 @@ public class BattleInteractionHandler : CardInteractionBase
     {
         card.visualHandler.SetCardBGColor(hoverColor);
 
-        events.ShowTooltip.Raise(this, card);
+        if (ShouldHoverTriggerTooltip(card)) card.events.ShowTooltip.Raise(this, card);
 
-        //Boost height
-        Vector3 temp = card.interactionHandler.defaultPos;
-        temp.y += hoverHeightBoostAmount;
-        card.transform.position = temp;
+        if (ShouldHoverBoostHeight(card))
+        {
+            card.visualHandler.SetSortingOrder(10);
+            Vector3 temp = card.interactionHandler.defaultPos;
+            temp.y += hoverHeightBoostAmount;
+            card.transform.SetPositionAndRotation(temp, Quaternion.Euler(Vector3.zero));
+        }
+
+        if (ShouldHoverTriggerHandPlaceSwitch(card)) card.events.OnDraggedCardHoveredOverHandCard.Raise(card, draggedCard);
+
     }
 
     protected override void HandlePointerExit(Card card, PointerEventData eventData)
     {
+
         card.visualHandler.SetCardBGColor(defaultColor);
 
-        events.HideTooltip.Raise(this, card);
+        if (ShouldHoverTriggerTooltip(card)) card.events.HideTooltip.Raise();
 
-        //Boost height
-        card.interactionHandler.RestartTransformToDefault();
+        if (ShouldHoverBoostHeight(card))
+        {
+            card.visualHandler.SetSortingOrder(card.index);
+            card.interactionHandler.RestartTransformToDefault();
+        }
     }
 
     protected override void HandleBeginDrag(Card card, PointerEventData eventData)
     {
+        if (!CanDrag(card)) return;
+
         card.events.HideTooltip.Raise();
         card.interactionHandler.SetCollState(false);
 
@@ -55,6 +67,8 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandleEndDrag(Card card, PointerEventData eventData)
     {
+        if (!CanDrag(card)) return;
+
         draggedCard = null;
         isDragging = false;
 
@@ -80,8 +94,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
     }
 
-    private bool ShouldHoverTriggerTooltip(Card card) => gameState.currentState is GameState.ChooseNewBlueprints ||
-    (isDragging && gameState.currentState is GameState.Idle
+    private bool ShouldHoverTriggerTooltip(Card card) => (!isDragging && gameState.currentState is GameState.Idle
      || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
 
     private bool ShouldHoverBoostHeight(Card card)
@@ -100,9 +113,9 @@ public class BattleInteractionHandler : CardInteractionBase
         return (gameState.currentState is GameState.Idle && card.cardOwner is CardOwner.Player);
     }
 
-    private bool CanClick(Card card) 
+    private bool CanClick(Card card)
     {
         bool isCardSelectedOrSelectable = card.cardState is CardState.Selectable or CardState.Selected;
         return (gameState.currentState is GameState.SelectPlayerCard && isCardSelectedOrSelectable && card.cardOwner is CardOwner.Player);
-    } 
+    }
 }

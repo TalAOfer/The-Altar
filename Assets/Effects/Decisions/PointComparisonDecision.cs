@@ -22,30 +22,30 @@ public class PointComparisonDecision : Decision
     [ShowIf("compareTo", CompareTo.Amount)]
     public int amount;
 
-    public override bool Decide(EffectContext context)
+    public override bool Decide(ApplierContext context)
     {
         bool isTrue = false;
 
         switch (comparison)
         {
             case Comparison.OtherBiggerThan:
-                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points > context.InitiatingCard.points;
+                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points > context.TargetCard.points;
                 else isTrue = context.OtherCard.points > amount;
                 break;
             case Comparison.OtherEquals:
-                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points == context.InitiatingCard.points;
+                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points == context.TargetCard.points;
                 else isTrue = context.OtherCard.points == amount;
                 break;
             case Comparison.OtherSmallerThan:
-                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points < context.InitiatingCard.points;
+                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points < context.TargetCard.points;
                 else isTrue = context.OtherCard.points < amount;
                 break;
             case Comparison.OtherSmallerOrEquals:
-                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points <= context.InitiatingCard.points;
+                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points <= context.TargetCard.points;
                 else isTrue = context.OtherCard.points <= amount;
                 break;
             case Comparison.OtherBiggerOrEquals:
-                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points >= context.InitiatingCard.points;
+                if (compareTo == CompareTo.Me) isTrue = context.OtherCard.points >= context.TargetCard.points;
                 else isTrue = context.OtherCard.points >= amount; 
                 break;
         }

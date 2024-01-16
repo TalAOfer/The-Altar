@@ -188,7 +188,7 @@ public class CardEffectHandler : MonoBehaviour
     {
         foreach (Effect effect in effects)
         {
-            yield return StartCoroutine(effect.Apply(new EffectContext(card, otherCard, trigger)));
+            yield return StartCoroutine(effect.Apply(new EffectContext(card, otherCard)));
         }
     }
 }

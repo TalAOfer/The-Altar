@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: Floor 1
   m_EditorClassIdentifier: 
   rooms:
+  - roomType: 0
+    difficulty: 4
+    amountOfOptions: 0
+    minDraw: 0
+    maxDraw: 0
   - roomType: 1
     difficulty: 0
     amountOfOptions: 2
     minDraw: 2
-    maxDraw: 5
+    maxDraw: 3
   - roomType: 0
-    difficulty: 0
+    difficulty: 4
     amountOfOptions: 0
     minDraw: 0
     maxDraw: 0
   - roomType: 0
-    difficulty: 0
-    amountOfOptions: 0
-    minDraw: 0
-    maxDraw: 0
-  - roomType: 0
-    difficulty: 0
+    difficulty: 4
     amountOfOptions: 0
     minDraw: 0
     maxDraw: 0

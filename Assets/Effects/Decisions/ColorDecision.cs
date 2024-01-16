@@ -5,9 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Decisions/Color Decision")]
 public class ColorDecision : Decision
 {
-    public CardColor isOther;
-    public override bool Decide(EffectContext context)
+    public ApplierTarget whoToCheck;
+    public CardColor isIt;
+    public override bool Decide(ApplierContext context)
     {
-        return context.OtherCard.cardColor == isOther;
+        Card targetCard = whoToCheck is ApplierTarget.Target ? context.TargetCard : context.OtherCard;
+        return targetCard.cardColor == isIt;
     }
 }

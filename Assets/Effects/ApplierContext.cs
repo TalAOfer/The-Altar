@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectContext
+public class ApplierContext
 {
-    public Card InitiatingCard { get; set; }
+    public Card TargetCard { get; set; }
     public Card OtherCard { get; set; }
 
 
-    public EffectContext(Card initiatingCard, Card otherCard)
+    public ApplierContext(Card targetCard, Card otherCard)
     {
-        InitiatingCard = initiatingCard;
+        TargetCard = targetCard;
         OtherCard = otherCard;
     }
 }

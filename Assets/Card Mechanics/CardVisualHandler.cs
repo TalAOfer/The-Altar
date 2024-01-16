@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CardVisualHandler : MonoBehaviour
 {
+    [SerializeField] private Palette palette;
     [SerializeField] CardVisualData data;
     private Material cardMaterial;
     private Material spritesMaterial;
@@ -62,8 +63,8 @@ public class CardVisualHandler : MonoBehaviour
     {
         cardMaterial = new Material(shaderMaterial);
         cardSr.material = cardMaterial;
-        cardMaterial.SetColor("_Color", Color.white);
-        cardMaterial.SetColor("_Outline_Color", Color.black);
+        cardMaterial.SetColor("_Color", palette.white);
+        cardMaterial.SetColor("_Outline_Color", palette.darkPurple);
         cardMaterial.SetInt("_Outline_On", 1);
     }
 
@@ -122,7 +123,7 @@ public class CardVisualHandler : MonoBehaviour
 
     public void SetSpritesColor()
     {
-        Color color = card.cardColor == CardColor.Black ? Color.black : Color.red;
+        Color color = card.cardColor == CardColor.Black ? palette.darkPurple : palette.lightRed;
         spritesMaterial.SetColor("_Color", color);
     }
 

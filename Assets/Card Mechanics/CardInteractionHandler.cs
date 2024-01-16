@@ -57,94 +57,28 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerEnter(PointerEventData eventData)
     {
         card.events.OnCardPointerEnter.Raise(card, eventData);
-        //card.visualHandler.SetCardBGColor(hoverColor);
-
-        //if (ShouldHoverTriggerTooltip) card.events.ShowTooltip.Raise(this, card);
-
-        //if (ShouldHoverBoostHeight)
-        //{
-        //    card.visualHandler.SetSortingOrder(10);
-        //    card.transform.position = new Vector3(defaultPos.x, defaultPos.y + hoverHeightBoostAmount, defaultPos.z);
-        //    card.transform.rotation = Quaternion.Euler(Vector3.zero);
-        //}
-
-        //if (ShouldHoverTriggerHandPlaceSwitch) card.events.OnDraggedCardHoveredOverHandCard.Raise(card, dragManager.draggedCard);
-
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         card.events.OnCardPointerExit.Raise(card, eventData);
-
-        //card.visualHandler.SetCardBGColor(defaultColor);
-
-        //if (ShouldHoverTriggerTooltip) card.events.HideTooltip.Raise();
-
-        //if (ShouldHoverBoostHeight)
-        //{
-        //    card.visualHandler.SetSortingOrder(card.index);
-        //    RestartTransformToDefault();
-        //}
-
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         card.events.OnCardBeginDrag.Raise(card, eventData);
-
-        //if (!CanDrag) return;
-
-        //card.events.HideTooltip.Raise();
-        //SetCollState(false);
-        //dragManager.SetDraggedCard(card);
-
-        ////To take it out of hand
-        //card.events.OnHandCardStartDrag.Raise(this, card);
-        //card.visualHandler.SetSortingOrder(15);
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        card.events.OnCardDrag.Raise(card, eventData);
-
-        //if (!CanDrag) return;
-
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        temp = mousePos;
-        temp.z = 0;
-        card.transform.position = temp;
-    }
+    public void OnDrag(PointerEventData eventData){}
 
     public void OnEndDrag(PointerEventData eventData)
     {
         card.events.OnCardEndDrag.Raise(card, eventData);
-
-        //if (!CanDrag) return;
-
-        //dragManager.SetDraggedCard(null);
-        //SetCollState(true);
-
-        //GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
-        //CardInteractionHandler cardIhThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
-        //Card droppedCard = cardIhThatItDroppedOn != null ? cardIhThatItDroppedOn.card : null;
-
-        //if (droppedCard != null && droppedCard.cardOwner == CardOwner.Enemy)
-        //{
-        //    card.events.OnCardDropOnCard.Raise(card, droppedCard);
-        //}
-
-        //else
-        //{
-        //    card.events.OnHandCardDroppedNowhere.Raise(card, card);
-        //}
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //if (CanClick)
-        //{
-            card.events.OnCardClicked.Raise(card, eventData);
-        //}
+        card.events.OnCardClicked.Raise(card, eventData);
     }
 
     #region Movement Routines

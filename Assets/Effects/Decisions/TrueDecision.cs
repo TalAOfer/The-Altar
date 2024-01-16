@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Decisions/True Decision")]
 public class TrueDecision : Decision
 {
-    public override bool Decide(EffectContext context)
+    public override bool Decide(ApplierContext context)
     {
         return true;
     }

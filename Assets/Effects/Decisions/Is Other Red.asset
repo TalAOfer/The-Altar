@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f12560a64b48fc4f8b1ff2efd6b7eea, type: 3}
   m_Name: Is Other Red
   m_EditorClassIdentifier: 
-  isOther: 1
+  whoToCheck: 1
+  isIt: 1

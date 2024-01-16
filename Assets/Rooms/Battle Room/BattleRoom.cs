@@ -28,7 +28,7 @@ public class BattleRoom : Room
 
     public override void OnRoomFinishedLerping()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnRoomFinished()

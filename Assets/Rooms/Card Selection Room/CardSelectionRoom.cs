@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
@@ -12,6 +13,7 @@ public class CardSelectionRoom : Room
     [SerializeField] List<GameObject> texts;
 
     [SerializeField] private GameObject cardPrefab;
+    [SerializeField] private GameObject link;
 
     [SerializeField] private Transform spawnContainer;
 
@@ -54,7 +56,7 @@ public class CardSelectionRoom : Room
         for (int i = 0; i < cardAmount; i++)
         {
             CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(minDraw, maxDraw);
-            Card playerCard = SpawnCard(playerDrawnBlueprint, GameConstants.BOTTOM_BATTLE_LAYER, runData.playerCodex);
+            Card playerCard = SpawnCard(playerDrawnBlueprint, GameConstants.TOP_BATTLE_LAYER, runData.playerCodex);
             playerCard.index = i;
             temp.x = startOffset + i * defaultSpacingX;
             temp.y = playerCard.transform.position.y - defaultSpacingY;
@@ -62,13 +64,17 @@ public class CardSelectionRoom : Room
             playerCard.interactionHandler.SetNewDefaultLocation(playerCard.transform.position, playerCard.transform.localScale, Vector3.zero);
 
             CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(minDraw, maxDraw);
-            Card enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.BOTTOM_BATTLE_LAYER, runData.enemyCodex);
+            Card enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.TOP_BATTLE_LAYER, runData.enemyCodex);
             enemyCard.index = i;
             temp.y = enemyCard.transform.position.y + defaultSpacingY;
             enemyCard.transform.position = temp;
             enemyCard.interactionHandler.SetNewDefaultLocation(playerCard.transform.position, playerCard.transform.localScale, Vector3.zero);
 
-            linkedCardsList.Add(new(playerCard, enemyCard));
+            GameObject linkGo = Instantiate(link, transform.position, Quaternion.identity, spawnContainer);
+            linkGo.transform.localPosition = new Vector3(temp.x, 0, 0);
+
+
+            linkedCardsList.Add(new(playerCard, enemyCard, linkGo));
         }
     }
 
@@ -83,12 +89,6 @@ public class CardSelectionRoom : Room
         {
             text.SetActive(enable);
         }
-    }
-
-    public void HandleCardClick(Component sender, object data)
-    {
-        Card clickedCard = data as Card;
-        HandleChoice(clickedCard.index);
     }
 
     public void HandleChoice(int index)
@@ -122,6 +122,7 @@ public class CardSelectionRoom : Room
 
             Destroy(linkedCards.playerCard.gameObject);
             Destroy(linkedCards.enemyCard.gameObject);
+            Destroy(linkedCards.link);
         }
     }
 
@@ -137,16 +138,19 @@ public class CardSelectionRoom : Room
 
 }
 
+[Serializable]
 public class LinkedCards
 {
     public Card playerCard;
     public Card enemyCard;
     public bool wasChosen;
+    public GameObject link;
 
-    public LinkedCards(Card playerCard, Card enemyCard)
+    public LinkedCards(Card playerCard, Card enemyCard, GameObject link)
     {
         wasChosen = false;
         this.playerCard = playerCard;
         this.enemyCard = enemyCard;
+        this.link = link;
     }
 }

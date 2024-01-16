@@ -2,124 +2,107 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu(menuName = "Blueprints/Effect")]
 public class EffectBlueprint : ScriptableObject
 {
+    [Title("Protoype")]
+    public EffectPrototype prototype;
+    [ShowIf("prototype", EffectPrototype.Event)]
     public AllEvents events;
-    public EffectType effectType;
-    public EffectApplicationType applicationType;
+
+    [ShowIf("prototype", EffectPrototype.Context)]
+    public EffectTarget target;
 
     public float predelay = 0f;
-    public float postdelay = 1f;
+    public float postdelay = 0f;
 
-    [ShowIf("effectType", EffectType.AlterBattlePoints)]
+    [Title("Applier")]
+    public EffectApplicationType applicationType;
+    public ApplierType applierType;
+
+    [ShowIf("applierType", ApplierType.AlterBattlePoints)]
     public BattlePointType battlePointType;
 
-    [ShowIf("effectType", EffectType.AlterBattlePoints)]
+    [ShowIf("applierType", ApplierType.AlterBattlePoints)]
     public ModifierType modifierType;
 
-    [ShowIf("effectType", EffectType.AlterBattlePoints)]
+    [ShowIf("applierType", ApplierType.AlterBattlePoints)]
     public float alterationAmount;
 
-    [ShowIf("effectType", EffectType.AlterBattlePoints)]
     public bool isConditional;
 
-    [ShowIf("@ShouldShowDecision()")]
+    [ShowIf("isConditional")]
     public Decision decision;
 
-    [ShowIf("@ShouldShowPointsToAdd()")]
+    [ShowIf("applierType",  ApplierType.GainPoints)]
     public int pointsToAdd;
 
-    [ShowIf("@ShouldShowCardBlueprint()")]
+    [ShowIf("applierType", ApplierType.SummonCard)]
     public CardBlueprint cardBlueprint;
 
-    [ShowIf("effectType", EffectType.AddGuardian)]
+    [ShowIf("applierType", ApplierType.AddGuardian)]
     public GuardianType guardianType;
 
-    [ShowIf("effectType", EffectType.AddGuardian)]
+    [ShowIf("applierType", ApplierType.AddGuardian)]
     public EffectApplicationType guardianApplicationType;
 
-    [ShowIf("@ShouldShowWhoToChange()")]
-    public WhoToChange whoToChange;
-
-    [ShowIf("effectType", EffectType.AddEffect)]
+    [ShowIf("applierType", ApplierType.AddEffect)]
     public EffectBlueprint blueprintToAdd;
 
-    [ShowIf("effectType", EffectType.AddEffect)]
+    [ShowIf("applierType", ApplierType.AddEffect)]
     public EffectTrigger whenToTriggerAddedEffect;
 
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
     {
-        GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + effectType.ToString());
+        GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + applierType.ToString());
         newEffectGO.transform.SetParent(parentCard.transform, false);
         newEffectGO.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
         if (triggerType is EffectTrigger.StartOfBattle && isConditional) Debug.LogError("Conditional effects need to be in before attacking, not start of battle");
 
-        switch (effectType)
+        EffectApplier applier = null;
+
+        switch (applierType)
         {
-            case EffectType.DummyEffect:
-                BaseInitializeEffect<DummyEffect>(newEffectGO, triggerType, parentCard);
+            case ApplierType.DummyEffect:
+                applier = newEffectGO.AddComponent<DummyApplier>();
                 break;
-            case EffectType.ChangeColor:
-                var changeColorEffect = BaseInitializeEffect<ChangeColorEffect>(newEffectGO, triggerType, parentCard);
-                changeColorEffect.Initialize(whoToChange);
+            case ApplierType.AlterBattlePoints:
+                applier = newEffectGO.AddComponent<AlterBattlePointsApplier>();
+                AlterBattlePointsApplier battlePointsApplier = (AlterBattlePointsApplier) applier;
+                battlePointsApplier.Initialize(alterationAmount, modifierType, battlePointType);
                 break;
-            case EffectType.GainPoints:
-                var gainPointsEffect = BaseInitializeEffect<GainPointsEffect>(newEffectGO, triggerType, parentCard);
-                gainPointsEffect.Initialize(pointsToAdd);
+            case ApplierType.ChangeColor:
                 break;
-            case EffectType.AlterBattlePoints:
-                var hurtPointsAlterationEffect = BaseInitializeEffect<ModifyBattlePointsEffect>(newEffectGO, triggerType, parentCard);
-                hurtPointsAlterationEffect.Initialize(whoToChange, alterationAmount, modifierType, battlePointType, isConditional, decision);
+            case ApplierType.GainPoints:
                 break;
-            case EffectType.SummonCard:
-                var summonCardEffect = BaseInitializeEffect<SummonCardEffect>(newEffectGO, triggerType, parentCard);
-                summonCardEffect.Initialize(cardBlueprint);
+            case ApplierType.SummonCard:
                 break;
-            case EffectType.DrawCard:
-                BaseInitializeEffect<DrawCardEffect>(newEffectGO, triggerType, parentCard);
+            case ApplierType.DrawCard:
                 break;
-            case EffectType.GivePointsToRandomPlayerCard:
-                var givePointsEffect = BaseInitializeEffect<GivePointsToRandomHandCardEffect>(newEffectGO, triggerType, parentCard);
-                givePointsEffect.Initialize(pointsToAdd);
+            case ApplierType.AddEffect:
                 break;
-            case EffectType.ForceShapeshift:
-                var forcedShapeshiftEffect = BaseInitializeEffect<ForcedShapeshiftEffect>(newEffectGO, triggerType, parentCard);
-                forcedShapeshiftEffect.Initialize(cardBlueprint);
+            case ApplierType.AddGuardian:
                 break;
-            case EffectType.AddGuardian:
-                var addGuardianEffect = BaseInitializeEffect<AddGuardianEffect>(newEffectGO, triggerType, parentCard);
-                addGuardianEffect.Initialize(guardianType, guardianApplicationType);
+        }
+
+        switch (prototype)
+        {
+            case EffectPrototype.Context:
+                BaseInitializeEffect<ContextEffect>(newEffectGO, applier, triggerType, parentCard);
                 break;
-            case EffectType.AddBattlePointsPerX:
-                BaseInitializeEffect<AddBattlePointsAccordingToXEffect>(newEffectGO, triggerType, parentCard);
-                break;
-            case EffectType.AddBattlePointsAccordingToOtherRevealedEnemyCard:
-                BaseInitializeEffect<AddBattlePointsAccordingToOtherRevealedCardEffect>(newEffectGO, triggerType, parentCard);
-                break;
-            case EffectType.GivePointsToOtherRevealedEnemyCard:
-                BaseInitializeEffect<GivePointsToOtherRevealedEnemyCardEffect>(newEffectGO, triggerType, parentCard);
-                break;
-            case EffectType.ChangeColorToAllRevealedEnemies:
-                BaseInitializeEffect<ChangeColorToAllRevealedEnemies>(newEffectGO, triggerType, parentCard);
-                break;
-            case EffectType.AddEffect:
-                var addEffectEffect = BaseInitializeEffect<AddEffectEffect>(newEffectGO, triggerType, parentCard);
-                addEffectEffect.Initialize(blueprintToAdd, whenToTriggerAddedEffect, whoToChange);
-                break;
-            case EffectType.AddGuardianToSelectedCard:
-                BaseInitializeEffect<AddGuardianToSelectedCard>(newEffectGO, triggerType, parentCard);
-                //.Initialize(guardianType, guardianApplicationType);
+            case EffectPrototype.Event:
+                BaseInitializeEffect<EventEffect>(newEffectGO, applier, triggerType, parentCard);
                 break;
         }
     }
 
-    public T BaseInitializeEffect<T>(GameObject newEffectGO, EffectTrigger triggerType, Card parentCard) where T : Effect
+    public T BaseInitializeEffect<T>(GameObject newEffectGO, EffectApplier applier, EffectTrigger triggerType, Card parentCard) where T : Effect
     {
         T effect = newEffectGO.AddComponent<T>();
-        effect.BaseInitialize(this, parentCard); // Assuming BaseInitialize is a method in T or its base class
+        effect.BaseInitialize(applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
 
         AddEffectToList(parentCard, triggerType, effect);
 
@@ -169,22 +152,12 @@ public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect e
 
     private bool ShouldShowPointsToAdd()
     {
-        return effectType is EffectType.GainPoints or EffectType.GivePointsToRandomPlayerCard;
-    }
-
-    private bool ShouldShowCardBlueprint()
-    {
-        return effectType is EffectType.SummonCard or EffectType.ForceShapeshift;
+        return applierType is ApplierType.GainPoints;
     }
 
     private bool ShouldShowDecision()
     {
-        return effectType is EffectType.AlterBattlePoints && isConditional;
-    }
-
-    private bool ShouldShowWhoToChange()
-    {
-        return effectType is EffectType.ChangeColor or EffectType.AlterBattlePoints or EffectType.AddEffect;
+        return isConditional;
     }
 }
 
@@ -210,26 +183,35 @@ public enum EffectTrigger
 public enum EffectApplicationType
 {
     Base,
-    Bond,
-    Persistent
+    Persistent,
+    //Bond,
 }
 
-public enum EffectType
+public enum EffectPrototype
+{
+    Context,
+    Event
+}
+
+public enum ApplierType
 {
     DummyEffect,
     AlterBattlePoints,
     ChangeColor,
     GainPoints,
-    GivePointsToRandomPlayerCard,
     SummonCard,
     DrawCard,
-    ForceShapeshift,
-    AddGuardian,
-    AddBattlePointsPerX,
-    AddBattlePointsAccordingToOtherRevealedEnemyCard,
-    GivePointsToOtherRevealedEnemyCard,
-    ChangeColorToAllRevealedEnemies,
     AddEffect,
-    AddGuardianToSelectedCard,
+    AddGuardian,
+
+
+    //DummyEffect,
+    //GivePointsToRandomPlayerCard,
+    //ForceShapeshift,
+    //AddBattlePointsPerX,
+    //AddBattlePointsAccordingToOtherRevealedEnemyCard,
+    //GivePointsToOtherRevealedEnemyCard,
+    //ChangeColorToAllRevealedEnemies,
+    //AddGuardianToSelectedCard,
 }
 

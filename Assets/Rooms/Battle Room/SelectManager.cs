@@ -8,7 +8,7 @@ public class SelectManager : MonoBehaviour
     private Card selectedCard = null;
 
     [SerializeField] private AllEvents events;
-    private ActiveEffect currentAsker;
+    private EventEffect currentAsker;
 
     [SerializeField] private HandManager handManager;
     [SerializeField] private PlayerManager playerManager;
@@ -19,7 +19,7 @@ public class SelectManager : MonoBehaviour
 
     public void WaitForActiveChoice(Component sender, object data)
     {
-        ActiveEffect asker = (ActiveEffect)data;
+        EventEffect asker = (EventEffect)data;
         Card selectingCard = asker.parentCard;
         if (asker == null)
         {
