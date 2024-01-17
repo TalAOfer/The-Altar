@@ -13,20 +13,21 @@ MonoBehaviour:
   m_Name: 2D Cheapshot
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 6d16d53d0c9fe4e4baacbffee4159971, type: 3}
+  isDefault: 0
   cardName: Cheapshot
-  cardOwner: 1
   cardColor: 1
+  cardOwner: 1
   defaultPoints: 2
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking:
-  - {fileID: 11400000, guid: 943f95f44ced36640b1450b2add72c73, type: 2}
+  BeforeAttacking: []
   Support: []
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
-  EndOfTurn: []
   OnActionTaken: []
+  EndOfTurn: []

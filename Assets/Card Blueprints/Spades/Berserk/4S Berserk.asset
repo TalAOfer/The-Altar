@@ -13,20 +13,21 @@ MonoBehaviour:
   m_Name: 4S Berserk
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 2b2485ebc1bd4154f89b6526d50cdfc2, type: 3}
+  isDefault: 0
   cardName: Graveyard
-  cardOwner: 0
   cardColor: 0
+  cardOwner: 0
   defaultPoints: 4
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking:
-  - {fileID: 11400000, guid: e162735a7a812e94f9e405ddbba3ef5e, type: 2}
+  BeforeAttacking: []
   Support: []
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
-  EndOfTurn: []
   OnActionTaken: []
+  EndOfTurn: []

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: 3H Devotion
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 3d3bda5fbe6c80a478936df7d94bc863, type: 3}
+  isDefault: 0
   cardName: Devotion
-  cardOwner: 0
   cardColor: 1
+  cardOwner: 0
   defaultPoints: 3
   description: If this card survives, summon another Devotion to your hand before
     changing.  If this card is sacrificed, A random card in your hand loses 1 point.
@@ -26,8 +27,7 @@ MonoBehaviour:
   StartOfBattle: []
   BeforeAttacking: []
   Support: []
-  OnSurvive:
-  - {fileID: 11400000, guid: 34cec67b455314e40889b7f45be0527c, type: 2}
+  OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []

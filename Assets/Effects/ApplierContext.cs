@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class ApplierContext
 {
-    public Card TargetCard { get; set; }
-    public Card OtherCard { get; set; }
-
-
-    public ApplierContext(Card targetCard, Card otherCard)
+    public Card EffectedCard { get; set; }
+    public Card EffectingCard { get; set; }
+    
+    public ApplierContext(Card effectedCard, Card effectingCard)
     {
-        TargetCard = targetCard;
-        OtherCard = otherCard;
+        EffectedCard = effectedCard;
+        EffectingCard = effectingCard;
     }
 }

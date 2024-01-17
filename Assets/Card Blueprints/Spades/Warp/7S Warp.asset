@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: 7S Warp
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 5ed95d91639396744b40d040d01d5c2c, type: 3}
+  isDefault: 0
   cardName: Warp
-  cardOwner: 0
   cardColor: 0
+  cardOwner: 0
   defaultPoints: 7
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
-  StartOfBattle:
-  - {fileID: 11400000, guid: b9b95d89fb2b4f5409cfce19971ce537, type: 2}
+  StartOfBattle: []
   BeforeAttacking: []
   Support: []
   OnSurvive: []

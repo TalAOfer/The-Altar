@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventEffect : Effect
+public class SelectEffect : Effect
 {
     private bool didGetResponse;
-    public GameEvent asker;
-    public override IEnumerator Apply(EffectContext context)
+    public override IEnumerator Apply()
     {
         didGetResponse = false;
 
-        asker.Raise(this, this);
+        events.WaitForPlayerSelection.Raise(this, this);
 
         while (!didGetResponse)
         {
@@ -29,7 +28,7 @@ public class EventEffect : Effect
         List<Card> targetCards = response as List<Card>; 
         foreach (Card card in targetCards)
         {
-            yield return StartCoroutine(applier.Apply(new ApplierContext(card, parentCard)));
+            yield return StartCoroutine(applier.Apply(card, data));
         }
     }
 }

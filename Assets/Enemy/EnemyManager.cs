@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
 
     public void GetRevealedEnemyCards(Component sender, object data)
     {
-        EventEffect askerEffect = (EventEffect)sender;
+        SelectEffect askerEffect = (SelectEffect)sender;
 
         StartCoroutine(askerEffect.HandleResponse(this, activeEnemies));
     }

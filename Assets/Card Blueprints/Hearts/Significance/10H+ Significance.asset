@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: 10H+ Significance
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: b0c99ca180c49794fa321138769cbaf4, type: 3}
+  isDefault: 0
   cardName: Significance
-  cardOwner: 0
   cardColor: 1
+  cardOwner: 0
   defaultPoints: 10
-  OnReveal: []
+  description: 
+  StartOfTurn: []
+  OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
   StartOfBattle: []
   BeforeAttacking: []
-  Support:
-  - {fileID: 11400000, guid: f587f05529a0b4840914a06dea01ca6f, type: 2}
+  Support: []
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []
+  EndOfTurn: []

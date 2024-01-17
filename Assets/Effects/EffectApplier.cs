@@ -5,12 +5,18 @@ public abstract class EffectApplier : MonoBehaviour
 {
     bool isConditional;
     Decision decision;
-    public IEnumerator Apply(ApplierContext context)
+    public void BaseInitialize(bool isConditional, Decision decision)
     {
-        if (isConditional && !decision.Decide(context)) yield break;
-
-        yield return ApplyEffect(context);
+        this.isConditional = isConditional;
+        this.decision = decision;
     }
 
-    public abstract IEnumerator ApplyEffect(ApplierContext context);
+    public IEnumerator Apply(Card target, RoomData data)
+    {
+        if (isConditional && !decision.Decide(target, data.GetOpponent(target))) yield break;
+
+        yield return ApplyEffect(target);
+    }
+
+    public abstract IEnumerator ApplyEffect(Card target);
 }

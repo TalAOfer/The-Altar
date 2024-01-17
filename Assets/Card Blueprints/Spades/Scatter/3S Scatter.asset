@@ -13,20 +13,21 @@ MonoBehaviour:
   m_Name: 3S Scatter
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 182447343e253d841aad67853a05b3a5, type: 3}
+  isDefault: 0
   cardName: Scatter
-  cardOwner: 0
   cardColor: 0
+  cardOwner: 0
   defaultPoints: 3
-  OnReveal: []
-  BeforeBattle: []
+  description: 
+  StartOfTurn: []
+  OnObtain: []
   OnGainPoints: []
-  OnDeath:
-  - {fileID: 11400000, guid: ffd27df64361f764085da24df80cbebc, type: 2}
-  - {fileID: 11400000, guid: ffd27df64361f764085da24df80cbebc, type: 2}
-  - {fileID: 11400000, guid: ffd27df64361f764085da24df80cbebc, type: 2}
   OnSacrifice: []
+  StartOfBattle: []
+  BeforeAttacking: []
+  Support: []
   OnSurvive: []
-  OnActionTaken: []
-  HurtPointsAlteration: []
-  AttackPointsAlteration: []
+  OnDeath: []
   OnGlobalDeath: []
+  OnActionTaken: []
+  EndOfTurn: []

@@ -15,21 +15,32 @@ MonoBehaviour:
   rooms:
   - roomType: 0
     difficulty: 4
+    isEnemyTest: 1
+    enemiesForTest:
+    - {fileID: 11400000, guid: 2cf5b5e8162403b47a2b4e9bc22f7559, type: 2}
+    - {fileID: 11400000, guid: 5e1d186aae02a8844aeaf70d28fc7e3b, type: 2}
+    - {fileID: 11400000, guid: cb3f0d670cec8084cb171922a2967fa9, type: 2}
     amountOfOptions: 0
     minDraw: 0
     maxDraw: 0
   - roomType: 1
     difficulty: 0
+    isEnemyTest: 0
+    enemiesForTest: []
     amountOfOptions: 2
     minDraw: 2
     maxDraw: 3
   - roomType: 0
     difficulty: 4
+    isEnemyTest: 0
+    enemiesForTest: []
     amountOfOptions: 0
     minDraw: 0
     maxDraw: 0
   - roomType: 0
     difficulty: 4
+    isEnemyTest: 0
+    enemiesForTest: []
     amountOfOptions: 0
     minDraw: 0
     maxDraw: 0

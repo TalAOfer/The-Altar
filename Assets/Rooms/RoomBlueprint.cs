@@ -11,6 +11,10 @@ public class RoomBlueprint
 
     [ShowIf("roomType", RoomType.Battle)]
     public int difficulty;
+    [ShowIf("roomType", RoomType.Battle)]
+    public bool isEnemyTest;
+    [ShowIf("@ShouldShowEnemiesForTest()")]
+    public List<CardBlueprint> enemiesForTest;
 
     [ShowIf("roomType", RoomType.CardPicking)]
     public int amountOfOptions;
@@ -18,4 +22,9 @@ public class RoomBlueprint
     public int minDraw;
     [ShowIf("roomType", RoomType.CardPicking)]
     public int maxDraw;
+
+    private bool ShouldShowEnemiesForTest()
+    {
+        return roomType is RoomType.Battle && isEnemyTest;
+    }
 }

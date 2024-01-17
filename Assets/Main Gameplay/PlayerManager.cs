@@ -40,4 +40,9 @@ public class PlayerManager : MonoBehaviour
             card.ChangeCardState(newState);
         }
     }
+
+    public void DrawCard()
+    {
+        spawner.DrawCard();
+    }
 }

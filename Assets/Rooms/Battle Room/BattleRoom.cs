@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class BattleRoom : Room
 {
+    [SerializeField] private BattleManager battleManager;
     [SerializeField] private int difficulty;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private AllEvents events;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private EnemyCardSpawner spawner;
+
 
     [FoldoutGroup("Map Objects")]
     [SerializeField] private Door door;
@@ -18,17 +20,24 @@ public class BattleRoom : Room
 
     public List<Card> activeEnemies;
 
-
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
+        battleManager.Initialize();
         door.floorManager = floorManager;
         difficulty = roomBlueprint.difficulty;
-        SpawnEnemies();
+        if (!roomBlueprint.isEnemyTest)
+        {
+            SpawnEnemies();
+        }
+        else
+        {
+            SpawnTestEnemies(roomBlueprint);
+        }
     }
 
     public override void OnRoomFinishedLerping()
     {
-        
+
     }
 
     public override void OnRoomFinished()
@@ -52,6 +61,22 @@ public class BattleRoom : Room
         }
     }
 
+    public void SpawnTestEnemies(RoomBlueprint roomBlueprint)
+    {
+        int amountOfEnemies = roomBlueprint.enemiesForTest.Count;
+        List<int> slots = Tools.GetXUniqueRandoms(amountOfEnemies, 0, 8);
+
+        for (int i = 0; i < amountOfEnemies; i++)
+        {
+            int slotIndex = slots[i];
+            CardBlueprint enemyBlueprint = roomBlueprint.enemiesForTest[i];
+
+            Card enemy = spawner.SpawnEnemyInIndexByBlueprint(slotIndex, enemyBlueprint);
+
+            activeEnemies.Add(enemy);
+        }
+    }
+
     public void RemoveEnemyFromManager(Card card)
     {
         activeEnemies.Remove(card);
@@ -65,7 +90,7 @@ public class BattleRoom : Room
     public void DestroyAllEnemies()
     {
         List<Card> enemiesToDestroy = new(activeEnemies);
-        foreach(Card card in enemiesToDestroy)
+        foreach (Card card in enemiesToDestroy)
         {
             Destroy(card.gameObject);
         }

@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: 6H Priest
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 772b77c06c862b54aa6436d584b56140, type: 3}
+  isDefault: 0
   cardName: Priest
-  cardOwner: 0
   cardColor: 1
+  cardOwner: 0
   defaultPoints: 6
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
@@ -25,8 +27,7 @@ MonoBehaviour:
   BeforeAttacking: []
   Support: []
   OnSurvive: []
-  OnDeath:
-  - {fileID: 11400000, guid: 2c53112a7168d8d40a80c50e388e66f2, type: 2}
+  OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []
   EndOfTurn: []

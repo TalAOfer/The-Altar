@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
+  roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   movementData: {fileID: 11400000, guid: 548617b02a8657d4a9f7a4ab16713b10, type: 2}
   topBattleTransform: {fileID: 1444868865847960320}
@@ -917,6 +918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab230b2242674545ae0fa517e894bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleManager: {fileID: 3589446058437800455}
   difficulty: 0
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   spawner: {fileID: 5966894109945736436}

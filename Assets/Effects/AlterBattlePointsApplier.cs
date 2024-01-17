@@ -14,11 +14,11 @@ public class AlterBattlePointsApplier : EffectApplier
         this.battlePointType = battlePointType;
     }
 
-    public override IEnumerator ApplyEffect(ApplierContext context)
+    public override IEnumerator ApplyEffect(Card targetCard)
     {
         List<BattlePointModifier> modifierList = battlePointType is BattlePointType.Attack ?
-        context.TargetCard.attackPointsModifiers :
-        context.TargetCard.hurtPointsModifiers;
+        targetCard.attackPointsModifiers :
+        targetCard.hurtPointsModifiers;
 
         modifierList.Add(new BattlePointModifier(modifierType, amount));
 

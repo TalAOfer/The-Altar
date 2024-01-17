@@ -74,7 +74,7 @@ public class HandManager : MonoBehaviour
 
     public void GetAllCardsFromHand(Component sender, object data)
     {
-        EventEffect askerEffect = (EventEffect)data;
+        SelectEffect askerEffect = (SelectEffect)data;
         StartCoroutine(askerEffect.HandleResponse(this, new List<Card>(cardsInHand)));
     }
 

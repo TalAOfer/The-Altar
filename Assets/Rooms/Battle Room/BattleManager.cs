@@ -16,6 +16,8 @@ public class BattleManager : MonoBehaviour
     [FoldoutGroup("Dependencies")]
     [SerializeField] private RunData runData;
     [FoldoutGroup("Dependencies")]
+    [SerializeField] private RoomData roomData;
+    [FoldoutGroup("Dependencies")]
     [SerializeField] private AllEvents events;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private BattleManagerData movementData;
@@ -31,10 +33,14 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private CustomButton backButton;
 
 
-    private void Awake()
+    public void Initialize()
     {
         playerManager = FindObjectOfType<PlayerManager>();
         roomManager = GetComponentInParent<BattleRoom>();
+
+        roomData.PlayerManager = playerManager; 
+        roomData.EnemyManager = roomManager;
+        roomData.BattleRoomState = BattleRoomState.Setup;
     }
 
     #region Event & button handlers
@@ -47,6 +53,8 @@ public class BattleManager : MonoBehaviour
     {
         playerCard = sender as Card;
         enemyCard = data as Card;
+        roomData.BattlingPlayerCard = playerCard;
+        roomData.BattlingEnemyCard = enemyCard;
 
         StartCoroutine(BattleFormationRoutine());
     }
@@ -365,6 +373,9 @@ public class BattleManager : MonoBehaviour
     {
         ToggleButtons(false);
         events.ToggleCurtain.Raise(this, false);
+
+        roomData.BattlingPlayerCard = null;
+        roomData.BattlingEnemyCard = null;
 
         Coroutine returnPlayerCard = StartCoroutine(ReturnPlayerCardToHand());
         Coroutine returnEnemyCard = StartCoroutine(ReturnEnemyCardToMap());

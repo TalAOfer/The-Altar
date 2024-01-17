@@ -9,6 +9,17 @@ public class EnemyCardSpawner : MonoBehaviour
     [SerializeField] private BattleRoom room;
     private BlueprintPoolInstance codex => runData.enemyCodex;
 
+    public Card SpawnEnemyInIndexByBlueprint(int containerIndex, CardBlueprint cardBlueprint)
+    {
+        Card card = SpawnCard(cardBlueprint, GameConstants.TOP_MAP_LAYER, room.grid[containerIndex].transform);
+        card.transform.localPosition = Vector3.zero;
+        card.index = containerIndex;
+
+        StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Occupied));
+        card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
+        return card;
+    }
+
     public Card SpawnEnemyInIndexByStrength(int containerIndex, int strength)
     {
         CardBlueprint cardBlueprint = DrawRandomEnemyByStrength(strength);

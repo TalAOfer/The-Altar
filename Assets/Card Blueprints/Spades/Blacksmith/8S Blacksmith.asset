@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: 8S Blacksmith
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 6c0801b8a3a8f5447b2a7a28bf826582, type: 3}
+  isDefault: 0
   cardName: Blacksmith
-  cardOwner: 0
   cardColor: 0
+  cardOwner: 0
   defaultPoints: 8
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
@@ -27,6 +29,5 @@ MonoBehaviour:
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
-  EndOfTurn:
-  - {fileID: 11400000, guid: 976ecf31b932c54479bcdcb7cbcc8beb, type: 2}
   OnActionTaken: []
+  EndOfTurn: []

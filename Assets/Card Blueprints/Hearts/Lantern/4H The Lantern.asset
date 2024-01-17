@@ -13,21 +13,21 @@ MonoBehaviour:
   m_Name: 4H The Lantern
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: bfd0f55b5cae6244882ef534d3f5177b, type: 3}
+  isDefault: 0
   cardName: The Lantern
-  cardOwner: 0
   cardColor: 1
+  cardOwner: 0
   defaultPoints: 4
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking:
-  - {fileID: 11400000, guid: dae5d29a0077e0b4d9caf93153abe044, type: 2}
-  - {fileID: 11400000, guid: 1c58b155e47b5b946a2eafdcad4f7a22, type: 2}
+  BeforeAttacking: []
   Support: []
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
-  EndOfTurn: []
   OnActionTaken: []
+  EndOfTurn: []

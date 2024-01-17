@@ -13,21 +13,21 @@ MonoBehaviour:
   m_Name: 5S The Bull
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: bc40d2b1c5276e84eb03973f337f7a85, type: 3}
+  isDefault: 0
   cardName: The Bull
-  cardOwner: 0
   cardColor: 0
+  cardOwner: 0
   defaultPoints: 5
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking:
-  - {fileID: 11400000, guid: e9214fff55d76de40bf266320d3c240b, type: 2}
-  - {fileID: 11400000, guid: 4e806fab4780b1147a83bf0896eeb669, type: 2}
+  BeforeAttacking: []
   Support: []
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
-  EndOfTurn: []
   OnActionTaken: []
+  EndOfTurn: []

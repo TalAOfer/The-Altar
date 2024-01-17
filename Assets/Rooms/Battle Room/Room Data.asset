@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 630960a6b399fbd41b7a952476ef7bd4, type: 3}
-  m_Name: Is Other Bigger Than me
+  m_Script: {fileID: 11500000, guid: 73c414f892f1a464c99efc0798b7c776, type: 3}
+  m_Name: Room Data
   m_EditorClassIdentifier: 
-  comparison: 0
+  RoomType: 0
+  BattleRoomState: 0
+  PlayerManager: {fileID: 0}
+  EnemyManager: {fileID: 0}
+  BattlingEnemyCard: {fileID: 0}
+  BattlingPlayerCard: {fileID: 0}

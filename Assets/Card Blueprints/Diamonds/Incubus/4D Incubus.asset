@@ -13,17 +13,21 @@ MonoBehaviour:
   m_Name: 4D Incubus
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 291cc09574fd9c145a563039cf9293d7, type: 3}
+  isDefault: 0
   cardName: Incubus
-  cardOwner: 1
   cardColor: 1
+  cardOwner: 1
   defaultPoints: 4
-  OnReveal: []
+  description: 
+  StartOfTurn: []
+  OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
-  BeforeBattle: []
-  Support:
-  - {fileID: 11400000, guid: cb15dedc55e9db844990e13be471d6c0, type: 2}
+  StartOfBattle: []
+  BeforeAttacking: []
+  Support: []
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []
+  EndOfTurn: []

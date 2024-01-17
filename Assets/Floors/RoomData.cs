@@ -1,0 +1,83 @@
+using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "Room Data")]
+public class RoomData : ScriptableObject
+{
+    public RoomType RoomType;
+
+    [ShowIf("RoomType", RoomType.Battle)]
+    public BattleRoomState BattleRoomState;
+    [ShowIf("RoomType", RoomType.Battle)]
+    public PlayerManager PlayerManager;
+    [ShowIf("RoomType", RoomType.Battle)]
+    public BattleRoom EnemyManager;
+    [ShowIf("RoomType", RoomType.Battle)]
+    public Card BattlingEnemyCard;
+    [ShowIf("RoomType", RoomType.Battle)]
+    public Card BattlingPlayerCard;
+
+    public Card GetOpponent(Card card)
+    {
+        if (BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle this will return null");
+        return card.cardOwner == CardOwner.Player ? BattlingEnemyCard : BattlingPlayerCard;
+    }
+    public List<Card> GetAllActiveEnemies()
+    {
+        return new(EnemyManager.activeEnemies);
+    }
+
+    public List<Card> GetAllActiveEnemiesOnMap()
+    {
+        if (BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle, use GetAllActiveEnemies() instead");
+
+        List<Card> activeEnemies = new(EnemyManager.activeEnemies);
+        if (BattlingEnemyCard != null) activeEnemies.Remove(BattlingEnemyCard);
+        return activeEnemies;
+    }
+
+    public List<Card> GetAllActivePlayerCards()
+    {
+        return new(PlayerManager.activeCards);
+    }
+
+    public List<Card> GetAllCardsInHand()
+    {
+        if (BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle, use GetAllActivePlayerCards() instead");
+
+        List<Card> activeEnemies = new(PlayerManager.activeCards);
+        if (BattlingPlayerCard != null) activeEnemies.Remove(BattlingPlayerCard);
+        return activeEnemies;
+    }
+
+    public Card GetRandomPlayerCard(Card excludeThis)
+    {
+        List<Card> cardsToPickFrom = GetAllActivePlayerCards();
+        if (excludeThis != null) cardsToPickFrom.Remove(excludeThis);
+        int rand = Random.Range(0, cardsToPickFrom.Count);
+        return cardsToPickFrom[rand];
+    }
+
+    public Card GetRandomEnemyCard(Card excludeThis)
+    {
+        List<Card> cardsToPickFrom = GetAllActiveEnemies();
+        if (excludeThis != null) cardsToPickFrom.Remove(excludeThis);
+        int rand = Random.Range(0, cardsToPickFrom.Count);
+        return cardsToPickFrom[rand];
+    }
+}
+
+public enum BattleRoomState
+{
+    Setup,
+    Idle,
+    BattleFormation,
+    Battle
+}
+
+public enum SelectionRoomState
+{
+
+}

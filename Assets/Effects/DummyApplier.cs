@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DummyApplier : EffectApplier
 {
-    public override IEnumerator ApplyEffect(ApplierContext context)
+    public override IEnumerator ApplyEffect(Card target)
     {
-        Debug.Log("Happened");
+        Debug.Log("Happened on " + target.name);
         yield return null;
     }
 }

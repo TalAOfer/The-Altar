@@ -84,9 +84,6 @@ public class FloorManager : MonoBehaviour
         return room;
     }
 
-    [Button]
-
-
     private IEnumerator LerpPosition(Transform targetTransform, Vector3 newPosition, float duration)
     {
         float time = 0;

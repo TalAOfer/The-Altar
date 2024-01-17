@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: 2S Betrayal
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 31f30cc840108e845a46cdf0a1c103f7, type: 3}
+  isDefault: 0
   cardName: The Betrayal
-  cardOwner: 0
   cardColor: 0
+  cardOwner: 0
   defaultPoints: 2
+  description: 
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
@@ -25,7 +27,7 @@ MonoBehaviour:
   BeforeAttacking: []
   Support: []
   OnSurvive: []
-  OnDeath:
-  - {fileID: 11400000, guid: 1b59f4dac7ea5e646a9ce00ad4a2a31a, type: 2}
+  OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []
+  EndOfTurn: []

@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: 7H Hope
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 696da2096fcfa4348ac214788516e87b, type: 3}
+  isDefault: 0
   cardName: Hope
-  cardOwner: 0
   cardColor: 1
+  cardOwner: 0
   defaultPoints: 7
-  OnReveal: []
-  BeforeBattle: []
+  description: 
+  StartOfTurn: []
+  OnObtain: []
   OnGainPoints: []
-  OnDeath:
-  - {fileID: 11400000, guid: 3c0b55608c76e2342bded634febff9bc, type: 2}
   OnSacrifice: []
+  StartOfBattle: []
+  BeforeAttacking: []
+  Support: []
   OnSurvive: []
-  OnActionTaken: []
-  HurtPointsAlteration: []
-  AttackPointsAlteration: []
+  OnDeath: []
   OnGlobalDeath: []
+  OnActionTaken: []
+  EndOfTurn: []

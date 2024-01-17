@@ -7,12 +7,14 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(menuName = "Blueprints/Effect")]
 public class EffectBlueprint : ScriptableObject
 {
+    public RoomData data;
+
     [Title("Protoype")]
     public EffectPrototype prototype;
-    [ShowIf("prototype", EffectPrototype.Event)]
+    [ShowIf("prototype", EffectPrototype.Select)]
     public AllEvents events;
 
-    [ShowIf("prototype", EffectPrototype.Context)]
+    [ShowIf("prototype", EffectPrototype.Normal)]
     public EffectTarget target;
 
     public float predelay = 0f;
@@ -90,11 +92,11 @@ public class EffectBlueprint : ScriptableObject
 
         switch (prototype)
         {
-            case EffectPrototype.Context:
-                BaseInitializeEffect<ContextEffect>(newEffectGO, applier, triggerType, parentCard);
+            case EffectPrototype.Normal:
+                BaseInitializeEffect<Effect>(newEffectGO, applier, triggerType, parentCard);
                 break;
-            case EffectPrototype.Event:
-                BaseInitializeEffect<EventEffect>(newEffectGO, applier, triggerType, parentCard);
+            case EffectPrototype.Select:
+                BaseInitializeEffect<SelectEffect>(newEffectGO, applier, triggerType, parentCard);
                 break;
         }
     }
@@ -103,6 +105,7 @@ public class EffectBlueprint : ScriptableObject
     {
         T effect = newEffectGO.AddComponent<T>();
         effect.BaseInitialize(applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
+        applier.BaseInitialize(isConditional, decision);
 
         AddEffectToList(parentCard, triggerType, effect);
 
@@ -189,8 +192,22 @@ public enum EffectApplicationType
 
 public enum EffectPrototype
 {
-    Context,
-    Event
+    Normal,
+    Select
+}
+
+public enum EffectTarget
+{
+    InitiatingCard,
+    Oppnent,
+    PlayerCardBattling,
+    EnemyCardBattling,
+    AllPlayerCards,
+    AllEnemyCards,
+    AllCardsOnMap,
+    AllCardsInHand,
+    RandomCardOnMap,
+    RandomCardFromHand
 }
 
 public enum ApplierType
