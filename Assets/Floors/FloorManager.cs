@@ -16,7 +16,7 @@ public class FloorManager : MonoBehaviour
     [SerializeField] private Transform newRoomSpawnPos;
     [SerializeField] private Transform oldRoomSwipePos;
 
-    [SerializeField] private int currentRoomIndex;
+    public int currentRoomIndex;
     private RoomBlueprint CurrentRoomBlueprint => floor.rooms[currentRoomIndex];
 
     private Room previousRoom;

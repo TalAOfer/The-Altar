@@ -8,6 +8,8 @@ public class RoomData : ScriptableObject
 {
     public RoomType RoomType;
 
+    public FloorManager floorManager;
+
     [ShowIf("RoomType", RoomType.Battle)]
     public BattleRoomState BattleRoomState;
     [ShowIf("RoomType", RoomType.Battle)]
@@ -79,7 +81,15 @@ public class RoomData : ScriptableObject
         return amount;
     }
 
-    //public int GetAmountOfenemies
+    public int GetAmountOfEnemies()
+    {
+        return EnemyManager.activeEnemies.Count;
+    }
+
+    public int GetRoomIndex()
+    {
+        return floorManager.currentRoomIndex;
+    }
 }
 
 public enum BattleRoomState

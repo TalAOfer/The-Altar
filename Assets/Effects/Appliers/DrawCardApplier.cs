@@ -6,7 +6,11 @@ public class DrawCardApplier : EffectApplier
 {
     public override IEnumerator ApplyEffect(Card target)
     {
-        data.PlayerManager.DrawCardToHand();
+        int amount = GetAmount();
+        for (int i = 0; i < amount; i++)
+        {
+            data.PlayerManager.DrawCardToHand();
+        }
         yield return null;
     }
 }

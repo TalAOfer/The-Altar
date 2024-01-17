@@ -25,23 +25,23 @@ public class EffectBlueprint : ScriptableObject
     public EffectApplicationType applicationType;
     public ApplierType applierType;
 
+    [ShowIf("@ShouldShowAmountStrategy()")]
+    public GetAmountStrategy amountStrategy;
+
+    [ShowIf("@ShouldShowAmount()")]
+    public int amount = 1;
+
     [ShowIf("applierType", ApplierType.AlterBattlePoints)]
     public BattlePointType battlePointType;
 
     [ShowIf("applierType", ApplierType.AlterBattlePoints)]
     public ModifierType modifierType;
 
-    [ShowIf("@ShouldShowAmount()")]
-    public int amount;
-
-    [ShowIf("@ShouldShowAmount()")]
-    ApplierModifierType amountModifierType;
-
     [ShowIf("applierType", ApplierType.SetColor)]
     public CardColor color;
 
     [ShowIf("applierType", ApplierType.SpawnCardToHand)]
-    public CardBlueprint cardBlueprint;
+    public CardArchetype cardArchetype;
 
     [ShowIf("applierType", ApplierType.AddGuardian)]
     public GuardianType guardianType;
@@ -77,7 +77,7 @@ public class EffectBlueprint : ScriptableObject
             case ApplierType.AlterBattlePoints:
                 applier = newEffectGO.AddComponent<AlterBattlePointsApplier>();
                 AlterBattlePointsApplier battlePointsApplier = (AlterBattlePointsApplier) applier;
-                battlePointsApplier.Initialize(amount, modifierType, battlePointType);
+                battlePointsApplier.Initialize(modifierType, battlePointType);
                 break;
             case ApplierType.SetColor:
                 applier = newEffectGO.AddComponent<SetColorApplier>();
@@ -89,8 +89,6 @@ public class EffectBlueprint : ScriptableObject
                 break;
             case ApplierType.GainPoints:
                 applier = newEffectGO.AddComponent<GainPointsApplier>();
-                GainPointsApplier gainPointsApplier = (GainPointsApplier)applier;
-                gainPointsApplier.Initialize(amount);
                 break;
             case ApplierType.DrawCard:
                 applier = newEffectGO.AddComponent<DrawCardApplier>();
@@ -98,7 +96,7 @@ public class EffectBlueprint : ScriptableObject
             case ApplierType.SpawnCardToHand:
                 applier = newEffectGO.AddComponent<SpawnCardToHandApplier>();
                 SpawnCardToHandApplier spawnToHandApplier = (SpawnCardToHandApplier) applier;
-                spawnToHandApplier.Initialize(cardBlueprint);
+                spawnToHandApplier.Initialize(cardArchetype);
                 break;
             case ApplierType.AddEffect:
                 applier = newEffectGO.AddComponent<AddEffectApplier>();
@@ -127,7 +125,7 @@ public class EffectBlueprint : ScriptableObject
     {
         T effect = newEffectGO.AddComponent<T>();
         effect.BaseInitialize(applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
-        applier.BaseInitialize(parentCard, data, isConditional, decision, amountModifierType);
+        applier.BaseInitialize(parentCard, data, isConditional, decision, amountStrategy, amount);
 
         AddEffectToList(parentCard, triggerType, effect);
 
@@ -177,10 +175,20 @@ public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect e
 
     private bool ShouldShowAmount()
     {
-        return applierType is 
+        return (applierType is 
                ApplierType.GainPoints 
             or ApplierType.SpawnCardToHand 
             or ApplierType.DrawCard 
+            or ApplierType.AlterBattlePoints) 
+            && amountStrategy is GetAmountStrategy.Value;
+    }
+
+    private bool ShouldShowAmountStrategy()
+    {
+        return applierType is
+               ApplierType.GainPoints
+            or ApplierType.SpawnCardToHand
+            or ApplierType.DrawCard
             or ApplierType.AlterBattlePoints;
     }
 
@@ -249,8 +257,9 @@ public enum ApplierType
     AddGuardian,
 }
 
-public enum ApplierModifierType
+public enum GetAmountStrategy
 {
+    Value,
     EmptySpacesOnMap,
     EnemiesOnMap,
     NotImplementedDeadEnemiesOnMap,

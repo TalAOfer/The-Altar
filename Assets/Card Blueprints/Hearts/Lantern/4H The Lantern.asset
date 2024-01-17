@@ -24,7 +24,9 @@ MonoBehaviour:
   OnGainPoints: []
   OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
+  BeforeAttacking:
+  - {fileID: 11400000, guid: 5ee40ca1b99bae74b9a8e88327e09882, type: 2}
+  - {fileID: 11400000, guid: 54715405f59d9be4d89167d12dbb51c6, type: 2}
   Support: []
   OnSurvive: []
   OnDeath: []

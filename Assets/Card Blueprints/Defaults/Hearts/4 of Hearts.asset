@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: 4 of Hearts
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 0}
+  cardSprite: {fileID: 21300000, guid: f25efcc6c62e1f147b569b15bf1ff739, type: 3}
   isDefault: 1
   cardName: 
   cardColor: 1
@@ -25,8 +25,7 @@ MonoBehaviour:
   OnSacrifice: []
   StartOfBattle: []
   BeforeAttacking: []
-  Support:
-  - {fileID: 11400000, guid: a21d65f10a971964983eed8d23fc90d8, type: 2}
+  Support: []
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []

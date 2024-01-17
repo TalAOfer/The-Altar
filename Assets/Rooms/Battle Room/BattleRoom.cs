@@ -22,7 +22,7 @@ public class BattleRoom : Room
 
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
-        battleManager.Initialize();
+        battleManager.Initialize(floorManager);
         door.floorManager = floorManager;
         difficulty = roomBlueprint.difficulty;
         if (!roomBlueprint.isEnemyTest)

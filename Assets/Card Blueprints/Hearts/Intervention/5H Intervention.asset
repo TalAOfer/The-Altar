@@ -26,7 +26,8 @@ MonoBehaviour:
   StartOfBattle: []
   BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  OnSurvive:
+  - {fileID: 11400000, guid: 4245c13d03ece0841928bfc9346a75cd, type: 2}
   OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []

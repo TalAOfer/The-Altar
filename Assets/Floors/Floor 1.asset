@@ -13,9 +13,16 @@ MonoBehaviour:
   m_Name: Floor 1
   m_EditorClassIdentifier: 
   rooms:
+  - roomType: 1
+    difficulty: 0
+    isEnemyTest: 0
+    enemiesForTest: []
+    amountOfOptions: 2
+    minDraw: 2
+    maxDraw: 3
   - roomType: 0
     difficulty: 4
-    isEnemyTest: 1
+    isEnemyTest: 0
     enemiesForTest:
     - {fileID: 11400000, guid: 2cf5b5e8162403b47a2b4e9bc22f7559, type: 2}
     - {fileID: 11400000, guid: 5e1d186aae02a8844aeaf70d28fc7e3b, type: 2}
@@ -37,8 +44,15 @@ MonoBehaviour:
     amountOfOptions: 0
     minDraw: 0
     maxDraw: 0
+  - roomType: 1
+    difficulty: 0
+    isEnemyTest: 0
+    enemiesForTest: []
+    amountOfOptions: 2
+    minDraw: 2
+    maxDraw: 3
   - roomType: 0
-    difficulty: 4
+    difficulty: 5
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 0

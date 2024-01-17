@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class SpawnCardToHandApplier : EffectApplier
 {
-    public CardBlueprint blueprintToSummon;
+    public CardArchetype archetype;
     
-    public void Initialize(CardBlueprint blueprintToSummon)
+    public void Initialize(CardArchetype archetype)
     {
-        this.blueprintToSummon = blueprintToSummon;
+        this.archetype = archetype;
     }
     public override IEnumerator ApplyEffect(Card target)
     {
-        data.PlayerManager.SpawnCardToHandByBlueprint(blueprintToSummon);
+        int amount = GetAmount();
+        for (int i = 0; i < amount; i++)
+        {
+            data.PlayerManager.SpawnCardToHandByArchetype(archetype);
+        }
         yield return null;
     }
 }

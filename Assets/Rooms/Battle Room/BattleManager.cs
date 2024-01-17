@@ -33,7 +33,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private CustomButton backButton;
 
 
-    public void Initialize()
+    public void Initialize(FloorManager floorManager)
     {
         playerManager = FindObjectOfType<PlayerManager>();
         roomManager = GetComponentInParent<BattleRoom>();
@@ -41,6 +41,7 @@ public class BattleManager : MonoBehaviour
         roomData.PlayerManager = playerManager; 
         roomData.EnemyManager = roomManager;
         roomData.BattleRoomState = BattleRoomState.Setup;
+        roomData.floorManager = floorManager;
     }
 
     #region Event & button handlers

@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class AlterBattlePointsApplier : EffectApplier
 {
-    private int amount;
     private ModifierType modifierType;
     private BattlePointType battlePointType;
-    public void Initialize(int amount, ModifierType modifierType, BattlePointType battlePointType)
+    public void Initialize(ModifierType modifierType, BattlePointType battlePointType)
     {
-        this.amount = amount;
         this.modifierType = modifierType;
         this.battlePointType = battlePointType;
     }
@@ -20,7 +18,7 @@ public class AlterBattlePointsApplier : EffectApplier
         targetCard.attackPointsModifiers :
         targetCard.hurtPointsModifiers;
 
-        modifierList.Add(new BattlePointModifier(modifierType, amount));
+        modifierList.Add(new BattlePointModifier(modifierType, GetAmount()));
 
         yield return null;
     }

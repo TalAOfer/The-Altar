@@ -7,14 +7,16 @@ public abstract class EffectApplier : MonoBehaviour
     public RoomData data;
     bool isConditional;
     Decision decision;
-    ApplierModifierType amountModifier;
-    public void BaseInitialize(Card parentCard, RoomData data, bool isConditional, Decision decision, ApplierModifierType amountModifier)
+    GetAmountStrategy getAmountStrategy;
+    public int defaultAmount;
+    public void BaseInitialize(Card parentCard, RoomData data, bool isConditional, Decision decision, GetAmountStrategy getAmountStrategy, int defaultAmount)
     {
         this.parentCard = parentCard;
         this.data = data;
-        this.amountModifier = amountModifier;
         this.isConditional = isConditional;
         this.decision = decision;
+        this.getAmountStrategy = getAmountStrategy;
+        this.defaultAmount = defaultAmount;
     }
 
     public IEnumerator Apply(Card target, RoomData data)
@@ -26,20 +28,29 @@ public abstract class EffectApplier : MonoBehaviour
 
     public abstract IEnumerator ApplyEffect(Card target);
 
-    public int AmountGetter()
+    public int GetAmount()
     {
         int amount = 0;
 
-        switch (amountModifier)
+        switch (getAmountStrategy)
         {
-            case ApplierModifierType.EmptySpacesOnMap:
-                
+            case GetAmountStrategy.Value:
+                amount = defaultAmount;
                 break;
-            case ApplierModifierType.EnemiesOnMap:
+            case GetAmountStrategy.EmptySpacesOnMap:
+                amount = data.GetEmptySpacesAmount();
                 break;
-            case ApplierModifierType.CardsInHand:
+            case GetAmountStrategy.EnemiesOnMap:
+                amount = data.GetAmountOfEnemies();
                 break;
-            case ApplierModifierType.RoomCount:
+            case GetAmountStrategy.CardsInHand:
+                amount = data.PlayerManager.activeCards.Count;
+                break;
+            case GetAmountStrategy.RoomCount:
+                amount = data.GetRoomIndex();
+                break;
+
+            case GetAmountStrategy.NotImplementedDeadEnemiesOnMap:
                 break;
         }
 

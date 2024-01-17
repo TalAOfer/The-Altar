@@ -8,7 +8,7 @@ public class PlayerCardSpawner : MonoBehaviour
     public Transform spawnContainer;
 
     [SerializeField] private RunData runData;
-    private BlueprintPoolInstance codex => runData.playerCodex;
+    public BlueprintPoolInstance codex => runData.playerCodex;
     private DeckInstance deck => runData.playerDeck;
 
     public CardBlueprint DrawCard()

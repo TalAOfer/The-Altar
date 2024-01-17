@@ -24,6 +24,9 @@ public class BattlePointModifier
             case ModifierType.Addition:
                 returnInt = currentPoints + amount;
                 break;
+            case ModifierType.Subtraction:
+                returnInt = currentPoints - amount;
+                break;
             case ModifierType.Mult:
                 returnInt = currentPoints * amount;
                 break;
@@ -33,6 +36,7 @@ public class BattlePointModifier
             case ModifierType.Replace:
                 returnInt = amount;
                 break;
+
         }
 
         return returnInt;
@@ -42,6 +46,7 @@ public class BattlePointModifier
 public enum ModifierType
 {
     Addition,
+    Subtraction,
     Mult,
     Division,
     Replace
