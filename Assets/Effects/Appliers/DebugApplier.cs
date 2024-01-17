@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummyApplier : EffectApplier
+public class DebugApplier : EffectApplier
 {
     public override IEnumerator ApplyEffect(Card target)
     {

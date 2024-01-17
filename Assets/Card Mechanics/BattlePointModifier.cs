@@ -8,9 +8,9 @@ public class BattlePointModifier
 {
     public ModifierType modifierType;
 
-    public float amount;
+    public int amount;
 
-    public BattlePointModifier(ModifierType modifierType, float amount)
+    public BattlePointModifier(ModifierType modifierType, int amount)
     {
         this.modifierType = modifierType; 
         this.amount = amount;
@@ -22,13 +22,16 @@ public class BattlePointModifier
         switch (modifierType)
         {
             case ModifierType.Addition:
-                returnInt = currentPoints + (int) amount;
+                returnInt = currentPoints + amount;
                 break;
             case ModifierType.Mult:
-                returnInt = Tools.MultAndRoundUp(currentPoints, amount);
+                returnInt = currentPoints * amount;
+                break;
+            case ModifierType.Division:
+                returnInt = Tools.DivideAndRoundUp(currentPoints, amount);
                 break;
             case ModifierType.Replace:
-                returnInt = (int)amount;
+                returnInt = amount;
                 break;
         }
 
@@ -40,5 +43,6 @@ public enum ModifierType
 {
     Addition,
     Mult,
+    Division,
     Replace
 }

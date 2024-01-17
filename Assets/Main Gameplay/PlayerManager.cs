@@ -41,8 +41,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void DrawCard()
+    public void DrawCardToHand()
     {
-        spawner.DrawCard();
+        Card card = spawner.SpawnCard(spawner.DrawCard(), GameConstants.HAND_LAYER);
+        activeCards.Add(card);
+        hand.AddCardToHand(card);
+    }
+
+    public void SpawnCardToHandByBlueprint(CardBlueprint blueprintToSpawn)
+    {
+        Card card = spawner.SpawnCard(blueprintToSpawn, GameConstants.HAND_LAYER);
+        activeCards.Add(card);
+        hand.AddCardToHand(card);
     }
 }

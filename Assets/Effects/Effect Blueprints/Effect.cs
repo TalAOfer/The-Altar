@@ -69,10 +69,10 @@ public class Effect : MonoBehaviour
                 targets = data.GetAllCardsInHand();
                 break;
             case EffectTarget.RandomCardOnMap:
-                targets.Add(data.GetRandomEnemyCard(null));
+                targets.Add(data.GetRandomEnemyCard(parentCard));
                 break;
             case EffectTarget.RandomCardFromHand:
-                targets.Add(data.GetRandomPlayerCard(null));
+                targets.Add(data.GetRandomPlayerCard(parentCard));
                 break;
             case EffectTarget.PlayerCardBattling:
                 targets.Add(data.BattlingPlayerCard);

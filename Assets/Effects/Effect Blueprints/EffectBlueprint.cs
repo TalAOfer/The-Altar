@@ -20,6 +20,7 @@ public class EffectBlueprint : ScriptableObject
     public float predelay = 0f;
     public float postdelay = 0f;
 
+
     [Title("Applier")]
     public EffectApplicationType applicationType;
     public ApplierType applierType;
@@ -30,18 +31,16 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("applierType", ApplierType.AlterBattlePoints)]
     public ModifierType modifierType;
 
-    [ShowIf("applierType", ApplierType.AlterBattlePoints)]
-    public float alterationAmount;
+    [ShowIf("@ShouldShowAmount()")]
+    public int amount;
 
-    public bool isConditional;
+    [ShowIf("@ShouldShowAmount()")]
+    ApplierModifierType amountModifierType;
 
-    [ShowIf("isConditional")]
-    public Decision decision;
+    [ShowIf("applierType", ApplierType.SetColor)]
+    public CardColor color;
 
-    [ShowIf("applierType",  ApplierType.GainPoints)]
-    public int pointsToAdd;
-
-    [ShowIf("applierType", ApplierType.SummonCard)]
+    [ShowIf("applierType", ApplierType.SpawnCardToHand)]
     public CardBlueprint cardBlueprint;
 
     [ShowIf("applierType", ApplierType.AddGuardian)]
@@ -51,11 +50,15 @@ public class EffectBlueprint : ScriptableObject
     public EffectApplicationType guardianApplicationType;
 
     [ShowIf("applierType", ApplierType.AddEffect)]
-    public EffectBlueprint blueprintToAdd;
+    public EffectBlueprint effectBlueprint;
 
     [ShowIf("applierType", ApplierType.AddEffect)]
     public EffectTrigger whenToTriggerAddedEffect;
 
+    public bool isConditional;
+
+    [ShowIf("isConditional")]
+    public Decision decision;
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
     {
         GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + applierType.ToString());
@@ -68,25 +71,44 @@ public class EffectBlueprint : ScriptableObject
 
         switch (applierType)
         {
-            case ApplierType.DummyEffect:
-                applier = newEffectGO.AddComponent<DummyApplier>();
+            case ApplierType.DebugEffect:
+                applier = newEffectGO.AddComponent<DebugApplier>();
                 break;
             case ApplierType.AlterBattlePoints:
                 applier = newEffectGO.AddComponent<AlterBattlePointsApplier>();
                 AlterBattlePointsApplier battlePointsApplier = (AlterBattlePointsApplier) applier;
-                battlePointsApplier.Initialize(alterationAmount, modifierType, battlePointType);
+                battlePointsApplier.Initialize(amount, modifierType, battlePointType);
                 break;
-            case ApplierType.ChangeColor:
+            case ApplierType.SetColor:
+                applier = newEffectGO.AddComponent<SetColorApplier>();
+                SetColorApplier setColorApplier = (SetColorApplier) applier;
+                setColorApplier.Initialize(color);
+                break;
+            case ApplierType.ToggleColor:
+                applier = newEffectGO.AddComponent<ToggleColorApplier>();
                 break;
             case ApplierType.GainPoints:
-                break;
-            case ApplierType.SummonCard:
+                applier = newEffectGO.AddComponent<GainPointsApplier>();
+                GainPointsApplier gainPointsApplier = (GainPointsApplier)applier;
+                gainPointsApplier.Initialize(amount);
                 break;
             case ApplierType.DrawCard:
+                applier = newEffectGO.AddComponent<DrawCardApplier>();
+                break;
+            case ApplierType.SpawnCardToHand:
+                applier = newEffectGO.AddComponent<SpawnCardToHandApplier>();
+                SpawnCardToHandApplier spawnToHandApplier = (SpawnCardToHandApplier) applier;
+                spawnToHandApplier.Initialize(cardBlueprint);
                 break;
             case ApplierType.AddEffect:
+                applier = newEffectGO.AddComponent<AddEffectApplier>();
+                AddEffectApplier addEffectApplier = (AddEffectApplier)applier;
+                addEffectApplier.Initialize(effectBlueprint, whenToTriggerAddedEffect);
                 break;
             case ApplierType.AddGuardian:
+                applier = newEffectGO.AddComponent<AddGuardianApplier>();
+                AddGuardianApplier addGuardianApplier = (AddGuardianApplier)applier;
+                addGuardianApplier.Initialize(guardianType, guardianApplicationType);
                 break;
         }
 
@@ -105,7 +127,7 @@ public class EffectBlueprint : ScriptableObject
     {
         T effect = newEffectGO.AddComponent<T>();
         effect.BaseInitialize(applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
-        applier.BaseInitialize(isConditional, decision);
+        applier.BaseInitialize(parentCard, data, isConditional, decision, amountModifierType);
 
         AddEffectToList(parentCard, triggerType, effect);
 
@@ -153,9 +175,13 @@ public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect e
         }
     }
 
-    private bool ShouldShowPointsToAdd()
+    private bool ShouldShowAmount()
     {
-        return applierType is ApplierType.GainPoints;
+        return applierType is 
+               ApplierType.GainPoints 
+            or ApplierType.SpawnCardToHand 
+            or ApplierType.DrawCard 
+            or ApplierType.AlterBattlePoints;
     }
 
     private bool ShouldShowDecision()
@@ -212,23 +238,23 @@ public enum EffectTarget
 
 public enum ApplierType
 {
-    DummyEffect,
+    DebugEffect,
     AlterBattlePoints,
-    ChangeColor,
+    SetColor,
+    ToggleColor,
     GainPoints,
-    SummonCard,
     DrawCard,
+    SpawnCardToHand,
     AddEffect,
     AddGuardian,
+}
 
-
-    //DummyEffect,
-    //GivePointsToRandomPlayerCard,
-    //ForceShapeshift,
-    //AddBattlePointsPerX,
-    //AddBattlePointsAccordingToOtherRevealedEnemyCard,
-    //GivePointsToOtherRevealedEnemyCard,
-    //ChangeColorToAllRevealedEnemies,
-    //AddGuardianToSelectedCard,
+public enum ApplierModifierType
+{
+    EmptySpacesOnMap,
+    EnemiesOnMap,
+    NotImplementedDeadEnemiesOnMap,
+    CardsInHand,
+    RoomCount,
 }
 

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class AlterBattlePointsApplier : EffectApplier
 {
-    private float amount;
+    private int amount;
     private ModifierType modifierType;
     private BattlePointType battlePointType;
-    public void Initialize(float amount, ModifierType modifierType, BattlePointType battlePointType)
+    public void Initialize(int amount, ModifierType modifierType, BattlePointType battlePointType)
     {
         this.amount = amount;
         this.modifierType = modifierType;

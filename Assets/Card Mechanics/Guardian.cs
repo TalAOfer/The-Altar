@@ -24,7 +24,7 @@ public class Guardian
         switch (guardianType)
         {
             case GuardianType.Promise:
-                int damageToPromise = Tools.MultAndRoundUp(totalDamage, 0.5f);
+                int damageToPromise = Tools.DivideAndRoundUp(totalDamage, 2);
                 int restOfDamage = totalDamage - damageToPromise;
                 guardianCard.TakeDirectDamage(damageToPromise);
                 returnInt = restOfDamage;

@@ -63,10 +63,23 @@ public class RoomData : ScriptableObject
     public Card GetRandomEnemyCard(Card excludeThis)
     {
         List<Card> cardsToPickFrom = GetAllActiveEnemies();
-        if (excludeThis != null) cardsToPickFrom.Remove(excludeThis);
+        if (excludeThis != null && cardsToPickFrom.Contains(excludeThis)) cardsToPickFrom.Remove(excludeThis);
         int rand = Random.Range(0, cardsToPickFrom.Count);
         return cardsToPickFrom[rand];
     }
+
+    public int GetEmptySpacesAmount()
+    {
+        int amount = 0;
+        foreach(MapSlot slot in EnemyManager.grid)
+        {
+            if (slot.slotState != MapSlotState.Occupied) amount++;
+        }
+
+        return amount;
+    }
+
+    //public int GetAmountOfenemies
 }
 
 public enum BattleRoomState
