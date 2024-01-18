@@ -21,6 +21,7 @@ public abstract class EffectApplier : MonoBehaviour
 
     public IEnumerator Apply(Card target, RoomData data)
     {
+        Debug.Log(target + " against " + data.GetOpponent(target));
         if (isConditional && !decision.Decide(target, data.GetOpponent(target))) yield break;
 
         yield return ApplyEffect(target);

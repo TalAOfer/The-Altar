@@ -61,7 +61,6 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        events.OnMapSlotClicked.Raise(this, index);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

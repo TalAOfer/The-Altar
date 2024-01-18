@@ -12,22 +12,24 @@ public class PlayerManager : MonoBehaviour
 
     public void FillHandToMinimum()
     {
-        if (activeCards.Count >= 3) return;
         StartCoroutine(FillHandRoutine());
     }
 
     public IEnumerator FillHandRoutine()
     {
-        yield return new WaitForSeconds(0.35f);
-
-        int amountOfCardsToDraw = 3 - activeCards.Count;
-        for (int i = 0; i < amountOfCardsToDraw; i++)
+        if (activeCards.Count < 3)
         {
-            CardBlueprint blueprint = spawner.DrawCard();
-            Card card = spawner.SpawnCard(blueprint, GameConstants.HAND_LAYER);
-            activeCards.Add(card);
-            hand.AddCardToHand(card);
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.35f);
+
+            int amountOfCardsToDraw = 3 - activeCards.Count;
+            for (int i = 0; i < amountOfCardsToDraw; i++)
+            {
+                CardBlueprint blueprint = spawner.DrawCard();
+                Card card = spawner.SpawnCard(blueprint, GameConstants.HAND_LAYER);
+                activeCards.Add(card);
+                hand.AddCardToHand(card);
+                yield return new WaitForSeconds(0.25f);
+            }
         }
 
         events.SetGameState.Raise(this, GameState.Idle);

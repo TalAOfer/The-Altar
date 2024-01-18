@@ -21,7 +21,7 @@ MonoBehaviour:
     minDraw: 2
     maxDraw: 3
   - roomType: 0
-    difficulty: 4
+    difficulty: 1
     isEnemyTest: 0
     enemiesForTest:
     - {fileID: 11400000, guid: 2cf5b5e8162403b47a2b4e9bc22f7559, type: 2}

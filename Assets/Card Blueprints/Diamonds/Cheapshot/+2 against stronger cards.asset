@@ -19,9 +19,9 @@ MonoBehaviour:
   predelay: 0
   postdelay: 0
   applicationType: 0
-  applierType: 0
+  applierType: 1
   amountStrategy: 0
-  amount: 0
+  amount: 2
   battlePointType: 0
   modifierType: 0
   color: 0

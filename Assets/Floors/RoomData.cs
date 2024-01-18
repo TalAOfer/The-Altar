@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Room Data")]
+//[CreateAssetMenu(menuName = "Room Data")]
 public class RoomData : ScriptableObject
 {
     public RoomType RoomType;

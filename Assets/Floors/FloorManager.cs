@@ -6,23 +6,30 @@ using UnityEngine;
 
 public class FloorManager : MonoBehaviour
 {
+    [SerializeField] private Floor floor;
+    public int currentRoomIndex;
+
+    [FoldoutGroup("Dependencies")]
     [SerializeField] private AllEvents events;
 
-    [SerializeField] private Floor floor;
+    [FoldoutGroup("Visuals")]
+    [SerializeField] private float swipeDuration;
 
+    [FoldoutGroup("Prefabs")]
     [SerializeField] private GameObject battleRoomPrefab;
+    [FoldoutGroup("Prefabs")]
     [SerializeField] private GameObject cardPickingRoomPrefab;
 
+    [FoldoutGroup("Transforms")]
     [SerializeField] private Transform newRoomSpawnPos;
+    [FoldoutGroup("Transforms")]
     [SerializeField] private Transform oldRoomSwipePos;
 
-    public int currentRoomIndex;
     private RoomBlueprint CurrentRoomBlueprint => floor.rooms[currentRoomIndex];
 
     private Room previousRoom;
     private Room currentRoom;
 
-    [SerializeField] private float swipeDuration;
 
     [Button]
     public void InitializeFloor()

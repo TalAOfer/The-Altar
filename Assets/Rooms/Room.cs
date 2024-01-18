@@ -4,10 +4,22 @@ using UnityEngine;
 
 public abstract class Room : MonoBehaviour
 {
-    public abstract void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint);
+    public CardInteractionBase cardInteraction;
 
-    public abstract void OnRoomFinishedLerping();
-    public abstract void OnRoomFinished();
+    public virtual void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
+    {
+        cardInteraction.gameObject.SetActive(false);
+    }
+
+    public virtual void OnRoomFinishedLerping()
+    {
+        cardInteraction.gameObject.SetActive(true);
+    }
+    public virtual void OnRoomFinished() 
+    {
+        cardInteraction.gameObject.SetActive(false);
+    }
+
 }
 
 public enum RoomType

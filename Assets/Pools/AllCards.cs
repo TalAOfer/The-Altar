@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AllCards")]
+//[CreateAssetMenu(menuName = "AllCards")]
 public class AllCards : ScriptableObject
 {
     public List<CardBlueprint> allCards;

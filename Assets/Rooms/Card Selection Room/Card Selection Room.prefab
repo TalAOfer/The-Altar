@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cbd12ed6539b2f4384c7fc020fcfa14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardInteraction: {fileID: 6091313705597833204}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
   texts:
@@ -102,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2087eb1c8d9093c47bb0f04a270fa87a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: fe4ec38df261eb24c8073893a4ca1fd3, type: 2}
+  gameEvent: {fileID: 11400000, guid: a61b258734fe84b4da0d24d0f31b57de, type: 2}
   response:
     m_PersistentCalls:
       m_Calls:

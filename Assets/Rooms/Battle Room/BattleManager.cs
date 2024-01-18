@@ -38,7 +38,7 @@ public class BattleManager : MonoBehaviour
         playerManager = FindObjectOfType<PlayerManager>();
         roomManager = GetComponentInParent<BattleRoom>();
 
-        roomData.PlayerManager = playerManager; 
+        roomData.PlayerManager = playerManager;
         roomData.EnemyManager = roomManager;
         roomData.BattleRoomState = BattleRoomState.Setup;
         roomData.floorManager = floorManager;
@@ -47,7 +47,7 @@ public class BattleManager : MonoBehaviour
     #region Event & button handlers
     public void InitializeNewRoom(Component sender, object data)
     {
-        roomManager = (BattleRoom)data; 
+        roomManager = (BattleRoom)data;
     }
 
     public void OnCardDroppedOnCard(Component sender, object data)
@@ -154,8 +154,17 @@ public class BattleManager : MonoBehaviour
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
         //If dead, disable object and raise onglobaldeath
-        if (enemyCard.IsDead) enemyCard.gameObject.SetActive(false);
-        if (playerCard.IsDead) playerCard.gameObject.SetActive(false);
+        if (enemyCard.IsDead)
+        {
+            enemyCard.gameObject.SetActive(false);
+            ///removing happens in post battle- check why
+        }
+
+        if (playerCard.IsDead)
+        {
+            playerCard.gameObject.SetActive(false);
+            playerManager.activeCards.Remove(playerCard);
+        }
 
         yield return new WaitForSeconds(1f);
 

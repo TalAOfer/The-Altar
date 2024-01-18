@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu (menuName ="Game State")]
+//[CreateAssetMenu (menuName ="Game State")]
 [System.Serializable]
 public class CurrentGameState : ScriptableObject
 {

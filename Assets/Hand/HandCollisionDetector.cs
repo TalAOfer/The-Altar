@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class HandCollisionDetector : MonoBehaviour
 {
-    public HandManager handManager;
+    [SerializeField] private AllEvents events;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,10 +14,7 @@ public class HandCollisionDetector : MonoBehaviour
             Card card = collision.transform.parent.GetComponent<Card>();
             if (card != null)
             {
-                if (handManager.dragManager.isCardDragged)
-                {
-                    handManager.InsertCardToHandByIndex(card, card.index);
-                }
+                events.OnCardTriggerEnter.Raise(this, card);
             }
 
             else
@@ -33,10 +31,7 @@ public class HandCollisionDetector : MonoBehaviour
             Card card = collision.transform.parent.GetComponent<Card>();
             if (card != null)
             {
-                if (handManager.dragManager.isCardDragged)
-                {
-                    handManager.RemoveCardFromHand(card);
-                }
+                events.OnCardTriggerExit.Raise(this, card);
             }
 
             else

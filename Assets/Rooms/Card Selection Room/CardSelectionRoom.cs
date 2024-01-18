@@ -27,6 +27,8 @@ public class CardSelectionRoom : Room
     [Button]
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
+        base.InitializeRoom(floorManager, roomBlueprint);
+
         this.floorManager = floorManager;
 
         events.SetGameState.Raise(this, GameState.ChooseNewBlueprints);
@@ -38,11 +40,19 @@ public class CardSelectionRoom : Room
     }
     public override void OnRoomFinishedLerping()
     {
+        base.OnRoomFinishedLerping();
+
         foreach (LinkedCards linkedCards in linkedCardsList)
         {
             linkedCards.playerCard.interactionHandler.SetNewDefaultLocation(linkedCards.playerCard.transform.position, Vector3.one, Vector3.zero);
             linkedCards.enemyCard.interactionHandler.SetNewDefaultLocation(linkedCards.enemyCard.transform.position, Vector3.one, Vector3.zero);
         }
+    }
+    public override void OnRoomFinished()
+    {
+        base.OnRoomFinished();
+
+        ToggleTexts(false);
     }
 
     public void SpawnLinkedCards(RoomBlueprint roomBlueprint)
@@ -78,10 +88,6 @@ public class CardSelectionRoom : Room
         }
     }
 
-    public override void OnRoomFinished()
-    {
-        ToggleTexts(false);
-    }
 
     private void ToggleTexts(bool enable)
     {
@@ -103,6 +109,7 @@ public class CardSelectionRoom : Room
         runData.enemyCodex.OverrideCard(chosenEnemyBlueprint);
 
         RemoveAllCards();
+        events.HideTooltip.Raise(this, null);
         floorManager.NextRoom();
     }
 

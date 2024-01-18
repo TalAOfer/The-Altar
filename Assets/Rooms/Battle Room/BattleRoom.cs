@@ -11,7 +11,7 @@ public class BattleRoom : Room
     [SerializeField] private AllEvents events;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private EnemyCardSpawner spawner;
-
+    [FoldoutGroup("Dependencies")]
 
     [FoldoutGroup("Map Objects")]
     [SerializeField] private Door door;
@@ -22,6 +22,8 @@ public class BattleRoom : Room
 
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
+        base.InitializeRoom(floorManager, roomBlueprint);
+        
         battleManager.Initialize(floorManager);
         door.floorManager = floorManager;
         difficulty = roomBlueprint.difficulty;
@@ -33,16 +35,6 @@ public class BattleRoom : Room
         {
             SpawnTestEnemies(roomBlueprint);
         }
-    }
-
-    public override void OnRoomFinishedLerping()
-    {
-
-    }
-
-    public override void OnRoomFinished()
-    {
-
     }
 
     public void SpawnEnemies()

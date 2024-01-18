@@ -55,7 +55,7 @@ public class SelectManager : MonoBehaviour
         yield return null;
     }
 
-    public void OnCardClicked(Component sender, object data)
+    public void HandleCardClick(Component sender, object data)
     {
         Card cardClicked = data as Card;
         if (cardClicked == selectedCard)

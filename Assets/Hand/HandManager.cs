@@ -14,14 +14,12 @@ public class HandManager : MonoBehaviour
     private float baseRotationAngle;
     private Vector2 yOffsetFactorMinMax;
 
-    public DragManager dragManager;
     private Vector3 startingPos;
     private HandState state;
     [SerializeField] private AllEvents events;
 
     private void Awake()
     {
-        dragManager.SetDraggedCard(null);
         startingPos = transform.position;
         baseSpacing = formationData.baseSpacing;
         baseRotationAngle = formationData.baseRotationAngle;
@@ -72,92 +70,7 @@ public class HandManager : MonoBehaviour
         ReorderCards();
     }
 
-    public void GetAllCardsFromHand(Component sender, object data)
-    {
-        SelectEffect askerEffect = (SelectEffect)data;
-        StartCoroutine(askerEffect.HandleResponse(this, new List<Card>(cardsInHand)));
-    }
-
-    public void AddCardToHand(Card card)
-    {
-        cardsInHand.Add(card);
-        card.transform.localScale = Vector3.one * GameConstants.HandScale;
-        //card.index = cardsInHand.IndexOf(card);
-        ReorderCards();
-    }
-    public void OnHandCardDroppedNowhere(Component sender, object data)
-    {
-        Card card = data as Card;
-        InsertCardToHandByIndex(card, card.index);
-    }
-
-    public void InsertCardToHandByIndex(Card card, int index)
-    {
-        int cardIndex = index;
-        card.transform.localScale = Vector3.one * GameConstants.HandScale;
-
-
-        if (index > cardsInHand.Count)
-        {
-            cardIndex = cardsInHand.Count;
-        }
-
-        if (!cardsInHand.Contains(card))
-        {
-            cardsInHand.Insert(cardIndex, card);
-        }
-
-        ReorderCards();
-    }
-
-    public void SwitchCards(Card incomingCard, Card existingCard)
-    {
-        int incomingIndex = cardsInHand.IndexOf(incomingCard);
-        int existingIndex = cardsInHand.IndexOf(existingCard);
-
-        if (incomingIndex != -1 && existingIndex != -1)
-        {
-            (cardsInHand[existingIndex], cardsInHand[incomingIndex]) = (cardsInHand[incomingIndex], cardsInHand[existingIndex]);
-            ReorderCards();
-        }
-
-        else
-        {
-            // Handle the case where one or both cards are not in the list
-            Debug.Log("One or both of the cards are not in the list.");
-        }
-    }
-
-    public void OnDraggedCardHoveredOverHandCard(Component sender, object data)
-    {
-        Card hoveredCard = sender as Card;
-        Card draggedCard = data as Card;
-
-        if (cardsInHand.Contains(draggedCard))
-        {
-            SwitchCards(draggedCard, hoveredCard);
-        }
-
-        else
-        {
-            InsertCardToHandByIndex(draggedCard, hoveredCard.index);
-        }
-
-    }
-
-
-    public void OnCardDroppedOnCard(Component sender, object data)
-    {
-        Card card = data as Card;
-        RemoveCardFromHand(card);
-    }
-    public void RemoveCardFromHand(Card card)
-    {
-        cardsInHand.Remove(card);
-        card.transform.localScale = Vector3.one * GameConstants.MapScale;
-        ReorderCards();
-    }
-
+    #region Transform and index handling
     [Button]
     public void ReorderCards()
     {
@@ -197,12 +110,8 @@ public class HandManager : MonoBehaviour
                 Quaternion cardRotation = transform.rotation * Quaternion.Euler(0, 0, angle);
 
                 // Set the card's position and rotation
-                if (cardsInHand[i] != dragManager.draggedCard)
-                {
-                    currentCard.transform.position = cardPosition;
-                    currentCard.transform.rotation = cardRotation;
-                    currentCard.visualHandler.SetSortingOrder(i);
-                }
+                currentCard.transform.SetPositionAndRotation(cardPosition, cardRotation);
+                currentCard.visualHandler.SetSortingOrder(i);
 
                 currentCard.index = i;
                 currentCard.interactionHandler.SetNewDefaultLocation(cardPosition, currentCard.transform.localScale, cardRotation.eulerAngles);
@@ -218,6 +127,101 @@ public class HandManager : MonoBehaviour
         // Apply a quadratic curve (parabola) for Y position
         return yOffsetFactor * (4 * normalizedIndex * (1 - normalizedIndex) - 1);
     }
+
+    #endregion
+
+    #region Add and remove from hand
+    public void AddCardToHand(Card card)
+    {
+        cardsInHand.Add(card);
+        card.transform.localScale = Vector3.one * GameConstants.HandScale;
+        //card.index = cardsInHand.IndexOf(card);
+        ReorderCards();
+    }
+
+    public void RemoveCardFromHand(Card card)
+    {
+        cardsInHand.Remove(card);
+        ReorderCards();
+    }
+
+    public void InsertCardToHandByIndex(Card card, int index)
+    {
+        int cardIndex = index;
+        card.transform.localScale = Vector3.one * GameConstants.HandScale;
+
+
+        if (index > cardsInHand.Count)
+        {
+            cardIndex = cardsInHand.Count;
+        }
+
+        if (!cardsInHand.Contains(card))
+        {
+            cardsInHand.Insert(cardIndex, card);
+        }
+
+        ReorderCards();
+    }
+
+    public void SwitchCards(Card incomingCard, Card existingCard)
+    {
+        int incomingIndex = cardsInHand.IndexOf(incomingCard);
+        int existingIndex = cardsInHand.IndexOf(existingCard);
+
+        if (incomingIndex != -1 && existingIndex != -1)
+        {
+            (cardsInHand[existingIndex], cardsInHand[incomingIndex]) = (cardsInHand[incomingIndex], cardsInHand[existingIndex]);
+            ReorderCards();
+        }
+
+        else
+        {
+            // Handle the case where one or both cards are not in the list
+            Debug.Log("One or both of the cards are not in the list.");
+        }
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    public void OnDraggedCardHoveredOverHandCard(Component sender, object data)
+    {
+        Card hoveredCard = sender as Card;
+        Card draggedCard = data as Card;
+
+        if (cardsInHand.Contains(draggedCard))
+        {
+            SwitchCards(draggedCard, hoveredCard);
+        }
+
+        else
+        {
+            InsertCardToHandByIndex(draggedCard, hoveredCard.index);
+        }
+
+    }
+
+    public void OnHandCardDroppedNowhere(Component sender, object data)
+    {
+        Card card = data as Card;
+        InsertCardToHandByIndex(card, card.index);
+    }
+
+    public void HandleRemoveCardFromHand(Component sender, object data)
+    {
+        Card card = data as Card;
+        RemoveCardFromHand(card);
+    }
+
+    public void HandleInsertCard(Component sender, object data)
+    {
+        Card card = data as Card;
+        InsertCardToHandByIndex(card, card.index);
+    }
+
+    #endregion
 }
 public enum HandState
 {

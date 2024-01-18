@@ -1,7 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/Battle/Card Movement")]
+//[CreateAssetMenu(menuName = "Data/Battle/Card Movement")]
 public class BattleManagerData : ScriptableObject
 {
     public float endBattleDelay = 1f;

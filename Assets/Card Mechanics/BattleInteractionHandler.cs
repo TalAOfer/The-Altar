@@ -94,6 +94,20 @@ public class BattleInteractionHandler : CardInteractionBase
 
     }
 
+    public void HandleTriggerEnter(Component sender, object data)
+    {
+        Card card = data as Card;
+        events.InsertCardToHandInIndex.Raise(this, card);
+    }
+
+    public void HandleTriggerExit(Component sender, object data)
+    {
+        Card card = data as Card;
+        events.RemoveCardFromHand.Raise(this, card);
+    }
+
+    #region Helpers
+
     private bool ShouldHoverTriggerTooltip(Card card) => (!isDragging && gameState.currentState is GameState.Idle
      || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
 
@@ -118,4 +132,6 @@ public class BattleInteractionHandler : CardInteractionBase
         bool isCardSelectedOrSelectable = card.cardState is CardState.Selectable or CardState.Selected;
         return (gameState.currentState is GameState.SelectPlayerCard && isCardSelectedOrSelectable && card.cardOwner is CardOwner.Player);
     }
+
+    #endregion
 }

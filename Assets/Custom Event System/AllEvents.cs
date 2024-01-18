@@ -4,22 +4,6 @@ using UnityEngine;
 //[CreateAssetMenu(menuName ="AllEvents")]
 public class AllEvents : ScriptableObject
 {
-    [Title("Decks")]
-    public GameEvent DrawPlayerCardToHand;
-    public GameEvent DrawEnemyCardToMapIndex;
-
-    [Title("Active Choice")]
-    public GameEvent WaitForPlayerSelection;
-    public GameEvent GetAllCardsFromHand;
-    public GameEvent SpawnCardToHand;
-    public GameEvent GetXAmount;
-    public GameEvent GetRevealedEnemyCards;
-
-    [Title("Map")]
-    public GameEvent OnNewRoom;
-    public GameEvent OnMapCardDied;
-    public GameEvent OnMapSlotClicked;
-
     [Title("Card Interaction")]
     public GameEvent OnCardPointerEnter;
     public GameEvent OnCardPointerExit;
@@ -27,17 +11,25 @@ public class AllEvents : ScriptableObject
     public GameEvent OnCardDrag;
     public GameEvent OnCardEndDrag;
     public GameEvent OnCardClicked;
+    public GameEvent OnCardTriggerEnter;
+    public GameEvent OnCardTriggerExit;
 
-
+    [Title("Battle")]
     public GameEvent OnCardDropOnCard;
+
+    [Title("Battle Selection")]
+    public GameEvent WaitForPlayerSelection;
+
+    [Title("Room")]
+    public GameEvent OnNewRoom;
+
+    [Title("Hand")]
     public GameEvent OnHandCardStartDrag;
     public GameEvent OnHandCardDroppedNowhere;
     public GameEvent OnDraggedCardHoveredOverHandCard;
-
-    [Title("Global Card Events")]
-    public GameEvent OnGlobalCardDeath;
-
-
+    public GameEvent RemoveCardFromHand;
+    public GameEvent InsertCardToHandInIndex;
+    
     [Title("Global Handling")]
     public GameEvent ShowTooltip;
     public GameEvent HideTooltip;
