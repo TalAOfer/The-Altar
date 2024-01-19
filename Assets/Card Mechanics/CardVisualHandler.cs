@@ -49,10 +49,15 @@ public class CardVisualHandler : MonoBehaviour
 
 
     #region Initialization
-    public void Init(CardBlueprint blueprint, string startingSortingLayer)
+
+    private void Awake()
     {
         InitializeCardMaterial();
         InitializeSpritesMaterial();
+        SetSpritesColor();
+    }
+    public void Init(CardBlueprint blueprint, string startingSortingLayer)
+    {
         InitializeDamageVisualizerPosition();
 
         SetNewCardVisual();
@@ -64,8 +69,7 @@ public class CardVisualHandler : MonoBehaviour
         cardMaterial = new Material(shaderMaterial);
         cardSr.material = cardMaterial;
         cardMaterial.SetColor("_Color", palette.white);
-        cardMaterial.SetColor("_Outline_Color", palette.darkPurple);
-        cardMaterial.SetInt("_Outline_On", 1);
+        cardMaterial.SetInt("_Outline_On", 0);
     }
 
     private void InitializeSpritesMaterial()
@@ -79,6 +83,13 @@ public class CardVisualHandler : MonoBehaviour
     private void InitializeDamageVisualizerPosition()
     {
         damageTransform.localPosition = card.cardOwner == CardOwner.Player ? data.playerDamageVisualizerPosition : data.enemyDamageVisualizerPosition;
+    }
+
+    public void ToggleOutline(bool enable, Color color)
+    {
+        int toggle = enable ? 1 : 0;
+        cardMaterial.SetColor("_Outline_Color", palette.darkPurple);
+        cardMaterial.SetInt("_Outline_On", toggle);
     }
 
     #endregion

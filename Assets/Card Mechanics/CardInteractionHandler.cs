@@ -21,14 +21,12 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     [FoldoutGroup("Default Transforms")]
     public Vector3 defaultPos;
     [FoldoutGroup("Default Transforms")]
-    public Vector3 defaultScale;
+    public Vector3 defaultScale = Vector3.one;
     [FoldoutGroup("Default Transforms")]
     public Vector3 defaultRotation;
-    private Vector3 temp;
 
     [SerializeField] private float hoverHeightBoostAmount;
-    [SerializeField] private Color defaultColor;
-    [SerializeField] private Color hoverColor;
+    public bool isHighlighted;
 
     public void Initialize()
     {
@@ -40,11 +38,11 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         coll.enabled = enable;
     }
 
-    public void SetNewDefaultLocation(Vector3 position, Vector3 scale, Vector3 rotation)
+    public void SetNewDefaultLocation(Vector3? position, Vector3? scale, Vector3? rotation)
     {
-        defaultPos = position;
-        defaultScale = scale;
-        defaultRotation = rotation;
+        defaultPos = position != null ?  (Vector3)position : transform.position;
+        defaultScale = scale != null ? (Vector3)scale : transform.localScale;
+        defaultRotation = rotation != null ? (Vector3) rotation : transform.eulerAngles;
     }
 
     public void RestartTransformToDefault()
@@ -57,28 +55,33 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerEnter(PointerEventData eventData)
     {
         card.events.OnCardPointerEnter.Raise(card, eventData);
+        Debug.Log("Pointer Enter");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         card.events.OnCardPointerExit.Raise(card, eventData);
+        Debug.Log("Pointer Exit");
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         card.events.OnCardBeginDrag.Raise(card, eventData);
+        Debug.Log("Begin Drag");
     }
 
-    public void OnDrag(PointerEventData eventData){}
+    public void OnDrag(PointerEventData eventData) { }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         card.events.OnCardEndDrag.Raise(card, eventData);
+        Debug.Log("End Drag");
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         card.events.OnCardClicked.Raise(card, eventData);
+        Debug.Log("Click");
     }
 
     #region Movement Routines
@@ -176,6 +179,8 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
                 break;
         }
     }
+
+
 
     #endregion
 }

@@ -7,6 +7,7 @@ public abstract class CardInteractionBase : MonoBehaviour
 {
     [SerializeField] protected AllEvents events;
 
+    protected Card selectedCard = null;
     protected Card draggedCard = null;
     protected bool isDragging = false;
 

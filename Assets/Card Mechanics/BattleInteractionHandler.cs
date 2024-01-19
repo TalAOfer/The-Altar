@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,87 +12,159 @@ public class BattleInteractionHandler : CardInteractionBase
     [SerializeField] private Color defaultColor;
     [SerializeField] private float hoverHeightBoostAmount;
 
-    protected override void HandlePointerEnter(Card card, PointerEventData eventData)
+    private void SelectCard(Card card)
     {
-        card.visualHandler.SetCardBGColor(hoverColor);
+        selectedCard = card;
+        if (!card.interactionHandler.isHighlighted) Highlight(card);
+        card.visualHandler.ToggleOutline(true, Color.white);
+    }
+    private void DeselectCurrentCard()
+    {
+        if (selectedCard == null) return;
 
-        if (ShouldHoverTriggerTooltip(card)) card.events.ShowTooltip.Raise(this, card);
+        selectedCard.visualHandler.ToggleOutline(false, Color.white);
 
-        if (ShouldHoverBoostHeight(card))
+        if (selectedCard.interactionHandler.isHighlighted) Dehighlight(selectedCard);
+
+        selectedCard = null;
+    }
+
+    private void Highlight(Card card)
+    {
+        card.interactionHandler.isHighlighted = true;
+        card.visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
+
+        card.interactionHandler.SetNewDefaultLocation(null, null, null);
+        Vector3 temp = card.interactionHandler.defaultPos;
+        temp.y += hoverHeightBoostAmount;
+        card.visualHandler.transform.SetPositionAndRotation(temp, Quaternion.Euler(Vector3.zero));
+        card.visualHandler.transform.localScale = Vector3.one * 1.2f;
+    }
+
+    private void Dehighlight(Card card)
+    {
+        card.interactionHandler.isHighlighted = false;
+
+        card.visualHandler.SetSortingLayer(GameConstants.HAND_LAYER);
+        card.visualHandler.transform.SetPositionAndRotation(card.interactionHandler.defaultPos, Quaternion.Euler(card.interactionHandler.defaultRotation));
+        card.visualHandler.transform.localScale = card.interactionHandler.defaultScale;
+    }
+
+
+
+    protected override void HandlePointerClick(Card card, PointerEventData eventData)
+    {
+        bool isThereASelectedCard = selectedCard != null;
+        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+
+        if (isThereASelectedCard)
         {
-            card.visualHandler.SetSortingOrder(10);
-            Vector3 temp = card.interactionHandler.defaultPos;
-            temp.y += hoverHeightBoostAmount;
-            card.transform.SetPositionAndRotation(temp, Quaternion.Euler(Vector3.zero));
+            if (isThisCardAPlayerCard)
+            {
+                bool isThisCardTheSelectedCard = selectedCard == card;
+                DeselectCurrentCard();
+
+                if (!isThisCardTheSelectedCard)
+                {
+                    SelectCard(card);
+                }
+
+            }
+
+            else
+            {
+                //Attack this card with selected card
+            }
         }
 
-        if (ShouldHoverTriggerHandPlaceSwitch(card)) card.events.OnDraggedCardHoveredOverHandCard.Raise(card, draggedCard);
+        else
+        {
+            SelectCard(card);
+        }
+    }
 
+    protected override void HandlePointerEnter(Card card, PointerEventData eventData)
+    {
+        if (ShouldHoverTriggerTooltip(card)) card.events.ShowTooltip.Raise(this, card);
+
+        bool isThereASelectedCard = selectedCard != null;
+
+        if (isThereASelectedCard) return;
+
+        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+
+        if (isThisCardAPlayerCard)
+        {
+            Highlight(card);
+        }
     }
 
     protected override void HandlePointerExit(Card card, PointerEventData eventData)
     {
+        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+        bool isThisCardSelected = selectedCard == card;
 
-        card.visualHandler.SetCardBGColor(defaultColor);
-
-        if (ShouldHoverTriggerTooltip(card)) card.events.HideTooltip.Raise();
-
-        if (ShouldHoverBoostHeight(card))
+        if (isThisCardAPlayerCard && !isThisCardSelected)
         {
-            card.visualHandler.SetSortingOrder(card.index);
-            card.interactionHandler.RestartTransformToDefault();
+            Dehighlight(card);
         }
     }
 
     protected override void HandleBeginDrag(Card card, PointerEventData eventData)
     {
-        if (!CanDrag(card)) return;
+        bool isThereASelectedCard = selectedCard != null;
+        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
 
-        card.events.HideTooltip.Raise();
-        card.interactionHandler.SetCollState(false);
+        if (!isThisCardAPlayerCard) return;
 
-        //To take it out of hand
-        events.OnHandCardStartDrag.Raise(this, card);
-        card.visualHandler.SetSortingOrder(15);
-        draggedCard = card;
-        isDragging = true;
-    }
-
-    public override void HandleDrag()
-    {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 temp = mousePos;
-        temp.z = 0;
-        draggedCard.transform.position = temp;
-    }
-
-    protected override void HandleEndDrag(Card card, PointerEventData eventData)
-    {
-        if (!CanDrag(card)) return;
-
-        draggedCard = null;
-        isDragging = false;
-
-        card.interactionHandler.SetCollState(true);
-
-        GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
-        CardInteractionHandler cardIhThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
-        Card droppedCard = cardIhThatItDroppedOn != null ? cardIhThatItDroppedOn.card : null;
-
-        if (droppedCard != null && droppedCard.cardOwner == CardOwner.Enemy)
+        if (isThereASelectedCard)
         {
-            card.events.OnCardDropOnCard.Raise(card, droppedCard);
+            if (isThisCardAPlayerCard)
+            {
+                bool isThisCardTheSelectedCard = selectedCard == card;
+                DeselectCurrentCard();
+
+                if (!isThisCardTheSelectedCard)
+                {
+                    SelectCard(card);
+                }
+            }
+
+            else
+            {
+                card.events.OnCardDropOnCard.Raise(selectedCard, card);
+            }
         }
 
         else
         {
-            card.events.OnHandCardDroppedNowhere.Raise(card, card);
+            SelectCard(card);
         }
     }
 
-    protected override void HandlePointerClick(Card card, PointerEventData eventData)
+    protected override void HandleEndDrag(Card card, PointerEventData eventData)
     {
+        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+        if (!isThisCardAPlayerCard) return;
 
+        GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
+        Card droppedCard = null;
+        if (goHit != null)
+        {
+            CardInteractionHandler cardIhThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
+            droppedCard = cardIhThatItDroppedOn != null ? cardIhThatItDroppedOn.card : null;
+        }
+
+        if (droppedCard == null)
+        {
+            DeselectCurrentCard();
+            return;
+        }
+
+        if (droppedCard.cardOwner == CardOwner.Enemy)
+        {
+            card.events.OnCardDropOnCard.Raise(card, droppedCard);
+        }
     }
 
     public void HandleTriggerEnter(Component sender, object data)
