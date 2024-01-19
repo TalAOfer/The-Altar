@@ -2,42 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class HandCollisionDetector : MonoBehaviour
+public class HandCollisionDetector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private AllEvents events;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        if (collision.gameObject.CompareTag("CardBoundry"))
-        {
-            Card card = collision.transform.parent.GetComponent<Card>();
-            if (card != null)
-            {
-                events.OnCardTriggerEnter.Raise(this, card);
-            }
-
-            else
-            {
-                Debug.LogError("GO tagged card boundry but collision isn't a child of card");
-            }
-        }
+        events.OnCursorEnterHand.Raise(this, eventData);
+        //Debug.Log("Pointer enter");
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void OnPointerExit(PointerEventData eventData)
     {
-        if (collision.gameObject.CompareTag("CardBoundry"))
-        {
-            Card card = collision.transform.parent.GetComponent<Card>();
-            if (card != null)
-            {
-                events.OnCardTriggerExit.Raise(this, card);
-            }
-
-            else
-            {
-                Debug.LogError("GO tagged card boundry but collision isn't a child of card");
-            }
-        }
+        events.OnCursorExitHand.Raise(this, eventData);
+        //Debug.Log("Pointer exit");
     }
 }

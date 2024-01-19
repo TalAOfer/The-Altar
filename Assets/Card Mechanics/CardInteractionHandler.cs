@@ -55,19 +55,19 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerEnter(PointerEventData eventData)
     {
         card.events.OnCardPointerEnter.Raise(card, eventData);
-        Debug.Log("Pointer Enter");
+        //Debug.Log("Pointer Enter");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         card.events.OnCardPointerExit.Raise(card, eventData);
-        Debug.Log("Pointer Exit");
+        //Debug.Log("Pointer Exit");
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         card.events.OnCardBeginDrag.Raise(card, eventData);
-        Debug.Log("Begin Drag");
+        //Debug.Log("Begin Drag");
     }
 
     public void OnDrag(PointerEventData eventData) { }
@@ -75,13 +75,13 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnEndDrag(PointerEventData eventData)
     {
         card.events.OnCardEndDrag.Raise(card, eventData);
-        Debug.Log("End Drag");
+        //Debug.Log("End Drag");
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         card.events.OnCardClicked.Raise(card, eventData);
-        Debug.Log("Click");
+        //Debug.Log("Click");
     }
 
     #region Movement Routines

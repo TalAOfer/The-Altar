@@ -11,11 +11,14 @@ public class AllEvents : ScriptableObject
     public GameEvent OnCardDrag;
     public GameEvent OnCardEndDrag;
     public GameEvent OnCardClicked;
-    public GameEvent OnCardTriggerEnter;
-    public GameEvent OnCardTriggerExit;
+    public GameEvent OnCursorEnterHand;
+    public GameEvent OnCursorExitHand;
 
     [Title("Battle")]
     public GameEvent OnCardDropOnCard;
+    public GameEvent EnableBezierArrow;
+    public GameEvent DisableBezierArrow;
+
 
     [Title("Battle Selection")]
     public GameEvent WaitForPlayerSelection;

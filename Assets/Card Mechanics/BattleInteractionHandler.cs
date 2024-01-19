@@ -11,7 +11,7 @@ public class BattleInteractionHandler : CardInteractionBase
     [SerializeField] private Color hoverColor;
     [SerializeField] private Color defaultColor;
     [SerializeField] private float hoverHeightBoostAmount;
-
+    private bool isArrowActive;
     private void SelectCard(Card card)
     {
         selectedCard = card;
@@ -169,14 +169,21 @@ public class BattleInteractionHandler : CardInteractionBase
 
     public void HandleTriggerEnter(Component sender, object data)
     {
-        Card card = data as Card;
-        events.InsertCardToHandInIndex.Raise(this, card);
+        if (selectedCard == null) return;
+        if (!isArrowActive) return;
+
+        isArrowActive = false;
+        DeselectCurrentCard();
+        events.DisableBezierArrow.Raise();
     }
 
     public void HandleTriggerExit(Component sender, object data)
     {
-        Card card = data as Card;
-        events.RemoveCardFromHand.Raise(this, card);
+        if (selectedCard == null) return; 
+        if (isArrowActive) return;
+        isArrowActive = true;
+        Debug.Log("Raising enable");
+        events.EnableBezierArrow.Raise(this, selectedCard);
     }
 
     #region Helpers
@@ -184,27 +191,6 @@ public class BattleInteractionHandler : CardInteractionBase
     private bool ShouldHoverTriggerTooltip(Card card) => (!isDragging && gameState.currentState is GameState.Idle
      || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
 
-    private bool ShouldHoverBoostHeight(Card card)
-    {
-        if (isDragging) return false;
-        else return gameState.currentState is GameState.Idle && card.cardOwner is CardOwner.Player;
-    }
-
-    private bool ShouldHoverTriggerHandPlaceSwitch(Card card)
-    {
-        return isDragging && gameState.currentState is GameState.Idle && card.cardOwner is CardOwner.Player;
-    }
-
-    private bool CanDrag(Card card)
-    {
-        return (gameState.currentState is GameState.Idle && card.cardOwner is CardOwner.Player);
-    }
-
-    private bool CanClick(Card card)
-    {
-        bool isCardSelectedOrSelectable = card.cardState is CardState.Selectable or CardState.Selected;
-        return (gameState.currentState is GameState.SelectPlayerCard && isCardSelectedOrSelectable && card.cardOwner is CardOwner.Player);
-    }
 
     #endregion
 }

@@ -61,3 +61,6 @@ TagManager:
   - name: Battle 2
     uniqueID: 3182917493
     locked: 0
+  - name: Arrow
+    uniqueID: 812069991
+    locked: 0
