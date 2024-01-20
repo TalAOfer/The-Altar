@@ -140,8 +140,9 @@ public class Card : MonoBehaviour
     }
 
 
-    public void TakeDamage()
+    public void TakeDamage(Component sender)
     {
+
         if (guardians.Count == 0)
         {
             points -= hurtPoints.value;

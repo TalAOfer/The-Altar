@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 090f364b442d306448648d10b7bca280, type: 3}
   isDefault: 1
-  cardName: 
+  cardName: Crossbow
   cardColor: 0
   cardOwner: 0
   defaultPoints: 5

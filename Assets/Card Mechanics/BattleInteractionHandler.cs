@@ -8,8 +8,6 @@ using UnityEngine.EventSystems;
 public class BattleInteractionHandler : CardInteractionBase
 {
     [SerializeField] private CurrentGameState gameState;
-    [SerializeField] private Color hoverColor;
-    [SerializeField] private Color defaultColor;
     [SerializeField] private float hoverHeightBoostAmount;
     private bool isArrowActive;
     private void SelectCard(Card card)
@@ -73,7 +71,9 @@ public class BattleInteractionHandler : CardInteractionBase
 
             else
             {
-                //Attack this card with selected card
+                card.events.Attack.Raise(selectedCard, card);
+                DeselectCurrentCard();
+                DisableArrow();
             }
         }
 
@@ -85,13 +85,22 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandlePointerEnter(Card card, PointerEventData eventData)
     {
-        if (ShouldHoverTriggerTooltip(card)) card.events.ShowTooltip.Raise(this, card);
-
         bool isThereASelectedCard = selectedCard != null;
-
-        if (isThereASelectedCard) return;
-
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+
+        
+        card.events.ShowTooltip.Raise(this, card);
+
+        if (!isThereASelectedCard)
+        {
+            card.events.ShowTooltip.Raise(this, card);
+        } else
+        {
+            if (!isThisCardAPlayerCard)
+            {
+                card.events.ShowTooltip.Raise(this, card);
+            }
+        }
 
         if (isThisCardAPlayerCard)
         {
@@ -101,6 +110,8 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandlePointerExit(Card card, PointerEventData eventData)
     {
+        card.events.HideTooltip.Raise(this, card);
+
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
         bool isThisCardSelected = selectedCard == card;
 
@@ -129,11 +140,6 @@ public class BattleInteractionHandler : CardInteractionBase
                     SelectCard(card);
                 }
             }
-
-            else
-            {
-                card.events.OnCardDropOnCard.Raise(selectedCard, card);
-            }
         }
 
         else
@@ -158,23 +164,26 @@ public class BattleInteractionHandler : CardInteractionBase
         if (droppedCard == null)
         {
             DeselectCurrentCard();
+            DisableArrow();
             return;
         }
 
         if (droppedCard.cardOwner == CardOwner.Enemy)
         {
-            card.events.OnCardDropOnCard.Raise(card, droppedCard);
+            card.events.Attack.Raise(card, droppedCard);
+            DeselectCurrentCard();
+            DisableArrow();
         }
     }
+
 
     public void HandleTriggerEnter(Component sender, object data)
     {
         if (selectedCard == null) return;
         if (!isArrowActive) return;
 
-        isArrowActive = false;
         DeselectCurrentCard();
-        events.DisableBezierArrow.Raise();
+        DisableArrow();
     }
 
     public void HandleTriggerExit(Component sender, object data)
@@ -182,14 +191,16 @@ public class BattleInteractionHandler : CardInteractionBase
         if (selectedCard == null) return; 
         if (isArrowActive) return;
         isArrowActive = true;
-        Debug.Log("Raising enable");
         events.EnableBezierArrow.Raise(this, selectedCard);
     }
 
-    #region Helpers
+    private void DisableArrow()
+    {
+        isArrowActive = false;
+        events.DisableBezierArrow.Raise();
+    }
 
-    private bool ShouldHoverTriggerTooltip(Card card) => (!isDragging && gameState.currentState is GameState.Idle
-     || (gameState.currentState is GameState.BattleFormation && card.cardState is CardState.Battle));
+    #region Helpers
 
 
     #endregion

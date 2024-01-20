@@ -21,6 +21,13 @@ MonoBehaviour:
     minDraw: 2
     maxDraw: 3
   - roomType: 0
+    difficulty: 4
+    isEnemyTest: 0
+    enemiesForTest: []
+    amountOfOptions: 0
+    minDraw: 0
+    maxDraw: 0
+  - roomType: 0
     difficulty: 1
     isEnemyTest: 0
     enemiesForTest:
@@ -37,13 +44,6 @@ MonoBehaviour:
     amountOfOptions: 2
     minDraw: 2
     maxDraw: 3
-  - roomType: 0
-    difficulty: 4
-    isEnemyTest: 0
-    enemiesForTest: []
-    amountOfOptions: 0
-    minDraw: 0
-    maxDraw: 0
   - roomType: 1
     difficulty: 0
     isEnemyTest: 0

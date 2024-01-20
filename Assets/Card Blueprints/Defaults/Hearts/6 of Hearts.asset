@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: 04ed5717b3d9c164f957e6624790f689, type: 3}
   isDefault: 1
-  cardName: 
+  cardName: Guard
   cardColor: 1
   cardOwner: 0
   defaultPoints: 6

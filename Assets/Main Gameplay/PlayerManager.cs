@@ -52,7 +52,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SpawnCardToHandByArchetype(CardArchetype archetype)
     {
-        CardBlueprint blueprint = spawner.codex.GetCardOverride(archetype);
+        CardBlueprint blueprint = spawner.Codex.GetCardOverride(archetype);
         Card card = spawner.SpawnCard(blueprint, GameConstants.HAND_LAYER);
         activeCards.Add(card);
         hand.AddCardToHand(card);

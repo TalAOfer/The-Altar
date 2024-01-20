@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: f25efcc6c62e1f147b569b15bf1ff739, type: 3}
   isDefault: 1
-  cardName: 
+  cardName: Clock Tower
   cardColor: 1
   cardOwner: 0
   defaultPoints: 4

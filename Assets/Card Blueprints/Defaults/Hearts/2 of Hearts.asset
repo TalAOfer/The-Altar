@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: e5276964efd24594a8923802e12ea482, type: 3}
   isDefault: 1
-  cardName: 
+  cardName: Chalice
   cardColor: 1
   cardOwner: 0
   defaultPoints: 2

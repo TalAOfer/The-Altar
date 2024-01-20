@@ -14,8 +14,6 @@ public class BattleManager : MonoBehaviour
     private Card playerCard;
 
     [FoldoutGroup("Dependencies")]
-    [SerializeField] private RunData runData;
-    [FoldoutGroup("Dependencies")]
     [SerializeField] private RoomData roomData;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private AllEvents events;
@@ -45,23 +43,14 @@ public class BattleManager : MonoBehaviour
     }
 
     #region Event & button handlers
-    public void InitializeNewRoom(Component sender, object data)
-    {
-        roomManager = (BattleRoom)data;
-    }
 
-    public void OnCardDroppedOnCard(Component sender, object data)
+    public void OnAttack(Component sender, object data)
     {
         playerCard = sender as Card;
         enemyCard = data as Card;
         roomData.BattlingPlayerCard = playerCard;
         roomData.BattlingEnemyCard = enemyCard;
 
-        StartCoroutine(BattleFormationRoutine());
-    }
-    public void DoBattle()
-    {
-        ToggleButtons(false);
         StartCoroutine(BattleRoutine());
     }
 
@@ -80,32 +69,32 @@ public class BattleManager : MonoBehaviour
 
     #region Formation
 
-    private IEnumerator BattleFormationRoutine()
-    {
-        enemyCard.ChangeCardState(CardState.Battle);
-        playerCard.ChangeCardState(CardState.Battle);
+    //private IEnumerator BattleFormationRoutine()
+    //{
+    //    enemyCard.ChangeCardState(CardState.Battle);
+    //    playerCard.ChangeCardState(CardState.Battle);
 
-        events.ToggleCurtain.Raise(this, true);
-        events.SetGameState.Raise(this, GameState.BattleFormation);
+    //    events.ToggleCurtain.Raise(this, true);
+    //    events.SetGameState.Raise(this, GameState.BattleFormation);
 
-        yield return StartCoroutine(MoveCardsToFormation());
+    //    yield return StartCoroutine(MoveCardsToFormation());
 
-        ToggleButtons(true);
+    //    ToggleButtons(true);
 
-    }
+    //}
 
-    private IEnumerator MoveCardsToFormation()
-    {
-        enemyCard.transform.SetParent(topBattleTransform, true);
-        Coroutine moveEnemyCardToTop = StartCoroutine(enemyCard.interactionHandler.TransformCardUniformly
-            (topBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
+    //private IEnumerator MoveCardsToFormation()
+    //{
+    //    enemyCard.transform.SetParent(topBattleTransform, true);
+    //    Coroutine moveEnemyCardToTop = StartCoroutine(enemyCard.interactionHandler.TransformCardUniformly
+    //        (topBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
 
-        Coroutine moveAttackingcardToBottom = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly
-            (bottomBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
+    //    Coroutine moveAttackingcardToBottom = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly
+    //        (bottomBattleTransform.position, Vector3.one * movementData.battleCardScale, Vector3.zero, movementData.toFormationDuration));
 
-        yield return moveEnemyCardToTop;
-        yield return moveAttackingcardToBottom;
-    }
+    //    yield return moveEnemyCardToTop;
+    //    yield return moveAttackingcardToBottom;
+    //}
 
     #endregion
 
@@ -129,20 +118,13 @@ public class BattleManager : MonoBehaviour
         enemyCard.ToggleDamageVisual(true);
 
         //events.AddLogEntry.Raise(this, "Battle Animation");
-        yield return StartCoroutine(ReadyingRoutine());
-
-        yield return StartCoroutine(HeadbuttRoutine());
-
-        yield return StartCoroutine(BackoffRoutine());
+        yield return StartCoroutine(AttackAnimationRoutine());
 
         yield return new WaitForSeconds(0.15f);
-
-        ApplyDamage();
 
         playerCard.ToggleDamageVisual(false);
         enemyCard.ToggleDamageVisual(false);
 
-        yield return new WaitForSeconds(movementData.endBattleDelay);
 
         //events.AddLogEntry.Raise(this, "Death & Survive");
         yield return StartCoroutine(DeathAndSurviveRoutine());
@@ -297,30 +279,30 @@ public class BattleManager : MonoBehaviour
         yield return calcEnemyCardHurtPoints;
     }
 
-    private IEnumerator ReadyingRoutine()
+    private IEnumerator AttackAnimationRoutine()
     {
-        Coroutine enemyCardReadying = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(movementData.readyingDistance, movementData.readyingDuration));
-        Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(-movementData.readyingDistance, movementData.readyingDuration));
+        Vector3 originalPos = playerCard.visualHandler.transform.position;
+        Vector3 originalScale = playerCard.visualHandler.transform.localScale;
 
-        yield return enemyCardReadying;
+        Vector3 targetPos = originalPos;
+        targetPos.y -= movementData.readyingDistance;
+        Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, targetPos, Vector3.one, null, movementData.readyingDuration));
+
         yield return playerCardReadying;
-    }
 
-    private IEnumerator HeadbuttRoutine()
-    {
-        Coroutine enemyCardHeadbutt = StartCoroutine(enemyCard.interactionHandler.MoveCardByAmountOverTime(-movementData.headButtDistance, movementData.headbuttDuration));
-        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.MoveCardByAmountOverTime(movementData.headButtDistance, movementData.headbuttDuration));
+        Vector2 enemyCardClosestCollPos = enemyCard.interactionHandler.GetClosestCollPosToOtherCard(playerCard.visualHandler.transform.position);
+        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.MoveCardToPositionOverTime(enemyCardClosestCollPos, movementData.headbuttDuration));
 
-        yield return enemyCardHeadbutt;
         yield return playerCardHeadbutt;
-    }
 
-    private IEnumerator BackoffRoutine()
-    {
-        Coroutine enemyCardBackoff = StartCoroutine(enemyCard.interactionHandler.MoveCardToPositionOverTime(topBattleTransform.position, movementData.backOffDuration));
-        Coroutine playerCardBackoff = StartCoroutine(playerCard.interactionHandler.MoveCardToPositionOverTime(bottomBattleTransform.position, movementData.backOffDuration));
+        ApplyDamage();
 
-        yield return enemyCardBackoff;
+        yield return new WaitForSeconds(movementData.impactFreezeDuration);
+
+        //Coroutine enemyCardBackoff = StartCoroutine(enemyCard.interactionHandler.MoveCardToPositionOverTime(topBattleTransform.position, movementData.backOffDuration));
+        Coroutine playerCardBackoff = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, originalPos, originalScale, null, movementData.backOffDuration));
+
+        //yield return enemyCardBackoff;
         yield return playerCardBackoff;
     }
 
@@ -381,17 +363,12 @@ public class BattleManager : MonoBehaviour
     #region Back To Map / Post Battle
     private IEnumerator BackToMapRoutine()
     {
-        ToggleButtons(false);
-        events.ToggleCurtain.Raise(this, false);
-
         roomData.BattlingPlayerCard = null;
         roomData.BattlingEnemyCard = null;
 
         Coroutine returnPlayerCard = StartCoroutine(ReturnPlayerCardToHand());
-        Coroutine returnEnemyCard = StartCoroutine(ReturnEnemyCardToMap());
 
         yield return returnPlayerCard;
-        yield return returnEnemyCard;
     }
 
     private IEnumerator PostBattleRoutine()
@@ -480,22 +457,9 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator ReturnPlayerCardToHand()
     {
-        if (playerCard == null || playerCard.IsDead) yield break;
-        {
-            playerCard.ChangeCardState(CardState.Default);
-            playerManager.hand.InsertCardToHandByIndex(playerCard, playerCard.index);
-        }
-    }
+        if (playerCard != null && !playerCard.IsDead) yield break;
 
-    private IEnumerator ReturnEnemyCardToMap()
-    {
-        if (enemyCard == null || enemyCard.IsDead) yield break;
-
-        Transform originalParent = roomManager.grid[enemyCard.index].transform;
-        enemyCard.transform.SetParent(originalParent, true);
-        enemyCard.ChangeCardState(CardState.Default);
-        yield return StartCoroutine(enemyCard.interactionHandler.TransformCardUniformly
-        (originalParent.position, Vector3.one, Vector3.zero, movementData.toFormationDuration));
+        playerManager.hand.RemoveCardFromHand(playerCard);
     }
 
     #endregion
@@ -504,8 +468,8 @@ public class BattleManager : MonoBehaviour
 
     private void ApplyDamage()
     {
-        enemyCard.TakeDamage();
-        playerCard.TakeDamage();
+        enemyCard.TakeDamage(this);
+        playerCard.TakeDamage(this);
     }
 
     private void ToggleButtons(bool enable)

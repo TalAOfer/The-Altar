@@ -20,7 +20,7 @@ MonoBehaviour:
   OnCardClicked: {fileID: 11400000, guid: 9c13345a5e5a68b4da23c3ffec39c05f, type: 2}
   OnCursorEnterHand: {fileID: 11400000, guid: d16688ddad1130549b04e1f2ec0b5112, type: 2}
   OnCursorExitHand: {fileID: 11400000, guid: a5e6196b0217da746ae5626dd3c924bc, type: 2}
-  OnCardDropOnCard: {fileID: 11400000, guid: af13426617dc49244b5a4e0140e8062e, type: 2}
+  Attack: {fileID: 11400000, guid: af13426617dc49244b5a4e0140e8062e, type: 2}
   EnableBezierArrow: {fileID: 11400000, guid: 9235b363696576642b9b3e17233ec1e4, type: 2}
   DisableBezierArrow: {fileID: 11400000, guid: 5f5f757a8c19fce4ea9801a3650c1fba, type: 2}
   WaitForPlayerSelection: {fileID: 11400000, guid: 290c64c7ec3586d4f9c12c20613c04d8, type: 2}

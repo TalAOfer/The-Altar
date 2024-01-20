@@ -15,7 +15,7 @@ public class AllEvents : ScriptableObject
     public GameEvent OnCursorExitHand;
 
     [Title("Battle")]
-    public GameEvent OnCardDropOnCard;
+    public GameEvent Attack;
     public GameEvent EnableBezierArrow;
     public GameEvent DisableBezierArrow;
 

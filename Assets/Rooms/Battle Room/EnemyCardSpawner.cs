@@ -7,7 +7,7 @@ public class EnemyCardSpawner : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private RunData runData;
     [SerializeField] private BattleRoom room;
-    private BlueprintPoolInstance codex => runData.enemyCodex;
+    private BlueprintPoolInstance Codex => runData.enemyCodex;
 
     public Card SpawnEnemyInIndexByBlueprint(int containerIndex, CardBlueprint cardBlueprint)
     {
@@ -35,14 +35,14 @@ public class EnemyCardSpawner : MonoBehaviour
 
     private CardBlueprint DrawEnemyByArchetype(CardArchetype archetype)
     {
-        return codex.GetCardOverride(archetype);
+        return Codex.GetCardOverride(archetype);
     }
 
 
     private CardBlueprint DrawRandomEnemyByStrength(int strength)
     {
         CardColor randomColor = (CardColor)Random.Range(0, 2);
-        return codex.GetCardOverride(new CardArchetype(strength, randomColor));
+        return Codex.GetCardOverride(new CardArchetype(strength, randomColor));
     }
 
     private Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName, Transform parent)
@@ -50,7 +50,7 @@ public class EnemyCardSpawner : MonoBehaviour
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, parent);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
-        card.Init(codex, cardBlueprint, sortingLayerName);
+        card.Init(Codex, cardBlueprint, sortingLayerName);
 
         return card;
     }

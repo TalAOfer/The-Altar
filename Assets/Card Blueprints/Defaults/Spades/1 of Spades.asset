@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: a4f88ee2a023ac54583422754dc36ed4, type: 3}
   isDefault: 1
-  cardName: 
+  cardName: Chicken
   cardColor: 0
   cardOwner: 0
   defaultPoints: 1

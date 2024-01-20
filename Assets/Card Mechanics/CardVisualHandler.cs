@@ -68,7 +68,7 @@ public class CardVisualHandler : MonoBehaviour
     {
         cardMaterial = new Material(shaderMaterial);
         cardSr.material = cardMaterial;
-        cardMaterial.SetColor("_Color", palette.white);
+        cardMaterial.SetColor("_Color", Color.white);
         cardMaterial.SetInt("_Outline_On", 0);
     }
 
@@ -88,7 +88,7 @@ public class CardVisualHandler : MonoBehaviour
     public void ToggleOutline(bool enable, Color color)
     {
         int toggle = enable ? 1 : 0;
-        cardMaterial.SetColor("_Outline_Color", palette.darkPurple);
+        cardMaterial.SetColor("_Outline_Color", palette.white);
         cardMaterial.SetInt("_Outline_On", toggle);
     }
 
@@ -239,9 +239,9 @@ public class CardVisualHandler : MonoBehaviour
         StartCoroutine(Animate(slashSr, slashAnimationSprites, slashAnimationIntervals));
         Vector3 startingScale = transform.localScale;
         Vector3 HeartbeatScale = startingScale * 1.2f;
-        card.transform.localScale = HeartbeatScale;
+        transform.localScale = HeartbeatScale;
         yield return new WaitForSeconds(0.15f);
-        card.transform.localScale = startingScale;
+        transform.localScale = startingScale;
     }
 
     public static IEnumerator Animate(SpriteRenderer sr, List<Sprite> sprites, float changeInterval)

@@ -16,7 +16,6 @@ public class BezierArrowManager : MonoBehaviour
     public void EnableArrow(Component sender, object data)
     {
         Card card = (Card)data;
-        Debug.Log("enabling");
 
         temp = card.transform.position;
         temp.y += yOffset;

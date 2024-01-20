@@ -18,5 +18,5 @@ MonoBehaviour:
   readyingDuration: 0.75
   readyingDistance: 0.5
   headbuttDuration: 0.15
-  headButtDistance: 1.5
+  impactFreezeDuration: 0.5
   backOffDuration: 0.35

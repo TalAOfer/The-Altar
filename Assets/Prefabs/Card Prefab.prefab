@@ -559,8 +559,7 @@ MonoBehaviour:
   defaultScale: {x: 0, y: 0, z: 0}
   defaultRotation: {x: 0, y: 0, z: 0}
   hoverHeightBoostAmount: 0.75
-  defaultColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
-  hoverColor: {r: 1, g: 1, b: 1, a: 1}
+  isHighlighted: 0
 --- !u!1 &6305659742823639882
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,8 +676,8 @@ SpriteRenderer:
   m_SortingLayerID: -134700443
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 15a8d7b1192af154bb04df45b6a8eaea, type: 3}
-  m_Color: {r: 0.8313726, g: 0.65882355, b: 0.64705884, a: 1}
+  m_Sprite: {fileID: 21300000, guid: eaeccf63009964240b2b213e7b72e356, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

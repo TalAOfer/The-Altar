@@ -38,6 +38,11 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         coll.enabled = enable;
     }
 
+    public Vector2 GetClosestCollPosToOtherCard(Vector2 otherCardPos)
+    {
+        return coll.ClosestPoint(otherCardPos);
+    }
+
     public void SetNewDefaultLocation(Vector3? position, Vector3? scale, Vector3? rotation)
     {
         defaultPos = position != null ?  (Vector3)position : transform.position;
@@ -111,14 +116,14 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public IEnumerator TransformCardUniformlyToDefault(float duration)
     {
-        yield return StartCoroutine(TransformCardUniformly(defaultPos, defaultScale, defaultRotation, duration));
+        yield return StartCoroutine(TransformCardUniformly(card.transform, defaultPos, defaultScale, defaultRotation, duration));
     }
 
-    public IEnumerator TransformCardUniformly(Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float duration)
+    public IEnumerator TransformCardUniformly(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float duration)
     {
-        Vector3 startPosition = card.transform.position;
-        Vector3 startScale = card.transform.localScale;
-        Quaternion startRotation = card.transform.rotation;
+        Vector3 startPosition = targetTransform.position;
+        Vector3 startScale = targetTransform.localScale;
+        Quaternion startRotation = targetTransform.rotation;
 
         Vector3 endPosition = targetPosition ?? startPosition;
         Vector3 endScale = targetScale ?? startScale;
@@ -132,15 +137,15 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
             if (targetPosition.HasValue)
             {
-                card.transform.position = Vector3.Lerp(startPosition, endPosition, progress);
+                targetTransform.position = Vector3.Lerp(startPosition, endPosition, progress);
             }
             if (targetScale.HasValue)
             {
-                card.transform.localScale = Vector3.Lerp(startScale, endScale, progress);
+                targetTransform.localScale = Vector3.Lerp(startScale, endScale, progress);
             }
             if (targetEulerAngles.HasValue)
             {
-                card.transform.rotation = Quaternion.Lerp(startRotation, endRotation, progress);
+                targetTransform.rotation = Quaternion.Lerp(startRotation, endRotation, progress);
             }
 
             elapsed += Time.deltaTime;
@@ -150,15 +155,15 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         // Ensure final values are set accurately
         if (targetPosition.HasValue)
         {
-            card.transform.position = endPosition;
+            targetTransform.position = endPosition;
         }
         if (targetScale.HasValue)
         {
-            card.transform.localScale = endScale;
+            targetTransform.localScale = endScale;
         }
         if (targetEulerAngles.HasValue)
         {
-            card.transform.rotation = endRotation;
+            targetTransform.rotation = endRotation;
         }
     }
 

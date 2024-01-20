@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: b4f9cec22c5a358448b5bce1062ea6ee, type: 3}
   isDefault: 1
-  cardName: 
+  cardName: Trinket
   cardColor: 1
   cardOwner: 0
   defaultPoints: 3
