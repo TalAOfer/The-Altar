@@ -38,6 +38,7 @@ public class AllEvents : ScriptableObject
     public GameEvent HideTooltip;
     public GameEvent AddLogEntry;
     public GameEvent ToggleCurtain;
+    public GameEvent ShakeScreen;
 
     public GameEvent SetGameState;
     public GameEvent OnGameStateChange;

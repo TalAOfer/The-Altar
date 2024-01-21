@@ -11,7 +11,7 @@ public class EnemyCardSpawner : MonoBehaviour
 
     public Card SpawnEnemyInIndexByBlueprint(int containerIndex, CardBlueprint cardBlueprint)
     {
-        Card card = SpawnCard(cardBlueprint, GameConstants.TOP_MAP_LAYER, room.grid[containerIndex].transform);
+        Card card = SpawnCard(cardBlueprint, GameConstants.BOTTOM_MAP_LAYER, room.grid[containerIndex].transform);
         card.transform.localPosition = Vector3.zero;
         card.index = containerIndex;
 
@@ -24,7 +24,7 @@ public class EnemyCardSpawner : MonoBehaviour
     {
         CardBlueprint cardBlueprint = DrawRandomEnemyByStrength(strength);
 
-        Card card = SpawnCard(cardBlueprint, GameConstants.TOP_MAP_LAYER, room.grid[containerIndex].transform);
+        Card card = SpawnCard(cardBlueprint, GameConstants.BOTTOM_MAP_LAYER, room.grid[containerIndex].transform);
         card.transform.localPosition = Vector3.zero;
         card.index = containerIndex;
 

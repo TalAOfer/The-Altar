@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57af9f270dd4e6a41a0f39c5c24fff27, type: 3}
-  m_Name: Summon 2 of Spades
+  m_Name: Summon 2 of Hearts
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
   prototype: 0
   events: {fileID: 0}
   target: 0

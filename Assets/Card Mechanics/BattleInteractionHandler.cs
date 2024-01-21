@@ -1,15 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
+public enum BattleInteractionState
+{
+    Idle,
+    Battle
+}
 
 public class BattleInteractionHandler : CardInteractionBase
 {
     [SerializeField] private CurrentGameState gameState;
     [SerializeField] private float hoverHeightBoostAmount;
     private bool isArrowActive;
+
+
+    public BattleInteractionState state;
+
+
+    private void Awake()
+    {
+        SetState(BattleInteractionState.Idle);
+    }
+    public void SetState(BattleInteractionState newState)
+    {
+        state = newState;
+    }
+
+    #region Actions
+
     private void SelectCard(Card card)
     {
         selectedCard = card;
@@ -48,10 +68,29 @@ public class BattleInteractionHandler : CardInteractionBase
         card.visualHandler.transform.localScale = card.interactionHandler.defaultScale;
     }
 
+    private void DisableArrow()
+    {
+        isArrowActive = false;
+        events.DisableBezierArrow.Raise();
+    }
 
+    private void Attack(Card attackingCard, Card attackedCard)
+    {
+        events.Attack.Raise(attackingCard, attackedCard);
+        events.HideTooltip.Raise();
+        selectedCard.visualHandler.ToggleOutline(false, Color.white);
+        selectedCard = null;
 
+        DisableArrow();
+    }
+
+    #endregion
+
+    #region Event Handlers
     protected override void HandlePointerClick(Card card, PointerEventData eventData)
     {
+        if (state is BattleInteractionState.Battle) return;
+
         bool isThereASelectedCard = selectedCard != null;
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
 
@@ -71,9 +110,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
             else
             {
-                card.events.Attack.Raise(selectedCard, card);
-                DeselectCurrentCard();
-                DisableArrow();
+                Attack(selectedCard, card);
             }
         }
 
@@ -85,6 +122,8 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandlePointerEnter(Card card, PointerEventData eventData)
     {
+        if (state is BattleInteractionState.Battle) return;
+
         bool isThereASelectedCard = selectedCard != null;
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
 
@@ -110,6 +149,8 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandlePointerExit(Card card, PointerEventData eventData)
     {
+        if (state is BattleInteractionState.Battle) return;
+
         card.events.HideTooltip.Raise(this, card);
 
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
@@ -123,6 +164,8 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandleBeginDrag(Card card, PointerEventData eventData)
     {
+        if (state is BattleInteractionState.Battle) return;
+
         bool isThereASelectedCard = selectedCard != null;
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
 
@@ -150,6 +193,8 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandleEndDrag(Card card, PointerEventData eventData)
     {
+        if (state is BattleInteractionState.Battle) return;
+
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
         if (!isThisCardAPlayerCard) return;
 
@@ -170,15 +215,15 @@ public class BattleInteractionHandler : CardInteractionBase
 
         if (droppedCard.cardOwner == CardOwner.Enemy)
         {
-            card.events.Attack.Raise(card, droppedCard);
-            DeselectCurrentCard();
-            DisableArrow();
+            Attack(card, droppedCard);
         }
     }
 
 
     public void HandleTriggerEnter(Component sender, object data)
     {
+        if (state is BattleInteractionState.Battle) return;
+
         if (selectedCard == null) return;
         if (!isArrowActive) return;
 
@@ -188,17 +233,15 @@ public class BattleInteractionHandler : CardInteractionBase
 
     public void HandleTriggerExit(Component sender, object data)
     {
+        if (state is BattleInteractionState.Battle) return;
+
         if (selectedCard == null) return; 
         if (isArrowActive) return;
         isArrowActive = true;
         events.EnableBezierArrow.Raise(this, selectedCard);
     }
 
-    private void DisableArrow()
-    {
-        isArrowActive = false;
-        events.DisableBezierArrow.Raise();
-    }
+    #endregion
 
     #region Helpers
 

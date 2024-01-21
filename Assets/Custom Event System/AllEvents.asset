@@ -34,5 +34,6 @@ MonoBehaviour:
   HideTooltip: {fileID: 11400000, guid: 1cf37e7275063cd4690e2e1ee133c575, type: 2}
   AddLogEntry: {fileID: 11400000, guid: 7fbe4126d4f0ed3448bef5017807a3a6, type: 2}
   ToggleCurtain: {fileID: 11400000, guid: a756f1251c9f77e428347c7923c7a92e, type: 2}
+  ShakeScreen: {fileID: 11400000, guid: 565f4ee02b47d334183fc753d610cbcd, type: 2}
   SetGameState: {fileID: 11400000, guid: 3650101820fec8e43a86faf84e5e0e3e, type: 2}
   OnGameStateChange: {fileID: 0}
