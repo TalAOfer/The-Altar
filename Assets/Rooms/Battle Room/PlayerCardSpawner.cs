@@ -6,6 +6,7 @@ public class PlayerCardSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cardPrefab;
     public Transform spawnContainer;
+    public Transform spawnPos;
 
     [SerializeField] private RunData runData;
     public BlueprintPoolInstance Codex => runData.playerCodex;
@@ -26,7 +27,7 @@ public class PlayerCardSpawner : MonoBehaviour
 
     public Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName)
     {
-        GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, spawnContainer);
+        GameObject cardGO = Instantiate(cardPrefab, spawnPos.position, Quaternion.identity, spawnContainer);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
         card.Init(Codex, cardBlueprint, sortingLayerName);

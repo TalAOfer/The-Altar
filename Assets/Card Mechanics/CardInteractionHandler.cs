@@ -19,11 +19,16 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     [SerializeField] private CurrentGameState gameState;
 
     [FoldoutGroup("Default Transforms")]
+    public Transform placeHolder;
+    [FoldoutGroup("Default Transforms")]
     public Vector3 defaultPos;
     [FoldoutGroup("Default Transforms")]
     public Vector3 defaultScale = Vector3.one;
     [FoldoutGroup("Default Transforms")]
     public Vector3 defaultRotation;
+
+    public Coroutine moveRoutine;
+
 
     [SerializeField] private float hoverHeightBoostAmount;
     public bool isHighlighted;
@@ -114,12 +119,40 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         yield return StartCoroutine(MoveCardToPositionOverTime(targetPosition, duration));
     }
 
-    public IEnumerator TransformCardUniformlyToDefault(float duration)
+    public IEnumerator TransformCardUniformlyToPlaceholder(float duration)
     {
-        yield return StartCoroutine(TransformCardUniformly(card.transform, defaultPos, defaultScale, defaultRotation, duration));
+       yield return StartCoroutine(TransformCardUniformly(card.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, duration, null));
     }
 
-    public IEnumerator TransformCardUniformly(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float duration)
+    public IEnumerator TransformVisualUniformlyToPlaceholder(float duration)
+    {
+        yield return StartCoroutine(TransformCardUniformly(card.visualHandler.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, duration, null));
+    }
+
+    public IEnumerator TransformCardUniformly(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float duration, AnimationCurve curve)
+    {
+        if (moveRoutine != null) StopCoroutine(moveRoutine);
+
+        moveRoutine = StartCoroutine(TransformCardUniformlyRoutine(targetTransform, targetPosition, targetScale, targetEulerAngles, duration, curve));
+        yield return moveRoutine;
+    }
+
+    public IEnumerator TransformCardBySpeed(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float speed)
+    {
+        // Calculate distances to determine the duration
+        float positionDistance = targetPosition.HasValue ? Vector3.Distance(targetTransform.position, targetPosition.Value) : 0;
+        float scaleDistance = targetScale.HasValue ? Vector3.Distance(targetTransform.localScale, targetScale.Value) : 0;
+        float rotationDistance = targetEulerAngles.HasValue ? Quaternion.Angle(targetTransform.rotation, Quaternion.Euler(targetEulerAngles.Value)) : 0;
+
+        // Calculate the longest duration based on speed
+        float maxDistance = Mathf.Max(positionDistance, scaleDistance, rotationDistance);
+        float duration = maxDistance / speed;
+
+        // Now call TransformCardUniformly with the calculated duration
+        yield return StartCoroutine(TransformCardUniformly(targetTransform, targetPosition, targetScale, targetEulerAngles, duration, AnimationCurve.Linear(0, 0, 1, 1)));
+    }
+
+    private IEnumerator TransformCardUniformlyRoutine(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float duration, AnimationCurve curve)
     {
         Vector3 startPosition = targetTransform.position;
         Vector3 startScale = targetTransform.localScale;
@@ -129,11 +162,14 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         Vector3 endScale = targetScale ?? startScale;
         Quaternion endRotation = targetEulerAngles.HasValue ? Quaternion.Euler(targetEulerAngles.Value) : startRotation;
 
+        //Set to linear curve if no curve was fed
+        curve ??= AnimationCurve.Linear(0, 0, 1, 1);
+
         float elapsed = 0;
 
         while (elapsed < duration)
         {
-            float progress = elapsed / duration;
+            float progress = curve.Evaluate(elapsed / duration);
 
             if (targetPosition.HasValue)
             {
@@ -165,27 +201,9 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
         {
             targetTransform.rotation = endRotation;
         }
+
+        moveRoutine = null;
     }
-
-    #endregion
-
-    #region Helpers
-
-    public void OnGameStateChange(Component sender, object data)
-    {
-        GameState newGameState = (GameState)data;
-        switch (newGameState)
-        {
-            case GameState.Idle:
-                coll.enabled = true;
-                break;
-            case GameState.BattleFormation:
-                if (card.cardState != CardState.Battle) coll.enabled = false;
-                break;
-        }
-    }
-
-
 
     #endregion
 }

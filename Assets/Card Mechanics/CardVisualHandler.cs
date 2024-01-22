@@ -35,6 +35,8 @@ public class CardVisualHandler : MonoBehaviour
     [SerializeField] private List<Sprite> slashAnimationSprites;
     [FoldoutGroup("Damage Visualizer")]
     [SerializeField] private float slashAnimationIntervals = 0.1f;
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private ParticleSystem particles;
 
     [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer cardSr;
@@ -232,6 +234,11 @@ public class CardVisualHandler : MonoBehaviour
     {
         damageSymbol.gameObject.SetActive(false);
         damageDigit.gameObject.SetActive(false);
+    }
+
+    public void InitiateParticleSplash()
+    {
+        particles.Play();
     }
 
     public IEnumerator HurtAnimation()

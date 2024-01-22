@@ -35,7 +35,7 @@ public class SelectManager : MonoBehaviour
 
         handManager.RemoveCardFromHand(selectingCard);
         selectingCard.ChangeCardState(CardState.Selecting);
-        StartCoroutine(selectingCard.interactionHandler.TransformCardUniformly(selectingCard.transform, askerTransform.position, Vector3.one, Vector3.zero, 0.15f));
+        StartCoroutine(selectingCard.interactionHandler.TransformCardUniformly(selectingCard.transform, askerTransform.position, Vector3.one, Vector3.zero, 0.15f, null));
         events.SetGameState.Raise(this, GameState.SelectPlayerCard);
         currentAsker = asker;
     }
@@ -79,12 +79,12 @@ public class SelectManager : MonoBehaviour
             cardClicked.ChangeCardState(CardState.Selected);
             handManager.cardsInHand.Remove(cardClicked);
             StartCoroutine(cardClicked.interactionHandler.TransformCardUniformly
-                (cardClicked.transform, selectTransform.position, Vector3.one * GameConstants.SelectCardScale, Vector3.zero, 0.15f));
+                (cardClicked.transform, selectTransform.position, Vector3.one * GameConstants.SelectCardScale, Vector3.zero, 0.15f, null));
 
             selectButton.interactable = true;
         }
 
-        handManager.ReorderCards();
+        handManager.ReorderPlaceholders();
     }
 
 

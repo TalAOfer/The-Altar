@@ -2,21 +2,24 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HandManager : MonoBehaviour
 {
-    public List<Card> cardsInHand = new();
     [SerializeField] private int maxCardAmount = 5;
-    //Hand Fan Formation
     [SerializeField] private HandData formationData;
+    [SerializeField] private AllEvents events;
+    public List<Card> cardsInHand = new();
+    public List<Transform> cardPlaceholders = new();
+
     private float baseSpacing;
     private float baseRotationAngle;
     private Vector2 yOffsetFactorMinMax;
 
     private Vector3 startingPos;
     private HandState state;
-    [SerializeField] private AllEvents events;
+
 
     private void Awake()
     {
@@ -67,55 +70,99 @@ public class HandManager : MonoBehaviour
                 break;
         }
 
-        ReorderCards();
+        ReorderPlaceholders();
     }
 
     #region Transform and index handling
     [Button]
-    public void ReorderCards()
+    public void ReorderPlaceholders()
     {
         int numOfCards = cardsInHand.Count;
 
         if (numOfCards == 1)
         {
-            // Directly set the position for the single card
-            Card card = cardsInHand[0];
-            card.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            // Activate only the first placeholder and deactivate the rest
+            for (int i = 0; i < cardPlaceholders.Count; i++)
+            {
+                cardPlaceholders[i].gameObject.SetActive(i == 0);
+            }
 
-            // Additional settings for the single card
+            // Handle the single card
+            Card card = cardsInHand[0];
+
+            // Set the placeholder for this card
+            Transform placeholder = cardPlaceholders[0];
+            placeholder.SetPositionAndRotation(transform.position, transform.rotation);
+            card.interactionHandler.placeHolder = placeholder;
+
+            // Set the new default location for the card
+            card.interactionHandler.SetNewDefaultLocation(placeholder.position, card.transform.localScale, placeholder.eulerAngles);
+            card.index = 0;
             card.visualHandler.SetSortingOrder(0);
-            card.interactionHandler.SetNewDefaultLocation(transform.position, card.transform.localScale, transform.rotation.eulerAngles);
+
+            // If needed, start the transformation coroutine for the card to move to its placeholder
+            StartCoroutine(card.interactionHandler.TransformCardUniformlyToPlaceholder(0.25f));
         }
         else
         {
-            // Calculate dynamic values based on the number of cards
-            float dynamicSpacing = baseSpacing;
-            float dynamicYOffsetFactor = Mathf.Lerp(yOffsetFactorMinMax.x, yOffsetFactorMinMax.y, (numOfCards - 1) / (float)maxCardAmount);
-            float dynamicRotationAngle = Mathf.Lerp(0, baseRotationAngle, (numOfCards - 1) / (float)maxCardAmount);
-
-            for (int i = 0; i < numOfCards; i++)
+            for (int i = 0; i < cardPlaceholders.Count; i++)
             {
+                if (i < numOfCards)
+                {
+                    float dynamicSpacing = baseSpacing;
+                    float dynamicYOffsetFactor = Mathf.Lerp(yOffsetFactorMinMax.x, yOffsetFactorMinMax.y, (numOfCards - 1) / (float)maxCardAmount);
+                    float dynamicRotationAngle = Mathf.Lerp(0, baseRotationAngle, (numOfCards - 1) / (float)maxCardAmount);
 
-                Card currentCard = cardsInHand[i];
-                // Calculate the position offset for this card
-                float xPos = (i - (numOfCards - 1) / 2f) * dynamicSpacing;
-                float yPos = CalculateYPosition(i, numOfCards, dynamicYOffsetFactor); // Assuming this is a method you've defined
+                    Card currentCard = cardsInHand[i];
+                    // Calculate the position offset for this card
+                    float xPos = (i - (numOfCards - 1) / 2f) * dynamicSpacing;
+                    float yPos = CalculateYPosition(i, numOfCards, dynamicYOffsetFactor); // Assuming this is a method you've defined
 
-                // Apply the hand's position and rotation to this offset
-                Vector3 cardPosition = transform.position + transform.right * xPos + transform.up * yPos;
+                    // Apply the hand's position and rotation to this offset
+                    Vector3 cardPosition = transform.position + transform.right * xPos + transform.up * yPos;
 
-                // Calculate and apply rotation
-                float rotationFactor = (float)i / (numOfCards - 1);
-                float angle = Mathf.Lerp(dynamicRotationAngle, -dynamicRotationAngle, rotationFactor);
-                Quaternion cardRotation = transform.rotation * Quaternion.Euler(0, 0, angle);
+                    // Calculate and apply rotation
+                    float rotationFactor = (float)i / (numOfCards - 1);
+                    float angle = Mathf.Lerp(dynamicRotationAngle, -dynamicRotationAngle, rotationFactor);
+                    Quaternion cardRotation = transform.rotation * Quaternion.Euler(0, 0, angle);
 
-                // Set the card's position and rotation
-                currentCard.transform.SetPositionAndRotation(cardPosition, cardRotation);
-                currentCard.visualHandler.SetSortingOrder(i);
+                    // Set the card's position and rotation
+                    cardPlaceholders[i].transform.SetPositionAndRotation(cardPosition, cardRotation);
+                    cardPlaceholders[i].gameObject.SetActive(true);
 
-                currentCard.index = i;
-                currentCard.interactionHandler.SetNewDefaultLocation(cardPosition, currentCard.transform.localScale, cardRotation.eulerAngles);
+                    if (currentCard != null)
+                    {
+                        currentCard.interactionHandler.placeHolder = cardPlaceholders[i];
+                        currentCard.interactionHandler.SetNewDefaultLocation(cardPosition, currentCard.transform.localScale, cardRotation.eulerAngles);
+                        currentCard.index = i;
+                    }
+
+                    //currentCard.transform.SetPositionAndRotation(cardPosition, cardRotation);
+                    //currentCard.visualHandler.SetSortingOrder(i);
+
+                }
+                else
+                {
+                    // Deactivate the extra placeholders
+                    cardPlaceholders[i].gameObject.SetActive(false);
+                }
             }
+
+            foreach (var card in cardsInHand)
+            {
+                if (card == null || card.cardState is CardState.Battle) continue;
+                card.visualHandler.SetSortingOrder(card.index);
+                StartCoroutine(card.interactionHandler.TransformCardUniformlyToPlaceholder(0.25f));
+            }
+        }
+    }
+
+    public void ResetCardToPlaceholders()
+    {
+        foreach (var card in cardsInHand)
+        {
+            if (card.cardState is CardState.Battle) continue;
+            StartCoroutine(card.interactionHandler.TransformCardUniformlyToPlaceholder(0.25f));
         }
     }
 
@@ -136,13 +183,13 @@ public class HandManager : MonoBehaviour
         cardsInHand.Add(card);
         card.transform.localScale = Vector3.one * GameConstants.HandScale;
         //card.index = cardsInHand.IndexOf(card);
-        ReorderCards();
+        ReorderPlaceholders();
     }
 
     public void RemoveCardFromHand(Card card)
     {
         cardsInHand.Remove(card);
-        ReorderCards();
+        ReorderPlaceholders();
     }
 
     public void InsertCardToHandByIndex(Card card, int index)
@@ -161,7 +208,7 @@ public class HandManager : MonoBehaviour
             cardsInHand.Insert(cardIndex, card);
         }
 
-        ReorderCards();
+        ReorderPlaceholders();
     }
 
     public void SwitchCards(Card incomingCard, Card existingCard)
@@ -172,7 +219,7 @@ public class HandManager : MonoBehaviour
         if (incomingIndex != -1 && existingIndex != -1)
         {
             (cardsInHand[existingIndex], cardsInHand[incomingIndex]) = (cardsInHand[incomingIndex], cardsInHand[existingIndex]);
-            ReorderCards();
+            ReorderPlaceholders();
         }
 
         else

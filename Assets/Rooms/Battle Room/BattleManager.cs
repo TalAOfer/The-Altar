@@ -93,6 +93,12 @@ public class BattleManager : MonoBehaviour
             playerCard.gameObject.SetActive(false);
             playerManager.activeCards.Remove(playerCard);
             playerManager.hand.RemoveCardFromHand(playerCard);
+        } 
+        
+        else
+        {
+            StartCoroutine(playerCard.interactionHandler.TransformVisualUniformlyToPlaceholder(0.25f));
+            playerCard.visualHandler.SetSortingOrder(playerCard.index);
         }
         //events.AddLogEntry.Raise(this, "Back To Map");
         yield return StartCoroutine(ReturnPlayerCardToHandRoutine());
@@ -231,24 +237,25 @@ public class BattleManager : MonoBehaviour
 
         Vector3 targetPos = originalPos;
         targetPos.y -= movementData.readyingDistance;
-        Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, targetPos, Vector3.one, null, movementData.readyingDuration));
+        Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, targetPos, Vector3.one, null, movementData.readyingDuration, null));
 
         yield return playerCardReadying;
 
         Vector2 enemyCardClosestCollPos = enemyCard.interactionHandler.GetClosestCollPosToOtherCard(playerCard.visualHandler.transform.position);
-        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, enemyCardClosestCollPos, null, null, movementData.headbuttDuration));
+        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, enemyCardClosestCollPos, null, null, movementData.headbuttDuration, null));
 
         yield return playerCardHeadbutt;
 
         playerCard.ToggleDamageVisual(false);
         enemyCard.ToggleDamageVisual(false);
         ApplyDamage();
+        enemyCard.visualHandler.InitiateParticleSplash();
         events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
 
         yield return StartCoroutine(DeathRoutine());
 
         //Coroutine enemyCardBackoff = StartCoroutine(enemyCard.interactionHandler.MoveCardToPositionOverTime(topBattleTransform.position, movementData.backOffDuration));
-        Coroutine playerCardBackoff = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, originalPos, originalScale, null, movementData.backOffDuration));
+        Coroutine playerCardBackoff = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, originalPos, originalScale, null, movementData.backOffDuration, null));
 
         //yield return enemyCardBackoff;
         yield return playerCardBackoff;
@@ -355,6 +362,7 @@ public class BattleManager : MonoBehaviour
 
         roomData.BattlingPlayerCard = null;
         roomData.BattlingEnemyCard = null;
+
         events.AddLogEntry.Raise(this, "New Turn Started");
         events.SetGameState.Raise(this, GameState.Idle);
         interactionHandler.SetState(BattleInteractionState.Idle);
