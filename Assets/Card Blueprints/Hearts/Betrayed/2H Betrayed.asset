@@ -18,7 +18,9 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 0
   defaultPoints: 2
-  description: 
+  description: If this card survives battle, get 2 points and change color before
+    changing.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
@@ -26,7 +28,9 @@ MonoBehaviour:
   StartOfBattle: []
   BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  OnSurvive:
+  - {fileID: 11400000, guid: 057b985625f0b66458986df62ed06ee7, type: 2}
+  - {fileID: 11400000, guid: 074b4b96c8f4c2f4595bbb24a6a7ba5f, type: 2}
   OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []

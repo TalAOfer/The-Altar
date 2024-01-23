@@ -12,4 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e367e5655b2c6a84ebbb852cef201e4c, type: 3}
   m_Name: Enemy Pool Recipe
   m_EditorClassIdentifier: 
-  pools: []
+  pools:
+  - black:
+    - {fileID: 11400000, guid: 4a5136f52f9b18f42ab35dad806fb0cf, type: 2}
+    red: []
+  - black: []
+    red:
+    - {fileID: 11400000, guid: cc08aa0273ee749439ee42feee393541, type: 2}
+  - black:
+    - {fileID: 11400000, guid: f5b90bee0840afb4594060838e9f7622, type: 2}
+    - {fileID: 11400000, guid: 7e09bcc9823936f4c8e75221024b8f19, type: 2}
+    red:
+    - {fileID: 11400000, guid: 3096e1d764cc79e468fc728183fe6c9b, type: 2}
+  - black: []
+    red:
+    - {fileID: 11400000, guid: a927a75be0e28d849b0591bbd1a126f3, type: 2}
+  - black:
+    - {fileID: 11400000, guid: 0277d9f30e8c2e3489a1d630d4cb112f, type: 2}
+    red:
+    - {fileID: 11400000, guid: d4b95a6f25d74a440bf6976d1da4bf80, type: 2}
+  - black:
+    - {fileID: 11400000, guid: b3cf31726461cab4eae05a410b4227a6, type: 2}
+    red:
+    - {fileID: 11400000, guid: 66aab4f7596325945907934263230307, type: 2}
+  - black:
+    - {fileID: 11400000, guid: 1965261f4e538cc45b5a2bf1f340a173, type: 2}
+    red: []
+  - black: []
+    red: []
+  - black: []
+    red: []
+  - black: []
+    red: []
+  - black: []
+    red: []

@@ -18,7 +18,8 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   defaultPoints: 2
-  description: 
+  description: When this card is destroyed, summon a 2 of hearts to your hand.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []

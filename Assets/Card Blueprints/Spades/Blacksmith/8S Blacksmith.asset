@@ -18,7 +18,8 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   defaultPoints: 8
-  description: 
+  description: At the end of the turn give 2 to a random card in hand.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
@@ -30,4 +31,5 @@ MonoBehaviour:
   OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []
-  EndOfTurn: []
+  EndOfTurn:
+  - {fileID: 11400000, guid: 4245c13d03ece0841928bfc9346a75cd, type: 2}

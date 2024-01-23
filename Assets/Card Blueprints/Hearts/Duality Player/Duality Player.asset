@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
+  m_Name: Duality Player
+  m_EditorClassIdentifier: 
+  cardSprite: {fileID: 21300000, guid: 591db35eb2904454f8f7e0062f9a60d3, type: 3}
+  isDefault: 0
+  cardName: Duality
+  cardColor: 1
+  cardOwner: 0
+  defaultPoints: 2
+  description: Deals +1 for each enemy card in the room.
+  higherBeing: 0
+  StartOfTurn: []
+  OnObtain: []
+  OnGainPoints: []
+  OnSacrifice: []
+  StartOfBattle: []
+  BeforeAttacking:
+  - {fileID: 11400000, guid: 55fa9b0323acd024fbb871d4b6d5797a, type: 2}
+  Support: []
+  OnSurvive: []
+  OnDeath: []
+  OnGlobalDeath: []
+  OnActionTaken: []
+  EndOfTurn: []

@@ -57,15 +57,40 @@ public class RoomData : ScriptableObject
     public Card GetRandomPlayerCard(Card excludeThis)
     {
         List<Card> cardsToPickFrom = GetAllActivePlayerCards();
-        if (excludeThis != null) cardsToPickFrom.Remove(excludeThis);
+
+        // Ensure the excludeThis card is properly removed
+        if (excludeThis != null)
+        {
+            cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
+        }
+
+        // Add a safety check in case all cards are removed or list is empty
+        if (cardsToPickFrom.Count == 0)
+        {
+            return null; // Or handle this scenario appropriately
+        }
+
         int rand = Random.Range(0, cardsToPickFrom.Count);
         return cardsToPickFrom[rand];
     }
-
     public Card GetRandomEnemyCard(Card excludeThis)
     {
         List<Card> cardsToPickFrom = GetAllActiveEnemies();
-        if (excludeThis != null && cardsToPickFrom.Contains(excludeThis)) cardsToPickFrom.Remove(excludeThis);
+
+        Debug.Log(excludeThis.name);
+
+        // Ensure the excludeThis card is properly removed
+        if (excludeThis != null)
+        {
+            cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
+        }
+
+        // Add a safety check in case all cards are removed or list is empty
+        if (cardsToPickFrom.Count == 0)
+        {
+            return null; // Or handle this scenario appropriately
+        }
+
         int rand = Random.Range(0, cardsToPickFrom.Count);
         return cardsToPickFrom[rand];
     }

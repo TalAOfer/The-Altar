@@ -10,7 +10,7 @@ public class Card : MonoBehaviour
 {
     [FoldoutGroup("Dependencies")]
     public AllEvents events;
-    
+
     private BlueprintPoolInstance pool;
 
     [FoldoutGroup("Child Components")]
@@ -53,7 +53,7 @@ public class Card : MonoBehaviour
     [FoldoutGroup("Battle Points")]
     public List<Guardian> guardians = new();
 
-    private ShapeshiftLock shapeshiftLock;
+    private HigherBeing higherBeing;
 
     public bool IsDead
     {
@@ -69,6 +69,8 @@ public class Card : MonoBehaviour
         cardOwner = blueprint.cardOwner;
         points = blueprint.defaultPoints;
 
+        higherBeing = new HigherBeing(blueprint.higherBeing, 0);
+
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
         hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
 
@@ -81,6 +83,7 @@ public class Card : MonoBehaviour
 
     public CardBlueprint GetCurrentOverride()
     {
+        if (higherBeing.isLocked && !IsDead) return currentOverride;
         return pool.GetCardOverride(new CardArchetype(points, cardColor));
     }
 
@@ -158,6 +161,7 @@ public class Card : MonoBehaviour
             DealWithGuardians();
         }
 
+        visualHandler.InitiateParticleSplash();
         visualHandler.SetNumberSprites();
     }
 
@@ -217,8 +221,12 @@ public class Card : MonoBehaviour
 
     public IEnumerator Shapeshift()
     {
-        CardBlueprint newForm = pool.GetCardOverride(new CardArchetype(points, cardColor));
-        currentOverride = newForm;
+        CardBlueprint newForm = GetCurrentOverride();
+
+        if (currentOverride != newForm)
+        {
+            currentOverride = newForm;
+        }
 
         if (IsDead)
         {
@@ -226,13 +234,16 @@ public class Card : MonoBehaviour
             yield break;
         }
 
+
         yield return visualHandler.ToggleSpritesVanish(true);
         visualHandler.SetNewCardVisual();
         gameObject.name = newForm.name;
+        higherBeing.isLocked = newForm.higherBeing;
         yield return StartCoroutine(effects.RemoveCurrentEffects());
         ResetPointAlterations();
         effects.SpawnEffects(newForm);
         yield return visualHandler.ToggleSpritesVanish(false);
+
     }
 
     private void ResetPointAlterations()
@@ -305,7 +316,14 @@ public enum CardState
     Selecting
 }
 
-public class ShapeshiftLock
+public class HigherBeing
 {
-    int threshold;
+    public bool isLocked;
+    public int threshold;
+
+    public HigherBeing(bool isLocked, int threshold)
+    {
+        this.isLocked = isLocked;
+        this.threshold = threshold;
+    }
 }

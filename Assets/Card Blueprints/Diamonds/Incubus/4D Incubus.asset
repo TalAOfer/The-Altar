@@ -15,17 +15,19 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 291cc09574fd9c145a563039cf9293d7, type: 3}
   isDefault: 0
   cardName: Incubus
-  cardColor: 1
+  cardColor: 0
   cardOwner: 1
   defaultPoints: 4
-  description: 
+  description: While this card is on map, you can not deal damage to other cards.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
   StartOfBattle: []
   BeforeAttacking: []
-  Support: []
+  Support:
+  - {fileID: 11400000, guid: 1805185f79f71a84a8a2b0dbc31d3cf0, type: 2}
   OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []

@@ -249,7 +249,6 @@ public class BattleManager : MonoBehaviour
         playerCard.ToggleDamageVisual(false);
         enemyCard.ToggleDamageVisual(false);
         ApplyDamage();
-        enemyCard.visualHandler.InitiateParticleSplash();
         events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
 
         yield return StartCoroutine(DeathRoutine());

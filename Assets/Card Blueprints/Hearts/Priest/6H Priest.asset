@@ -18,7 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 0
   defaultPoints: 6
-  description: 
+  description: When this card is destroyed, curse the killing card.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
@@ -27,7 +28,8 @@ MonoBehaviour:
   BeforeAttacking: []
   Support: []
   OnSurvive: []
-  OnDeath: []
+  OnDeath:
+  - {fileID: 11400000, guid: 4c14069248f5022418c4a28f550263a2, type: 2}
   OnGlobalDeath: []
   OnActionTaken: []
   EndOfTurn: []

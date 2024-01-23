@@ -15,6 +15,7 @@ public class CardBlueprint : ScriptableObject
     public CardOwner cardOwner;
     public int defaultPoints;
     public string description;
+    public bool higherBeing;
 
     [Title("Effects")]
     public List<EffectBlueprint> StartOfTurn;

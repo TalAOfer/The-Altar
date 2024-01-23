@@ -14,10 +14,21 @@ public class SetupManager : MonoBehaviour
     [FoldoutGroup("Player Deck")]
     [SerializeField] private int maxDrawability;
 
-    [FoldoutGroup("Codex")]
+    [FoldoutGroup("Player Codex")]
     [SerializeField] private BlueprintPoolBlueprint playerCodexRecipe;
-    [FoldoutGroup("Codex")]
+    [FoldoutGroup("Player Codex")]
+    [Title("Test")]
+    [SerializeField] private bool playerTest;
+    [FoldoutGroup("Player Codex")]
+    [SerializeField] private BlueprintPoolBlueprint playerTestCodexRecipe;
+
+    [FoldoutGroup("Enemy Codex")]
     [SerializeField] private BlueprintPoolBlueprint enemyCodexRecipe;
+    [FoldoutGroup("Enemy Codex")]
+    [Title("Test")]
+    [SerializeField] private bool enemyTest;
+    [FoldoutGroup("Enemy Codex")]
+    [SerializeField] private BlueprintPoolBlueprint enemyTestCodexRecipe;
 
     [FoldoutGroup("Pools")]
     [SerializeField] private MetaPoolRecipe playerPoolRecipe;

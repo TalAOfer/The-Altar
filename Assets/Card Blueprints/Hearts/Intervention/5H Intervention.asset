@@ -18,7 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 0
   defaultPoints: 5
-  description: 
+  description: If this card survives battle, give 2 points to a random player card.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []

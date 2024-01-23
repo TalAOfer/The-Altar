@@ -18,7 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 1
   defaultPoints: 2
-  description: 
+  description: Deals +2 against cards higher than him.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []

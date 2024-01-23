@@ -18,7 +18,14 @@ MonoBehaviour:
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 2
-    minDraw: 2
+    minDraw: 1
+    maxDraw: 3
+  - roomType: 1
+    difficulty: 0
+    isEnemyTest: 0
+    enemiesForTest: []
+    amountOfOptions: 2
+    minDraw: 1
     maxDraw: 3
   - roomType: 0
     difficulty: 4
@@ -27,8 +34,15 @@ MonoBehaviour:
     amountOfOptions: 0
     minDraw: 0
     maxDraw: 0
+  - roomType: 1
+    difficulty: 0
+    isEnemyTest: 0
+    enemiesForTest: []
+    amountOfOptions: 3
+    minDraw: 1
+    maxDraw: 4
   - roomType: 0
-    difficulty: 1
+    difficulty: 5
     isEnemyTest: 0
     enemiesForTest:
     - {fileID: 11400000, guid: 2cf5b5e8162403b47a2b4e9bc22f7559, type: 2}
@@ -42,17 +56,10 @@ MonoBehaviour:
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 2
-    minDraw: 2
-    maxDraw: 3
-  - roomType: 1
-    difficulty: 0
-    isEnemyTest: 0
-    enemiesForTest: []
-    amountOfOptions: 2
-    minDraw: 2
-    maxDraw: 3
+    minDraw: 1
+    maxDraw: 4
   - roomType: 0
-    difficulty: 5
+    difficulty: 6
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 0

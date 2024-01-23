@@ -81,6 +81,7 @@ public class FloorManager : MonoBehaviour
         }
 
         previousRoom.gameObject.SetActive(false);
+        Destroy(previousRoom.gameObject);
     }
 
     public Room SpawnRoom()

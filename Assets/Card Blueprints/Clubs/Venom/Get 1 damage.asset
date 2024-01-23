@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57af9f270dd4e6a41a0f39c5c24fff27, type: 3}
+  m_Name: Get 1 damage
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
+  prototype: 0
+  events: {fileID: 0}
+  target: 0
+  predelay: 0
+  postdelay: 0
+  applicationType: 0
+  applierType: 4
+  amountStrategy: 0
+  amount: -1
+  battlePointType: 0
+  modifierType: 0
+  color: 0
+  cardArchetype:
+    points: 0
+    color: 0
+  guardianType: 0
+  guardianApplicationType: 0
+  effectBlueprint: {fileID: 0}
+  whenToTriggerAddedEffect: 0
+  isConditional: 0
+  decision:
+    decisionType: 0
+    compare: 0
+    comparison: 0
+    compareTo: 0
+    amount: 0
+    color: 0

@@ -18,12 +18,14 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   defaultPoints: 7
-  description: 
+  description: Before attacking, change the color of all enemies on map.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []
   OnSacrifice: []
-  StartOfBattle: []
+  StartOfBattle:
+  - {fileID: 11400000, guid: 7dcfad4b50cbdc74e9ad1a949e464a7b, type: 2}
   BeforeAttacking: []
   Support: []
   OnSurvive: []

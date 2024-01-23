@@ -18,7 +18,8 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 1
   defaultPoints: 5
-  description: 
+  description: Before battle, changes the color of it's opponent.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []

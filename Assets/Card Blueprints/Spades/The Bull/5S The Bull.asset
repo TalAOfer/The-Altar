@@ -18,7 +18,8 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   defaultPoints: 5
-  description: 
+  description: This card deals +2 against red cards, and -2 against black cards.
+  higherBeing: 0
   StartOfTurn: []
   OnObtain: []
   OnGainPoints: []

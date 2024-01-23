@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
+  m_Name: 6H Coup
+  m_EditorClassIdentifier: 
+  cardSprite: {fileID: 21300000, guid: ccc20a30b0940574cb680d03bdf9ed53, type: 3}
+  isDefault: 0
+  cardName: Coup
+  cardColor: 1
+  cardOwner: 0
+  defaultPoints: 6
+  description: While this card is in your hand, player cards that 3 or lower deal
+    +2 in battle.
+  higherBeing: 0
+  StartOfTurn: []
+  OnObtain: []
+  OnGainPoints: []
+  OnSacrifice: []
+  StartOfBattle: []
+  BeforeAttacking: []
+  Support:
+  - {fileID: 11400000, guid: 0dbae08394ee34c459cd6ff8ece615c9, type: 2}
+  OnSurvive: []
+  OnDeath: []
+  OnGlobalDeath: []
+  OnActionTaken: []
+  EndOfTurn: []

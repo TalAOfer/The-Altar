@@ -37,10 +37,20 @@ public class Effect : MonoBehaviour
 
     public virtual IEnumerator Apply()
     {
-        List<Card> targets = GetTarget();
-        foreach (var target in targets)
+        List<Card> targetCards = GetTarget();
+        
+        Debug.Log(targetCards.Count);
+        foreach (var targetCard in targetCards)
         {
-            yield return StartCoroutine(applier.Apply(target, data));
+            Debug.Log(targetCard.name);
+            //Keep cards from applying support effects on themselves
+            if (target is not EffectTarget.InitiatingCard && parentCard == targetCard)
+            {
+                Debug.Log("happened");
+                 yield break;
+            }
+
+            yield return StartCoroutine(applier.Apply(targetCard, data));
         }
     }
 
@@ -69,10 +79,14 @@ public class Effect : MonoBehaviour
                 targets = data.GetAllCardsInHand();
                 break;
             case EffectTarget.RandomCardOnMap:
-                targets.Add(data.GetRandomEnemyCard(parentCard));
+                Card randomEnemyCard = data.GetRandomEnemyCard(parentCard);
+                Debug.Log(randomEnemyCard);
+                if (randomEnemyCard != null) targets.Add(randomEnemyCard);
                 break;
             case EffectTarget.RandomCardFromHand:
-                targets.Add(data.GetRandomPlayerCard(parentCard));
+                Card randomPlayerCard = data.GetRandomPlayerCard(parentCard);
+                Debug.Log(randomPlayerCard);
+                if (randomPlayerCard != null) targets.Add(randomPlayerCard);
                 break;
             case EffectTarget.PlayerCardBattling:
                 targets.Add(data.BattlingPlayerCard);
