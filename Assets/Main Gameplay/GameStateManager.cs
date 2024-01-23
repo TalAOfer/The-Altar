@@ -12,7 +12,7 @@ public class GameStateManager : MonoBehaviour
         GameState newGameState = (GameState)data;
         if (gameState.currentState == newGameState)
         {
-            Debug.Log(sender + " tried to change game state to same state which is: " + gameState.currentState);
+            //Debug.Log(sender + " tried to change game state to same state which is: " + gameState.currentState);
         }
         else
         {

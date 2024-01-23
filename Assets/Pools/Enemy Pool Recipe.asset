@@ -16,11 +16,11 @@ MonoBehaviour:
   - black:
     - {fileID: 11400000, guid: 4a5136f52f9b18f42ab35dad806fb0cf, type: 2}
     red: []
-  - black: []
+  - black:
+    - {fileID: 11400000, guid: 06b9ca1465283fa4e826ebd9d642c16f, type: 2}
     red:
     - {fileID: 11400000, guid: cc08aa0273ee749439ee42feee393541, type: 2}
   - black:
-    - {fileID: 11400000, guid: f5b90bee0840afb4594060838e9f7622, type: 2}
     - {fileID: 11400000, guid: 7e09bcc9823936f4c8e75221024b8f19, type: 2}
     red:
     - {fileID: 11400000, guid: 3096e1d764cc79e468fc728183fe6c9b, type: 2}

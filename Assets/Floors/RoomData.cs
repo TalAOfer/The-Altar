@@ -64,6 +64,8 @@ public class RoomData : ScriptableObject
             cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
         }
 
+        cardsToPickFrom.Remove(BattlingPlayerCard);
+
         // Add a safety check in case all cards are removed or list is empty
         if (cardsToPickFrom.Count == 0)
         {
@@ -77,13 +79,13 @@ public class RoomData : ScriptableObject
     {
         List<Card> cardsToPickFrom = GetAllActiveEnemies();
 
-        Debug.Log(excludeThis.name);
-
         // Ensure the excludeThis card is properly removed
         if (excludeThis != null)
         {
             cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
         }
+
+        cardsToPickFrom.Remove(BattlingEnemyCard);
 
         // Add a safety check in case all cards are removed or list is empty
         if (cardsToPickFrom.Count == 0)

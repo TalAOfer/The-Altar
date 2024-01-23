@@ -63,6 +63,8 @@ public class CardSelectionRoom : Room
 
         float startOffset = -defaultSpacingX * (cardAmount - 1) / 2;
 
+        linkedCardsList.Clear();
+
         for (int i = 0; i < cardAmount; i++)
         {
             CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(minDraw, maxDraw);

@@ -24,6 +24,7 @@ public class Effect : MonoBehaviour
         postdelay = blueprint.postdelay;
         events = blueprint.events;
         data = blueprint.data;
+        target = blueprint.target;
     }
 
     public IEnumerator Trigger()
@@ -38,8 +39,8 @@ public class Effect : MonoBehaviour
     public virtual IEnumerator Apply()
     {
         List<Card> targetCards = GetTarget();
-        
-        Debug.Log(targetCards.Count);
+
+        Debug.Log(target.ToString() + ": " + targetCards.Count);
         foreach (var targetCard in targetCards)
         {
             Debug.Log(targetCard.name);

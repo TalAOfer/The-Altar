@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 1
   defaultPoints: 4
-  description: Bloodthirst. Higher Being. Give 2 points to a random card in your
-    hand.
+  description: Higher Being. If this card survives in battle, give 2 points to a
+    random card in your hand.
   higherBeing: 1
   StartOfTurn: []
   OnObtain: []
@@ -29,7 +29,7 @@ MonoBehaviour:
   BeforeAttacking: []
   Support: []
   OnSurvive:
-  - {fileID: 11400000, guid: a6f4fdbfd2546c34b85d7500fed10bd1, type: 2}
+  - {fileID: 11400000, guid: 4245c13d03ece0841928bfc9346a75cd, type: 2}
   OnDeath: []
   OnGlobalDeath: []
   OnActionTaken: []
