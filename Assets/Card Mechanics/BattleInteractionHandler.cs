@@ -123,7 +123,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
         else
         {
-            SelectCard(card);
+            if (isThisCardAPlayerCard) SelectCard(card);
         }
     }
 

@@ -47,7 +47,10 @@ public class CardVisualHandler : MonoBehaviour
     [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer symbolSr;
     [FoldoutGroup("Card Renderers")]
+    [SerializeField] private SpriteRenderer ornamentSr;
+    [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer slashSr;
+
 
 
     #region Initialization
@@ -61,7 +64,6 @@ public class CardVisualHandler : MonoBehaviour
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
     {
         InitializeDamageVisualizerPosition();
-
         SetNewCardVisual();
         SetSortingLayer(startingSortingLayer);
     }
@@ -80,6 +82,7 @@ public class CardVisualHandler : MonoBehaviour
         symbolSr.material = spritesMaterial;
         iconSr.material = spritesMaterial;
         numberSr.material = spritesMaterial;
+        ornamentSr.material = spritesMaterial;
     }
 
     private void InitializeDamageVisualizerPosition()
@@ -104,9 +107,15 @@ public class CardVisualHandler : MonoBehaviour
     public void SetNewCardVisual()
     {
         SetSpritesColor();
+        SetOrnament();
         SetCardIcon();
         SetCardSymbol();
         SetNumberSprites();
+    }
+
+    public void SetOrnament()
+    {
+        ornamentSr.gameObject.SetActive(!card.currentOverride.isDefault);
     }
 
     private void SetCardIcon()
@@ -142,12 +151,13 @@ public class CardVisualHandler : MonoBehaviour
 
     public void SetSortingOrder(int index)
     {
-        int calcIndex = index * 5;
+        int calcIndex = index * 6;
         cardSr.sortingOrder = calcIndex;
         iconSr.sortingOrder = calcIndex + 1;
         numberSr.sortingOrder = calcIndex + 2;
         symbolSr.sortingOrder = calcIndex + 3;
-        slashSr.sortingOrder= calcIndex + 4;
+        ornamentSr.sortingOrder= calcIndex + 4;
+        slashSr.sortingOrder= calcIndex + 5;
     }
 
     public void SetSortingLayer(string sortingLayerName)
