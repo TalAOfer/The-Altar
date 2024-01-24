@@ -144,7 +144,6 @@ public class CardEffectHandler : MonoBehaviour
     public IEnumerator ApplyBloodthirstEffects()
     {
         yield return ApplyEffects(BloodthirstEffects, null, EffectTrigger.Bloodthirst);
-        RemoveEffects(BloodthirstEffects);
     }
 
 

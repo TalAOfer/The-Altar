@@ -9,6 +9,7 @@ public class CardVisualHandler : MonoBehaviour
     [SerializeField] CardVisualData data;
     private Material cardMaterial;
     private Material spritesMaterial;
+    private Material ornamentMaterial;
 
     [FoldoutGroup("Components")]
     [SerializeField] private Card card;
@@ -59,6 +60,7 @@ public class CardVisualHandler : MonoBehaviour
     {
         InitializeCardMaterial();
         InitializeSpritesMaterial();
+        InitializeOrnamentMaterial();
         SetSpritesColor();
     }
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
@@ -82,7 +84,13 @@ public class CardVisualHandler : MonoBehaviour
         symbolSr.material = spritesMaterial;
         iconSr.material = spritesMaterial;
         numberSr.material = spritesMaterial;
-        ornamentSr.material = spritesMaterial;
+    }
+
+    private void InitializeOrnamentMaterial()
+    {
+        ornamentMaterial = new Material(shaderMaterial);
+        ornamentSr.material = ornamentMaterial;
+        ornamentMaterial.SetColor("_Color", Color.white);
     }
 
     private void InitializeDamageVisualizerPosition()
@@ -168,6 +176,7 @@ public class CardVisualHandler : MonoBehaviour
         iconSr.sortingLayerName = sortingLayerName;
         damageDigit.sortingLayerName = sortingLayerName;
         damageSymbol.sortingLayerName = sortingLayerName;
+        ornamentSr.sortingLayerName = sortingLayerName;
         slashSr.sortingLayerName = sortingLayerName;
     }
 
@@ -184,8 +193,11 @@ public class CardVisualHandler : MonoBehaviour
     {
         Coroutine cardVanish = StartCoroutine(LerpVanish(cardMaterial, toBlank, data.overallFadeDuration, data.overallFadeCurve));
         Coroutine spritesVanish = StartCoroutine(LerpVanish(spritesMaterial, toBlank, data.overallFadeDuration, data.overallFadeCurve));
+        Coroutine ornamentVanish = StartCoroutine(LerpVanish(ornamentMaterial, toBlank, data.overallFadeDuration, data.overallFadeCurve));
+
         yield return cardVanish;
         yield return spritesVanish;
+        yield return ornamentVanish;
     }
 
     public IEnumerator ToggleSpritesVanish(bool toBlank)
