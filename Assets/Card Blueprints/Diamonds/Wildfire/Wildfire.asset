@@ -16,7 +16,7 @@ MonoBehaviour:
   isDefault: 0
   cardName: Wildfire
   cardColor: 1
-  cardOwner: 0
+  cardOwner: 1
   defaultPoints: 3
   description: Higher-Being. Bloodthirst. This card gain +1 points.
   higherBeing: 1

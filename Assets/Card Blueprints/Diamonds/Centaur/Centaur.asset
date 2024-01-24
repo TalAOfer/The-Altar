@@ -16,7 +16,7 @@ MonoBehaviour:
   isDefault: 0
   cardName: Centaur
   cardColor: 1
-  cardOwner: 0
+  cardOwner: 1
   defaultPoints: 3
   description: Meditate. This card deals +3 damage in battle.
   higherBeing: 0

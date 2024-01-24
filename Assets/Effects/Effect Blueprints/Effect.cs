@@ -43,9 +43,11 @@ public class Effect : MonoBehaviour
         foreach (var targetCard in targetCards)
         {
             //Keep cards from applying support effects on themselves
-            if (target is not EffectTarget.InitiatingCard && parentCard == targetCard) continue;
-
-            if (targetCard.IsDead) continue;
+            if (target is not EffectTarget.InitiatingCard)
+            {
+                if (parentCard == targetCard) continue;
+                if (targetCard.IsDead) continue;
+            }
 
             yield return StartCoroutine(applier.Apply(targetCard, data));
         }
