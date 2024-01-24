@@ -38,6 +38,12 @@ public static class Tools
 
         while (remaining > 0)
         {
+            if (minPart > remaining)
+            {
+                parts.Add(remaining);
+                break; // Exit the loop since remaining is less than the minimum part size.
+            }
+
             int rangeMax = Mathf.Min(remaining, maxPart);
             int nextNumber = Random.Range(minPart, rangeMax + 1);
             parts.Add(nextNumber);

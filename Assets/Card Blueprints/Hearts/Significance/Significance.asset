@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
+  m_Name: Significance
+  m_EditorClassIdentifier: 
+  cardSprite: {fileID: 21300000, guid: 41781c222b5d03b4486fd0e22502e5a3, type: 3}
+  isDefault: 0
+  cardName: Significance
+  cardColor: 1
+  cardOwner: 0
+  defaultPoints: 5
+  description: Higher-Being. Bloodthirst. Gain +1 points.
+  higherBeing: 1
+  StartOfTurn: []
+  StartOfBattle: []
+  Support: []
+  BeforeAttacking: []
+  OnDeath: []
+  OnGlobalDeath: []
+  OnSurvive: []
+  Bloodthirst:
+  - {fileID: 11400000, guid: d5bdbd1d77b4e3b488f9fc1fa76e91dc, type: 2}
+  Meditate: []

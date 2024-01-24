@@ -470,6 +470,7 @@ MonoBehaviour:
   difficulty: 0
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   spawner: {fileID: 5966894109945736436}
+  runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
   door: {fileID: 2541206542292310365}
   grid:
   - {fileID: 2053341478124807371}

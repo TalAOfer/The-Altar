@@ -31,7 +31,7 @@ MonoBehaviour:
   guardianType: 0
   guardianApplicationType: 0
   effectBlueprint: {fileID: 11400000, guid: d5bdbd1d77b4e3b488f9fc1fa76e91dc, type: 2}
-  whenToTriggerAddedEffect: 10
+  whenToTriggerAddedEffect: 7
   isConditional: 0
   decision:
     decisionType: 0

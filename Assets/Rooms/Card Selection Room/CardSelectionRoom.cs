@@ -57,8 +57,6 @@ public class CardSelectionRoom : Room
 
     public void SpawnLinkedCards(RoomBlueprint roomBlueprint)
     {
-        int minDraw = roomBlueprint.minDraw;
-        int maxDraw = roomBlueprint.maxDraw;
         int cardAmount = roomBlueprint.amountOfOptions;
 
         float startOffset = -defaultSpacingX * (cardAmount - 1) / 2;
@@ -67,7 +65,7 @@ public class CardSelectionRoom : Room
 
         for (int i = 0; i < cardAmount; i++)
         {
-            CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(minDraw, maxDraw);
+            CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y);
             Card playerCard = SpawnCard(playerDrawnBlueprint, GameConstants.TOP_BATTLE_LAYER, runData.playerCodex);
             playerCard.index = i;
             temp.x = startOffset + i * defaultSpacingX;
@@ -75,7 +73,7 @@ public class CardSelectionRoom : Room
             playerCard.transform.position = temp;
             playerCard.interactionHandler.SetNewDefaultLocation(playerCard.transform.position, playerCard.transform.localScale, Vector3.zero);
 
-            CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(minDraw, maxDraw);
+            CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(roomBlueprint.enemyDrawMinMax.x, roomBlueprint.enemyDrawMinMax.y);
             Card enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.TOP_BATTLE_LAYER, runData.enemyCodex);
             enemyCard.index = i;
             temp.y = enemyCard.transform.position.y + defaultSpacingY;

@@ -18,10 +18,9 @@ public class RoomBlueprint
 
     [ShowIf("roomType", RoomType.CardPicking)]
     public int amountOfOptions;
-    [ShowIf("roomType", RoomType.CardPicking)]
-    public int minDraw;
-    [ShowIf("roomType", RoomType.CardPicking)]
-    public int maxDraw;
+
+    public Vector2Int playerDrawMinMax;
+    public Vector2Int enemyDrawMinMax;
 
     private bool ShouldShowEnemiesForTest()
     {

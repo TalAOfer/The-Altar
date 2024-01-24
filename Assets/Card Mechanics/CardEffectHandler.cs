@@ -6,19 +6,17 @@ public class CardEffectHandler : MonoBehaviour
 {
     [SerializeField] private Card card;
 
-    public List<Effect> StartOfBattleEffects = new();
-    public List<Effect> BeforeAttackingEffects = new();
-    public List<Effect> OnSurviveEffects = new();
-    public List<Effect> OnDeathEffects = new();
-
-    public List<Effect> OnGainPointsEffects = new();
-    public List<Effect> OnGlobalDeathEffects = new();
-    public List<Effect> SupportEffects = new();
-    public List<Effect> OnActionTakenEffects = new();
-    public List<Effect> OnObtainEffects = new();
-    public List<Effect> OnSacrificeEffects = new();
     public List<Effect> StartOfTurnEffects = new();
-    public List<Effect> EndOfTurnEffects = new();
+
+    public List<Effect> StartOfBattleEffects = new();
+    public List<Effect> SupportEffects = new();
+    public List<Effect> BeforeAttackingEffects = new();
+    public List<Effect> OnDeathEffects = new();
+    public List<Effect> OnGlobalDeathEffects = new();
+    public List<Effect> OnSurviveEffects = new();
+
+    public List<Effect> BloodthirstEffects = new();
+    public List<Effect> MeditateEffects = new();
 
     public void Init(CardBlueprint blueprint)
     {
@@ -35,11 +33,6 @@ public class CardEffectHandler : MonoBehaviour
         foreach (EffectBlueprint effect in blueprint.BeforeAttacking)
         {
             effect.SpawnEffect(EffectTrigger.BeforeAttacking, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.OnGainPoints)
-        {
-            effect.SpawnEffect(EffectTrigger.OnGainPoints, card);
         }
 
         foreach (EffectBlueprint effect in blueprint.OnDeath)
@@ -62,31 +55,20 @@ public class CardEffectHandler : MonoBehaviour
             effect.SpawnEffect(EffectTrigger.Support, card);
         }
 
-        foreach (EffectBlueprint effect in blueprint.OnActionTaken)
-        {
-            effect.SpawnEffect(EffectTrigger.OnActionTaken, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.OnObtain)
-        {
-            effect.SpawnEffect(EffectTrigger.OnObtain, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.OnSacrifice)
-        {
-            effect.SpawnEffect(EffectTrigger.OnSacrifice, card);
-        }
-
         foreach (EffectBlueprint effect in blueprint.StartOfTurn)
         {
             effect.SpawnEffect(EffectTrigger.StartOfTurn, card);
         }
 
-        foreach (EffectBlueprint effect in blueprint.EndOfTurn)
+        foreach (EffectBlueprint effect in blueprint.Meditate)
         {
-            effect.SpawnEffect(EffectTrigger.EndOfTurn, card);
+            effect.SpawnEffect(EffectTrigger.Meditate, card);
         }
 
+        foreach (EffectBlueprint effect in blueprint.Bloodthirst)
+        {
+            effect.SpawnEffect(EffectTrigger.Bloodthirst, card);
+        }
     }
 
     public IEnumerator RemoveCurrentEffects()
@@ -95,14 +77,11 @@ public class CardEffectHandler : MonoBehaviour
         RemoveEffects(BeforeAttackingEffects);
         RemoveEffects(OnSurviveEffects);
         RemoveEffects(OnDeathEffects);
-        RemoveEffects(OnGainPointsEffects);
         RemoveEffects(OnGlobalDeathEffects);
         RemoveEffects(SupportEffects);
-        RemoveEffects(OnActionTakenEffects);
-        RemoveEffects(OnObtainEffects);
-        RemoveEffects(OnSacrificeEffects);
         RemoveEffects(StartOfTurnEffects);
-        RemoveEffects(EndOfTurnEffects);
+        RemoveEffects(MeditateEffects);
+        RemoveEffects(BloodthirstEffects);
 
         yield return new WaitForFixedUpdate();
     }
@@ -141,11 +120,6 @@ public class CardEffectHandler : MonoBehaviour
         yield return ApplyEffects(OnDeathEffects, killingCard, EffectTrigger.OnDeath);
     }
 
-    public IEnumerator ApplyOnGainPointsEffects()
-    {
-        yield return ApplyEffects(OnGainPointsEffects, null, EffectTrigger.OnGainPoints);
-    }
-
     public IEnumerator ApplyOnGlobalDeathEffects()
     {
         yield return ApplyEffects(OnGlobalDeathEffects, null, EffectTrigger.OnGlobalDeath);
@@ -156,33 +130,23 @@ public class CardEffectHandler : MonoBehaviour
         yield return ApplyEffects(SupportEffects, otherCard, EffectTrigger.Support);
     }
 
-    public IEnumerator ApplyOnActionTakenEffects()
-    {
-        yield return ApplyEffects(OnActionTakenEffects, null, EffectTrigger.OnActionTaken);
-    }
-
-    public IEnumerator ApplyOnObtainEffects()
-    {
-        yield return ApplyEffects(OnObtainEffects, null, EffectTrigger.OnObtain);
-        RemoveEffects(OnObtainEffects);
-    }
-
-    public IEnumerator ApplyOnSacrificeEffects()
-    {
-        yield return ApplyEffects(OnSacrificeEffects, null, EffectTrigger.OnSacrifice);
-    }
-
     public IEnumerator ApplyStartOfTurnEffects()
     {
         yield return ApplyEffects(StartOfTurnEffects, null, EffectTrigger.StartOfTurn);
-        RemoveEffects(StartOfTurnEffects);
     }
 
-    public IEnumerator ApplyEndOfTurnEffects()
+    public IEnumerator ApplyMeditateEffects()
     {
-        yield return ApplyEffects(EndOfTurnEffects, null, EffectTrigger.StartOfTurn);
-        RemoveEffects(StartOfTurnEffects);
+        yield return ApplyEffects(MeditateEffects, null, EffectTrigger.Meditate);
+        RemoveEffects(MeditateEffects);
     }
+
+    public IEnumerator ApplyBloodthirstEffects()
+    {
+        yield return ApplyEffects(BloodthirstEffects, null, EffectTrigger.Bloodthirst);
+        RemoveEffects(BloodthirstEffects);
+    }
+
 
     private IEnumerator ApplyEffects(List<Effect> effects, Card otherCard, EffectTrigger trigger)
     {

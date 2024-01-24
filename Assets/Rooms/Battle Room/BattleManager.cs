@@ -71,10 +71,22 @@ public class BattleManager : MonoBehaviour
         enemyCard.ToggleDamageVisual(true);
 
         //events.AddLogEntry.Raise(this, "Battle Animation");
-        yield return StartCoroutine(AttackAnimationRoutine());
+        Vector3 originalPos = playerCard.visualHandler.transform.position;
+        Vector3 originalScale = playerCard.visualHandler.transform.localScale;
+
+        yield return StartCoroutine(AnimateReadyAndHeadbutt(originalPos, originalScale));
+
+        playerCard.ToggleDamageVisual(false);
+        enemyCard.ToggleDamageVisual(false);
+        ApplyDamage();
+        events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
+
+        yield return StartCoroutine(DeathRoutine());
 
         //events.AddLogEntry.Raise(this, "Global Death");
         yield return StartCoroutine(GlobalDeathRoutine());
+
+        yield return StartCoroutine(AnimateBackoff(originalPos, originalScale));
 
         yield return StartCoroutine(SurviveRoutine());
 
@@ -104,7 +116,42 @@ public class BattleManager : MonoBehaviour
         yield return StartCoroutine(ReturnPlayerCardToHandRoutine());
 
 
-        yield return StartCoroutine(PostBattleRoutine());
+        bool didEnemyDie = enemyCard.IsDead;
+        int deathIndex = enemyCard.index;
+
+        if (didEnemyDie)
+        {
+            //events.AddLogEntry.Raise(this, "Marking Death");
+            //enemyManager.MarkAndDestroyDeadEnemy(enemyCard);
+            //Wait for player to draw
+            //playerDeck.DrawPlayerCard();
+            roomManager.RemoveEnemyFromManager(enemyCard);
+        }
+
+        //events.AddLogEntry.Raise(this, "On Obtain");
+        //yield return StartCoroutine(playerCard.effects.ApplyOnObtainEffects());
+
+        //events.AddLogEntry.Raise(this, "After On Obtain Shapeshift");
+        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+
+        //events.AddLogEntry.Raise(this, "On Action");
+        yield return StartCoroutine(BloodthirstEffectsRoutine());
+
+        //events.AddLogEntry.Raise(this, "After On Action Shapeshift");
+        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+
+        //events.AddLogEntry.Raise(this, "End Of Turn");
+        yield return StartCoroutine(MeditateEffectsRoutine());
+
+        //events.AddLogEntry.Raise(this, "After End Of Turn Shapeshift");
+        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+
+        roomData.BattlingPlayerCard = null;
+        roomData.BattlingEnemyCard = null;
+
+        events.AddLogEntry.Raise(this, "New Turn Started");
+        events.SetGameState.Raise(this, GameState.Idle);
+        interactionHandler.SetState(BattleInteractionState.Idle);
     }
 
     #region Battle Routines
@@ -230,11 +277,8 @@ public class BattleManager : MonoBehaviour
         yield return calcEnemyCardHurtPoints;
     }
 
-    private IEnumerator AttackAnimationRoutine()
+    private IEnumerator AnimateReadyAndHeadbutt(Vector3 originalPos, Vector3 originalScale)
     {
-        Vector3 originalPos = playerCard.visualHandler.transform.position;
-        Vector3 originalScale = playerCard.visualHandler.transform.localScale;
-
         Vector3 targetPos = originalPos;
         targetPos.y -= movementData.readyingDistance;
         Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, targetPos, Vector3.one, null, movementData.readyingDuration, null));
@@ -245,19 +289,6 @@ public class BattleManager : MonoBehaviour
         Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, enemyCardClosestCollPos, null, null, movementData.headbuttDuration, null));
 
         yield return playerCardHeadbutt;
-
-        playerCard.ToggleDamageVisual(false);
-        enemyCard.ToggleDamageVisual(false);
-        ApplyDamage();
-        events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
-
-        yield return StartCoroutine(DeathRoutine());
-
-        //Coroutine enemyCardBackoff = StartCoroutine(enemyCard.interactionHandler.MoveCardToPositionOverTime(topBattleTransform.position, movementData.backOffDuration));
-        Coroutine playerCardBackoff = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, originalPos, originalScale, null, movementData.backOffDuration, null));
-
-        //yield return enemyCardBackoff;
-        yield return playerCardBackoff;
     }
 
     private IEnumerator DeathRoutine()
@@ -286,19 +317,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SurviveRoutine()
-    {
-        Coroutine ApplyPlayerCardOnSurviveEffects = null;
-        Coroutine ApplyEnemyCardOnSurviveEffects = null;
-
-        if (!playerCard.IsDead) ApplyPlayerCardOnSurviveEffects = StartCoroutine(playerCard.effects.ApplyOnSurviveEffects(enemyCard));
-        if (!enemyCard.IsDead) ApplyEnemyCardOnSurviveEffects = StartCoroutine(enemyCard.effects.ApplyOnSurviveEffects(playerCard));
-
-        if (ApplyPlayerCardOnSurviveEffects != null) yield return ApplyPlayerCardOnSurviveEffects;
-        if (ApplyEnemyCardOnSurviveEffects != null) yield return ApplyEnemyCardOnSurviveEffects;
-    }
-
-
     private IEnumerator GlobalDeathRoutine()
     {
         if (enemyCard.IsDead || playerCard.IsDead)
@@ -321,95 +339,72 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    private IEnumerator AnimateBackoff(Vector3 originalPos, Vector3 originalScale)
+    {
+        Coroutine playerCardBackoff = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, originalPos, originalScale, null, movementData.backOffDuration, null));
+        yield return playerCardBackoff;
+    }
+
+    private IEnumerator SurviveRoutine()
+    {
+        Coroutine ApplyPlayerCardOnSurviveEffects = null;
+        Coroutine ApplyEnemyCardOnSurviveEffects = null;
+
+        if (!playerCard.IsDead) ApplyPlayerCardOnSurviveEffects = StartCoroutine(playerCard.effects.ApplyOnSurviveEffects(enemyCard));
+        if (!enemyCard.IsDead) ApplyEnemyCardOnSurviveEffects = StartCoroutine(enemyCard.effects.ApplyOnSurviveEffects(playerCard));
+
+        if (ApplyPlayerCardOnSurviveEffects != null) yield return ApplyPlayerCardOnSurviveEffects;
+        if (ApplyEnemyCardOnSurviveEffects != null) yield return ApplyEnemyCardOnSurviveEffects;
+    }
+
     #endregion
 
     #endregion
 
     #region Back To Map / Post Battle
 
-    private IEnumerator PostBattleRoutine()
-    {
-        bool didEnemyDie = enemyCard.IsDead;
-        int deathIndex = enemyCard.index;
 
-        if (didEnemyDie)
-        {
-            //events.AddLogEntry.Raise(this, "Marking Death");
-            //enemyManager.MarkAndDestroyDeadEnemy(enemyCard);
-            //Wait for player to draw
-            //playerDeck.DrawPlayerCard();
-            roomManager.RemoveEnemyFromManager(enemyCard);
-        }
-
-        //events.AddLogEntry.Raise(this, "On Obtain");
-        yield return StartCoroutine(playerCard.effects.ApplyOnObtainEffects());
-
-        //events.AddLogEntry.Raise(this, "After On Obtain Shapeshift");
-        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
-
-        //events.AddLogEntry.Raise(this, "On Action");
-        yield return StartCoroutine(OnActionEffectsRoutine());
-
-        //events.AddLogEntry.Raise(this, "After On Action Shapeshift");
-        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
-
-        //events.AddLogEntry.Raise(this, "End Of Turn");
-        yield return StartCoroutine(EndOfTurnEffectsRoutine());
-
-        //events.AddLogEntry.Raise(this, "After End Of Turn Shapeshift");
-        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
-
-        roomData.BattlingPlayerCard = null;
-        roomData.BattlingEnemyCard = null;
-
-        events.AddLogEntry.Raise(this, "New Turn Started");
-        events.SetGameState.Raise(this, GameState.Idle);
-        interactionHandler.SetState(BattleInteractionState.Idle);
-    }
-
-
-
-    private IEnumerator OnActionEffectsRoutine()
+    private IEnumerator BloodthirstEffectsRoutine()
     {
         //Debug.Log("Starting player on action effects application");
         foreach (Card card in playerManager.activeCards)
         {
-            if (card.effects.OnActionTakenEffects.Count > 0)
+            if (card.effects.BloodthirstEffects.Count > 0)
             {
                 //Debug.Log("Applying " + card.name + "'s effects");
-                yield return StartCoroutine(card.effects.ApplyOnActionTakenEffects());
+                yield return StartCoroutine(card.effects.ApplyBloodthirstEffects());
             }
         }
 
         //Debug.Log("Starting enemy on action effects application");
         foreach (Card card in roomManager.activeEnemies)
         {
-            if (card.effects.OnActionTakenEffects.Count > 0)
+            if (card.effects.BloodthirstEffects.Count > 0)
             {
                 //Debug.Log("Applying " + card.name + "'s effects");
-                yield return StartCoroutine(card.effects.ApplyOnActionTakenEffects());
+                yield return StartCoroutine(card.effects.ApplyBloodthirstEffects());
             }
         }
     }
 
-    private IEnumerator EndOfTurnEffectsRoutine()
+    private IEnumerator MeditateEffectsRoutine()
     {
         //Debug.Log("Starting player end of turn effects application");
         foreach (Card card in playerManager.activeCards)
         {
-            if (card.effects.EndOfTurnEffects.Count > 0)
+            if (card.effects.MeditateEffects.Count > 0)
             {
                 //Debug.Log("Applying " + card.name + "'s effects");
-                yield return StartCoroutine(card.effects.ApplyEndOfTurnEffects());
+                yield return StartCoroutine(card.effects.ApplyMeditateEffects());
             }
         }
 
         foreach (Card card in roomManager.activeEnemies)
         {
-            if (card.effects.EndOfTurnEffects.Count > 0)
+            if (card.effects.MeditateEffects.Count > 0)
             {
                 //Debug.Log("Applying " + card.name + "'s effects");
-                yield return StartCoroutine(card.effects.ApplyEndOfTurnEffects());
+                yield return StartCoroutine(card.effects.ApplyMeditateEffects());
             }
         }
     }

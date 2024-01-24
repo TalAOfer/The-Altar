@@ -205,7 +205,8 @@ public class Card : MonoBehaviour
         if (points < 0) points = 0;
         else if (points > 10) points = 10;
 
-        yield return StartCoroutine(effects.ApplyOnGainPointsEffects());
+        yield return null;
+        //yield return StartCoroutine(effects.ApplyOnGainPointsEffects());
     }
 
     public bool ShouldShapeshift()

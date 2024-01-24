@@ -18,7 +18,7 @@ public class AllEvents : ScriptableObject
     public GameEvent Attack;
     public GameEvent EnableBezierArrow;
     public GameEvent DisableBezierArrow;
-
+    public GameEvent OnFinishedHandFill;
 
     [Title("Battle Selection")]
     public GameEvent WaitForPlayerSelection;

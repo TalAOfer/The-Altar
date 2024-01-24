@@ -12,6 +12,7 @@ public class BattleRoom : Room
     [FoldoutGroup("Dependencies")]
     [SerializeField] private EnemyCardSpawner spawner;
     [FoldoutGroup("Dependencies")]
+    [SerializeField] private RunData runData;
 
     [FoldoutGroup("Map Objects")]
     [SerializeField] private Door door;
@@ -19,11 +20,16 @@ public class BattleRoom : Room
     public List<MapSlot> grid;
 
     public List<Card> activeEnemies;
+    private RoomBlueprint roomBlueprint;
 
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
+        this.roomBlueprint = roomBlueprint;
+
         base.InitializeRoom(floorManager, roomBlueprint);
-        
+
+        runData.playerDeck = new DeckInstance(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y, true);
+
         battleManager.Initialize(floorManager);
         door.floorManager = floorManager;
         difficulty = roomBlueprint.difficulty;
@@ -33,13 +39,13 @@ public class BattleRoom : Room
         }
         else
         {
-            SpawnTestEnemies(roomBlueprint);
+            SpawnTestEnemies();
         }
     }
 
     public void SpawnEnemies()
     {
-        List<int> enemyConfig = Tools.DivideRandomly(difficulty, 1, difficulty);
+        List<int> enemyConfig = Tools.DivideRandomly(difficulty, roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y);
         List<int> slots = Tools.GetXUniqueRandoms(enemyConfig.Count, 0, 8);
 
         for (int i = 0; i < enemyConfig.Count; i++)
@@ -53,7 +59,7 @@ public class BattleRoom : Room
         }
     }
 
-    public void SpawnTestEnemies(RoomBlueprint roomBlueprint)
+    public void SpawnTestEnemies()
     {
         int amountOfEnemies = roomBlueprint.enemiesForTest.Count;
         List<int> slots = Tools.GetXUniqueRandoms(amountOfEnemies, 0, 8);

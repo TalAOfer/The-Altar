@@ -40,16 +40,12 @@ public class Effect : MonoBehaviour
     {
         List<Card> targetCards = GetTarget();
 
-        Debug.Log(target.ToString() + ": " + targetCards.Count);
         foreach (var targetCard in targetCards)
         {
-            Debug.Log(targetCard.name);
             //Keep cards from applying support effects on themselves
-            if (target is not EffectTarget.InitiatingCard && parentCard == targetCard)
-            {
-                Debug.Log("happened");
-                 yield break;
-            }
+            if (target is not EffectTarget.InitiatingCard && parentCard == targetCard) continue;
+
+            if (targetCard.IsDead) continue;
 
             yield return StartCoroutine(applier.Apply(targetCard, data));
         }

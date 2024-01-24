@@ -33,6 +33,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
+        events.OnFinishedHandFill.Raise();
         events.SetGameState.Raise(this, GameState.Idle);
     }
 

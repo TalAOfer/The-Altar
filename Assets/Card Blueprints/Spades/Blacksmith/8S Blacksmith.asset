@@ -21,15 +21,12 @@ MonoBehaviour:
   description: At the end of the turn give 2 to a random card in hand.
   higherBeing: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn:
+  OnSurvive: []
+  Bloodthirst:
   - {fileID: 11400000, guid: 4245c13d03ece0841928bfc9346a75cd, type: 2}
+  Meditate: []

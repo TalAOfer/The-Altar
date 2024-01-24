@@ -18,29 +18,29 @@ MonoBehaviour:
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 2
-    minDraw: 1
-    maxDraw: 3
+    playerDrawMinMax: {x: 1, y: 3}
+    enemyDrawMinMax: {x: 1, y: 3}
   - roomType: 1
     difficulty: 0
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 2
-    minDraw: 1
-    maxDraw: 3
+    playerDrawMinMax: {x: 1, y: 3}
+    enemyDrawMinMax: {x: 1, y: 3}
   - roomType: 0
     difficulty: 4
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 0
-    minDraw: 0
-    maxDraw: 0
+    playerDrawMinMax: {x: 1, y: 3}
+    enemyDrawMinMax: {x: 1, y: 3}
   - roomType: 1
     difficulty: 0
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 3
-    minDraw: 1
-    maxDraw: 4
+    playerDrawMinMax: {x: 1, y: 4}
+    enemyDrawMinMax: {x: 1, y: 4}
   - roomType: 0
     difficulty: 5
     isEnemyTest: 0
@@ -49,33 +49,33 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5e1d186aae02a8844aeaf70d28fc7e3b, type: 2}
     - {fileID: 11400000, guid: cb3f0d670cec8084cb171922a2967fa9, type: 2}
     amountOfOptions: 0
-    minDraw: 0
-    maxDraw: 0
+    playerDrawMinMax: {x: 1, y: 4}
+    enemyDrawMinMax: {x: 1, y: 4}
   - roomType: 1
     difficulty: 0
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 2
-    minDraw: 1
-    maxDraw: 4
+    playerDrawMinMax: {x: 2, y: 5}
+    enemyDrawMinMax: {x: 2, y: 5}
   - roomType: 0
     difficulty: 6
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 0
-    minDraw: 0
-    maxDraw: 0
+    playerDrawMinMax: {x: 2, y: 4}
+    enemyDrawMinMax: {x: 2, y: 4}
   - roomType: 1
     difficulty: 0
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 2
-    minDraw: 1
-    maxDraw: 4
+    playerDrawMinMax: {x: 1, y: 5}
+    enemyDrawMinMax: {x: 1, y: 5}
   - roomType: 0
-    difficulty: 7
+    difficulty: 8
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 0
-    minDraw: 0
-    maxDraw: 0
+    playerDrawMinMax: {x: 2, y: 5}
+    enemyDrawMinMax: {x: 2, y: 5}

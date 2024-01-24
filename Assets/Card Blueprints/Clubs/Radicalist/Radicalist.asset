@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
+  m_Name: Radicalist
+  m_EditorClassIdentifier: 
+  cardSprite: {fileID: 21300000, guid: d30ac15f58f9bd040849c9b90b674f6c, type: 3}
+  isDefault: 0
+  cardName: Radicalist
+  cardColor: 0
+  cardOwner: 1
+  defaultPoints: 4
+  description: If this card survives a battle, it changes the colors of all of your
+    cards.
+  higherBeing: 0
+  StartOfTurn: []
+  StartOfBattle: []
+  Support: []
+  BeforeAttacking: []
+  OnDeath: []
+  OnGlobalDeath: []
+  OnSurvive:
+  - {fileID: 11400000, guid: 1aaa6ade1ee72b0488cc5c597cc5effa, type: 2}
+  Bloodthirst: []
+  Meditate: []

@@ -76,12 +76,12 @@ public class EffectBlueprint : ScriptableObject
                 break;
             case ApplierType.AlterBattlePoints:
                 applier = newEffectGO.AddComponent<AlterBattlePointsApplier>();
-                AlterBattlePointsApplier battlePointsApplier = (AlterBattlePointsApplier) applier;
+                AlterBattlePointsApplier battlePointsApplier = (AlterBattlePointsApplier)applier;
                 battlePointsApplier.Initialize(modifierType, battlePointType);
                 break;
             case ApplierType.SetColor:
                 applier = newEffectGO.AddComponent<SetColorApplier>();
-                SetColorApplier setColorApplier = (SetColorApplier) applier;
+                SetColorApplier setColorApplier = (SetColorApplier)applier;
                 setColorApplier.Initialize(color);
                 break;
             case ApplierType.ToggleColor:
@@ -95,7 +95,7 @@ public class EffectBlueprint : ScriptableObject
                 break;
             case ApplierType.SpawnCardToHand:
                 applier = newEffectGO.AddComponent<SpawnCardToHandApplier>();
-                SpawnCardToHandApplier spawnToHandApplier = (SpawnCardToHandApplier) applier;
+                SpawnCardToHandApplier spawnToHandApplier = (SpawnCardToHandApplier)applier;
                 spawnToHandApplier.Initialize(cardArchetype);
                 break;
             case ApplierType.AddEffect:
@@ -132,54 +132,47 @@ public class EffectBlueprint : ScriptableObject
         return effect;
     }
 
-public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect effect)
+    public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect effect)
     {
         switch (triggerType)
         {
-            case EffectTrigger.Support:
-                parentCard.effects.SupportEffects.Add(effect); 
+            case EffectTrigger.StartOfTurn:
+                parentCard.effects.StartOfTurnEffects.Add(effect);
                 break;
             case EffectTrigger.StartOfBattle:
                 parentCard.effects.StartOfBattleEffects.Add(effect);
                 break;
+            case EffectTrigger.Support:
+                parentCard.effects.SupportEffects.Add(effect);
+                break;
             case EffectTrigger.BeforeAttacking:
                 parentCard.effects.BeforeAttackingEffects.Add(effect);
-                break;
-            case EffectTrigger.OnSurvive:
-                parentCard.effects.OnSurviveEffects.Add(effect);
                 break;
             case EffectTrigger.OnDeath:
                 parentCard.effects.OnDeathEffects.Add(effect);
                 break;
-
-            case EffectTrigger.OnObtain:
-                parentCard.effects.OnObtainEffects.Add(effect);
-                break;
-            case EffectTrigger.StartOfTurn:
-                parentCard.effects.StartOfTurnEffects.Add(effect);
-                break;
-            case EffectTrigger.OnGainPoints:
-                parentCard.effects.OnGainPointsEffects.Add(effect);
-                break;
             case EffectTrigger.OnGlobalDeath:
                 parentCard.effects.OnGlobalDeathEffects.Add(effect);
                 break;
-            case EffectTrigger.OnActionTaken:
-                parentCard.effects.OnActionTakenEffects.Add(effect);
+            case EffectTrigger.OnSurvive:
+                parentCard.effects.OnSurviveEffects.Add(effect);
                 break;
-            case EffectTrigger.EndOfTurn:
-                parentCard.effects.EndOfTurnEffects.Add(effect);
+            case EffectTrigger.Bloodthirst:
+                parentCard.effects.BloodthirstEffects.Add(effect);
+                break;
+            case EffectTrigger.Meditate:
+                parentCard.effects.MeditateEffects.Add(effect);
                 break;
         }
     }
 
     private bool ShouldShowAmount()
     {
-        return (applierType is 
-               ApplierType.GainPoints 
-            or ApplierType.SpawnCardToHand 
-            or ApplierType.DrawCard 
-            or ApplierType.AlterBattlePoints) 
+        return (applierType is
+               ApplierType.GainPoints
+            or ApplierType.SpawnCardToHand
+            or ApplierType.DrawCard
+            or ApplierType.AlterBattlePoints)
             && amountStrategy is GetAmountStrategy.Value;
     }
 
@@ -201,20 +194,17 @@ public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect e
 
 public enum EffectTrigger
 {
-    OnObtain,
     StartOfTurn,
 
     StartOfBattle,
     Support,
     BeforeAttacking,
-    OnSurvive,
     OnDeath,
     OnGlobalDeath,
+    OnSurvive,
 
-    OnSacrifice,
-    OnGainPoints,
-    EndOfTurn,
-    OnActionTaken,
+    Bloodthirst,
+    Meditate,
 }
 
 public enum EffectApplicationType
