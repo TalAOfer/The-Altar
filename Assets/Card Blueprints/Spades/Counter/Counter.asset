@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
-  m_Name: 3H Devotion
+  m_Name: Counter
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: 3d3bda5fbe6c80a478936df7d94bc863, type: 3}
+  cardSprite: {fileID: 21300000, guid: e25802d36f39364428c49bc029e6800a, type: 3}
   isDefault: 0
-  cardName: Devotion
-  cardColor: 1
+  cardName: Counter
+  cardColor: 0
   cardOwner: 0
-  defaultPoints: 3
-  description: If this card survives, summon 2 of spades to your hand.
+  defaultPoints: 4
+  description: Before battle this card changes the color of it's opponent.
   higherBeing: 0
   StartOfTurn: []
-  StartOfBattle: []
+  StartOfBattle:
+  - {fileID: 11400000, guid: 81fc4b29c61d4a74aae50d12395809fb, type: 2}
   Support: []
   BeforeAttacking: []
   OnDeath: []
   OnGlobalDeath: []
-  OnSurvive:
-  - {fileID: 11400000, guid: 2044695bd8121d441913cf5acef02a19, type: 2}
+  OnSurvive: []
   Bloodthirst: []
   Meditate: []

@@ -56,14 +56,26 @@ public static class Tools
     public static List<int> GetXUniqueRandoms(int count, int min, int max)
     {
         List<int> uniqueRandoms = new();
-        while (uniqueRandoms.Count < count)
+        HashSet<int> potentialNumbers = new();
+
+        // Populate the set with all possible numbers in the range
+        for (int i = min; i < max; i++)
+        {
+            potentialNumbers.Add(i);
+        }
+
+        // Loop until we have the required count or we run out of unique numbers
+        while (uniqueRandoms.Count < count && potentialNumbers.Count > 0)
         {
             int randomNumber = Random.Range(min, max);
-            if (!uniqueRandoms.Contains(randomNumber))
+
+            // Only add if the number is still available
+            if (potentialNumbers.Remove(randomNumber))
             {
                 uniqueRandoms.Add(randomNumber);
             }
         }
+
         return uniqueRandoms;
     }
 }

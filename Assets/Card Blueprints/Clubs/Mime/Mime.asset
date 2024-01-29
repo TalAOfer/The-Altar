@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
-  m_Name: 3H Devotion
+  m_Name: Mime
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: 3d3bda5fbe6c80a478936df7d94bc863, type: 3}
+  cardSprite: {fileID: 21300000, guid: 5845c2b38aeea6c4789eceffdcfe41f9, type: 3}
   isDefault: 0
-  cardName: Devotion
-  cardColor: 1
-  cardOwner: 0
+  cardName: Mime
+  cardColor: 0
+  cardOwner: 1
   defaultPoints: 3
-  description: If this card survives, summon 2 of spades to your hand.
+  description: 'In battle this card deals additionally the points of the lowest value
+    revealed enemy. '
   higherBeing: 0
   StartOfTurn: []
   StartOfBattle: []
   Support: []
-  BeforeAttacking: []
+  BeforeAttacking:
+  - {fileID: 11400000, guid: 7aadf3ed39823a94b9962ce78499a788, type: 2}
   OnDeath: []
   OnGlobalDeath: []
-  OnSurvive:
-  - {fileID: 11400000, guid: 2044695bd8121d441913cf5acef02a19, type: 2}
+  OnSurvive: []
   Bloodthirst: []
   Meditate: []

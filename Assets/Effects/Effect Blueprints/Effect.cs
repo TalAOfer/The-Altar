@@ -14,6 +14,7 @@ public class Effect : MonoBehaviour
     public EffectTarget target;
     protected float predelay;
     protected float postdelay;
+    protected int amountOfTargets;
     public void BaseInitialize(EffectApplier applier, Card parentCard, EffectBlueprint blueprint)
     {
         this.applier = applier;
@@ -25,6 +26,7 @@ public class Effect : MonoBehaviour
         events = blueprint.events;
         data = blueprint.data;
         target = blueprint.target;
+        amountOfTargets = blueprint.amountOfTargets;
     }
 
     public IEnumerator Trigger()
@@ -78,14 +80,12 @@ public class Effect : MonoBehaviour
                 targets = data.GetAllCardsInHand();
                 break;
             case EffectTarget.RandomCardOnMap:
-                Card randomEnemyCard = data.GetRandomEnemyCard(parentCard);
-                Debug.Log(randomEnemyCard);
-                if (randomEnemyCard != null) targets.Add(randomEnemyCard);
+                List<Card> randomEnemyCards = data.GetRandomEnemyCards(amountOfTargets, parentCard);
+                if (randomEnemyCards != null) targets = randomEnemyCards;
                 break;
             case EffectTarget.RandomCardFromHand:
-                Card randomPlayerCard = data.GetRandomPlayerCard(parentCard);
-                Debug.Log(randomPlayerCard);
-                if (randomPlayerCard != null) targets.Add(randomPlayerCard);
+                List<Card> randomPlayerCards = data.GetRandomPlayerCards(amountOfTargets, parentCard);
+                if (randomPlayerCards != null) targets = randomPlayerCards;
                 break;
             case EffectTarget.PlayerCardBattling:
                 targets.Add(data.BattlingPlayerCard);

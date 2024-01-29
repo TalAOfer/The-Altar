@@ -52,6 +52,9 @@ public abstract class EffectApplier : MonoBehaviour
 
             case GetAmountStrategy.NotImplementedDeadEnemiesOnMap:
                 break;
+            case GetAmountStrategy.LowestValueEnemyCard:
+                amount = data.GetLowestEnemyCardValue();
+                break;
         }
 
         return amount;

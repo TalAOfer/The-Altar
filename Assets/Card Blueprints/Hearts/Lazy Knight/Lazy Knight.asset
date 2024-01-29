@@ -18,7 +18,7 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   defaultPoints: 1
-  description: Meditate. Bloodthirst. Get +1 point.
+  description: Meditate. Bloodthirst. Get +2 point.
   higherBeing: 0
   StartOfTurn: []
   StartOfBattle: []

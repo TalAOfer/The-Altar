@@ -17,6 +17,9 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("prototype", EffectPrototype.Normal)]
     public EffectTarget target;
 
+    [ShowIf("target", EffectTarget.RandomCardFromHand)]
+    public int amountOfTargets;
+
     public float predelay = 0f;
     public float postdelay = 0f;
 
@@ -189,6 +192,11 @@ public class EffectBlueprint : ScriptableObject
     {
         return isConditional;
     }
+
+    private bool ShouldShowAmountOfTargets()
+    {
+        return target is EffectTarget.RandomCardOnMap or EffectTarget.RandomCardFromHand;
+    }
 }
 
 
@@ -255,5 +263,6 @@ public enum GetAmountStrategy
     NotImplementedDeadEnemiesOnMap,
     CardsInHand,
     RoomCount,
+    LowestValueEnemyCard,
 }
 

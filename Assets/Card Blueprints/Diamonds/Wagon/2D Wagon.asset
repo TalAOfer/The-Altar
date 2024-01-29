@@ -15,21 +15,18 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 3d8512bf5277f924996081bcfb902f3b, type: 3}
   isDefault: 0
   cardName: Wagon
-  cardColor: 1
+  cardColor: 0
   cardOwner: 1
   defaultPoints: 3
   description: When this card is destroyed, draw a card.
   higherBeing: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath:
   - {fileID: 11400000, guid: 07e437d96aa16b64991121f023fa6644, type: 2}
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

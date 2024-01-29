@@ -53,7 +53,7 @@ public class Card : MonoBehaviour
     [FoldoutGroup("Battle Points")]
     public List<Guardian> guardians = new();
 
-    private HigherBeing higherBeing;
+    private HigherBeing higherBeing = new(false, 0);
 
     public bool IsDead
     {
@@ -89,6 +89,7 @@ public class Card : MonoBehaviour
 
     public void SetCardColor(CardColor newColor)
     {
+        if (higherBeing.isLocked) return;
         cardColor = newColor;
     }
 
@@ -204,7 +205,7 @@ public class Card : MonoBehaviour
         points += pointsToGain;
         if (points < 0) points = 0;
         else if (points > 10) points = 10;
-
+        visualHandler.SetNumberSprites();
         yield return null;
         //yield return StartCoroutine(effects.ApplyOnGainPointsEffects());
     }

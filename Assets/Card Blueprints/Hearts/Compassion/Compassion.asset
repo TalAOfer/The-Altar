@@ -10,23 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
-  m_Name: 3H Devotion
+  m_Name: Compassion
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: 3d3bda5fbe6c80a478936df7d94bc863, type: 3}
+  cardSprite: {fileID: 21300000, guid: b7925c4e2230abf4480071d833dd8511, type: 3}
   isDefault: 0
-  cardName: Devotion
+  cardName: Compassion
   cardColor: 1
   cardOwner: 0
   defaultPoints: 3
-  description: If this card survives, summon 2 of spades to your hand.
+  description: 'On Death summon 1 of hearts to your hand, and turn all of your cards
+    to Red. '
   higherBeing: 0
   StartOfTurn: []
   StartOfBattle: []
   Support: []
   BeforeAttacking: []
-  OnDeath: []
+  OnDeath:
+  - {fileID: 11400000, guid: c95271990ec51754ba33c4d2d8a6acbd, type: 2}
+  - {fileID: 11400000, guid: e475952c475a942489f59c63e95faae7, type: 2}
   OnGlobalDeath: []
-  OnSurvive:
-  - {fileID: 11400000, guid: 2044695bd8121d441913cf5acef02a19, type: 2}
+  OnSurvive: []
   Bloodthirst: []
   Meditate: []

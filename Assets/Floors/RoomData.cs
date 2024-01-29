@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //[CreateAssetMenu(menuName = "Room Data")]
@@ -21,11 +22,14 @@ public class RoomData : ScriptableObject
     [ShowIf("RoomType", RoomType.Battle)]
     public Card BattlingPlayerCard;
 
+    #region Target Providers
+
     public Card GetOpponent(Card card)
     {
         if (BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle this will return null");
         return card.cardOwner == CardOwner.Player ? BattlingEnemyCard : BattlingPlayerCard;
     }
+
     public List<Card> GetAllActiveEnemies()
     {
         return new(EnemyManager.activeEnemies);
@@ -54,7 +58,7 @@ public class RoomData : ScriptableObject
         return activeEnemies;
     }
 
-    public Card GetRandomPlayerCard(Card excludeThis)
+    public List<Card> GetRandomPlayerCards(int numberOfCards, Card excludeThis)
     {
         List<Card> cardsToPickFrom = GetAllActivePlayerCards();
 
@@ -67,15 +71,17 @@ public class RoomData : ScriptableObject
         cardsToPickFrom.Remove(BattlingPlayerCard);
 
         // Add a safety check in case all cards are removed or list is empty
-        if (cardsToPickFrom.Count == 0)
+        if (cardsToPickFrom.Count == 0 || cardsToPickFrom.Count < numberOfCards)
         {
             return null; // Or handle this scenario appropriately
         }
 
-        int rand = Random.Range(0, cardsToPickFrom.Count);
-        return cardsToPickFrom[rand];
+        List<int> randomIndices = Tools.GetXUniqueRandoms(numberOfCards, 0, cardsToPickFrom.Count);
+        List<Card> randomCards = randomIndices.Select(index => cardsToPickFrom[index]).ToList();
+
+        return randomCards;
     }
-    public Card GetRandomEnemyCard(Card excludeThis)
+    public List<Card> GetRandomEnemyCards(int numberOfCards, Card excludeThis)
     {
         List<Card> cardsToPickFrom = GetAllActiveEnemies();
 
@@ -88,15 +94,20 @@ public class RoomData : ScriptableObject
         cardsToPickFrom.Remove(BattlingEnemyCard);
 
         // Add a safety check in case all cards are removed or list is empty
-        if (cardsToPickFrom.Count == 0)
+        if (cardsToPickFrom.Count == 0 || cardsToPickFrom.Count < numberOfCards)
         {
             return null; // Or handle this scenario appropriately
         }
 
-        int rand = Random.Range(0, cardsToPickFrom.Count);
-        return cardsToPickFrom[rand];
+        List<int> randomIndices = Tools.GetXUniqueRandoms(numberOfCards, 0, cardsToPickFrom.Count);
+        List<Card> randomCards = randomIndices.Select(index => cardsToPickFrom[index]).ToList();
+
+        return randomCards;
     }
 
+    #endregion
+
+    #region Amount Providers
     public int GetEmptySpacesAmount()
     {
         int amount = 0;
@@ -117,6 +128,23 @@ public class RoomData : ScriptableObject
     {
         return floorManager.currentRoomIndex;
     }
+
+    public int GetLowestEnemyCardValue()
+    {
+        int amount = 100;
+
+        foreach(Card card in EnemyManager.activeEnemies) 
+        {
+            if (card.points < amount)
+            {
+                amount = card.points;
+            }
+        }
+
+        return amount;
+    }
+
+    #endregion
 }
 
 public enum BattleRoomState

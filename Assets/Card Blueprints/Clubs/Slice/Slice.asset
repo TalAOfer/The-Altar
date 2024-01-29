@@ -10,27 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
-  m_Name: 6H Coup
+  m_Name: Slice
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: ccc20a30b0940574cb680d03bdf9ed53, type: 3}
+  cardSprite: {fileID: 21300000, guid: 36a9a2197c0389447b0a78eb1095f1b0, type: 3}
   isDefault: 0
-  cardName: Coup
-  cardColor: 1
-  cardOwner: 0
-  defaultPoints: 6
-  description: While this card is in your hand, player cards that 3 or lower deal
-    +2 in battle.
+  cardName: Slice
+  cardColor: 0
+  cardOwner: 1
+  defaultPoints: 1
+  description: On destroy, randomly change the color of 2 random cards in your hand.
   higherBeing: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
+  Support: []
   BeforeAttacking: []
-  Support:
-  - {fileID: 11400000, guid: 0dbae08394ee34c459cd6ff8ece615c9, type: 2}
-  OnSurvive: []
-  OnDeath: []
+  OnDeath:
+  - {fileID: 11400000, guid: 29d131b36964ce2478190c1e33f9e43e, type: 2}
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

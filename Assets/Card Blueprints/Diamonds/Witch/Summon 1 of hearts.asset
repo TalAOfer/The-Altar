@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57af9f270dd4e6a41a0f39c5c24fff27, type: 3}
-  m_Name: Summon 3 of hearts
+  m_Name: Summon 1 of hearts
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
   prototype: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   modifierType: 0
   color: 0
   cardArchetype:
-    points: 3
+    points: 1
     color: 1
   guardianType: 0
   guardianApplicationType: 0

@@ -93,20 +93,16 @@ public class BattleManager : MonoBehaviour
         //events.AddLogEntry.Raise(this, "Aftermath Shapeshifts");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
-        //If dead, disable object and raise onglobaldeath
         if (enemyCard.IsDead)
         {
             enemyCard.gameObject.SetActive(false);
-            ///removing happens in post battle- check why
         }
 
         if (playerCard.IsDead)
         {
             playerCard.gameObject.SetActive(false);
-            playerManager.activeCards.Remove(playerCard);
-            playerManager.hand.RemoveCardFromHand(playerCard);
-        } 
-        
+        }
+
         else
         {
             StartCoroutine(playerCard.interactionHandler.TransformVisualUniformlyToPlaceholder(0.25f));
@@ -121,10 +117,6 @@ public class BattleManager : MonoBehaviour
 
         if (didEnemyDie)
         {
-            //events.AddLogEntry.Raise(this, "Marking Death");
-            //enemyManager.MarkAndDestroyDeadEnemy(enemyCard);
-            //Wait for player to draw
-            //playerDeck.DrawPlayerCard();
             roomManager.RemoveEnemyFromManager(enemyCard);
         }
 
@@ -158,7 +150,10 @@ public class BattleManager : MonoBehaviour
     private IEnumerator StartOfBattleRoutine()
     {
         //events.AddLogEntry.Raise(this, "Start Of Battle");
+        
+        #region Loop Count Debugger
         //int amountOfOccurances = 1;
+        #endregion
 
         Coroutine ApplyPlayerCardStartOfBattleEffects = StartCoroutine(playerCard.effects.ApplyStartOfBattleEffects(enemyCard));
         Coroutine ApplyEnemyCardStartOfBattleEffects = StartCoroutine(enemyCard.effects.ApplyStartOfBattleEffects(playerCard));
@@ -170,12 +165,16 @@ public class BattleManager : MonoBehaviour
 
         while (!battleStartEnded)
         {
+
+            #region Loop Count Debugger
             //if (amountOfOccurances > 1)
             //{
             //    string eventName = "Start Of Battle " + amountOfOccurances.ToString(); 
             //    events.AddLogEntry.Raise(this, eventName);
             //}
             //amountOfOccurances++;
+
+            #endregion
 
             bool didPlayerShapeshift = playerCard.ShouldShapeshift();
             bool didEnemyShapeshift = enemyCard.ShouldShapeshift();
@@ -293,6 +292,21 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator DeathRoutine()
     {
+        Coroutine ApplyPlayerDeathShapeshift = null;
+        Coroutine ApplyEnemyDeathShapeshift = null;
+
+        if (playerCard.IsDead)
+        {
+            ApplyPlayerDeathShapeshift = StartCoroutine(playerCard.Shapeshift());
+            playerManager.activeCards.Remove(playerCard);
+            playerManager.hand.RemoveCardFromHand(playerCard);
+        }
+
+        if (enemyCard.IsDead) ApplyEnemyDeathShapeshift = StartCoroutine(enemyCard.Shapeshift());
+
+        if (ApplyPlayerDeathShapeshift != null) yield return ApplyPlayerDeathShapeshift;
+        if (ApplyEnemyDeathShapeshift != null) yield return ApplyEnemyDeathShapeshift;
+
         Coroutine ApplyPlayerCardOnDeathEffects = null;
         Coroutine ApplyEnemyCardOnDeathEffects = null;
 
@@ -301,15 +315,6 @@ public class BattleManager : MonoBehaviour
 
         if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
         if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
-
-        Coroutine ApplyPlayerDeathShapeshift = null;
-        Coroutine ApplyEnemyDeathShapeshift = null;
-
-        if (playerCard.IsDead) ApplyPlayerDeathShapeshift = StartCoroutine(playerCard.Shapeshift());
-        if (enemyCard.IsDead) ApplyEnemyDeathShapeshift = StartCoroutine(enemyCard.Shapeshift());
-
-        if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerDeathShapeshift;
-        if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyDeathShapeshift;
 
         if (ApplyPlayerCardOnDeathEffects == null && ApplyEnemyCardOnDeathEffects == null)
         {
