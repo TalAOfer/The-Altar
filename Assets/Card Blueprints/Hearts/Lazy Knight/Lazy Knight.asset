@@ -15,7 +15,7 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 06dd5887e49835248a434b9c396289cc, type: 3}
   isDefault: 0
   cardName: Lazy Knight
-  cardColor: 0
+  cardColor: 1
   cardOwner: 0
   defaultPoints: 1
   description: Meditate. Bloodthirst. Get +2 point.

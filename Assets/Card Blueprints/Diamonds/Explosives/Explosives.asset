@@ -14,22 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: f6e6054e2435f3c47a9d8c02b5543ed6, type: 3}
   isDefault: 0
-  cardName: 1
+  cardName: Explosives
   cardColor: 1
   cardOwner: 1
   defaultPoints: 1
   description: On death, give +1 to a random enemy.
   higherBeing: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath:
   - {fileID: 11400000, guid: 09b5d4c7e3c473247ba928feaa28f5d6, type: 2}
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

@@ -25,10 +25,10 @@ MonoBehaviour:
   StartOfBattle: []
   Support: []
   BeforeAttacking: []
-  OnDeath:
+  OnDeath: []
+  OnGlobalDeath: []
+  OnSurvive:
   - {fileID: 11400000, guid: 264a4685c5535af428a68cd01aaabcd4, type: 2}
   - {fileID: 11400000, guid: 545731c9dcb2e574d83364b76113f5eb, type: 2}
-  OnGlobalDeath: []
-  OnSurvive: []
   Bloodthirst: []
   Meditate: []

@@ -14,22 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: d317939b823e74149a934989bda0fc0f, type: 3}
   isDefault: 0
-  cardName: 
+  cardName: Dirty Tricks
   cardColor: 0
   cardOwner: 0
   defaultPoints: 6
   description: If this card survives battle, summon two 2 of spades to your hand.
   higherBeing: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive:
-  - {fileID: 11400000, guid: a24121cd5fad23c4bbb6c0bb5c37939f, type: 2}
+  BeforeAttacking: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive:
+  - {fileID: 11400000, guid: a24121cd5fad23c4bbb6c0bb5c37939f, type: 2}
+  Bloodthirst: []
+  Meditate: []

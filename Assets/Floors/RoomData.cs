@@ -62,7 +62,6 @@ public class RoomData : ScriptableObject
     {
         List<Card> cardsToPickFrom = GetAllActivePlayerCards();
 
-        // Ensure the excludeThis card is properly removed
         if (excludeThis != null)
         {
             cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
@@ -70,13 +69,15 @@ public class RoomData : ScriptableObject
 
         cardsToPickFrom.Remove(BattlingPlayerCard);
 
-        // Add a safety check in case all cards are removed or list is empty
-        if (cardsToPickFrom.Count == 0 || cardsToPickFrom.Count < numberOfCards)
+        // Adjust the number of cards to draw if necessary
+        int drawCount = Mathf.Min(numberOfCards, cardsToPickFrom.Count);
+
+        if (drawCount == 0)
         {
-            return null; // Or handle this scenario appropriately
+            return new List<Card>(); // Return an empty list instead of null
         }
 
-        List<int> randomIndices = Tools.GetXUniqueRandoms(numberOfCards, 0, cardsToPickFrom.Count);
+        List<int> randomIndices = Tools.GetXUniqueRandoms(drawCount, 0, cardsToPickFrom.Count);
         List<Card> randomCards = randomIndices.Select(index => cardsToPickFrom[index]).ToList();
 
         return randomCards;
@@ -85,7 +86,6 @@ public class RoomData : ScriptableObject
     {
         List<Card> cardsToPickFrom = GetAllActiveEnemies();
 
-        // Ensure the excludeThis card is properly removed
         if (excludeThis != null)
         {
             cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
@@ -93,13 +93,15 @@ public class RoomData : ScriptableObject
 
         cardsToPickFrom.Remove(BattlingEnemyCard);
 
-        // Add a safety check in case all cards are removed or list is empty
-        if (cardsToPickFrom.Count == 0 || cardsToPickFrom.Count < numberOfCards)
+        // Adjust the number of cards to draw if necessary
+        int drawCount = Mathf.Min(numberOfCards, cardsToPickFrom.Count);
+
+        if (drawCount == 0)
         {
-            return null; // Or handle this scenario appropriately
+            return new List<Card>(); // Return an empty list instead of null
         }
 
-        List<int> randomIndices = Tools.GetXUniqueRandoms(numberOfCards, 0, cardsToPickFrom.Count);
+        List<int> randomIndices = Tools.GetXUniqueRandoms(drawCount, 0, cardsToPickFrom.Count);
         List<Card> randomCards = randomIndices.Select(index => cardsToPickFrom[index]).ToList();
 
         return randomCards;

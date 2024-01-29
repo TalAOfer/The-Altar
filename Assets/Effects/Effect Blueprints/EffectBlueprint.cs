@@ -17,8 +17,8 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("prototype", EffectPrototype.Normal)]
     public EffectTarget target;
 
-    [ShowIf("target", EffectTarget.RandomCardFromHand)]
-    public int amountOfTargets;
+    [ShowIf("@ShouldShowAmountOfTargets()")]
+    public int amountOfTargets = 1;
 
     public float predelay = 0f;
     public float postdelay = 0f;

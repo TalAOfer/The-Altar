@@ -16,6 +16,7 @@ MonoBehaviour:
   prototype: 0
   events: {fileID: 0}
   target: 9
+  amountOfTargets: 1
   predelay: 0
   postdelay: 0
   applicationType: 0

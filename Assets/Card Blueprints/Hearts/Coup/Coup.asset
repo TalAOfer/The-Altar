@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Coup
   m_EditorClassIdentifier: 
   cardSprite: {fileID: 21300000, guid: ccc20a30b0940574cb680d03bdf9ed53, type: 3}
-  isDefault: 0
+  isDefault: 1
   cardName: Coup
   cardColor: 1
   cardOwner: 0
   defaultPoints: 3
-  description: Meditate. Bloodthirst. Summon 1 of hearts to your hand.
+  description: Meditate. Bloodthirst. Summon 1 of spades to your hand.
   higherBeing: 0
   StartOfTurn: []
   StartOfBattle: []
