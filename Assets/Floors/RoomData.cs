@@ -10,6 +10,7 @@ public class RoomData : ScriptableObject
     public RoomType RoomType;
 
     public FloorManager floorManager;
+    public AllEvents events;
 
     [ShowIf("RoomType", RoomType.Battle)]
     public BattleRoomState BattleRoomState;

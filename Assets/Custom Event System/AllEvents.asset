@@ -24,6 +24,7 @@ MonoBehaviour:
   EnableBezierArrow: {fileID: 11400000, guid: 9235b363696576642b9b3e17233ec1e4, type: 2}
   DisableBezierArrow: {fileID: 11400000, guid: 5f5f757a8c19fce4ea9801a3650c1fba, type: 2}
   OnFinishedHandFill: {fileID: 11400000, guid: 5f4112befb798c14c896321807103c78, type: 2}
+  OnEffectApplied: {fileID: 11400000, guid: 462824790672a3b418e64fa7a99cdef1, type: 2}
   WaitForPlayerSelection: {fileID: 11400000, guid: 290c64c7ec3586d4f9c12c20613c04d8, type: 2}
   OnNewRoom: {fileID: 11400000, guid: 68f9ca6b4a3fad44c89f775b2ab5af45, type: 2}
   OnHandCardStartDrag: {fileID: 11400000, guid: 0425d6e5087599d4081d361623b4f6e2, type: 2}

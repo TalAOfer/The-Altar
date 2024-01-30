@@ -17,7 +17,7 @@ public class AlterBattlePointsApplier : EffectApplier
         List<BattlePointModifier> modifierList = battlePointType is BattlePointType.Attack ?
         targetCard.attackPointsModifiers :
         targetCard.hurtPointsModifiers;
-
+        data.events.OnEffectApplied.Raise(this, new EffectIndication("+" + GetAmount().ToString(), targetCard));
         modifierList.Add(new BattlePointModifier(modifierType, GetAmount()));
 
         yield return null;

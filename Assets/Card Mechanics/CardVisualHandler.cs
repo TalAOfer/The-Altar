@@ -50,6 +50,8 @@ public class CardVisualHandler : MonoBehaviour
     [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer ornamentSr;
     [FoldoutGroup("Card Renderers")]
+    [SerializeField] private SpriteRenderer overlaySr;
+    [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer slashSr;
 
 
@@ -159,13 +161,14 @@ public class CardVisualHandler : MonoBehaviour
 
     public void SetSortingOrder(int index)
     {
-        int calcIndex = index * 6;
+        int calcIndex = index * 7;
         cardSr.sortingOrder = calcIndex;
         iconSr.sortingOrder = calcIndex + 1;
         numberSr.sortingOrder = calcIndex + 2;
         symbolSr.sortingOrder = calcIndex + 3;
         ornamentSr.sortingOrder= calcIndex + 4;
-        slashSr.sortingOrder= calcIndex + 5;
+        overlaySr.sortingOrder = calcIndex + 5;
+        slashSr.sortingOrder= calcIndex + 6;
     }
 
     public void SetSortingLayer(string sortingLayerName)
@@ -176,6 +179,7 @@ public class CardVisualHandler : MonoBehaviour
         iconSr.sortingLayerName = sortingLayerName;
         damageDigit.sortingLayerName = sortingLayerName;
         damageSymbol.sortingLayerName = sortingLayerName;
+        overlaySr.sortingLayerName = sortingLayerName;
         ornamentSr.sortingLayerName = sortingLayerName;
         slashSr.sortingLayerName = sortingLayerName;
     }
