@@ -2,14 +2,21 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class CardSelectionRoom : Room
 {
-    [SerializeField] private AllEvents events;
-    private FloorManager floorManager;
+    [FoldoutGroup("Dependencies")]
+    [SerializeField] private RoomData roomData;
+    [FoldoutGroup("Dependencies")]
     [SerializeField] private RunData runData;
+    [FoldoutGroup("Dependencies")]
+    [SerializeField] private AllEvents events;
+
+    private FloorManager floorManager;
+
     [SerializeField] List<GameObject> texts;
 
     [SerializeField] private GameObject linkedCardsPrefab;
@@ -84,6 +91,11 @@ public class CardSelectionRoom : Room
 
     public void HandleChoice(int index)
     {
+        StartCoroutine(ChoiceRoutine(index));
+    }
+
+    public IEnumerator ChoiceRoutine(int index)
+    {
         LinkedCards linkedCards = linkedCardsList[index];
 
         linkedCards.wasChosen = true;
@@ -95,6 +107,9 @@ public class CardSelectionRoom : Room
 
         RemoveAllCards();
         events.HideTooltip.Raise(this, null);
+
+        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+
         floorManager.NextRoom();
     }
 
@@ -114,6 +129,39 @@ public class CardSelectionRoom : Room
 
             Destroy(linkedCards.gameObject);
         }
+    }
+
+    private IEnumerator HandleAllShapeshiftsUntilStable()
+    {
+        bool changesOccurred;
+        List<Card> allCards = new(roomData.PlayerManager.activeCards);
+
+        do
+        {
+            changesOccurred = false;
+            List<Coroutine> shapeshiftCoroutines = new List<Coroutine>();
+
+            foreach (Card card in allCards)
+            {
+                if (card.ShouldShapeshift())
+                {
+                    changesOccurred = true;
+                    Coroutine coroutine = StartCoroutine(card.HandleShapeshift());
+                    shapeshiftCoroutines.Add(coroutine);
+                }
+            }
+
+            // Wait for all shapeshift coroutines to finish
+            foreach (Coroutine coroutine in shapeshiftCoroutines)
+            {
+                yield return coroutine;
+            }
+
+            // If changesOccurred is true, the loop will continue
+        } while (changesOccurred);
+
+        // All shapeshifts are done and no more changes, proceed with the next operation
+        // ...
     }
 
 

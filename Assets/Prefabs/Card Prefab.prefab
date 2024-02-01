@@ -228,6 +228,7 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   cardState: 0
+  cardInteractionType: 0
   currentOverride: {fileID: 0}
   attackPointsModifiers: []
   hurtPointsModifiers: []
@@ -645,12 +646,20 @@ MonoBehaviour:
   damageDigit: {fileID: 3512095750078070261}
   damageSymbol: {fileID: 273757475263846629}
   slashAnimationSprites:
-  - {fileID: 2062007409, guid: 6b57d23f239a4cf44a2367486b046a3c, type: 3}
-  - {fileID: 450661913, guid: 6b57d23f239a4cf44a2367486b046a3c, type: 3}
-  - {fileID: -831411716, guid: 6b57d23f239a4cf44a2367486b046a3c, type: 3}
-  - {fileID: -1380408135, guid: 6b57d23f239a4cf44a2367486b046a3c, type: 3}
-  - {fileID: -1366549217, guid: 6b57d23f239a4cf44a2367486b046a3c, type: 3}
-  slashAnimationIntervals: 0.1
+  - {fileID: -664104323, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -125438760, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -1801186982, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: 743445698, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -639609857, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -715430163, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -22826859, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -1742707588, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: 1547056512, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -126925368, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -478128520, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: -1777755700, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  - {fileID: 722327484, guid: b195f275c8747414d809b9f9712da173, type: 3}
+  slashAnimationIntervals: 0.035
   particles: {fileID: 7215560703570818519}
   cardSr: {fileID: 4433209074844692427}
   iconSr: {fileID: 3041129387492191694}
@@ -745,6 +754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1076719916005953478}
   StartOnEnable: 0
+  animNameOnEnable: 
   lerpColor: 1
   colorTarget: 1
   sr: {fileID: 8576751965544182358}

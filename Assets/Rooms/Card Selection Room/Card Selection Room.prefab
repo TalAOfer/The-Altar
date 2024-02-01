@@ -422,8 +422,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardInteraction: {fileID: 6091313705597833204}
-  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
+  roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
   runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
+  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   texts:
   - {fileID: 7231631199116942772}
   linkedCardsPrefab: {fileID: 3468570617656768158, guid: 76352d78a70f1fc408aee208e186f8dc, type: 3}

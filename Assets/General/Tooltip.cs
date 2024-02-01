@@ -10,7 +10,6 @@ public class Tooltip : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cardArchetype;
     [SerializeField] private TextMeshProUGUI cardDescription;
     [SerializeField] private Image icon;
-
     public void InitializeTooltip(Card card)
     {
         cardName.text = card.currentOverride.cardName;
