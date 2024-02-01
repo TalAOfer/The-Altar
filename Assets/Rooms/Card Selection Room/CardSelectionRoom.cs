@@ -12,13 +12,11 @@ public class CardSelectionRoom : Room
     [SerializeField] private RunData runData;
     [SerializeField] List<GameObject> texts;
 
-    [SerializeField] private GameObject cardPrefab;
-    [SerializeField] private GameObject link;
+    [SerializeField] private GameObject linkedCardsPrefab;
 
     [SerializeField] private Transform spawnContainer;
 
-    [SerializeField] private float defaultSpacingX;
-    [SerializeField] private float defaultSpacingY;
+    [SerializeField] private float defaultSpacing;
 
     public List<LinkedCards> linkedCardsList = new();
 
@@ -44,8 +42,8 @@ public class CardSelectionRoom : Room
 
         foreach (LinkedCards linkedCards in linkedCardsList)
         {
-            linkedCards.playerCard.interactionHandler.SetNewDefaultLocation(linkedCards.playerCard.transform.position, Vector3.one, Vector3.zero);
-            linkedCards.enemyCard.interactionHandler.SetNewDefaultLocation(linkedCards.enemyCard.transform.position, Vector3.one, Vector3.zero);
+            linkedCards.playerCard.movement.SetNewDefaultLocation(linkedCards.playerCard.transform.position, Vector3.one, Vector3.zero);
+            linkedCards.enemyCard.movement.SetNewDefaultLocation(linkedCards.enemyCard.transform.position, Vector3.one, Vector3.zero);
         }
     }
     public override void OnRoomFinished()
@@ -59,32 +57,19 @@ public class CardSelectionRoom : Room
     {
         int cardAmount = roomBlueprint.amountOfOptions;
 
-        float startOffset = -defaultSpacingX * (cardAmount - 1) / 2;
+        float startOffset = -defaultSpacing * (cardAmount - 1) / 2;
 
         linkedCardsList.Clear();
 
         for (int i = 0; i < cardAmount; i++)
         {
-            CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y);
-            Card playerCard = SpawnCard(playerDrawnBlueprint, GameConstants.TOP_BATTLE_LAYER, runData.playerCodex);
-            playerCard.index = i;
-            temp.x = startOffset + i * defaultSpacingX;
-            temp.y = playerCard.transform.position.y - defaultSpacingY;
-            playerCard.transform.position = temp;
-            playerCard.interactionHandler.SetNewDefaultLocation(playerCard.transform.position, playerCard.transform.localScale, Vector3.zero);
+            temp = transform.position;
+            temp.x = startOffset + i * defaultSpacing;
 
-            CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(roomBlueprint.enemyDrawMinMax.x, roomBlueprint.enemyDrawMinMax.y);
-            Card enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.TOP_BATTLE_LAYER, runData.enemyCodex);
-            enemyCard.index = i;
-            temp.y = enemyCard.transform.position.y + defaultSpacingY;
-            enemyCard.transform.position = temp;
-            enemyCard.interactionHandler.SetNewDefaultLocation(playerCard.transform.position, playerCard.transform.localScale, Vector3.zero);
-
-            GameObject linkGo = Instantiate(link, transform.position, Quaternion.identity, spawnContainer);
-            linkGo.transform.localPosition = new Vector3(temp.x, 0, 0);
-
-
-            linkedCardsList.Add(new(playerCard, enemyCard, linkGo));
+            GameObject linkedCardsGo = Instantiate(linkedCardsPrefab, temp, Quaternion.identity, transform);
+            LinkedCards linkedCards = linkedCardsGo.GetComponent<LinkedCards>();
+            linkedCards.Init(roomBlueprint, i);
+            linkedCardsList.Add(linkedCards);
         }
     }
 
@@ -127,37 +112,11 @@ public class CardSelectionRoom : Room
 
             linkedCardsList.Remove(linkedCards);
 
-            Destroy(linkedCards.playerCard.gameObject);
-            Destroy(linkedCards.enemyCard.gameObject);
-            Destroy(linkedCards.link);
+            Destroy(linkedCards.gameObject);
         }
     }
 
-    public Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName, BlueprintPoolInstance codex)
-    {
-        GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, spawnContainer);
-        cardGO.name = cardBlueprint.name;
-        Card card = cardGO.GetComponent<Card>();
-        card.Init(codex, cardBlueprint, sortingLayerName);
-
-        return card;
-    }
 
 }
 
-[Serializable]
-public class LinkedCards
-{
-    public Card playerCard;
-    public Card enemyCard;
-    public bool wasChosen;
-    public GameObject link;
 
-    public LinkedCards(Card playerCard, Card enemyCard, GameObject link)
-    {
-        wasChosen = false;
-        this.playerCard = playerCard;
-        this.enemyCard = enemyCard;
-        this.link = link;
-    }
-}

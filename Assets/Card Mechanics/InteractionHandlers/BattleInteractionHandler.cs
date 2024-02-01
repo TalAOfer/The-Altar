@@ -34,7 +34,7 @@ public class BattleInteractionHandler : CardInteractionBase
     private void SelectCard(Card card)
     {
         selectedCard = card;
-        if (!card.interactionHandler.isHighlighted) Highlight(card);
+        if (!card.movement.isHighlighted) Highlight(card);
         card.visualHandler.ToggleOutline(true, Color.white);
     }
     private void DeselectCurrentCard()
@@ -43,30 +43,19 @@ public class BattleInteractionHandler : CardInteractionBase
 
         selectedCard.visualHandler.ToggleOutline(false, Color.white);
 
-        if (selectedCard.interactionHandler.isHighlighted) Dehighlight(selectedCard);
+        if (selectedCard.movement.isHighlighted) Dehighlight(selectedCard);
 
         selectedCard = null;
     }
 
     private void Highlight(Card card)
     {
-        card.interactionHandler.isHighlighted = true;
-        card.visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
-
-        card.interactionHandler.SetNewDefaultLocation(null, null, null);
-        Vector3 temp = card.interactionHandler.defaultPos;
-        temp.y += hoverHeightBoostAmount;
-        card.visualHandler.transform.SetPositionAndRotation(temp, Quaternion.Euler(Vector3.zero));
-        card.visualHandler.transform.localScale = Vector3.one * 1.2f;
+        card.movement.Highlight();
     }
 
     private void Dehighlight(Card card)
     {
-        card.interactionHandler.isHighlighted = false;
-
-        card.visualHandler.SetSortingLayer(GameConstants.HAND_LAYER);
-        card.visualHandler.transform.SetPositionAndRotation(card.interactionHandler.defaultPos, Quaternion.Euler(card.interactionHandler.defaultRotation));
-        card.visualHandler.transform.localScale = card.interactionHandler.defaultScale;
+        card.movement.Dehighlight();
     }
 
     private void DisableArrow()

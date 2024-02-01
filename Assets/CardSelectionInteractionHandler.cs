@@ -10,41 +10,90 @@ public class CardSelectionInteractionHandler : CardInteractionBase
     [SerializeField] private Color defaultColor;
     [SerializeField] private float hoverHeightBoostAmount;
     [SerializeField] private CardSelectionRoom room;
+
     protected override void HandlePointerEnter(Card card, PointerEventData eventData)
     {
-        card.visualHandler.SetCardBGColor(hoverColor);
-
         events.ShowTooltip.Raise(this, card);
 
-        LinkedCards linkedCards = room.linkedCardsList[card.index];
-
-        //Boost height
-        Card playerCard = linkedCards.playerCard;
-        Card enemyCard = linkedCards.enemyCard;
-
-        Vector3 temp = playerCard.interactionHandler.defaultPos;
-        temp.y += hoverHeightBoostAmount;
-        playerCard.transform.position = temp;
-
-        temp = enemyCard.interactionHandler.defaultPos;
-        temp.y += hoverHeightBoostAmount;
-        enemyCard.transform.position = temp;
+        switch (card.cardInteractionType)
+        {
+            case CardInteractionType.Playable:
+                card.movement.Highlight();
+                break;
+            case CardInteractionType.Selection:
+                LinkedCards linkedCards = room.linkedCardsList[card.index];
+                if (!linkedCards.wasChosen)
+                {
+                    linkedCards.wasChosen = true;
+                    linkedCards.OutlineCards();
+                    linkedCards.ToggleSelectionArrows(true);
+                }
+                break;
+            case CardInteractionType.Codex:
+                break;
+        }
     }
 
     protected override void HandlePointerExit(Card card, PointerEventData eventData)
     {
-        card.visualHandler.SetCardBGColor(defaultColor);
-
         events.HideTooltip.Raise(this, card);
 
-        LinkedCards linkedCards = room.linkedCardsList[card.index];
-
-        linkedCards.playerCard.interactionHandler.RestartTransformToDefault();
-        linkedCards.enemyCard.interactionHandler.RestartTransformToDefault();
+        switch (card.cardInteractionType)
+        {
+            case CardInteractionType.Playable:
+                card.movement.Dehighlight();
+                break;
+            case CardInteractionType.Selection:
+                LinkedCards linkedCards = room.linkedCardsList[card.index];
+                if (!linkedCards.IsPointerOverLinkCollider && linkedCards.wasChosen)
+                {
+                    linkedCards.wasChosen = false;
+                    linkedCards.DeOutlineCards();
+                    linkedCards.ToggleSelectionArrows(false);
+                }
+                break;
+            case CardInteractionType.Codex:
+                break;
+        }
     }
 
     protected override void HandlePointerClick(Card card, PointerEventData eventData)
     {
-        room.HandleChoice(card.index);
+        if (card.cardInteractionType is CardInteractionType.Selection)
+        {
+            room.HandleChoice(card.index);
+        }
+    }
+
+    public void OnLinkPointerEnter(Component sender, object data)
+    {
+        LinkedCards linkedCards = (LinkedCards)sender;
+        linkedCards.IsPointerOverLinkCollider = true;
+
+        if (!linkedCards.wasChosen)
+        {
+            linkedCards.wasChosen = true;
+            linkedCards.OutlineCards();
+            linkedCards.ToggleSelectionArrows(true);
+        }
+    }
+
+    public void OnLinkPointerExit(Component sender, object data)
+    {
+        LinkedCards linkedCards = (LinkedCards)sender;
+        linkedCards.IsPointerOverLinkCollider = false;
+
+        if (linkedCards.wasChosen)
+        {
+            linkedCards.wasChosen = false;
+            linkedCards.DeOutlineCards();
+            linkedCards.ToggleSelectionArrows(false);
+        }
+    }
+
+    public void OnLinkClick(Component sender, object data)
+    {
+        LinkedCards linkedCards = (LinkedCards)sender;
+        room.HandleChoice(linkedCards.index);
     }
 }

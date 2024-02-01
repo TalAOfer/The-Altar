@@ -15,6 +15,8 @@ public class CardVisualHandler : MonoBehaviour
     [SerializeField] private Card card;
     [FoldoutGroup("Components")]
     [SerializeField] private Animator anim;
+    [FoldoutGroup("Components")]
+    [SerializeField] private CustomAnimator c_anim;
 
     [FoldoutGroup("Sprites Dependencies")]
     [SerializeField] private Material shaderMaterial;
@@ -185,6 +187,11 @@ public class CardVisualHandler : MonoBehaviour
     }
 
     #endregion
+
+    public void Animate(string animName)
+    {
+        c_anim.PlayAnimation(animName);
+    }
 
     public void Reveal()
     {

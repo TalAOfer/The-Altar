@@ -18,12 +18,6 @@ public class MapSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     [SerializeField] private List<Sprite> xAnimationSprites;
     [SerializeField] private float xAnimationIntervals = 0.1f;
-
-    public void SetNewCard(Card card)
-    {
-        StartCoroutine(card.interactionHandler.MoveCardToPositionOverTime(transform.position, 1));
-    }
-
     public IEnumerator SetSlotState(MapSlotState newState)
     {
         slotState = newState;

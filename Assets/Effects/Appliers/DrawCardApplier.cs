@@ -7,10 +7,12 @@ public class DrawCardApplier : EffectApplier
     public override IEnumerator ApplyEffect(Card target)
     {
         int amount = GetAmount();
-        Debug.Log("drawing");
+        data.events.OnEffectApplied.Raise(this, new EffectIndication("Draw " + amount.ToString() + " cards", parentCard));
+
         for (int i = 0; i < amount; i++)
         {
             data.PlayerManager.DrawCardToHand();
+            yield return new WaitForSeconds(0.1f);
         }
         yield return null;
     }

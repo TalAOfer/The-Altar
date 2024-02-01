@@ -13,10 +13,12 @@ public class SpawnCardToHandApplier : EffectApplier
     public override IEnumerator ApplyEffect(Card target)
     {
         int amount = GetAmount();
-        Debug.Log("spawning");
+        //Debug.Log("spawning");
+        data.events.OnEffectApplied.Raise(this, new EffectIndication("Spawn " + amount.ToString() + " cards", parentCard));
         for (int i = 0; i < amount; i++)
         {
             data.PlayerManager.SpawnCardToHandByArchetype(archetype);
+            yield return new WaitForSeconds(0.1f);
         }
         yield return null;
     }

@@ -16,7 +16,7 @@ public class EnemyCardSpawner : MonoBehaviour
         card.index = containerIndex;
 
         StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Occupied));
-        card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
+        card.movement.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
         return card;
     }
 
@@ -29,7 +29,7 @@ public class EnemyCardSpawner : MonoBehaviour
         card.index = containerIndex;
 
         StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Occupied));
-        card.interactionHandler.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
+        card.movement.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
         return card;
     }
 
@@ -50,7 +50,7 @@ public class EnemyCardSpawner : MonoBehaviour
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, parent);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
-        card.Init(Codex, cardBlueprint, sortingLayerName);
+        card.Init(Codex, cardBlueprint, sortingLayerName, CardInteractionType.Playable);
 
         return card;
     }

@@ -22,8 +22,11 @@ public abstract class EffectApplier : MonoBehaviour
     public IEnumerator Apply(Card target, RoomData data)
     {
         if (isConditional && !decision.Decide(target, data.GetOpponent(target))) yield break;
+        parentCard.visualHandler.Animate("Jiggle");
 
+        yield return new WaitForSeconds(1f);
         yield return ApplyEffect(target);
+        target.visualHandler.Animate("FlashOut");
     }
 
     public abstract IEnumerator ApplyEffect(Card target);

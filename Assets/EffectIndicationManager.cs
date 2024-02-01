@@ -13,6 +13,7 @@ public class EffectIndicationManager : MonoBehaviour
 
         GameObject go = Pooler.Spawn(indicatorPrefab, indication.effected.transform.position + offset, Quaternion.identity);
         go.GetComponentInChildren<TextMeshPro>().text = indication.effect;
+        go.GetComponent<CustomAnimator>().PlayAnimation("Fadeout");
     }
 }
 

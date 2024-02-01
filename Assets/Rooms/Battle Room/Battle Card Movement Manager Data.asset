@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: Battle Card Movement Manager Data
   m_EditorClassIdentifier: 
   endBattleDelay: 1
-  toFormationDuration: 0.25
-  battleCardScale: 1.1
-  readyingDuration: 0.75
+  readyingDuration: 0.5
   readyingDistance: 0.5
   headbuttDuration: 0.15
-  impactFreezeDuration: 0.5
-  backOffDuration: 0.35
+  impactFreezeDuration: 0.35
+  backOffDuration: 0.2

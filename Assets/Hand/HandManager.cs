@@ -93,15 +93,15 @@ public class HandManager : MonoBehaviour
             // Set the placeholder for this card
             Transform placeholder = cardPlaceholders[0];
             placeholder.SetPositionAndRotation(transform.position, transform.rotation);
-            card.interactionHandler.placeHolder = placeholder;
+            card.movement.placeHolder = placeholder;
 
             // Set the new default location for the card
-            card.interactionHandler.SetNewDefaultLocation(placeholder.position, card.transform.localScale, placeholder.eulerAngles);
+            card.movement.SetNewDefaultLocation(placeholder.position, card.transform.localScale, placeholder.eulerAngles);
             card.index = 0;
             card.visualHandler.SetSortingOrder(0);
 
             // If needed, start the transformation coroutine for the card to move to its placeholder
-            StartCoroutine(card.interactionHandler.TransformCardUniformlyToPlaceholder(0.25f));
+            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(0.25f));
         }
         else
         {
@@ -132,8 +132,8 @@ public class HandManager : MonoBehaviour
 
                     if (currentCard != null)
                     {
-                        currentCard.interactionHandler.placeHolder = cardPlaceholders[i];
-                        currentCard.interactionHandler.SetNewDefaultLocation(cardPosition, currentCard.transform.localScale, cardRotation.eulerAngles);
+                        currentCard.movement.placeHolder = cardPlaceholders[i];
+                        currentCard.movement.SetNewDefaultLocation(cardPosition, currentCard.transform.localScale, cardRotation.eulerAngles);
                         currentCard.index = i;
                     }
 
@@ -148,21 +148,17 @@ public class HandManager : MonoBehaviour
                 }
             }
 
-            foreach (var card in cardsInHand)
-            {
-                if (card == null || card.cardState is CardState.Battle) continue;
-                card.visualHandler.SetSortingOrder(card.index);
-                StartCoroutine(card.interactionHandler.TransformCardUniformlyToPlaceholder(0.25f));
-            }
+            ResetCardsToPlaceholders();
         }
     }
 
-    public void ResetCardToPlaceholders()
+    public void ResetCardsToPlaceholders()
     {
         foreach (var card in cardsInHand)
         {
-            if (card.cardState is CardState.Battle) continue;
-            StartCoroutine(card.interactionHandler.TransformCardUniformlyToPlaceholder(0.25f));
+            if (card == null || card.cardState is CardState.Battle) continue;
+            card.visualHandler.SetSortingOrder(card.index);
+            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(0.25f));
         }
     }
 

@@ -1,7 +1,8 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +17,9 @@ public class CustomAnimator : MonoBehaviour
     }
 
     [SerializeField] private Transform target;
-    [SerializeField] private AnimationSO animationSO;
     [SerializeField] private bool StartOnEnable;
+    [ShowIf("StartOnEnable")]
+    [SerializeField] private string animNameOnEnable;
     [SerializeField] private bool lerpColor;
     [ShowIf("lerpColor")]
     [SerializeField] private ColorLerpStrategy colorTarget;
@@ -28,8 +30,14 @@ public class CustomAnimator : MonoBehaviour
     [ShowIf("colorTarget", ColorLerpStrategy.Text)]
     [SerializeField] private TextMeshPro text;
 
+    [SerializeField] private AnimationSO animations;
+
     private Vector3 defaultScale;
     private Vector3 defaultPosition;
+
+    private Coroutine currentColorCoroutine;
+    private Coroutine currentPositionCoroutine;
+    private Coroutine currentScaleCoroutine;
 
     private void Awake()
     {
@@ -39,68 +47,94 @@ public class CustomAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        if (StartOnEnable) StartAnimation();
+        if (StartOnEnable) PlayAnimation(animNameOnEnable);
     }
+
 
     [Button("Test Animation")]
-    public void StartAnimation()
+    public void TestAnimation(string animName)
     {
-        StopAllCoroutines();
-        ResetScaleToDefault();
-        ResetPositionToDefault();
+        PlayAnimation(animName);
+    }
 
-        foreach (AnimationConfig config in animationSO.configs)
+    public void PlayAnimation(string animationName)
+    {
+        var animation = animations.anims.Find(config => config.animName == animationName);
+        if (animation != null)
         {
-            switch (config.type)
+            foreach (AnimationConfig config in animation.configs)
             {
-                case AnimationType.Position:
-                    if (config.executionStyle is AnimationStyle.Instant) SetPosition(config);
-                    else StartCoroutine(LerpToPosition(config));
-                    break;
-                case AnimationType.Color:
-                    if (config.executionStyle is AnimationStyle.Instant) SetColor(config);
-                    else AnimateColor(config);
-                    break;
-                case AnimationType.Size:
-                    if (config.executionStyle is AnimationStyle.Instant) SetScale(config);
-                    else StartCoroutine(LerpScale(config));
-                    break;
+                switch (config.type)
+                {
+                    case AnimationType.Position:
+                        StopAndResetCoroutine(ref currentPositionCoroutine, ResetPositionToDefault);
+                        if (config.executionStyle is AnimationStyle.Instant) SetPosition(config);
+                        else currentPositionCoroutine = StartCoroutine(LerpToPosition(config));
+                        break;
+                    case AnimationType.Color:
+                        StopAndResetCoroutine(ref currentColorCoroutine, () => SetColor(config, true));
+                        if (config.executionStyle is AnimationStyle.Instant) SetColor(config);
+                        else currentColorCoroutine = StartCoroutine(AnimateColor(config));
+                        break;
+                    case AnimationType.Size:
+                        StopAndResetCoroutine(ref currentScaleCoroutine, ResetScaleToDefault);
+                        if (config.executionStyle is AnimationStyle.Instant) SetScale(config);
+                        else currentScaleCoroutine = StartCoroutine(LerpScale(config));
+                        break;
+                }
             }
         }
+        
+        else
+        {
+            Debug.Log("Animation name -" + animationName + "- isn't in dictionary");
+        }
     }
 
-    private void AnimateColor(AnimationConfig config)
+    private void StopAndResetCoroutine(ref Coroutine coroutine, Action resetAction)
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            resetAction?.Invoke();
+            coroutine = null;
+        }
+    }
+
+    private IEnumerator AnimateColor(AnimationConfig config)
     {
         switch (colorTarget)
         {
             case ColorLerpStrategy.None:
                 break;
             case ColorLerpStrategy.SpriteRenderer:
-                StartCoroutine(LerpColorCoroutine(new SpriteRendererWrapper(sr), config));
+                yield return StartCoroutine(LerpColorCoroutine(new SpriteRendererWrapper(sr), config));
                 break;
             case ColorLerpStrategy.Image:
-                StartCoroutine(LerpColorCoroutine(new ImageWrapper(image), config));
+                yield return StartCoroutine(LerpColorCoroutine(new ImageWrapper(image), config));
                 break;
             case ColorLerpStrategy.Text:
-                StartCoroutine(LerpColorCoroutine(new TextMeshProWrapper(text), config));
+                yield return StartCoroutine(LerpColorCoroutine(new TextMeshProWrapper(text), config));
                 break;
         }
     }
 
-    private void SetColor(AnimationConfig config)
+    private void SetColor(AnimationConfig config, bool useDefault = false)
     {
+        Color colorToSet = useDefault ? config.firstColor : config.secondColor;
+
         switch (colorTarget)
         {
             case ColorLerpStrategy.None:
                 break;
             case ColorLerpStrategy.SpriteRenderer:
-                sr.color = config.endColor;
+                sr.color = colorToSet;
                 break;
             case ColorLerpStrategy.Image:
-                image.color = config.endColor;
+                image.color = colorToSet;
                 break;
             case ColorLerpStrategy.Text:
-                text.color = config.endColor;
+                text.color = colorToSet;
                 break;
         }
     }
@@ -172,8 +206,9 @@ public class CustomAnimator : MonoBehaviour
         if (colorable != null)
         {
             float elapsed = 0;
-            Color startColor = colorable.color;
-            Color endColor = config.endColor;
+            colorable.color = config.firstColor;
+            Color firstColor = colorable.color;
+            Color secondColor = config.secondColor;
 
             while (elapsed < config.duration)
             {
@@ -182,11 +217,12 @@ public class CustomAnimator : MonoBehaviour
                 // Apply the animation curve to normalized time
                 float curveValue = config.curve.Evaluate(normalizedTime);
                 // Interpolate color based on the curve value
-                colorable.color = Color.Lerp(startColor, endColor, curveValue);
+                colorable.color = Color.Lerp(firstColor, secondColor, curveValue);
                 yield return null;
             }
 
-            colorable.color = startColor; // Set back to original color
+            Color endColor = config.snapToFirst ? firstColor : secondColor;
+            colorable.color = endColor;
         }
     }
 }

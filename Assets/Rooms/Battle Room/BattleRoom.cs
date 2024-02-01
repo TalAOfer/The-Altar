@@ -33,10 +33,12 @@ public class BattleRoom : Room
         battleManager.Initialize(floorManager);
         door.floorManager = floorManager;
         difficulty = roomBlueprint.difficulty;
+        
         if (!roomBlueprint.isEnemyTest)
         {
             SpawnEnemies();
         }
+
         else
         {
             SpawnTestEnemies();

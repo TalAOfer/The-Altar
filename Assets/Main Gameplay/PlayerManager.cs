@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
                 Card card = spawner.SpawnCard(blueprint, GameConstants.HAND_LAYER);
                 activeCards.Add(card);
                 hand.AddCardToHand(card);
-                hand.ResetCardToPlaceholders();
+                hand.ResetCardsToPlaceholders();
                 yield return new WaitForSeconds(0.25f);
             }
         }

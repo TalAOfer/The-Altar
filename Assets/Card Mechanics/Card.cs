@@ -18,6 +18,8 @@ public class Card : MonoBehaviour
     [FoldoutGroup("Child Components")]
     public CardVisualHandler visualHandler;
     [FoldoutGroup("Child Components")]
+    public CardMovementHandler movement;
+    [FoldoutGroup("Child Components")]
     public CardInteractionHandler interactionHandler;
 
     [FoldoutGroup("Card Info")]
@@ -34,6 +36,9 @@ public class Card : MonoBehaviour
 
     [FoldoutGroup("Card Info")]
     public CardState cardState;
+
+    [FoldoutGroup("Card Info")]
+    public CardInteractionType cardInteractionType;
 
     [FoldoutGroup("Card Info")]
     public CardBlueprint currentOverride;
@@ -60,9 +65,10 @@ public class Card : MonoBehaviour
         get { return points <= 0; }
     }
 
-    public void Init(BlueprintPoolInstance pool, CardBlueprint blueprint, string startingSortingLayer)
+    public void Init(BlueprintPoolInstance pool, CardBlueprint blueprint, string startingSortingLayer, CardInteractionType cardInteractionType)
     {
         this.pool = pool;
+        this.cardInteractionType = cardInteractionType;
 
         currentOverride = blueprint;
         SetCardColor(blueprint.cardColor);
@@ -76,7 +82,7 @@ public class Card : MonoBehaviour
 
         effects.Init(blueprint);
 
-        interactionHandler.Initialize();
+        movement.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
 
     }
@@ -315,7 +321,14 @@ public enum CardState
     Battle,
     Selectable,
     Selected,
-    Selecting
+    Selecting,
+}
+
+public enum CardInteractionType
+{
+    Playable,
+    Selection,
+    Codex
 }
 
 public class HigherBeing

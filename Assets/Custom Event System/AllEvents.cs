@@ -21,6 +21,11 @@ public class AllEvents : ScriptableObject
     public GameEvent OnFinishedHandFill;
     public GameEvent OnEffectApplied;
 
+    [Title("Card Selection")]
+    public GameEvent OnLinkPointerEnter;
+    public GameEvent OnLinkPointerExit;
+    public GameEvent OnLinkClick;
+
     [Title("Battle Selection")]
     public GameEvent WaitForPlayerSelection;
 

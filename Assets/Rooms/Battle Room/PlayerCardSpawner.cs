@@ -30,7 +30,7 @@ public class PlayerCardSpawner : MonoBehaviour
         GameObject cardGO = Instantiate(cardPrefab, spawnPos.position, Quaternion.identity, spawnContainer);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
-        card.Init(Codex, cardBlueprint, sortingLayerName);
+        card.Init(Codex, cardBlueprint, sortingLayerName, CardInteractionType.Playable);
 
         return card;
     }

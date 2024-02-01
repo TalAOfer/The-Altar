@@ -35,9 +35,6 @@ public class BattleManager : MonoBehaviour
         roomData.floorManager = floorManager;
     }
 
-    #region Event & button handlers
-
-
     public void OnAttack(Component sender, object data)
     {
         playerCard = sender as Card;
@@ -49,12 +46,11 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(BattleRoutine());
     }
 
-    #endregion
-
-    #region Battle
     private IEnumerator BattleRoutine()
     {
         events.SetGameState.Raise(this, GameState.Battle);
+
+        playerCard.movement.SnapCardToVisual();
 
         yield return StartCoroutine(StartOfBattleRoutine());
 
@@ -70,11 +66,7 @@ public class BattleManager : MonoBehaviour
         playerCard.ToggleDamageVisual(true);
         enemyCard.ToggleDamageVisual(true);
 
-        //events.AddLogEntry.Raise(this, "Battle Animation");
-        Vector3 originalPos = playerCard.visualHandler.transform.position;
-        Vector3 originalScale = playerCard.visualHandler.transform.localScale;
-
-        yield return StartCoroutine(AnimateReadyAndHeadbutt(originalPos, originalScale));
+        yield return StartCoroutine(AnimateReadyAndHeadbutt());
 
         playerCard.ToggleDamageVisual(false);
         enemyCard.ToggleDamageVisual(false);
@@ -86,31 +78,19 @@ public class BattleManager : MonoBehaviour
         //events.AddLogEntry.Raise(this, "Global Death");
         yield return StartCoroutine(GlobalDeathRoutine());
 
-        yield return StartCoroutine(AnimateBackoff(originalPos, originalScale));
 
         yield return StartCoroutine(SurviveRoutine());
 
         //events.AddLogEntry.Raise(this, "Aftermath Shapeshifts");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
-        if (enemyCard.IsDead)
-        {
-            enemyCard.gameObject.SetActive(false);
-        }
+        if (enemyCard.IsDead) enemyCard.gameObject.SetActive(false);
+        if (playerCard.IsDead) playerCard.gameObject.SetActive(false);
 
-        if (playerCard.IsDead)
+        if (!playerCard.IsDead)
         {
-            playerCard.gameObject.SetActive(false);
+            yield return StartCoroutine(AnimateBackoff());
         }
-
-        else
-        {
-            StartCoroutine(playerCard.interactionHandler.TransformVisualUniformlyToPlaceholder(0.25f));
-            playerCard.visualHandler.SetSortingOrder(playerCard.index);
-        }
-        //events.AddLogEntry.Raise(this, "Back To Map");
-        yield return StartCoroutine(ReturnPlayerCardToHandRoutine());
-
 
         bool didEnemyDie = enemyCard.IsDead;
         int deathIndex = enemyCard.index;
@@ -138,6 +118,12 @@ public class BattleManager : MonoBehaviour
         //events.AddLogEntry.Raise(this, "After End Of Turn Shapeshift");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
+        if (!playerCard.IsDead)
+        {
+            yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToPlaceholder(movementData.backOffDuration));
+        }
+
+
         roomData.BattlingPlayerCard = null;
         roomData.BattlingEnemyCard = null;
 
@@ -146,11 +132,47 @@ public class BattleManager : MonoBehaviour
         interactionHandler.SetState(BattleInteractionState.Idle);
     }
 
-    #region Battle Routines
+    #region Effect Routines
+
+    private IEnumerator HandleAllShapeshiftsUntilStable()
+    {
+        bool changesOccurred;
+        List<Card> allCards = new(roomManager.activeEnemies);
+        allCards.AddRange(playerManager.activeCards);
+        allCards.Add(playerCard);
+
+        do
+        {
+            changesOccurred = false;
+            List<Coroutine> shapeshiftCoroutines = new List<Coroutine>();
+
+            foreach (Card card in allCards)
+            {
+                if (card.ShouldShapeshift())
+                {
+                    changesOccurred = true;
+                    Coroutine coroutine = StartCoroutine(card.HandleShapeshift());
+                    shapeshiftCoroutines.Add(coroutine);
+                }
+            }
+
+            // Wait for all shapeshift coroutines to finish
+            foreach (Coroutine coroutine in shapeshiftCoroutines)
+            {
+                yield return coroutine;
+            }
+
+            // If changesOccurred is true, the loop will continue
+        } while (changesOccurred);
+
+        // All shapeshifts are done and no more changes, proceed with the next operation
+        // ...
+    }
+
     private IEnumerator StartOfBattleRoutine()
     {
         //events.AddLogEntry.Raise(this, "Start Of Battle");
-        
+
         #region Loop Count Debugger
         //int amountOfOccurances = 1;
         #endregion
@@ -198,41 +220,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private IEnumerator HandleAllShapeshiftsUntilStable()
-    {
-        bool changesOccurred;
-        List<Card> allCards = new(roomManager.activeEnemies);
-        allCards.AddRange(playerManager.activeCards);
-        allCards.Add(playerCard);
-
-        do
-        {
-            changesOccurred = false;
-            List<Coroutine> shapeshiftCoroutines = new List<Coroutine>();
-
-            foreach (Card card in allCards)
-            {
-                if (card.ShouldShapeshift())
-                {
-                    changesOccurred = true;
-                    Coroutine coroutine = StartCoroutine(card.HandleShapeshift());
-                    shapeshiftCoroutines.Add(coroutine);
-                }
-            }
-
-            // Wait for all shapeshift coroutines to finish
-            foreach (Coroutine coroutine in shapeshiftCoroutines)
-            {
-                yield return coroutine;
-            }
-
-            // If changesOccurred is true, the loop will continue
-        } while (changesOccurred);
-
-        // All shapeshifts are done and no more changes, proceed with the next operation
-        // ...
-    }
-
     private IEnumerator BeforeAttackingRoutine()
     {
         Coroutine ApplyPlayerCardBeforeAttackingEffects = StartCoroutine(playerCard.effects.ApplyBeforeAttackingEffects(enemyCard));
@@ -241,6 +228,7 @@ public class BattleManager : MonoBehaviour
         yield return ApplyPlayerCardBeforeAttackingEffects;
         yield return ApplyEnemyCardBeforeAttackingEffects;
     }
+
     private IEnumerator SupportEffectsRoutine()
     {
         foreach (Card card in playerManager.activeCards)
@@ -276,22 +264,17 @@ public class BattleManager : MonoBehaviour
         yield return calcEnemyCardHurtPoints;
     }
 
-    private IEnumerator AnimateReadyAndHeadbutt(Vector3 originalPos, Vector3 originalScale)
-    {
-        Vector3 targetPos = originalPos;
-        targetPos.y -= movementData.readyingDistance;
-        Coroutine playerCardReadying = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, targetPos, Vector3.one, null, movementData.readyingDuration, null));
-
-        yield return playerCardReadying;
-
-        Vector2 enemyCardClosestCollPos = enemyCard.interactionHandler.GetClosestCollPosToOtherCard(playerCard.visualHandler.transform.position);
-        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, enemyCardClosestCollPos, null, null, movementData.headbuttDuration, null));
-
-        yield return playerCardHeadbutt;
-    }
-
     private IEnumerator DeathRoutine()
     {
+        Coroutine ApplyPlayerCardOnDeathEffects = null;
+        Coroutine ApplyEnemyCardOnDeathEffects = null;
+
+        if (playerCard.IsDead) ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyOnDeathEffects(enemyCard));
+        if (enemyCard.IsDead) ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyOnDeathEffects(playerCard));
+
+        if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
+        if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
+
         Coroutine ApplyPlayerDeathShapeshift = null;
         Coroutine ApplyEnemyDeathShapeshift = null;
 
@@ -306,15 +289,6 @@ public class BattleManager : MonoBehaviour
 
         if (ApplyPlayerDeathShapeshift != null) yield return ApplyPlayerDeathShapeshift;
         if (ApplyEnemyDeathShapeshift != null) yield return ApplyEnemyDeathShapeshift;
-
-        Coroutine ApplyPlayerCardOnDeathEffects = null;
-        Coroutine ApplyEnemyCardOnDeathEffects = null;
-
-        if (playerCard.IsDead) ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyOnDeathEffects(enemyCard));
-        if (enemyCard.IsDead) ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyOnDeathEffects(playerCard));
-
-        if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
-        if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
 
         if (ApplyPlayerCardOnDeathEffects == null && ApplyEnemyCardOnDeathEffects == null)
         {
@@ -344,12 +318,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private IEnumerator AnimateBackoff(Vector3 originalPos, Vector3 originalScale)
-    {
-        Coroutine playerCardBackoff = StartCoroutine(playerCard.interactionHandler.TransformCardUniformly(playerCard.visualHandler.transform, originalPos, originalScale, null, movementData.backOffDuration, null));
-        yield return playerCardBackoff;
-    }
-
     private IEnumerator SurviveRoutine()
     {
         Coroutine ApplyPlayerCardOnSurviveEffects = null;
@@ -361,13 +329,6 @@ public class BattleManager : MonoBehaviour
         if (ApplyPlayerCardOnSurviveEffects != null) yield return ApplyPlayerCardOnSurviveEffects;
         if (ApplyEnemyCardOnSurviveEffects != null) yield return ApplyEnemyCardOnSurviveEffects;
     }
-
-    #endregion
-
-    #endregion
-
-    #region Back To Map / Post Battle
-
 
     private IEnumerator BloodthirstEffectsRoutine()
     {
@@ -414,14 +375,42 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private IEnumerator ReturnPlayerCardToHandRoutine()
-    {
-        if (playerCard != null && !playerCard.IsDead) yield break;
+    #endregion
 
+    #region Animation Routines 
+
+    private IEnumerator AnimateReadyAndHeadbutt()
+    {
+        Vector3 targetPos = playerCard.transform.position;
+        targetPos.y -= movementData.readyingDistance;
+        Coroutine playerCardReadying = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, targetPos, Vector3.one, null, movementData.readyingDuration, null));
+
+        yield return playerCardReadying;
+
+        StartCoroutine(RemoveCardFromHand());
+
+        Vector2 enemyCardClosestCollPos = enemyCard.movement.GetClosestCollPosToOtherCard(playerCard.transform.position);
+        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, enemyCardClosestCollPos, Vector3.one, null, movementData.headbuttDuration, null));
+
+        yield return playerCardHeadbutt;
+        Debug.Log(playerCard.visualHandler.transform.localScale);
+    }
+
+    private IEnumerator RemoveCardFromHand()
+    {
+        yield return new WaitForSeconds(movementData.headbuttDuration / 2);
         playerManager.hand.RemoveCardFromHand(playerCard);
     }
 
+    private IEnumerator AnimateBackoff()
+    {
+        playerManager.hand.AddCardToHand(playerCard);
+        playerCard.visualHandler.SetSortingOrder(playerCard.index);
+        yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToHoveredPlaceholder(movementData.backOffDuration));
+    }
+
     #endregion
+
 
     #region Helpers
 

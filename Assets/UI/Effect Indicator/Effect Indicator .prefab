@@ -218,10 +218,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1550121172259986130}
-  animationSO: {fileID: 11400000, guid: a0cc8839e3005114d93c717dadc6d9ee, type: 2}
   StartOnEnable: 1
   lerpColor: 1
   colorTarget: 3
   sr: {fileID: 0}
   image: {fileID: 0}
   text: {fileID: 1550121171490877805}
+  animations: {fileID: 11400000, guid: ad8a241f7b8637c4b880fcdb267e26e8, type: 2}

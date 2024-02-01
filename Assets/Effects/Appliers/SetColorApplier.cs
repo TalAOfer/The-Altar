@@ -14,6 +14,10 @@ public class SetColorApplier : EffectApplier
     public override IEnumerator ApplyEffect(Card target)
     {
         target.cardColor = color;
+        if (target.cardColor != color)
+        {
+            data.events.OnEffectApplied.Raise(this, new EffectIndication("Change to " + color.ToString(), target));
+        }
         yield return null;
     }
 }
