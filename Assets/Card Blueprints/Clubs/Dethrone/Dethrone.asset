@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 1
   defaultPoints: 5
-  description: "Higher-being. Cards above 3 points can\u2019t damage this card."
-  higherBeing: 1
+  description: "Cards above 3 points can\u2019t damage this card."
+  specialEffects: 1
   StartOfTurn: []
   StartOfBattle: []
   Support: []

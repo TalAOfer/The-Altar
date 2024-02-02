@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 0
   defaultPoints: 3
-  description: Meditate. Bloodthirst. Summon 1 of spades to your hand.
-  higherBeing: 0
+  description: Summon 1 of spades to your hand.
+  specialEffects: 6
   StartOfTurn: []
   StartOfBattle: []
   Support: []

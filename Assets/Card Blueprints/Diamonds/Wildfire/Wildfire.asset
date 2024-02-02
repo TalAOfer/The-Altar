@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 1
   defaultPoints: 3
-  description: Higher-Being. Bloodthirst. This card gain +1 points.
-  higherBeing: 1
+  description: This card gain +1 points.
+  specialEffects: 5
   StartOfTurn: []
   StartOfBattle: []
   Support: []

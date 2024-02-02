@@ -39,7 +39,7 @@ public class CardMovementHandler : MonoBehaviour
         
 
         isHighlighted = true;
-        card.visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
+        card.visualHandler.SetSortingLayer(GameConstants.TOP_PLAYER_CARD_LAYER);
         SetNewDefaultLocation(null, null, null);
 
         Vector3 temp = defaultPos;
@@ -52,7 +52,7 @@ public class CardMovementHandler : MonoBehaviour
     {
         card.movement.isHighlighted = false;
 
-        card.visualHandler.SetSortingLayer(GameConstants.HAND_LAYER);
+        card.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
         StartCoroutine(card.movement.TransformVisualUniformlyToPlaceholder(0.25f));
     }
 

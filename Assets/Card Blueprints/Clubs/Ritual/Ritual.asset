@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 1
   defaultPoints: 6
-  description: Bloodthirst.  Give +2 to a random enemy card.
-  higherBeing: 0
+  description: Give +2 to a random enemy card.
+  specialEffects: 4
   StartOfTurn: []
   StartOfBattle: []
   Support: []
@@ -27,9 +27,6 @@ MonoBehaviour:
   OnDeath: []
   OnGlobalDeath: []
   OnSurvive: []
-  OnGainPoints: []
-  OnActionTaken: []
-  OnObtain: []
-  Meditate: []
   Bloodthirst:
   - {fileID: 11400000, guid: 90fd8a26eaae1bd4e83370d38f25322f, type: 2}
+  Meditate: []

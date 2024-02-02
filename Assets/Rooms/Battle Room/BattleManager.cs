@@ -393,7 +393,6 @@ public class BattleManager : MonoBehaviour
         Coroutine playerCardHeadbutt = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, enemyCardClosestCollPos, Vector3.one, null, movementData.headbuttDuration, null));
 
         yield return playerCardHeadbutt;
-        Debug.Log(playerCard.visualHandler.transform.localScale);
     }
 
     private IEnumerator RemoveCardFromHand()
@@ -407,6 +406,7 @@ public class BattleManager : MonoBehaviour
         playerManager.hand.AddCardToHand(playerCard);
         playerCard.visualHandler.SetSortingOrder(playerCard.index);
         yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToHoveredPlaceholder(movementData.backOffDuration));
+        playerCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
     }
 
     #endregion

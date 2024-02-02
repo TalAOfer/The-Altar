@@ -43,9 +43,9 @@ public class ImageWrapper : IColorable
 
 public class TextMeshProWrapper : IColorable
 {
-    private TextMeshPro _textMeshPro;
+    private TextMeshProUGUI _textMeshPro;
 
-    public TextMeshProWrapper(TextMeshPro textMeshPro)
+    public TextMeshProWrapper(TextMeshProUGUI textMeshPro)
     {
         _textMeshPro = textMeshPro;
     }

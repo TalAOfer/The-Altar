@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 1
   defaultPoints: 3
-  description: Meditate. This card deals +3 damage in battle.
-  higherBeing: 0
+  description: This card deals +3 damage in battle.
+  specialEffects: 2
   StartOfTurn: []
   StartOfBattle: []
   Support: []

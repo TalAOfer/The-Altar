@@ -15,7 +15,7 @@ public class CardBlueprint : ScriptableObject
     public CardOwner cardOwner;
     public int defaultPoints;
     public string description;
-    public bool higherBeing;
+    public SpecialEffects specialEffects;
 
     [Title("Effects")]
     public List<EffectBlueprint> StartOfTurn;
@@ -41,6 +41,15 @@ public enum CardOwner
     Player,
     Enemy,
 }
+
+[Flags]
+public enum SpecialEffects
+{
+    HigherBeing = 1,
+    Meditate = 2,
+    Bloodthirst = 4,
+}
+
 
 [Serializable]
 public class CardArchetype

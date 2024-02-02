@@ -28,7 +28,7 @@ public class CustomAnimator : MonoBehaviour
     [ShowIf("colorTarget", ColorLerpStrategy.Image)]
     [SerializeField] private Image image;
     [ShowIf("colorTarget", ColorLerpStrategy.Text)]
-    [SerializeField] private TextMeshPro text;
+    [SerializeField] private TextMeshProUGUI text;
 
     [SerializeField] private AnimationSO animations;
 
@@ -89,6 +89,12 @@ public class CustomAnimator : MonoBehaviour
         {
             Debug.Log("Animation name -" + animationName + "- isn't in dictionary");
         }
+    }
+
+    public float GetAnimationDuration(string animationName)
+    {
+        var animation = animations.anims.Find(config => config.animName == animationName);
+        return animation.configs[0].duration;
     }
 
     private void StopAndResetCoroutine(ref Coroutine coroutine, Action resetAction)

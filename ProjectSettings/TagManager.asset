@@ -43,24 +43,30 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Cards 1
+  - name: Background
     uniqueID: 2618431971
     locked: 0
-  - name: Cards 2
+  - name: Room
     uniqueID: 4160266853
     locked: 0
-  - name: Hand
-    uniqueID: 572599163
-    locked: 0
-  - name: Curtain
+  - name: Enemy Cards
     uniqueID: 630277737
     locked: 0
-  - name: Battle 1
+  - name: Transition Blocks
     uniqueID: 846099225
     locked: 0
-  - name: Battle 2
+  - name: Frame
     uniqueID: 3182917493
+    locked: 0
+  - name: Player Cards
+    uniqueID: 572599163
+    locked: 0
+  - name: Top Player Card
+    uniqueID: 1633687919
     locked: 0
   - name: Arrow
     uniqueID: 812069991
+    locked: 0
+  - name: Title
+    uniqueID: 4032243621
     locked: 0

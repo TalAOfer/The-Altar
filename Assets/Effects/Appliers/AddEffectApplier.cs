@@ -14,9 +14,9 @@ public class AddEffectApplier : EffectApplier
 
     public override IEnumerator ApplyEffect(Card target)
     {
-        if (whenToTriggerAddedEffect is EffectTrigger.Meditate)
+        if (triggerType is EffectTrigger.Meditate)
         {
-            data.events.OnEffectApplied.Raise(this, new EffectIndication("Meditating", target));
+            data.events.OnEffectApplied.Raise(this, new EffectIndication("Effect is now active", target));
         }
 
         effectBlueprint.SpawnEffect(whenToTriggerAddedEffect, target);

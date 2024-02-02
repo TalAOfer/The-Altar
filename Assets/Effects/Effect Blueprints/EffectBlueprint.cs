@@ -128,7 +128,7 @@ public class EffectBlueprint : ScriptableObject
     {
         T effect = newEffectGO.AddComponent<T>();
         effect.BaseInitialize(applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
-        applier.BaseInitialize(parentCard, data, isConditional, decision, amountStrategy, amount);
+        applier.BaseInitialize(parentCard, data, isConditional, decision, amountStrategy, amount, triggerType);
 
         AddEffectToList(parentCard, triggerType, effect);
 

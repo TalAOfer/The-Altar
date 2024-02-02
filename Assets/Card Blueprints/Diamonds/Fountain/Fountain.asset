@@ -18,19 +18,16 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 1
   defaultPoints: 4
-  description: Higher Being. If this card survives in battle, give 2 points to a
-    random card in your hand.
-  higherBeing: 1
+  description: If this card survives in battle, give 2 points to a random card in
+    your hand.
+  specialEffects: 1
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive:
-  - {fileID: 11400000, guid: 4245c13d03ece0841928bfc9346a75cd, type: 2}
+  BeforeAttacking: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive:
+  - {fileID: 11400000, guid: 4245c13d03ece0841928bfc9346a75cd, type: 2}
+  Bloodthirst: []
+  Meditate: []

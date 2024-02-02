@@ -75,7 +75,7 @@ public class Card : MonoBehaviour
         cardOwner = blueprint.cardOwner;
         points = blueprint.defaultPoints;
 
-        higherBeing = new HigherBeing(blueprint.higherBeing, 0);
+        higherBeing = new HigherBeing(blueprint.specialEffects.HasFlag(SpecialEffects.HigherBeing), 0);
 
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
         hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
@@ -246,7 +246,7 @@ public class Card : MonoBehaviour
         yield return visualHandler.ToggleSpritesVanish(true);
         visualHandler.SetNewCardVisual();
         gameObject.name = newForm.name;
-        higherBeing.isLocked = newForm.higherBeing;
+        higherBeing.isLocked = newForm.specialEffects.HasFlag(SpecialEffects.HigherBeing);
         yield return StartCoroutine(effects.RemoveCurrentEffects());
         ResetPointAlterations();
         effects.SpawnEffects(newForm);
@@ -278,39 +278,6 @@ public class Card : MonoBehaviour
         else
         {
             cardState = newState;
-        }
-
-        switch (newState)
-        {
-            case CardState.Default:
-                if (cardOwner == CardOwner.Player)
-                {
-                    visualHandler.SetSortingLayer(GameConstants.HAND_LAYER);
-                }
-                else
-                {
-                    visualHandler.SetSortingLayer(GameConstants.TOP_MAP_LAYER);
-                }
-                break;
-            case CardState.Battle:
-                if (cardOwner == CardOwner.Player)
-                {
-                    visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
-                }
-                else
-                {
-                    visualHandler.SetSortingLayer(GameConstants.BOTTOM_BATTLE_LAYER);
-                }
-                break;
-            case CardState.Selectable:
-                visualHandler.SetSortingLayer(GameConstants.BOTTOM_BATTLE_LAYER);
-                break;
-            case CardState.Selected:
-                visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
-                break;
-            case CardState.Selecting:
-                visualHandler.SetSortingLayer(GameConstants.TOP_BATTLE_LAYER);
-                break;
         }
     }
 }

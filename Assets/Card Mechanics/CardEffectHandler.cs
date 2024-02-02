@@ -102,56 +102,56 @@ public class CardEffectHandler : MonoBehaviour
     // Apply methods for each effect type
     public IEnumerator ApplyStartOfBattleEffects(Card otherCard)
     {
-        yield return ApplyEffects(StartOfBattleEffects, otherCard, EffectTrigger.StartOfBattle);
+        yield return ApplyEffects(StartOfBattleEffects);
     }
 
     public IEnumerator ApplyBeforeAttackingEffects(Card otherCard)
     {
-        yield return ApplyEffects(BeforeAttackingEffects, otherCard, EffectTrigger.BeforeAttacking);
+        yield return ApplyEffects(BeforeAttackingEffects);
     }
 
     public IEnumerator ApplyOnSurviveEffects(Card otherCard)
     {
-        yield return ApplyEffects(OnSurviveEffects, otherCard, EffectTrigger.OnSurvive);
+        yield return ApplyEffects(OnSurviveEffects);
     }
 
     public IEnumerator ApplyOnDeathEffects(Card killingCard)
     {
-        yield return ApplyEffects(OnDeathEffects, killingCard, EffectTrigger.OnDeath);
+        yield return ApplyEffects(OnDeathEffects);
     }
 
     public IEnumerator ApplyOnGlobalDeathEffects()
     {
-        yield return ApplyEffects(OnGlobalDeathEffects, null, EffectTrigger.OnGlobalDeath);
+        yield return ApplyEffects(OnGlobalDeathEffects);
     }
 
     public IEnumerator ApplySupportEffects(Card otherCard)
     {
-        yield return ApplyEffects(SupportEffects, otherCard, EffectTrigger.Support);
+        yield return ApplyEffects(SupportEffects);
     }
 
     public IEnumerator ApplyStartOfTurnEffects()
     {
-        yield return ApplyEffects(StartOfTurnEffects, null, EffectTrigger.StartOfTurn);
+        yield return ApplyEffects(StartOfTurnEffects);
     }
 
     public IEnumerator ApplyMeditateEffects()
     {
-        yield return ApplyEffects(MeditateEffects, null, EffectTrigger.Meditate);
+        yield return ApplyEffects(MeditateEffects);
         RemoveEffects(MeditateEffects);
     }
 
     public IEnumerator ApplyBloodthirstEffects()
     {
-        yield return ApplyEffects(BloodthirstEffects, null, EffectTrigger.Bloodthirst);
+        yield return ApplyEffects(BloodthirstEffects);
     }
 
 
-    private IEnumerator ApplyEffects(List<Effect> effects, Card otherCard, EffectTrigger trigger)
+    private IEnumerator ApplyEffects(List<Effect> effects)
     {
         foreach (Effect effect in effects)
         {
-            yield return StartCoroutine(effect.Apply());
+            yield return StartCoroutine(effect.Trigger());
         }
     }
 }

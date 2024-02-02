@@ -56,12 +56,12 @@ public class LinkedCards : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void SpawnCards()
     {
         CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y);
-        playerCard = SpawnCard(playerDrawnBlueprint, GameConstants.TOP_BATTLE_LAYER, runData.playerCodex);
+        playerCard = SpawnCard(playerDrawnBlueprint, GameConstants.ENEMY_CARD_LAYER, runData.playerCodex);
         playerCard.transform.localPosition = playerCardPos.localPosition;
         playerCard.index = index;
 
         CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(roomBlueprint.enemyDrawMinMax.x, roomBlueprint.enemyDrawMinMax.y);
-        enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.TOP_BATTLE_LAYER, runData.enemyCodex);
+        enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.ENEMY_CARD_LAYER, runData.enemyCodex);
         enemyCard.transform.localPosition = enemyCardPos.localPosition;
         enemyCard.index = index;
     }

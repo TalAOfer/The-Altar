@@ -9,7 +9,8 @@ public abstract class EffectApplier : MonoBehaviour
     Decision decision;
     GetAmountStrategy getAmountStrategy;
     public int defaultAmount;
-    public void BaseInitialize(Card parentCard, RoomData data, bool isConditional, Decision decision, GetAmountStrategy getAmountStrategy, int defaultAmount)
+    protected EffectTrigger triggerType;
+    public void BaseInitialize(Card parentCard, RoomData data, bool isConditional, Decision decision, GetAmountStrategy getAmountStrategy, int defaultAmount, EffectTrigger triggerType)
     {
         this.parentCard = parentCard;
         this.data = data;
@@ -17,6 +18,7 @@ public abstract class EffectApplier : MonoBehaviour
         this.decision = decision;
         this.getAmountStrategy = getAmountStrategy;
         this.defaultAmount = defaultAmount;
+        this.triggerType = triggerType;
     }
 
     public IEnumerator Apply(Card target, RoomData data)

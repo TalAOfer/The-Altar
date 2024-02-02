@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 1
   defaultPoints: 6
-  description: Higher-being. This card takes half the damage in battle.
-  higherBeing: 1
+  description: This card takes half the damage in battle.
+  specialEffects: 1
   StartOfTurn: []
   StartOfBattle: []
   Support: []

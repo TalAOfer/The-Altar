@@ -246,7 +246,8 @@ public class CardVisualHandler : MonoBehaviour
     {
         StartCoroutine(HurtAnimation());
 
-        GameObject fallingDamageGo = Instantiate(fallingDamagePrefab, fallingDamageTransform.position, Quaternion.identity);
+        GameObject fallingDamageGo = Pooler.Spawn
+            (fallingDamagePrefab, fallingDamageTransform.position, Quaternion.identity);
         FallingDamage fallingDamage = fallingDamageGo.GetComponent<FallingDamage>();
         fallingDamage.Initialize(damage);
     }

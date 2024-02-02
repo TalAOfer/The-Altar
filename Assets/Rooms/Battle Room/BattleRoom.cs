@@ -31,7 +31,7 @@ public class BattleRoom : Room
         runData.playerDeck = new DeckInstance(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y, true);
 
         battleManager.Initialize(floorManager);
-        door.floorManager = floorManager;
+        door.Initialize(floorManager);
         difficulty = roomBlueprint.difficulty;
         
         if (!roomBlueprint.isEnemyTest)
