@@ -74,7 +74,7 @@ MonoBehaviour:
   playerDamageVisualizerPosition: {x: 1.25, y: 0.5, z: 0}
   enemyDamageVisualizerPosition: {x: 1.25, y: -0.5, z: 0}
   endBattleDelay: 1
-  readyingSpeed: 0.5
+  readyingSpeed: 10
   readyingDistance: 0.5
   readyingCurve:
     serializedVersion: 2
@@ -100,7 +100,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  headbuttSpeed: 0.5
+  headbuttSpeed: 10
   headbuttCurve:
     serializedVersion: 2
     m_Curve:
@@ -126,7 +126,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   impactFreezeDuration: 0.15
-  backOffSpeed: 0.5
+  backOffSpeed: 10
   backoffCurve:
     serializedVersion: 2
     m_Curve:
@@ -151,7 +151,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DehiglightSpeed: 1
+  DehiglightSpeed: 10
   DehighlightCurve:
     serializedVersion: 2
     m_Curve:
@@ -176,7 +176,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ReorderSpeed: 1
+  ReorderSpeed: 20
   ReorderCurve:
     serializedVersion: 2
     m_Curve:

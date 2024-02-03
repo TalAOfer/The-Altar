@@ -129,14 +129,11 @@ public class CardMovementHandler : MonoBehaviour
         Vector3 endScale = targetScale ?? startScale;
         Quaternion endRotation = targetEulerAngles.HasValue ? Quaternion.Euler(targetEulerAngles.Value) : startRotation;
 
-        // Calculate distances
+        // Calculate positional distance
         float positionDistance = targetPosition.HasValue ? Vector3.Distance(startPosition, endPosition) : 0;
-        float scaleDistance = targetScale.HasValue ? Vector3.Distance(startScale, endScale) : 0; // Simplified approach for scale
-        float rotationDistance = targetEulerAngles.HasValue ? Quaternion.Angle(startRotation, endRotation) : 0;
 
-        // Determine the maximum distance to cover and calculate duration
-        float maxDistance = Mathf.Max(positionDistance, scaleDistance, rotationDistance); // Simplify scale to match position/rotation
-        float duration = maxDistance / speed; // Assuming speed units/sec for position and degrees/sec for rotation
+        // Calculate duration based on positional distance and speed
+        float duration = positionDistance / speed; // Duration is derived from position change speed
 
         float elapsed = 0;
 
@@ -144,6 +141,7 @@ public class CardMovementHandler : MonoBehaviour
         {
             float progress = curve.Evaluate(elapsed / duration);
 
+            // Apply the same progress to all transformations
             targetTransform.position = Vector3.Lerp(startPosition, endPosition, progress);
             targetTransform.localScale = Vector3.Lerp(startScale, endScale, progress);
             targetTransform.rotation = Quaternion.Lerp(startRotation, endRotation, progress);
@@ -152,12 +150,10 @@ public class CardMovementHandler : MonoBehaviour
             yield return null;
         }
 
-        // Set final values
+        // Ensure final values are set accurately
         if (targetPosition.HasValue) targetTransform.position = endPosition;
         if (targetScale.HasValue) targetTransform.localScale = endScale;
         if (targetEulerAngles.HasValue) targetTransform.rotation = endRotation;
-
-        moveRoutine = null;
     }
 
     #endregion

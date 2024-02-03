@@ -300,7 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  movementData: {fileID: 11400000, guid: 548617b02a8657d4a9f7a4ab16713b10, type: 2}
+  cardData: {fileID: 11400000, guid: a0e0f4fafc2ffbe4ba6840fe3ba7ebbf, type: 2}
   interactionHandler: {fileID: 2252251775575127666}
 --- !u!1 &1628048133197765670
 GameObject:

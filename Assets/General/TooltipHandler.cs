@@ -37,7 +37,7 @@ public class TooltipHandler : MonoBehaviour
 
     public void HideTooltip()
     {
-        StopCoroutine(showTooltipRoutine);
+        if (showTooltipRoutine != null) StopCoroutine(showTooltipRoutine);
         tooltip.gameObject.SetActive(false);
     }
 }
