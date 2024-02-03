@@ -84,8 +84,8 @@ MonoBehaviour:
     isEnemyTest: 0
     enemiesForTest: []
     amountOfOptions: 2
-    playerDrawMinMax: {x: 2, y: 6}
-    enemyDrawMinMax: {x: 2, y: 6}
+    playerDrawMinMax: {x: 3, y: 6}
+    enemyDrawMinMax: {x: 3, y: 6}
   - roomType: 0
     difficulty: 8
     isEnemyTest: 0
@@ -93,3 +93,24 @@ MonoBehaviour:
     amountOfOptions: 0
     playerDrawMinMax: {x: 3, y: 6}
     enemyDrawMinMax: {x: 3, y: 6}
+  - roomType: 0
+    difficulty: 10
+    isEnemyTest: 0
+    enemiesForTest: []
+    amountOfOptions: 0
+    playerDrawMinMax: {x: 3, y: 6}
+    enemyDrawMinMax: {x: 3, y: 6}
+  - roomType: 1
+    difficulty: 0
+    isEnemyTest: 0
+    enemiesForTest: []
+    amountOfOptions: 2
+    playerDrawMinMax: {x: 3, y: 7}
+    enemyDrawMinMax: {x: 3, y: 7}
+  - roomType: 0
+    difficulty: 12
+    isEnemyTest: 0
+    enemiesForTest: []
+    amountOfOptions: 0
+    playerDrawMinMax: {x: 4, y: 7}
+    enemyDrawMinMax: {x: 4, y: 7}
