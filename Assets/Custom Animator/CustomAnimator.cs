@@ -43,14 +43,10 @@ public class CustomAnimator : MonoBehaviour
     private Coroutine currentPositionCoroutine;
     private Coroutine currentScaleCoroutine;
 
-    private void Awake()
+    private void OnEnable()
     {
         defaultScale = target.localScale;
         defaultPosition = target.localPosition;
-    }
-
-    private void OnEnable()
-    {
         if (StartOnEnable) PlayAnimation(animNameOnEnable);
     }
 

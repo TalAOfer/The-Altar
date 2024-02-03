@@ -15,7 +15,7 @@ public class BattleInteractionHandler : CardInteractionBase
     [SerializeField] private CurrentGameState gameState;
     [SerializeField] private float hoverHeightBoostAmount;
     private bool isArrowActive;
-
+    private bool canClick = true;
 
     public BattleInteractionState state;
 
@@ -90,6 +90,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandlePointerClick(Card card, PointerEventData eventData)
     {
+        if (!canClick) return;
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
 
         bool isThereASelectedCard = selectedCard != null;
@@ -170,7 +171,7 @@ public class BattleInteractionHandler : CardInteractionBase
     protected override void HandleBeginDrag(Card card, PointerEventData eventData)
     {
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
-
+        canClick = false;
 
         bool isThereASelectedCard = selectedCard != null;
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
@@ -199,8 +200,9 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandleEndDrag(Card card, PointerEventData eventData)
     {
+        canClick = true;
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
-
+        if (selectedCard == null) return;
 
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
         if (!isThisCardAPlayerCard) return;
@@ -230,7 +232,7 @@ public class BattleInteractionHandler : CardInteractionBase
     public void HandleTriggerEnter(Component sender, object data)
     {
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
-
+        
         if (selectedCard == null) return;
         if (!isArrowActive) return;
 
@@ -244,6 +246,16 @@ public class BattleInteractionHandler : CardInteractionBase
 
         if (selectedCard == null) return;
         if (isArrowActive) return;
+
+        PointerEventData eventData = (PointerEventData)data;
+        HandCollisionDetector handCollDetector = (HandCollisionDetector)sender;
+        Collider2D handColl = handCollDetector.coll;
+        Vector3 worldPoint = Camera.main.ScreenToWorldPoint(eventData.position);
+        worldPoint.z = handColl.transform.position.z;
+
+        // Check if the worldPoint is within the targetCollider
+        if (handColl.OverlapPoint(worldPoint)) return;
+
         EnableArrow();
     }
 
