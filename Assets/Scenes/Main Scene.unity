@@ -635,6 +635,9 @@ MonoBehaviour:
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
   setupOnAwake: 1
+  roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
+  playerManager: {fileID: 1474505908}
+  floorManager: {fileID: 6877448689089928910}
   minDrawability: 1
   maxDrawability: 3
   playerCodexRecipe: {fileID: 11400000, guid: 6e947d23683a9ca4bbe10b97e8b9be31, type: 2}

@@ -43,6 +43,12 @@ public class CardSelectionRoom : Room
         linkedCardsList.Clear();
         SpawnLinkedCards(roomBlueprint);
     }
+    public override IEnumerator AnimateDown()
+    {
+        animator.PlayAnimation("Down");
+        yield return WaitForAnimationEnd("Down");
+    }
+
     public override void OnRoomFinishedLerping()
     {
         base.OnRoomFinishedLerping();
@@ -135,6 +141,7 @@ public class CardSelectionRoom : Room
     {
         bool changesOccurred;
         List<Card> allCards = new(roomData.PlayerManager.activeCards);
+        if (allCards.Count <= 0) yield break;
 
         do
         {
@@ -163,8 +170,6 @@ public class CardSelectionRoom : Room
         // All shapeshifts are done and no more changes, proceed with the next operation
         // ...
     }
-
-
 }
 
 

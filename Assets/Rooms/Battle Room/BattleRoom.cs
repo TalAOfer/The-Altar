@@ -44,6 +44,11 @@ public class BattleRoom : Room
             SpawnTestEnemies();
         }
     }
+    public override IEnumerator AnimateDown()
+    {
+        animator.PlayAnimation("Down");
+        yield return WaitForAnimationEnd("Down");
+    }
 
     public void SpawnEnemies()
     {
@@ -97,5 +102,4 @@ public class BattleRoom : Room
 
         activeEnemies.Clear();
     }
-
 }

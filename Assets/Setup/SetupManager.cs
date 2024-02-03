@@ -9,6 +9,13 @@ public class SetupManager : MonoBehaviour
     [SerializeField] private RunData runData;
     [SerializeField] private bool setupOnAwake;
 
+    [FoldoutGroup("Room Data")]
+    [SerializeField] private RoomData roomData;
+    [FoldoutGroup("Room Data")]
+    [SerializeField] private PlayerManager playerManager;
+    [FoldoutGroup("Room Data")]
+    [SerializeField] private FloorManager floorManager;
+
     [FoldoutGroup("Player Deck")]
     [SerializeField] private int minDrawability;
     [FoldoutGroup("Player Deck")]
@@ -44,9 +51,16 @@ public class SetupManager : MonoBehaviour
     public void Setup()
     {
         events.SetGameState.Raise(this, GameState.GameSetup);
+        InitializeRoomData();
         InitializePlayerDeck();
         InitializeRuntimeCodexes();
         InitializeRuntimePools();
+    }
+
+    private void InitializeRoomData()
+    {
+        roomData.PlayerManager = playerManager;
+        roomData.floorManager = floorManager;
     }
 
     private void InitializePlayerDeck()

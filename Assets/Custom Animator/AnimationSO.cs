@@ -8,11 +8,6 @@ using UnityEngine.Rendering;
 public class AnimationSO : ScriptableObject
 {
     public List<CustomAnimation> anims = new();
-
-    internal object Find(Func<object, bool> value)
-    {
-        throw new NotImplementedException();
-    }
 }
 
 [System.Serializable]
@@ -34,9 +29,20 @@ public class AnimationConfig
     [ShowIf("executionStyle", AnimationStyle.Lerp)]
     public AnimationCurve curve;
 
+    // Position
     [ShowIf("type", AnimationType.Position)]
+    public PositionLerpStrategy positionStrategy;
+
+    [ShowIf("@ShouldShowPosOffset()")]
     public Vector2 targetPositionOffset;
 
+    [ShowIf("@ShouldShowStartPos()")]
+    public Vector2 startPos;
+
+    [ShowIf("@ShouldShowEndPos()")]
+    public Vector2 endPos;
+
+    //Scale
     [ShowIf("type", AnimationType.Size)]
     public bool scaleWidth = true;
     [ShowIf("type", AnimationType.Size)]
@@ -47,6 +53,7 @@ public class AnimationConfig
     [ShowIf("type", AnimationType.Size)]
     public float scaleFactorHeight;
 
+    //Color
     [ShowIf("type", AnimationType.Color)]
     public Color firstColor;
 
@@ -55,6 +62,21 @@ public class AnimationConfig
 
     [ShowIf("type", AnimationType.Color)]
     public bool snapToFirst;
+
+    private bool ShouldShowPosOffset()
+    {
+        return positionStrategy is PositionLerpStrategy.Offset && type is AnimationType.Position;
+    }
+
+    private bool ShouldShowStartPos()
+    {
+        return positionStrategy is PositionLerpStrategy.Vector2ToVector2 && type is AnimationType.Position;
+    }
+
+    private bool ShouldShowEndPos()
+    {
+        return positionStrategy is PositionLerpStrategy.CurrentPosToVector2 && type is AnimationType.Position;
+    }
 }
 
 public enum AnimationType
@@ -68,4 +90,11 @@ public enum AnimationStyle
 {
     Instant,
     Lerp
+}
+
+public enum PositionLerpStrategy
+{
+    Offset,
+    CurrentPosToVector2,
+    Vector2ToVector2
 }

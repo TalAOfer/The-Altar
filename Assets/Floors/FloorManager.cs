@@ -44,13 +44,19 @@ public class FloorManager : MonoBehaviour
         currentRoom = SpawnRoom();
         currentRoom.InitializeRoom(this, CurrentRoomBlueprint);
 
-        yield return StartCoroutine(LerpPosition(currentRoom.transform, Vector3.zero, swipeDuration));
+        yield return StartCoroutine(currentRoom.AnimateDown());
+
         currentRoom.OnRoomFinishedLerping();
 
         if (CurrentRoomBlueprint.roomType == RoomType.Battle)
         {
             events.OnNewRoom.Raise(this, CurrentRoomBlueprint);
         }
+    }
+
+    public IEnumerator WaitForAnimationEnd(float animationDuration)
+    {
+        yield return new WaitForSeconds(animationDuration);
     }
 
     public void NextRoom()
@@ -68,10 +74,10 @@ public class FloorManager : MonoBehaviour
         currentRoom = SpawnRoom();
         currentRoom.InitializeRoom(this, CurrentRoomBlueprint);
 
-        StartCoroutine(LerpPosition(currentRoom.transform, Vector3.zero, swipeDuration));
-
         previousRoom.OnRoomFinished();
-        yield return StartCoroutine(LerpPosition(previousRoom.transform, oldRoomSwipePos.position, swipeDuration));
+
+        StartCoroutine(previousRoom.AnimateDown());
+        yield return StartCoroutine(currentRoom.AnimateDown());
 
         currentRoom.OnRoomFinishedLerping();
 
@@ -91,23 +97,4 @@ public class FloorManager : MonoBehaviour
         Room room = roomGo.GetComponent<Room>();
         return room;
     }
-
-    private IEnumerator LerpPosition(Transform targetTransform, Vector3 newPosition, float duration)
-    {
-        float time = 0;
-        Vector3 startPosition = targetTransform.position;
-
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            float t = time / duration;
-
-            targetTransform.position = Vector3.Lerp(startPosition, newPosition, t);
-            yield return null;
-        }
-
-        // Ensure the final position is set to the target
-        targetTransform.position = newPosition;
-    }
-
 }

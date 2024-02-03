@@ -989,6 +989,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4753181132387451874}
   - component: {fileID: 5056934747447938869}
+  - component: {fileID: 1544455287979059970}
   m_Layer: 0
   m_Name: Battle Room Prefab
   m_TagString: Untagged
@@ -1030,6 +1031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardInteraction: {fileID: 2252251775575127666}
+  animator: {fileID: 1544455287979059970}
   battleManager: {fileID: 3589446058437800455}
   difficulty: 0
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
@@ -1047,6 +1049,27 @@ MonoBehaviour:
   - {fileID: 2053341477530452860}
   - {fileID: 2053341477546632342}
   activeEnemies: []
+--- !u!114 &1544455287979059970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753181132387451872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f03ae83365d95bf42becb21ac61cee1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 4753181132387451874}
+  StartOnEnable: 0
+  animNameOnEnable: 
+  lerpColor: 0
+  colorTarget: 0
+  sr: {fileID: 0}
+  image: {fileID: 0}
+  text: {fileID: 0}
+  animations: {fileID: 11400000, guid: 7b616d09c1b15674dad01ed811a1e4dd, type: 2}
 --- !u!1 &4926627840592530994
 GameObject:
   m_ObjectHideFlags: 0

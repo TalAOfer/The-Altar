@@ -20,6 +20,10 @@ public class CustomAnimator : MonoBehaviour
     [SerializeField] private bool StartOnEnable;
     [ShowIf("StartOnEnable")]
     [SerializeField] private string animNameOnEnable;
+
+
+
+    //Color
     [SerializeField] private bool lerpColor;
     [ShowIf("lerpColor")]
     [SerializeField] private ColorLerpStrategy colorTarget;
@@ -195,8 +199,27 @@ public class CustomAnimator : MonoBehaviour
     {
         if (config == null) yield break;
 
+        #region Get start and end positions
         Vector3 originalPosition = target.localPosition;
-        Vector3 targetPosition = originalPosition + (Vector3)config.targetPositionOffset;
+        Vector3 targetPosition = originalPosition;
+        switch (config.positionStrategy)
+        {
+            case PositionLerpStrategy.Offset:
+                originalPosition = target.localPosition;
+                targetPosition = originalPosition + (Vector3)config.targetPositionOffset;
+                break;
+            case PositionLerpStrategy.CurrentPosToVector2:
+                originalPosition = target.localPosition;
+                targetPosition = config.endPos;
+                break;
+            case PositionLerpStrategy.Vector2ToVector2:
+                originalPosition = config.startPos;
+                targetPosition = config.endPos;
+                //target.localPosition = originalPosition;
+                break;
+        }
+        #endregion
+
         float time = 0;
 
         while (time < config.duration)
@@ -205,6 +228,9 @@ public class CustomAnimator : MonoBehaviour
             target.localPosition = Vector3.Lerp(originalPosition, targetPosition, config.curve.Evaluate(time / config.duration));
             yield return null;
         }
+
+        target.localPosition = targetPosition;
+        defaultPosition = targetPosition;
     }
 
     private IEnumerator LerpColorCoroutine(IColorable colorable, AnimationConfig config)

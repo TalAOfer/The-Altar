@@ -382,6 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 538613281772226365}
   - component: {fileID: 538613281772226364}
+  - component: {fileID: 7812740130727044815}
   m_Layer: 0
   m_Name: Card Selection Room
   m_TagString: Untagged
@@ -422,6 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardInteraction: {fileID: 6091313705597833204}
+  animator: {fileID: 7812740130727044815}
   roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
   runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
@@ -431,6 +433,27 @@ MonoBehaviour:
   spawnContainer: {fileID: 538613281772226365}
   defaultSpacing: 2.25
   linkedCardsList: []
+--- !u!114 &7812740130727044815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538613281772226367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f03ae83365d95bf42becb21ac61cee1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 538613281772226365}
+  StartOnEnable: 0
+  animNameOnEnable: 
+  lerpColor: 0
+  colorTarget: 0
+  sr: {fileID: 0}
+  image: {fileID: 0}
+  text: {fileID: 0}
+  animations: {fileID: 11400000, guid: 7b616d09c1b15674dad01ed811a1e4dd, type: 2}
 --- !u!1 &1666266706133172679
 GameObject:
   m_ObjectHideFlags: 0
