@@ -1283,7 +1283,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &501826561
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1326,7 +1326,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0.88, g: 0.6973585, b: 0.68490565, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2497,6 +2497,7 @@ MonoBehaviour:
   xOffset: 150
   yOffset: 100
   yCardPosOffsetTrigger: -6
+  delay: 0.5
 --- !u!1 &735781492
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,7 +3184,7 @@ MonoBehaviour:
   m_text: Devotion
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ac063ec167f1374f908f732e22a0592, type: 2}
-  m_sharedMaterial: {fileID: -3152985669174197623, guid: 6ac063ec167f1374f908f732e22a0592, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 2aa98cd0a7a600241af7d2fac97d2767, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5172,6 +5173,7 @@ MonoBehaviour:
   maxCardAmount: 5
   formationData: {fileID: 11400000, guid: f0152b6acc8747a43bfe0b471e34dbdc, type: 2}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
+  cardData: {fileID: 11400000, guid: a0e0f4fafc2ffbe4ba6840fe3ba7ebbf, type: 2}
   cardsInHand: []
   cardPlaceholders:
   - {fileID: 1623925567}
@@ -5961,7 +5963,7 @@ MonoBehaviour:
   m_text: 3 of Hearts
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ac063ec167f1374f908f732e22a0592, type: 2}
-  m_sharedMaterial: {fileID: -3152985669174197623, guid: 6ac063ec167f1374f908f732e22a0592, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: f93b594c9b972b940bfd81fb2a56e4ba, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

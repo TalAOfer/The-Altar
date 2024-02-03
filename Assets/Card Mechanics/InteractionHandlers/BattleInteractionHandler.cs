@@ -136,25 +136,19 @@ public class BattleInteractionHandler : CardInteractionBase
         bool isThereASelectedCard = selectedCard != null;
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
 
-
         card.events.ShowTooltip.Raise(this, card);
-
-        if (!isThereASelectedCard)
-        {
-            card.events.ShowTooltip.Raise(this, card);
-        }
-        else
-        {
-            if (!isThisCardAPlayerCard)
-            {
-                card.events.ShowTooltip.Raise(this, card);
-            }
-        }
 
         if (isThisCardAPlayerCard)
         {
             Highlight(card);
+        } 
+        
+        else
+        {
+            card.visualHandler.Animate("Jiggle");
         }
+
+        card.events.ShowTooltip.Raise(this, card);
     }
 
     protected override void HandlePointerExit(Card card, PointerEventData eventData)

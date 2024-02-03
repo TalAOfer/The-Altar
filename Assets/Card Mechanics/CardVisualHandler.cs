@@ -6,7 +6,7 @@ using UnityEngine;
 public class CardVisualHandler : MonoBehaviour
 {
     [SerializeField] private Palette palette;
-    [SerializeField] CardVisualData data;
+    [SerializeField] CardData data;
     private Material cardMaterial;
     private Material spritesMaterial;
     private Material ornamentMaterial;

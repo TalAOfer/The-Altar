@@ -11,6 +11,9 @@ public class CardMovementHandler : MonoBehaviour
     [FoldoutGroup("Components")]
     [SerializeField] private Collider2D coll;
 
+    [SerializeField]
+    private CardData cardData;
+
     [FoldoutGroup("Default Transforms")]
     public Transform placeHolder;
     [FoldoutGroup("Default Transforms")]
@@ -53,7 +56,7 @@ public class CardMovementHandler : MonoBehaviour
         card.movement.isHighlighted = false;
 
         card.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
-        StartCoroutine(card.movement.TransformVisualUniformlyToPlaceholder(0.25f));
+        StartCoroutine(card.movement.TransformVisualUniformlyToPlaceholder(cardData.DehiglightSpeed, cardData.DehighlightCurve));
     }
 
     [Button]
@@ -90,48 +93,33 @@ public class CardMovementHandler : MonoBehaviour
         card.transform.rotation = Quaternion.Euler(defaultRotation);
     }
 
-    public IEnumerator TransformCardUniformlyToPlaceholder(float duration)
+    public IEnumerator TransformCardUniformlyToPlaceholder(float speed, AnimationCurve curve)
     {
-        yield return StartCoroutine(TransformCardUniformly(card.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, duration, null));
+        yield return StartCoroutine(TransformCardUniformly(card.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, speed, curve));
     }
 
-    public IEnumerator TransformCardUniformlyToHoveredPlaceholder(float duration)
+    public IEnumerator TransformCardUniformlyToHoveredPlaceholder(float speed, AnimationCurve curve)
     {
         Vector3 temp = placeHolder.position;
         temp.y += highlightHeightBoostAmount;
 
-        yield return StartCoroutine(TransformCardUniformly(card.transform, temp, Vector3.one * 1.2f, Vector3.zero, duration, null));
+        yield return StartCoroutine(TransformCardUniformly(card.transform, temp, Vector3.one * 1.2f, Vector3.zero, speed, curve));
     }
 
-    public IEnumerator TransformVisualUniformlyToPlaceholder(float duration)
+    public IEnumerator TransformVisualUniformlyToPlaceholder(float speed, AnimationCurve curve)
     {
-        yield return StartCoroutine(TransformCardUniformly(card.visualHandler.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, duration, null));
+        yield return StartCoroutine(TransformCardUniformly(card.visualHandler.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, speed, curve));
     }
 
-    public IEnumerator TransformCardUniformly(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float duration, AnimationCurve curve)
+    public IEnumerator TransformCardUniformly(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float speed, AnimationCurve curve)
     {
         if (moveRoutine != null) StopCoroutine(moveRoutine);
 
-        moveRoutine = StartCoroutine(TransformCardUniformlyRoutine(targetTransform, targetPosition, targetScale, targetEulerAngles, duration, curve));
+        moveRoutine = StartCoroutine(TransformCardUniformlyRoutine(targetTransform, targetPosition, targetScale, targetEulerAngles, speed, curve));
         yield return moveRoutine;
     }
 
-    public IEnumerator TransformCardBySpeed(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float speed)
-    {
-        // Calculate distances to determine the duration
-        float positionDistance = targetPosition.HasValue ? Vector3.Distance(targetTransform.position, targetPosition.Value) : 0;
-        float scaleDistance = targetScale.HasValue ? Vector3.Distance(targetTransform.localScale, targetScale.Value) : 0;
-        float rotationDistance = targetEulerAngles.HasValue ? Quaternion.Angle(targetTransform.rotation, Quaternion.Euler(targetEulerAngles.Value)) : 0;
-
-        // Calculate the longest duration based on speed
-        float maxDistance = Mathf.Max(positionDistance, scaleDistance, rotationDistance);
-        float duration = maxDistance / speed;
-
-        // Now call TransformCardUniformly with the calculated duration
-        yield return StartCoroutine(TransformCardUniformly(targetTransform, targetPosition, targetScale, targetEulerAngles, duration, AnimationCurve.Linear(0, 0, 1, 1)));
-    }
-
-    private IEnumerator TransformCardUniformlyRoutine(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float duration, AnimationCurve curve)
+    private IEnumerator TransformCardUniformlyRoutine(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float speed, AnimationCurve curve)
     {
         Vector3 startPosition = targetTransform.position;
         Vector3 startScale = targetTransform.localScale;
@@ -141,8 +129,14 @@ public class CardMovementHandler : MonoBehaviour
         Vector3 endScale = targetScale ?? startScale;
         Quaternion endRotation = targetEulerAngles.HasValue ? Quaternion.Euler(targetEulerAngles.Value) : startRotation;
 
-        //Set to linear curve if no curve was fed
-        curve ??= AnimationCurve.Linear(0, 0, 1, 1);
+        // Calculate distances
+        float positionDistance = targetPosition.HasValue ? Vector3.Distance(startPosition, endPosition) : 0;
+        float scaleDistance = targetScale.HasValue ? Vector3.Distance(startScale, endScale) : 0; // Simplified approach for scale
+        float rotationDistance = targetEulerAngles.HasValue ? Quaternion.Angle(startRotation, endRotation) : 0;
+
+        // Determine the maximum distance to cover and calculate duration
+        float maxDistance = Mathf.Max(positionDistance, scaleDistance, rotationDistance); // Simplify scale to match position/rotation
+        float duration = maxDistance / speed; // Assuming speed units/sec for position and degrees/sec for rotation
 
         float elapsed = 0;
 
@@ -150,36 +144,18 @@ public class CardMovementHandler : MonoBehaviour
         {
             float progress = curve.Evaluate(elapsed / duration);
 
-            if (targetPosition.HasValue)
-            {
-                targetTransform.position = Vector3.Lerp(startPosition, endPosition, progress);
-            }
-            if (targetScale.HasValue)
-            {
-                targetTransform.localScale = Vector3.Lerp(startScale, endScale, progress);
-            }
-            if (targetEulerAngles.HasValue)
-            {
-                targetTransform.rotation = Quaternion.Lerp(startRotation, endRotation, progress);
-            }
+            targetTransform.position = Vector3.Lerp(startPosition, endPosition, progress);
+            targetTransform.localScale = Vector3.Lerp(startScale, endScale, progress);
+            targetTransform.rotation = Quaternion.Lerp(startRotation, endRotation, progress);
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure final values are set accurately
-        if (targetPosition.HasValue)
-        {
-            targetTransform.position = endPosition;
-        }
-        if (targetScale.HasValue)
-        {
-            targetTransform.localScale = endScale;
-        }
-        if (targetEulerAngles.HasValue)
-        {
-            targetTransform.rotation = endRotation;
-        }
+        // Set final values
+        if (targetPosition.HasValue) targetTransform.position = endPosition;
+        if (targetScale.HasValue) targetTransform.localScale = endScale;
+        if (targetEulerAngles.HasValue) targetTransform.rotation = endRotation;
 
         moveRoutine = null;
     }

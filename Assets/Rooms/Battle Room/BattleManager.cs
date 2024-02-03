@@ -20,7 +20,7 @@ public class BattleManager : MonoBehaviour
     [FoldoutGroup("Dependencies")]
     [SerializeField] private AllEvents events;
     [FoldoutGroup("Dependencies")]
-    [SerializeField] private BattleManagerData movementData;
+    [SerializeField] private CardData cardData;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private BattleInteractionHandler interactionHandler;
 
@@ -120,7 +120,7 @@ public class BattleManager : MonoBehaviour
 
         if (!playerCard.IsDead)
         {
-            yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToPlaceholder(movementData.backOffDuration));
+            yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToPlaceholder(cardData.backOffSpeed, cardData.backoffCurve));
         }
 
 
@@ -292,7 +292,7 @@ public class BattleManager : MonoBehaviour
 
         if (ApplyPlayerCardOnDeathEffects == null && ApplyEnemyCardOnDeathEffects == null)
         {
-            yield return new WaitForSeconds(movementData.impactFreezeDuration);
+            yield return new WaitForSeconds(cardData.impactFreezeDuration);
         }
     }
 
@@ -382,22 +382,22 @@ public class BattleManager : MonoBehaviour
     private IEnumerator AnimateReadyAndHeadbutt()
     {
         Vector3 targetPos = playerCard.transform.position;
-        targetPos.y -= movementData.readyingDistance;
-        Coroutine playerCardReadying = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, targetPos, Vector3.one, null, movementData.readyingDuration, null));
+        targetPos.y -= cardData.readyingDistance;
+        Coroutine playerCardReadying = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, targetPos, Vector3.one, null, cardData.readyingSpeed, cardData.readyingCurve));
 
         yield return playerCardReadying;
 
         StartCoroutine(RemoveCardFromHand());
 
         Vector2 enemyCardClosestCollPos = enemyCard.movement.GetClosestCollPosToOtherCard(playerCard.transform.position);
-        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, enemyCardClosestCollPos, Vector3.one, null, movementData.headbuttDuration, null));
+        Coroutine playerCardHeadbutt = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, enemyCardClosestCollPos, Vector3.one, null, cardData.headbuttSpeed, cardData.headbuttCurve));
 
         yield return playerCardHeadbutt;
     }
 
     private IEnumerator RemoveCardFromHand()
     {
-        yield return new WaitForSeconds(movementData.headbuttDuration / 2);
+        yield return new WaitForSeconds(0.1f);
         playerManager.hand.RemoveCardFromHand(playerCard);
     }
 
@@ -405,7 +405,7 @@ public class BattleManager : MonoBehaviour
     {
         playerManager.hand.AddCardToHand(playerCard);
         playerCard.visualHandler.SetSortingOrder(playerCard.index);
-        yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToHoveredPlaceholder(movementData.backOffDuration));
+        yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToHoveredPlaceholder(cardData.backOffSpeed, cardData.backoffCurve));
         playerCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
     }
 

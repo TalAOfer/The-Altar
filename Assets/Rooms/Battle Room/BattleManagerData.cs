@@ -7,15 +7,18 @@ public class BattleManagerData : ScriptableObject
     public float endBattleDelay = 1f;
 
     [Title("Readying")]
-    public float readyingDuration = 0.5f;
+    public float readyingSpeed = 0.5f;
     public float readyingDistance = 0.5f;
+    public AnimationCurve readyingCurve;
 
     [Title("Headbutt")]
-    public float headbuttDuration = 0.5f;
+    public float headbuttSpeed = 0.5f;
+    public AnimationCurve headbuttCurve;
 
     [Title("Impact")]
-    public float impactFreezeDuration;
+    public float impactFreezeDuration = 0.15f;
 
     [Title("BackOff")]
-    public float backOffDuration = 0.5f;
+    public float backOffSpeed = 0.5f;
+    public AnimationCurve backoffCurve;
 }

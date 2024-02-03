@@ -35,8 +35,6 @@ public class LinkedCards : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         playerCard.visualHandler.ToggleOutline(true, Color.black);
         enemyCard.visualHandler.ToggleOutline(true, Color.black);
-        playerCard.visualHandler.Animate("Jiggle");
-        enemyCard.visualHandler.Animate("Jiggle");
     }
 
     public void DeOutlineCards()

@@ -21,6 +21,7 @@ public class CardSelectionInteractionHandler : CardInteractionBase
                 card.movement.Highlight();
                 break;
             case CardInteractionType.Selection:
+                card.visualHandler.Animate("Jiggle");
                 LinkedCards linkedCards = room.linkedCardsList[card.index];
                 if (!linkedCards.wasChosen)
                 {

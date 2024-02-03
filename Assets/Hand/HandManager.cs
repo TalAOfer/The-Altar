@@ -10,6 +10,7 @@ public class HandManager : MonoBehaviour
     [SerializeField] private int maxCardAmount = 5;
     [SerializeField] private HandData formationData;
     [SerializeField] private AllEvents events;
+    [SerializeField] private CardData cardData;
     public List<Card> cardsInHand = new();
     public List<Transform> cardPlaceholders = new();
 
@@ -101,7 +102,7 @@ public class HandManager : MonoBehaviour
             card.visualHandler.SetSortingOrder(0);
 
             // If needed, start the transformation coroutine for the card to move to its placeholder
-            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(0.25f));
+            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(cardData.ReorderSpeed, cardData.ReorderCurve));
         }
         else
         {
@@ -158,7 +159,7 @@ public class HandManager : MonoBehaviour
         {
             if (card == null || card.cardState is CardState.Battle) continue;
             card.visualHandler.SetSortingOrder(card.index);
-            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(0.25f));
+            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(cardData.ReorderSpeed, cardData.ReorderCurve));
         }
     }
 
