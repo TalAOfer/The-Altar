@@ -91,6 +91,7 @@ public class BattleInteractionHandler : CardInteractionBase
     protected override void HandlePointerClick(Card card, PointerEventData eventData)
     {
         if (!canClick) return;
+        if (card.cardState != CardState.Default) return;
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
 
         bool isThereASelectedCard = selectedCard != null;
@@ -132,6 +133,7 @@ public class BattleInteractionHandler : CardInteractionBase
     protected override void HandlePointerEnter(Card card, PointerEventData eventData)
     {
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (card.cardState != CardState.Default) return;
 
 
         bool isThereASelectedCard = selectedCard != null;
@@ -155,6 +157,7 @@ public class BattleInteractionHandler : CardInteractionBase
     protected override void HandlePointerExit(Card card, PointerEventData eventData)
     {
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (card.cardState != CardState.Default) return;
 
 
         card.events.HideTooltip.Raise(this, card);
@@ -171,6 +174,7 @@ public class BattleInteractionHandler : CardInteractionBase
     protected override void HandleBeginDrag(Card card, PointerEventData eventData)
     {
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (card.cardState != CardState.Default) return;
         canClick = false;
 
         bool isThereASelectedCard = selectedCard != null;

@@ -33,7 +33,7 @@ public class SelectManager : MonoBehaviour
         selectButton.gameObject.SetActive(true);
         selectButton.interactable = false;
 
-        handManager.RemoveCardFromHand(selectingCard);
+        //handManager.RemoveCardFromHand(selectingCard, true);
         selectingCard.ChangeCardState(CardState.Selecting);
         StartCoroutine(selectingCard.movement.TransformCardUniformly(selectingCard.transform, askerTransform.position, Vector3.one, Vector3.zero, 0.15f, null));
         events.SetGameState.Raise(this, GameState.SelectPlayerCard);
@@ -57,37 +57,33 @@ public class SelectManager : MonoBehaviour
 
     public void HandleCardClick(Component sender, object data)
     {
-        Card cardClicked = data as Card;
-        if (cardClicked == selectedCard)
-        {
-            selectedCard.ChangeCardState(CardState.Selectable);
-            handManager.InsertCardToHandByIndex(cardClicked, cardClicked.index);
-            selectButton.interactable = false;
-            selectedCard = null;
-        }
+        //Card cardClicked = data as Card;
+        //if (cardClicked == selectedCard)
+        //{
+        //    selectedCard.ChangeCardState(CardState.Selectable);
+        //    handManager.InsertCardToHandByIndex(cardClicked, cardClicked.index);
+        //    selectButton.interactable = false;
+        //    selectedCard = null;
+        //}
 
-        else
-        {
-            if (selectedCard != null)
-            {
-                selectedCard.ChangeCardState(CardState.Selectable);
-                handManager.InsertCardToHandByIndex(selectedCard, selectedCard.index);
-            }
+        //else
+        //{
+        //    if (selectedCard != null)
+        //    {
+        //        selectedCard.ChangeCardState(CardState.Selectable);
+        //        handManager.InsertCardToHandByIndex(selectedCard, selectedCard.index);
+        //    }
 
-            selectedCard = cardClicked;
+        //    selectedCard = cardClicked;
 
-            cardClicked.ChangeCardState(CardState.Selected);
-            handManager.cardsInHand.Remove(cardClicked);
-            StartCoroutine(cardClicked.movement.TransformCardUniformly
-                (cardClicked.transform, selectTransform.position, Vector3.one * GameConstants.SelectCardScale, Vector3.zero, 0.15f, null));
+        //    cardClicked.ChangeCardState(CardState.Selected);
+        //    handManager.cardsInHand.Remove(cardClicked);
+        //    StartCoroutine(cardClicked.movement.TransformCardUniformly
+        //        (cardClicked.transform, selectTransform.position, Vector3.one * GameConstants.SelectCardScale, Vector3.zero, 0.15f, null));
 
-            selectButton.interactable = true;
-        }
+        //    selectButton.interactable = true;
+        //}
 
-        handManager.ReorderPlaceholders();
+        //handManager.ReorderPlaceholders(true);
     }
-
-
-
-
 }

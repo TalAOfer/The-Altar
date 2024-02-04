@@ -54,4 +54,7 @@ public class CardData : ScriptableObject
     public float ReorderSpeed = 1f;
     [FoldoutGroup("Movement")]
     public AnimationCurve ReorderCurve;
+    [Title("Draw")]
+    public float drawCardSpeed = 10;
+    public AnimationCurve drawCardCurve;
 }

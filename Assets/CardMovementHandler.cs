@@ -96,6 +96,7 @@ public class CardMovementHandler : MonoBehaviour
     public IEnumerator TransformCardUniformlyToPlaceholder(float speed, AnimationCurve curve)
     {
         yield return StartCoroutine(TransformCardUniformly(card.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, speed, curve));
+        card.cardState = CardState.Default;
     }
 
     public IEnumerator TransformCardUniformlyToHoveredPlaceholder(float speed, AnimationCurve curve)

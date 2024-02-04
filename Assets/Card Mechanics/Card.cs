@@ -286,6 +286,7 @@ public enum CardState
 {
     Default,
     Battle,
+    Draw,
     Selectable,
     Selected,
     Selecting,

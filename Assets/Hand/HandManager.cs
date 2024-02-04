@@ -71,12 +71,12 @@ public class HandManager : MonoBehaviour
                 break;
         }
 
-        ReorderPlaceholders();
+        ReorderPlaceholders(true);
     }
 
     #region Transform and index handling
     [Button]
-    public void ReorderPlaceholders()
+    public void ReorderPlaceholders(bool shouldMoveCards)
     {
         int numOfCards = cardsInHand.Count;
 
@@ -149,7 +149,7 @@ public class HandManager : MonoBehaviour
                 }
             }
 
-            ResetCardsToPlaceholders();
+            if (shouldMoveCards) ResetCardsToPlaceholders();
         }
     }
 
@@ -159,7 +159,17 @@ public class HandManager : MonoBehaviour
         {
             if (card == null || card.cardState is CardState.Battle) continue;
             card.visualHandler.SetSortingOrder(card.index);
-            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(cardData.ReorderSpeed, cardData.ReorderCurve));
+            switch (card.cardState)
+            {
+                case CardState.Battle:
+                    break;
+                case CardState.Default:
+                    StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(cardData.ReorderSpeed, cardData.ReorderCurve));
+                    break;
+                case CardState.Draw:
+                    StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(cardData.drawCardSpeed, cardData.drawCardCurve));
+                    break;
+            }
         }
     }
 
@@ -178,91 +188,13 @@ public class HandManager : MonoBehaviour
     public void AddCardToHand(Card card)
     {
         cardsInHand.Add(card);
-        card.transform.localScale = Vector3.one * GameConstants.HandScale;
-        //card.index = cardsInHand.IndexOf(card);
-        ReorderPlaceholders();
+        ReorderPlaceholders(true);
     }
 
     public void RemoveCardFromHand(Card card)
     {
         cardsInHand.Remove(card);
-        ReorderPlaceholders();
-    }
-
-    public void InsertCardToHandByIndex(Card card, int index)
-    {
-        int cardIndex = index;
-        card.transform.localScale = Vector3.one * GameConstants.HandScale;
-
-
-        if (index > cardsInHand.Count)
-        {
-            cardIndex = cardsInHand.Count;
-        }
-
-        if (!cardsInHand.Contains(card))
-        {
-            cardsInHand.Insert(cardIndex, card);
-        }
-
-        ReorderPlaceholders();
-    }
-
-    public void SwitchCards(Card incomingCard, Card existingCard)
-    {
-        int incomingIndex = cardsInHand.IndexOf(incomingCard);
-        int existingIndex = cardsInHand.IndexOf(existingCard);
-
-        if (incomingIndex != -1 && existingIndex != -1)
-        {
-            (cardsInHand[existingIndex], cardsInHand[incomingIndex]) = (cardsInHand[incomingIndex], cardsInHand[existingIndex]);
-            ReorderPlaceholders();
-        }
-
-        else
-        {
-            // Handle the case where one or both cards are not in the list
-            Debug.Log("One or both of the cards are not in the list.");
-        }
-    }
-
-    #endregion
-
-    #region Event Handlers
-
-    public void OnDraggedCardHoveredOverHandCard(Component sender, object data)
-    {
-        Card hoveredCard = sender as Card;
-        Card draggedCard = data as Card;
-
-        if (cardsInHand.Contains(draggedCard))
-        {
-            SwitchCards(draggedCard, hoveredCard);
-        }
-
-        else
-        {
-            InsertCardToHandByIndex(draggedCard, hoveredCard.index);
-        }
-
-    }
-
-    public void OnHandCardDroppedNowhere(Component sender, object data)
-    {
-        Card card = data as Card;
-        InsertCardToHandByIndex(card, card.index);
-    }
-
-    public void HandleRemoveCardFromHand(Component sender, object data)
-    {
-        Card card = data as Card;
-        RemoveCardFromHand(card);
-    }
-
-    public void HandleInsertCard(Component sender, object data)
-    {
-        Card card = data as Card;
-        InsertCardToHandByIndex(card, card.index);
+        ReorderPlaceholders(true);
     }
 
     #endregion

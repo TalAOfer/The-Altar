@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
             {
                 CardBlueprint blueprint = spawner.DrawCard();
                 Card card = spawner.SpawnCard(blueprint, GameConstants.PLAYER_CARD_LAYER);
+                card.ChangeCardState(CardState.Draw);
                 activeCards.Add(card);
                 hand.AddCardToHand(card);
                 hand.ResetCardsToPlaceholders();
