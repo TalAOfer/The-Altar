@@ -28,7 +28,7 @@ public class SelectEffect : Effect
         List<Card> targetCards = response as List<Card>; 
         foreach (Card card in targetCards)
         {
-            yield return StartCoroutine(applier.Apply(card, data));
+            yield return StartCoroutine(applier.Apply(card));
         }
     }
 }

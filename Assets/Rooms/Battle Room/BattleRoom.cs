@@ -85,10 +85,11 @@ public class BattleRoom : Room
     public void RemoveEnemyFromManager(Card card)
     {
         activeEnemies.Remove(card);
-        if (activeEnemies.Count == 0)
-        {
-            door.OpenDoor();
-        }
+    }
+
+    public void OpenDoor()
+    {
+        door.OpenDoor();
     }
 
     [Button]

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ public class Effect : MonoBehaviour
     protected float predelay;
     protected float postdelay;
     protected int amountOfTargets;
+    protected bool isConditional;
+    protected Decision decision;
     public void BaseInitialize(EffectApplier applier, Card parentCard, EffectBlueprint blueprint)
     {
         this.applier = applier;
@@ -27,6 +30,8 @@ public class Effect : MonoBehaviour
         data = blueprint.data;
         target = blueprint.target;
         amountOfTargets = blueprint.amountOfTargets;
+        isConditional = blueprint.isConditional;
+        decision = blueprint.decision;
     }
 
     public IEnumerator Trigger()
@@ -41,8 +46,26 @@ public class Effect : MonoBehaviour
     public virtual IEnumerator Apply()
     {
         List<Card> targetCards = GetTarget();
+        List<Card> validTargetCards = new(targetCards);
+        List<Coroutine> applicationCoroutines = new();
 
-        foreach (var targetCard in targetCards)
+
+        //Remove cards that don't fulfill the conditions of the effect
+        foreach (Card targetCard in targetCards)
+        {
+            if (isConditional && !decision.Decide(targetCard, data.GetOpponent(targetCard)))
+            {
+                validTargetCards.Remove(targetCard);
+            }
+        }
+
+        if (validTargetCards.Count > 0)
+        {
+            parentCard.visualHandler.Animate("Jiggle");
+            yield return new WaitForSeconds(1f);
+        }
+
+        foreach (var targetCard in validTargetCards)
         {
             //Keep cards from applying support effects on themselves
             if (target is not EffectTarget.InitiatingCard)
@@ -51,7 +74,15 @@ public class Effect : MonoBehaviour
                 if (targetCard.IsDead) continue;
             }
 
-            yield return StartCoroutine(applier.Apply(targetCard, data));
+            Coroutine coroutine = StartCoroutine(applier.Apply(targetCard));
+            applicationCoroutines.Add(coroutine);
+        }
+
+
+        // Wait for all coroutines to finish
+        foreach (var coroutine in applicationCoroutines)
+        {
+            yield return coroutine;
         }
     }
 

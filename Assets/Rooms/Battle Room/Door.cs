@@ -40,10 +40,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
         yield return new WaitForSeconds(animationDuration);
         didFinishAnimation = true;
         gateGO.SetActive(false);
-        if (didClickDoor)
-        {
-            floorManager.NextRoom();
-        }
+        if (didClickDoor) floorManager.NextRoom();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -51,11 +48,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
         if (!didClickDoor)
         {
             didClickDoor = true;
-        }
-
-        if (didFinishAnimation)
-        {
-            floorManager.NextRoom();
+            if (didFinishAnimation) floorManager.NextRoom();
         }
     }
 

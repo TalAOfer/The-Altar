@@ -24,12 +24,7 @@ public class PlayerManager : MonoBehaviour
             int amountOfCardsToDraw = 3 - activeCards.Count;
             for (int i = 0; i < amountOfCardsToDraw; i++)
             {
-                CardBlueprint blueprint = spawner.DrawCard();
-                Card card = spawner.SpawnCard(blueprint, GameConstants.PLAYER_CARD_LAYER);
-                card.ChangeCardState(CardState.Draw);
-                activeCards.Add(card);
-                hand.AddCardToHand(card);
-                hand.ResetCardsToPlaceholders();
+                DrawCardToHand();
                 yield return new WaitForSeconds(0.25f);
             }
         }
@@ -48,16 +43,22 @@ public class PlayerManager : MonoBehaviour
 
     public void DrawCardToHand()
     {
-        Card card = spawner.SpawnCard(spawner.DrawCard(), GameConstants.PLAYER_CARD_LAYER);
-        activeCards.Add(card);
-        hand.AddCardToHand(card);
+        CardBlueprint blueprint = spawner.DrawCard();
+        SpawnCardToHand(blueprint);
     }
 
     public void SpawnCardToHandByArchetype(CardArchetype archetype)
     {
         CardBlueprint blueprint = spawner.Codex.GetCardOverride(archetype);
+        SpawnCardToHand(blueprint);
+    }
+
+    private void SpawnCardToHand(CardBlueprint blueprint)
+    {
         Card card = spawner.SpawnCard(blueprint, GameConstants.PLAYER_CARD_LAYER);
+        card.ChangeCardState(CardState.Draw);
         activeCards.Add(card);
         hand.AddCardToHand(card);
+        hand.ResetCardsToPlaceholders();
     }
 }

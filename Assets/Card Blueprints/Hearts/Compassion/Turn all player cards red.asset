@@ -16,6 +16,7 @@ MonoBehaviour:
   prototype: 0
   events: {fileID: 0}
   target: 4
+  amountOfTargets: 1
   predelay: 0
   postdelay: 0
   applicationType: 0
@@ -32,9 +33,9 @@ MonoBehaviour:
   guardianApplicationType: 0
   effectBlueprint: {fileID: 0}
   whenToTriggerAddedEffect: 0
-  isConditional: 0
+  isConditional: 1
   decision:
-    decisionType: 0
+    decisionType: 1
     compare: 0
     comparison: 0
     compareTo: 0

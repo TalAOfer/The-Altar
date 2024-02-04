@@ -5,8 +5,7 @@ public abstract class EffectApplier : MonoBehaviour
 {
     public Card parentCard;
     public RoomData data;
-    bool isConditional;
-    Decision decision;
+
     GetAmountStrategy getAmountStrategy;
     public int defaultAmount;
     protected EffectTrigger triggerType;
@@ -14,19 +13,13 @@ public abstract class EffectApplier : MonoBehaviour
     {
         this.parentCard = parentCard;
         this.data = data;
-        this.isConditional = isConditional;
-        this.decision = decision;
         this.getAmountStrategy = getAmountStrategy;
         this.defaultAmount = defaultAmount;
         this.triggerType = triggerType;
     }
 
-    public IEnumerator Apply(Card target, RoomData data)
+    public IEnumerator Apply(Card target)
     {
-        if (isConditional && !decision.Decide(target, data.GetOpponent(target))) yield break;
-        parentCard.visualHandler.Animate("Jiggle");
-
-        yield return new WaitForSeconds(1f);
         yield return ApplyEffect(target);
         target.visualHandler.Animate("FlashOut");
     }

@@ -128,6 +128,11 @@ public class BattleManager : MonoBehaviour
         roomData.BattlingEnemyCard = null;
 
         events.AddLogEntry.Raise(this, "New Turn Started");
+        if (roomManager.activeEnemies.Count == 0) 
+        {
+            roomManager.OpenDoor();
+        }
+
         events.SetGameState.Raise(this, GameState.Idle);
         interactionHandler.SetState(BattleInteractionState.Idle);
     }
