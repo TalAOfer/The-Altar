@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class DrawCardApplier : EffectApplier
 {
-    public override IEnumerator ApplyEffect(Card target)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
-        int amount = GetAmount();
         data.events.OnEffectApplied.Raise(this, new EffectIndication("Draw " + amount.ToString() + " cards", parentCard));
 
         for (int i = 0; i < amount; i++)

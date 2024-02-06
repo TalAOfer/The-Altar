@@ -35,13 +35,13 @@ public class BattleInteractionHandler : CardInteractionBase
     {
         selectedCard = card;
         if (!card.movement.isHighlighted) Highlight(card);
-        card.visualHandler.ToggleOutline(true, Color.white);
+        card.visualHandler.ToggleOutline(true);
     }
     private void DeselectCurrentCard()
     {
         if (selectedCard == null) return;
 
-        selectedCard.visualHandler.ToggleOutline(false, Color.white);
+        selectedCard.visualHandler.ToggleOutline(false);
 
         if (selectedCard.movement.isHighlighted) Dehighlight(selectedCard);
 
@@ -74,7 +74,7 @@ public class BattleInteractionHandler : CardInteractionBase
     {
         events.Attack.Raise(attackingCard, attackedCard);
         events.HideTooltip.Raise();
-        selectedCard.visualHandler.ToggleOutline(false, Color.white);
+        selectedCard.visualHandler.ToggleOutline(false);
         selectedCard = null;
 
         DisableArrow();

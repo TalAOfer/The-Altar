@@ -7,7 +7,7 @@ public class AddGuardianApplier : EffectApplier
     private GuardianType guardianType;
     private EffectApplicationType applicationType;
 
-    public override IEnumerator ApplyEffect(Card target)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
         target.guardians.Add(new Guardian(guardianType, parentCard, applicationType));
         yield return null;

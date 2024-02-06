@@ -33,7 +33,7 @@ public class EnemyCardSpawner : MonoBehaviour
         return card;
     }
 
-    private CardBlueprint DrawEnemyByArchetype(CardArchetype archetype)
+    public CardBlueprint DrawEnemyByArchetype(CardArchetype archetype)
     {
         return Codex.GetCardOverride(archetype);
     }

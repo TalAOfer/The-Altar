@@ -12,22 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: 7 of Spades
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 0}
+  cardSprite: {fileID: 21300000, guid: 38ab798d36a947147acabee05647def6, type: 3}
   isDefault: 1
-  cardName: 
+  cardName: Broad Sword
   cardColor: 0
   cardOwner: 0
   defaultPoints: 7
   description: 
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

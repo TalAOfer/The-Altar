@@ -18,6 +18,8 @@ public class Effect : MonoBehaviour
     protected int amountOfTargets;
     protected bool isConditional;
     protected Decision decision;
+    GetAmountStrategy amountStrategy;
+    public int defaultAmount;
     public void BaseInitialize(EffectApplier applier, Card parentCard, EffectBlueprint blueprint)
     {
         this.applier = applier;
@@ -30,8 +32,11 @@ public class Effect : MonoBehaviour
         data = blueprint.data;
         target = blueprint.target;
         amountOfTargets = blueprint.amountOfTargets;
+        amountStrategy = blueprint.amountStrategy;
+        defaultAmount = blueprint.amount;
         isConditional = blueprint.isConditional;
         decision = blueprint.decision;
+
     }
 
     public IEnumerator Trigger()
@@ -73,8 +78,13 @@ public class Effect : MonoBehaviour
                 if (parentCard == targetCard) continue;
                 if (targetCard.IsDead) continue;
             }
+            
+            int amount = GetAmount(targetCard);
+            //Catch trying to get non-existing data
+            //Like: if card needs the higest value of a card on map but he is the only card on map
+            if (amount == -10) continue;
 
-            Coroutine coroutine = StartCoroutine(applier.Apply(targetCard));
+            Coroutine coroutine = StartCoroutine(applier.Apply(targetCard, amount));
             applicationCoroutines.Add(coroutine);
         }
 
@@ -124,8 +134,44 @@ public class Effect : MonoBehaviour
             case EffectTarget.EnemyCardBattling:
                 targets.Add(data.BattlingEnemyCard);
                 break;
+            case EffectTarget.LowestPlayerCard:
+                Card lowestPlayerCard = data.GetLowestPlayerCard(parentCard);
+                if (lowestPlayerCard != null) targets.Add(lowestPlayerCard);
+                break;
         }
 
         return targets;
+    }
+
+    public int GetAmount(Card targetCard)
+    {
+        int amount = 0;
+
+        switch (amountStrategy)
+        {
+            case GetAmountStrategy.Value:
+                amount = defaultAmount;
+                break;
+            case GetAmountStrategy.EmptySpacesOnMap:
+                amount = data.GetEmptySpacesAmount();
+                break;
+            case GetAmountStrategy.EnemiesOnMap:
+                amount = data.GetAmountOfEnemies();
+                break;
+            case GetAmountStrategy.CardsInHand:
+                amount = data.PlayerManager.activeCards.Count;
+                break;
+            case GetAmountStrategy.RoomCount:
+                amount = data.GetRoomIndex();
+                break;
+
+            case GetAmountStrategy.NotImplementedDeadEnemiesOnMap:
+                break;
+            case GetAmountStrategy.LowestValueEnemyCard:
+                amount = data.GetLowestEnemyCardValue(targetCard);
+                break;
+        }
+
+        return amount;
     }
 }

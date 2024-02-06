@@ -12,22 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: 8 of Hearts
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 0}
+  cardSprite: {fileID: 21300000, guid: 6066bd4375f715349bd615663d3c0563, type: 3}
   isDefault: 1
-  cardName: 
+  cardName: Morning Star
   cardColor: 1
   cardOwner: 0
   defaultPoints: 8
   description: 
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

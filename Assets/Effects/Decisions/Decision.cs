@@ -9,7 +9,8 @@ public class Decision
     public enum DecisionType
     {
         PointComparison,
-        Color
+        Color,
+        Existence
     }
 
     public enum Compare

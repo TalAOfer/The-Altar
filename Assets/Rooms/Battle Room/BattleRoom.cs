@@ -28,26 +28,21 @@ public class BattleRoom : Room
 
         base.InitializeRoom(floorManager, roomBlueprint);
 
-        runData.playerDeck = new DeckInstance(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y, true);
+        InitializeDeckForRoom();
 
         battleManager.Initialize(floorManager);
         door.Initialize(floorManager);
         difficulty = roomBlueprint.difficulty;
-        
-        if (!roomBlueprint.isEnemyTest)
-        {
-            SpawnEnemies();
-        }
 
-        else
-        {
-            SpawnTestEnemies();
-        }
+        if (!roomBlueprint.predetermineEnemies) SpawnEnemies();
+        else SpawnTestEnemies();
     }
-    public override IEnumerator AnimateDown()
+
+    private void InitializeDeckForRoom()
     {
-        animator.PlayAnimation("Down");
-        yield return WaitForAnimationEnd("Down");
+        bool isPredetermined = roomBlueprint.predetermineDeck;
+        if (!isPredetermined) runData.playerDeck = new DeckInstance(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y, true);
+        else runData.playerDeck.cards = new List<CardArchetype>(roomBlueprint.deck.cards);
     }
 
     public void SpawnEnemies()
@@ -68,13 +63,13 @@ public class BattleRoom : Room
 
     public void SpawnTestEnemies()
     {
-        int amountOfEnemies = roomBlueprint.enemiesForTest.Count;
+        int amountOfEnemies = roomBlueprint.enemyArchetypes.Count;
         List<int> slots = Tools.GetXUniqueRandoms(amountOfEnemies, 0, 8);
 
         for (int i = 0; i < amountOfEnemies; i++)
         {
             int slotIndex = slots[i];
-            CardBlueprint enemyBlueprint = roomBlueprint.enemiesForTest[i];
+            CardBlueprint enemyBlueprint = spawner.DrawEnemyByArchetype(roomBlueprint.enemyArchetypes[i]);
 
             Card enemy = spawner.SpawnEnemyInIndexByBlueprint(slotIndex, enemyBlueprint);
 

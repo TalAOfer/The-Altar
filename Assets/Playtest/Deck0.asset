@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9419aed16d6a5b4897483f4255a0fef, type: 3}
+  m_Name: Deck0
+  m_EditorClassIdentifier: 
+  deck:
+    cards:
+    - points: 1
+      color: 0
+    - points: 1
+      color: 1
+    - points: 2
+      color: 0
+    - points: 0
+      color: 0
+    - points: 0
+      color: 0
+    - points: 0
+      color: 0
+    min: 0
+    max: 10

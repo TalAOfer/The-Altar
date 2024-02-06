@@ -12,13 +12,6 @@ public abstract class Room : MonoBehaviour
         cardInteraction.gameObject.SetActive(false);
     }
 
-    public abstract IEnumerator AnimateDown();
-    protected IEnumerator WaitForAnimationEnd(string animationName)
-    {
-        float animationDuration = animator.GetAnimationDuration(animationName);
-        yield return new WaitForSeconds(animationDuration);
-    }
-
     public virtual void OnRoomFinishedLerping()
     {
         cardInteraction.gameObject.SetActive(true);
@@ -27,11 +20,22 @@ public abstract class Room : MonoBehaviour
     {
         cardInteraction.gameObject.SetActive(false);
     }
+    public IEnumerator AnimateDown()
+    {
+        animator.PlayAnimation("Down");
+        yield return WaitForAnimationEnd("Down");
+    }
+    protected IEnumerator WaitForAnimationEnd(string animationName)
+    {
+        float animationDuration = animator.GetAnimationDuration(animationName);
+        yield return new WaitForSeconds(animationDuration);
+    }
 
 }
 
 public enum RoomType
 {
     Battle,
-    CardPicking
+    CardPicking,
+    Playtest
 }

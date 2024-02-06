@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DamageApplier : EffectApplier
 {
-    public override IEnumerator ApplyEffect(Card target)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
-        yield return target.CalcHurtPoints(GetAmount());
+        yield return target.CalcHurtPoints(amount);
         target.TakeDamage(this);
     }
 }

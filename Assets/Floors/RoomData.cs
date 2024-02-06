@@ -108,6 +108,25 @@ public class RoomData : ScriptableObject
         return randomCards;
     }
 
+    public Card GetLowestPlayerCard(Card excludeThis)
+    {
+        int min = 100;
+        Card chosenCard = null;
+
+        foreach (Card card in PlayerManager.activeCards)
+        {
+            if (card == excludeThis) continue;
+
+            if (card.points < min)
+            {
+                min = card.points;
+                chosenCard = card;
+            }
+        }
+
+        return chosenCard;
+    }
+
     #endregion
 
     #region Amount Providers
@@ -132,12 +151,14 @@ public class RoomData : ScriptableObject
         return floorManager.currentRoomIndex;
     }
 
-    public int GetLowestEnemyCardValue()
+    public int GetLowestEnemyCardValue(Card excludeThis)
     {
         int amount = 100;
 
         foreach(Card card in EnemyManager.activeEnemies) 
         {
+            if (card == excludeThis) continue;
+
             if (card.points < amount)
             {
                 amount = card.points;

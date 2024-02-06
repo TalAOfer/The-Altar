@@ -17,7 +17,7 @@ MonoBehaviour:
   cardName: Ritual
   cardColor: 0
   cardOwner: 1
-  defaultPoints: 6
+  defaultPoints: 4
   description: Give +2 to a random enemy card.
   specialEffects: 4
   StartOfTurn: []

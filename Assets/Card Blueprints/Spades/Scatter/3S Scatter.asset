@@ -18,18 +18,15 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   defaultPoints: 3
-  description: When this card is destroyed, summon three 1 of spades to your hand.
-  higherBeing: 0
+  description: When this card is destroyed, summon two 1 of spades to your hand.
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath:
   - {fileID: 11400000, guid: 57ddf7f7f51aee141a9379af70e51314, type: 2}
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

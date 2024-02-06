@@ -29,7 +29,7 @@ MonoBehaviour:
     enemyDrawMinMax: {x: 1, y: 3}
   - roomType: 0
     difficulty: 4
-    isEnemyTest: 0
+    isEnemyTest: 1
     enemiesForTest: []
     amountOfOptions: 0
     playerDrawMinMax: {x: 1, y: 3}

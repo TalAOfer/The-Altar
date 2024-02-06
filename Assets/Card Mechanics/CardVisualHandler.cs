@@ -1,7 +1,9 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardVisualHandler : MonoBehaviour
 {
@@ -31,9 +33,9 @@ public class CardVisualHandler : MonoBehaviour
     [FoldoutGroup("Damage Visualizer")]
     [SerializeField] Transform damageTransform;
     [FoldoutGroup("Damage Visualizer")]
-    [SerializeField] private SpriteRenderer damageDigit;
+    [SerializeField] private TextMeshProUGUI damageDigit;
     [FoldoutGroup("Damage Visualizer")]
-    [SerializeField] private SpriteRenderer damageSymbol;
+    [SerializeField] private Image damageSymbol;
     [FoldoutGroup("Damage Visualizer")]
     [SerializeField] private List<Sprite> slashAnimationSprites;
     [FoldoutGroup("Damage Visualizer")]
@@ -102,7 +104,7 @@ public class CardVisualHandler : MonoBehaviour
         damageTransform.localPosition = card.cardOwner == CardOwner.Player ? data.playerDamageVisualizerPosition : data.enemyDamageVisualizerPosition;
     }
 
-    public void ToggleOutline(bool enable, Color color)
+    public void ToggleOutline(bool enable)
     {
         int toggle = enable ? 1 : 0;
         cardMaterial.SetColor("_Outline_Color", palette.white);
@@ -179,8 +181,6 @@ public class CardVisualHandler : MonoBehaviour
         numberSr.sortingLayerName = sortingLayerName;
         symbolSr.sortingLayerName = sortingLayerName;
         iconSr.sortingLayerName = sortingLayerName;
-        damageDigit.sortingLayerName = sortingLayerName;
-        damageSymbol.sortingLayerName = sortingLayerName;
         overlaySr.sortingLayerName = sortingLayerName;
         ornamentSr.sortingLayerName = sortingLayerName;
         slashSr.sortingLayerName = sortingLayerName;
@@ -260,7 +260,7 @@ public class CardVisualHandler : MonoBehaviour
         bool isDamage = amount >= 0;
         int absAmount = Mathf.Abs(amount);
 
-        damageDigit.sprite = sprites.digits[absAmount];
+        damageDigit.text = absAmount.ToString();
         damageSymbol.sprite = isDamage ? sprites.damageIcon : sprites.regenIcon;
     }
 

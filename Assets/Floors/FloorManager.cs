@@ -19,6 +19,8 @@ public class FloorManager : MonoBehaviour
     [SerializeField] private GameObject battleRoomPrefab;
     [FoldoutGroup("Prefabs")]
     [SerializeField] private GameObject cardPickingRoomPrefab;
+    [FoldoutGroup("Prefabs")]
+    [SerializeField] private GameObject playTestPrefab;
 
     [FoldoutGroup("Transforms")]
     [SerializeField] private Transform newRoomSpawnPos;
@@ -92,7 +94,21 @@ public class FloorManager : MonoBehaviour
 
     public Room SpawnRoom()
     {
-        GameObject roomPrefab = CurrentRoomBlueprint.roomType is RoomType.Battle ? battleRoomPrefab : cardPickingRoomPrefab;
+        GameObject roomPrefab = null;
+
+        switch (CurrentRoomBlueprint.roomType)
+        {
+            case RoomType.Battle:
+                roomPrefab = battleRoomPrefab;
+                break;
+            case RoomType.CardPicking:
+                roomPrefab = cardPickingRoomPrefab;
+                break;
+            case RoomType.Playtest:
+                roomPrefab = playTestPrefab;
+                break;
+        }
+
         GameObject roomGo = Instantiate(roomPrefab, newRoomSpawnPos.position, Quaternion.identity, this.transform);
         Room room = roomGo.GetComponent<Room>();
         return room;

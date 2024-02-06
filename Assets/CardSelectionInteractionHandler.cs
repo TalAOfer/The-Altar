@@ -6,9 +6,6 @@ using UnityEngine.EventSystems;
 
 public class CardSelectionInteractionHandler : CardInteractionBase
 {
-    [SerializeField] private Color hoverColor;
-    [SerializeField] private Color defaultColor;
-    [SerializeField] private float hoverHeightBoostAmount;
     [SerializeField] private CardSelectionRoom room;
 
     protected override void HandlePointerEnter(Card card, PointerEventData eventData)

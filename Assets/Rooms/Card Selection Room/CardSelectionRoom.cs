@@ -43,11 +43,6 @@ public class CardSelectionRoom : Room
         linkedCardsList.Clear();
         SpawnLinkedCards(roomBlueprint);
     }
-    public override IEnumerator AnimateDown()
-    {
-        animator.PlayAnimation("Down");
-        yield return WaitForAnimationEnd("Down");
-    }
 
     public override void OnRoomFinishedLerping()
     {

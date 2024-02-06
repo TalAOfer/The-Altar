@@ -12,7 +12,7 @@ public class AddEffectApplier : EffectApplier
         this.whenToTriggerAddedEffect = whenToTriggerAddedEffect;
     }
 
-    public override IEnumerator ApplyEffect(Card target)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
         if (triggerType is EffectTrigger.Meditate)
         {

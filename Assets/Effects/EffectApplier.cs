@@ -6,55 +6,19 @@ public abstract class EffectApplier : MonoBehaviour
     public Card parentCard;
     public RoomData data;
 
-    GetAmountStrategy getAmountStrategy;
-    public int defaultAmount;
     protected EffectTrigger triggerType;
-    public void BaseInitialize(Card parentCard, RoomData data, bool isConditional, Decision decision, GetAmountStrategy getAmountStrategy, int defaultAmount, EffectTrigger triggerType)
+    public void BaseInitialize(Card parentCard, RoomData data, EffectTrigger triggerType)
     {
         this.parentCard = parentCard;
         this.data = data;
-        this.getAmountStrategy = getAmountStrategy;
-        this.defaultAmount = defaultAmount;
         this.triggerType = triggerType;
     }
 
-    public IEnumerator Apply(Card target)
+    public IEnumerator Apply(Card target, int amount)
     {
-        yield return ApplyEffect(target);
+        yield return ApplyEffect(target, amount);
         target.visualHandler.Animate("FlashOut");
     }
 
-    public abstract IEnumerator ApplyEffect(Card target);
-
-    public int GetAmount()
-    {
-        int amount = 0;
-
-        switch (getAmountStrategy)
-        {
-            case GetAmountStrategy.Value:
-                amount = defaultAmount;
-                break;
-            case GetAmountStrategy.EmptySpacesOnMap:
-                amount = data.GetEmptySpacesAmount();
-                break;
-            case GetAmountStrategy.EnemiesOnMap:
-                amount = data.GetAmountOfEnemies();
-                break;
-            case GetAmountStrategy.CardsInHand:
-                amount = data.PlayerManager.activeCards.Count;
-                break;
-            case GetAmountStrategy.RoomCount:
-                amount = data.GetRoomIndex();
-                break;
-
-            case GetAmountStrategy.NotImplementedDeadEnemiesOnMap:
-                break;
-            case GetAmountStrategy.LowestValueEnemyCard:
-                amount = data.GetLowestEnemyCardValue();
-                break;
-        }
-
-        return amount;
-    }
+    public abstract IEnumerator ApplyEffect(Card target, int amount);
 }

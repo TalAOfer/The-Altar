@@ -20,7 +20,7 @@ MonoBehaviour:
   defaultPoints: 3
   description: On Survive summon 1 of spades to your hand, and turn all of your cards
     to black.
-  higherBeing: 0
+  specialEffects: 0
   StartOfTurn: []
   StartOfBattle: []
   Support: []

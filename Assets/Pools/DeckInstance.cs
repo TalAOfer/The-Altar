@@ -8,7 +8,7 @@ public class DeckInstance
 {
     public List<CardArchetype> cards = new();
     public int min;
-    public int max;
+    public int max = 10;
 
     public DeckInstance(int min, int max, bool shouldShuffle)
     {

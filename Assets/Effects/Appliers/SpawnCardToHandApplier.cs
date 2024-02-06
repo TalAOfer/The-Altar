@@ -10,11 +10,10 @@ public class SpawnCardToHandApplier : EffectApplier
     {
         this.archetype = archetype;
     }
-    public override IEnumerator ApplyEffect(Card target)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
-        int amount = GetAmount();
         //Debug.Log("spawning");
-        data.events.OnEffectApplied.Raise(this, new EffectIndication("Spawn " + amount.ToString() + " cards", parentCard));
+        data.events.OnEffectApplied.Raise(this, new EffectIndication("Spawn " + amount.ToString() + " " + Tools.GetCardNameByArchetype(archetype, CardOwner.Player), parentCard));
         for (int i = 0; i < amount; i++)
         {
             data.PlayerManager.SpawnCardToHandByArchetype(archetype);

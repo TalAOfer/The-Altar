@@ -11,7 +11,7 @@ public class SetColorApplier : EffectApplier
         this.color = color;
     }
 
-    public override IEnumerator ApplyEffect(Card target)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
         target.cardColor = color;
         data.events.OnEffectApplied.Raise(this, new EffectIndication("Change to " + color.ToString(), target));

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToggleColorApplier : EffectApplier
 {
-    public override IEnumerator ApplyEffect(Card target)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
         CardColor currentColor = target.cardColor;
         CardColor newColor = currentColor is CardColor.Black ? CardColor.Red : CardColor.Black;

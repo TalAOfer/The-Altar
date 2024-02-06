@@ -33,14 +33,14 @@ public class LinkedCards : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OutlineCards()
     {
-        playerCard.visualHandler.ToggleOutline(true, Color.black);
-        enemyCard.visualHandler.ToggleOutline(true, Color.black);
+        playerCard.visualHandler.ToggleOutline(true);
+        enemyCard.visualHandler.ToggleOutline(true);
     }
 
     public void DeOutlineCards()
     {
-        playerCard.visualHandler.ToggleOutline(false, Color.black);
-        enemyCard.visualHandler.ToggleOutline(false, Color.black);
+        playerCard.visualHandler.ToggleOutline(false);
+        enemyCard.visualHandler.ToggleOutline(false);
     }
 
     public void ToggleSelectionArrows(bool enable)

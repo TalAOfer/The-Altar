@@ -78,4 +78,56 @@ public static class Tools
 
         return uniqueRandoms;
     }
+
+    public static string GetCardNameByArchetype(CardArchetype archetype, CardOwner owner)
+    {
+        string amountName = "";
+
+        switch (archetype.points)
+        {
+            case 1:
+                amountName = "One";
+                break;
+            case 2:
+                amountName = "Two";
+                break;
+            case 3:
+                amountName = "Three";
+                break;
+            case 4:
+                amountName = "Four";
+                break;
+            case 5:
+                amountName = "Five";
+                break;
+            case 6:
+                amountName = "Six";
+                break;
+            case 7:
+                amountName = "Seven";
+                break;
+            case 8:
+                amountName = "Eight";
+                break;
+            case 9:
+                amountName = "Nine";
+                break;
+            case 10:
+                amountName = "Ten";
+                break;
+        }
+
+        string symbolName = "";
+        switch (owner)
+        {
+            case CardOwner.Player:
+                symbolName = archetype.color == CardColor.Red ? "Hearts" : "Clubs";
+                break;
+            case CardOwner.Enemy:
+                symbolName = archetype.color == CardColor.Red ? "Diamonds" : "Spades";
+                break;
+        }
+
+        return amountName + " of " + symbolName;
+    }
 }

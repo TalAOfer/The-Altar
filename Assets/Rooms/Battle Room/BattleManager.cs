@@ -131,6 +131,14 @@ public class BattleManager : MonoBehaviour
         if (roomManager.activeEnemies.Count == 0) 
         {
             roomManager.OpenDoor();
+        } 
+        
+        else
+        {
+            if (playerManager.activeCards.Count == 0)
+            {
+                Debug.Log("you lost");
+            }
         }
 
         events.SetGameState.Raise(this, GameState.Idle);

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3263158961434955037}
   - component: {fileID: 8377377925825815728}
   - component: {fileID: 1039006450190078090}
+  - component: {fileID: 8089052458308230296}
   m_Layer: 0
   m_Name: Custom Button
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8203157476769932787}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.4405878, y: 0.607058, z: 0.0031724325}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -51,9 +52,11 @@ MonoBehaviour:
       m_Calls: []
   coll: {fileID: 8377377925825815728}
   sr: {fileID: 1039006450190078090}
-  grey: {r: 0.589, g: 0.589, b: 0.589, a: 1}
-  darkerWhite: {r: 0.872, g: 0.872, b: 0.872, a: 1}
-  white: {r: 1, g: 1, b: 1, a: 1}
+  tweener: {fileID: 8089052458308230296}
+  duration: 0.5
+  strength: 0.1
+  vibrato: 10
+  elasticity: 1
 --- !u!61 &8377377925825815728
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -71,7 +74,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 1}
+    oldSize: {x: 2, y: 1.125}
     newSize: {x: 2, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -119,9 +122,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 846099225
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0f260b6487a8ee14182d740d54c6783c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3b31f184978e97d418fdced8896fcf19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -132,3 +135,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8089052458308230296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8203157476769932787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8269f0675bc74f14fb44bcf6fa0f4410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

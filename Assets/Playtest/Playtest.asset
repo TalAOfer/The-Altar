@@ -1,0 +1,259 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff27aa73702b964fb2f310e8635c95a, type: 3}
+  m_Name: Playtest
+  m_EditorClassIdentifier: 
+  rooms:
+  - roomType: 0
+    difficulty: 3
+    predetermineEnemies: 1
+    enemyArchetypes:
+    - points: 1
+      color: 1
+    - points: 2
+      color: 0
+    predetermineDeck: 1
+    deck:
+      cards:
+      - points: 1
+        color: 0
+      - points: 1
+        color: 1
+      - points: 2
+        color: 1
+      min: 1
+      max: 10
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 0
+      color: 0
+    cardBlueprint: {fileID: 0}
+    playerDrawMinMax: {x: 1, y: 10}
+    enemyDrawMinMax: {x: 1, y: 10}
+  - roomType: 2
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 1
+      color: 1
+    cardBlueprint: {fileID: 11400000, guid: 3c1e82394196570499ea78cbd4a42466, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 2
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 1
+    archetype:
+      points: 1
+      color: 0
+    cardBlueprint: {fileID: 11400000, guid: 06b9ca1465283fa4e826ebd9d642c16f, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 0
+    difficulty: 2
+    predetermineEnemies: 1
+    enemyArchetypes:
+    - points: 1
+      color: 1
+    - points: 1
+      color: 0
+    predetermineDeck: 1
+    deck:
+      cards:
+      - points: 1
+        color: 1
+      - points: 2
+        color: 0
+      min: 1
+      max: 10
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 0
+      color: 0
+    cardBlueprint: {fileID: 0}
+    playerDrawMinMax: {x: 1, y: 10}
+    enemyDrawMinMax: {x: 1, y: 10}
+  - roomType: 2
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 2
+      color: 0
+    cardBlueprint: {fileID: 11400000, guid: 52009d27a29626b4eb0619acafb8b5f0, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 2
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 1
+    archetype:
+      points: 2
+      color: 1
+    cardBlueprint: {fileID: 11400000, guid: 2982fb3ff519df1489caeda17ec133cd, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 0
+    difficulty: 3
+    predetermineEnemies: 1
+    enemyArchetypes:
+    - points: 2
+      color: 1
+    - points: 2
+      color: 1
+    predetermineDeck: 1
+    deck:
+      cards:
+      - points: 2
+        color: 0
+      - points: 1
+        color: 1
+      - points: 1
+        color: 0
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 0
+      color: 0
+    cardBlueprint: {fileID: 0}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 2
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 3
+      color: 0
+    cardBlueprint: {fileID: 11400000, guid: 3dc9e63bfd731c348b0a1ad8f504a91e, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 2
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 1
+    archetype:
+      points: 3
+      color: 0
+    cardBlueprint: {fileID: 11400000, guid: c453545530b5ea442ba132e4df4a4f68, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 0
+    difficulty: 3
+    predetermineEnemies: 1
+    enemyArchetypes:
+    - points: 3
+      color: 0
+    - points: 3
+      color: 0
+    - points: 1
+      color: 1
+    predetermineDeck: 1
+    deck:
+      cards:
+      - points: 3
+        color: 1
+      - points: 1
+        color: 0
+      - points: 2
+        color: 0
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 0
+      color: 0
+    cardBlueprint: {fileID: 0}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 0
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 0
+      color: 0
+    cardBlueprint: {fileID: 0}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 0
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    amountOfOptions: 0
+    affinity: 0
+    archetype:
+      points: 0
+      color: 0
+    cardBlueprint: {fileID: 0}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}

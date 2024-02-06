@@ -17,6 +17,8 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("prototype", EffectPrototype.Normal)]
     public EffectTarget target;
 
+
+
     [ShowIf("@ShouldShowAmountOfTargets()")]
     public int amountOfTargets = 1;
 
@@ -128,7 +130,7 @@ public class EffectBlueprint : ScriptableObject
     {
         T effect = newEffectGO.AddComponent<T>();
         effect.BaseInitialize(applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
-        applier.BaseInitialize(parentCard, data, isConditional, decision, amountStrategy, amount, triggerType);
+        applier.BaseInitialize(parentCard, data, triggerType);
 
         AddEffectToList(parentCard, triggerType, effect);
 
@@ -239,7 +241,16 @@ public enum EffectTarget
     AllCardsOnMap,
     AllCardsInHand,
     RandomCardOnMap,
-    RandomCardFromHand
+    RandomCardFromHand,
+    LowestPlayerCard,
+}
+
+public enum EffectTargetStrategy
+{
+    All,
+    Random,
+    Highest,
+    Lowest
 }
 
 public enum ApplierType
