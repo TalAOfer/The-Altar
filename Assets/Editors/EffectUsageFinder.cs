@@ -1,8 +1,7 @@
-using UnityEngine;
+#if UNITY_EDITOR
+
 using UnityEditor;
 using Sirenix.OdinInspector.Editor;
-using Sirenix.Utilities.Editor;
-using Sirenix.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -59,3 +58,5 @@ public class EffectUsageFinder : OdinEditorWindow
         return allLists.Any(list => list.Contains(SelectedEffect));
     }
 }
+
+#endif

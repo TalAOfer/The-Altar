@@ -15,7 +15,7 @@ public class EnemyCardSpawner : MonoBehaviour
         card.transform.localPosition = Vector3.zero;
         card.index = containerIndex;
 
-        StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Occupied));
+        StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Enemy));
         card.movement.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
         return card;
     }
@@ -28,7 +28,7 @@ public class EnemyCardSpawner : MonoBehaviour
         card.transform.localPosition = Vector3.zero;
         card.index = containerIndex;
 
-        StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Occupied));
+        StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Enemy));
         card.movement.SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
         return card;
     }

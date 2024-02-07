@@ -10,7 +10,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
     private FloorManager floorManager;
 
     [Title("Gate")]
-    [SerializeField] private GameObject gateGO;
+    public GameObject gateGO;
     [SerializeField] private CustomAnimator gateAnimator;
 
     [Title("Opening")]

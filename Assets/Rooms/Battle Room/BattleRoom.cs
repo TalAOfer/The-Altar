@@ -15,7 +15,7 @@ public class BattleRoom : Room
     [SerializeField] private RunData runData;
 
     [FoldoutGroup("Map Objects")]
-    [SerializeField] private Door door;
+    [SerializeField] protected Door door;
     [FoldoutGroup("Map Objects")]
     public List<MapSlot> grid;
 

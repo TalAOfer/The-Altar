@@ -135,7 +135,7 @@ public class RoomData : ScriptableObject
         int amount = 0;
         foreach(MapSlot slot in EnemyManager.grid)
         {
-            if (slot.slotState != MapSlotState.Occupied) amount++;
+            if (slot.slotState == MapSlotState.Free) amount++;
         }
 
         return amount;

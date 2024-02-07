@@ -33,19 +33,21 @@ public class PlaytestRoom : Room
     {
         BlueprintPoolInstance codex = roomBlueprint.affinity is CardOwner.Player ? runData.playerCodex : runData.enemyCodex;
 
-        CardBlueprint cardBlueprint = codex.GetCardOverride(roomBlueprint.archetype);
+        CardBlueprint blueprintToGain = roomBlueprint.cardBlueprint;
+        CardBlueprint currentBlueprint = codex.GetCardOverride(new CardArchetype(blueprintToGain.defaultPoints, blueprintToGain.cardColor));
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, transform);
-        cardGO.name = cardBlueprint.name;
+        cardGO.name = currentBlueprint.name;
         card = cardGO.GetComponent<Card>();
-        card.Init(codex, cardBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable);
+        card.Init(codex, currentBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable);
         card.visualHandler.ToggleOutline(true);
         return card;
     }
 
     private void HandleInitialText()
     {
+        CardBlueprint blueprintToGain = roomBlueprint.cardBlueprint;
         string text = (roomBlueprint.affinity is CardOwner.Player) ? playerInitialText : enemyInitialText;
-        string cardName = Tools.GetCardNameByArchetype(roomBlueprint.archetype, roomBlueprint.affinity);
+        string cardName = Tools.GetCardNameByArchetype(new CardArchetype(blueprintToGain.defaultPoints, blueprintToGain.cardColor), roomBlueprint.affinity);
         text = string.Format(text, cardName);
         textUGUI.text = text;
     }

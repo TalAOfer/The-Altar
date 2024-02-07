@@ -13,7 +13,6 @@ public enum BattleInteractionState
 public class BattleInteractionHandler : CardInteractionBase
 {
     [SerializeField] private CurrentGameState gameState;
-    [SerializeField] private float hoverHeightBoostAmount;
     private bool isArrowActive;
     private bool canClick = true;
 
@@ -48,12 +47,12 @@ public class BattleInteractionHandler : CardInteractionBase
         selectedCard = null;
     }
 
-    private void Highlight(Card card)
+    public virtual void Highlight(Card card)
     {
         card.movement.Highlight();
     }
 
-    private void Dehighlight(Card card)
+    public virtual void Dehighlight(Card card)
     {
         card.movement.Dehighlight();
     }
@@ -135,8 +134,6 @@ public class BattleInteractionHandler : CardInteractionBase
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
         if (card.cardState != CardState.Default) return;
 
-
-        bool isThereASelectedCard = selectedCard != null;
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
 
         card.events.ShowTooltip.Raise(this, card);

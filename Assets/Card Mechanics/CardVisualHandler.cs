@@ -186,6 +186,11 @@ public class CardVisualHandler : MonoBehaviour
         slashSr.sortingLayerName = sortingLayerName;
     }
 
+    public string GetSortingLayer()
+    {
+        return cardSr.sortingLayerName;
+    }
+
     #endregion
 
     public void Animate(string animName)

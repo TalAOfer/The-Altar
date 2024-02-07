@@ -9,20 +9,20 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
-    private PlayerManager playerManager;
-    private BattleRoom roomManager;
+    protected PlayerManager playerManager;
+    protected BattleRoom roomManager;
 
-    private Card enemyCard;
-    private Card playerCard;
+    protected Card enemyCard;
+    protected Card playerCard;
 
     [FoldoutGroup("Dependencies")]
-    [SerializeField] private RoomData roomData;
+    [SerializeField] protected RoomData roomData;
     [FoldoutGroup("Dependencies")]
-    [SerializeField] private AllEvents events;
+    [SerializeField] protected AllEvents events;
     [FoldoutGroup("Dependencies")]
-    [SerializeField] private CardData cardData;
+    [SerializeField] protected CardData cardData;
     [FoldoutGroup("Dependencies")]
-    [SerializeField] private BattleInteractionHandler interactionHandler;
+    [SerializeField] protected BattleInteractionHandler interactionHandler;
 
     public void Initialize(FloorManager floorManager)
     {
@@ -46,7 +46,7 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(BattleRoutine());
     }
 
-    private IEnumerator BattleRoutine()
+    protected virtual IEnumerator BattleRoutine()
     {
         events.SetGameState.Raise(this, GameState.Battle);
 
@@ -277,7 +277,7 @@ public class BattleManager : MonoBehaviour
         yield return calcEnemyCardHurtPoints;
     }
 
-    private IEnumerator DeathRoutine()
+    protected virtual IEnumerator DeathRoutine()
     {
         Coroutine ApplyPlayerCardOnDeathEffects = null;
         Coroutine ApplyEnemyCardOnDeathEffects = null;
@@ -414,7 +414,7 @@ public class BattleManager : MonoBehaviour
         playerManager.hand.RemoveCardFromHand(playerCard);
     }
 
-    private IEnumerator AnimateBackoff()
+    public virtual IEnumerator AnimateBackoff()
     {
         playerManager.hand.AddCardToHand(playerCard);
         playerCard.visualHandler.SetSortingOrder(playerCard.index);

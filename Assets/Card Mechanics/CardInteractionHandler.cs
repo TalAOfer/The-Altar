@@ -10,6 +10,13 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 {
     [FoldoutGroup("Components")]
     public Card card;
+    [FoldoutGroup("Components")]
+    public Collider2D coll;
+
+    public void SetInteractability(bool enable)
+    {
+        coll.enabled = enable;
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {

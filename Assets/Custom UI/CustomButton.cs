@@ -17,7 +17,7 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     private void Awake()
     {
-        SetInteractability(true);
+        //SetInteractability(true);
     }
 
     public void SetInteractability(bool enable)

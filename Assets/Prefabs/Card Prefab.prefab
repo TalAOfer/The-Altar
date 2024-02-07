@@ -662,6 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 3041129387846409230}
+  coll: {fileID: 4332693668557929980}
 --- !u!61 &4332693668557929980
 BoxCollider2D:
   m_ObjectHideFlags: 0

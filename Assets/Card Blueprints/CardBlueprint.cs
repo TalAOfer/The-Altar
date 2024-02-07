@@ -54,8 +54,9 @@ public enum SpecialEffects
 [Serializable]
 public class CardArchetype
 {
-    public int points;
-    public CardColor color;
+    [HorizontalGroup ("", Width = 100)] public int points;
+
+    [HorizontalGroup("")] public CardColor color;
 
     public CardArchetype(int points, CardColor color)
     {

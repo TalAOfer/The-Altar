@@ -1,7 +1,5 @@
 using Sirenix.OdinInspector;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class FloorManager : MonoBehaviour
@@ -21,6 +19,8 @@ public class FloorManager : MonoBehaviour
     [SerializeField] private GameObject cardPickingRoomPrefab;
     [FoldoutGroup("Prefabs")]
     [SerializeField] private GameObject playTestPrefab;
+    [FoldoutGroup("Prefabs")]
+    [SerializeField] private GameObject tutorialBattleRoomPrefab;
 
     [FoldoutGroup("Transforms")]
     [SerializeField] private Transform newRoomSpawnPos;
@@ -99,7 +99,7 @@ public class FloorManager : MonoBehaviour
         switch (CurrentRoomBlueprint.roomType)
         {
             case RoomType.Battle:
-                roomPrefab = battleRoomPrefab;
+                roomPrefab = !CurrentRoomBlueprint.isTutorial ? battleRoomPrefab : tutorialBattleRoomPrefab;
                 break;
             case RoomType.CardPicking:
                 roomPrefab = cardPickingRoomPrefab;

@@ -64,6 +64,12 @@ TagManager:
   - name: Top Player Card
     uniqueID: 1633687919
     locked: 0
+  - name: Mask
+    uniqueID: 811918891
+    locked: 0
+  - name: Top
+    uniqueID: 1502137557
+    locked: 0
   - name: Arrow
     uniqueID: 812069991
     locked: 0
