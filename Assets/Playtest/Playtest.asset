@@ -184,15 +184,15 @@ MonoBehaviour:
       color: 0
     - points: 3
       color: 0
-    - points: 1
-      color: 1
+    - points: 2
+      color: 0
     predetermineDeck: 1
     deck:
       cards:
       - points: 3
         color: 1
-      - points: 1
-        color: 0
+      - points: 2
+        color: 1
       - points: 2
         color: 0
       min: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
     cardBlueprint: {fileID: 0}
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
-  - roomType: 0
+  - roomType: 2
     difficulty: 3
     predetermineEnemies: 0
     enemyArchetypes: []
@@ -215,16 +215,108 @@ MonoBehaviour:
     isTutorial: 0
     amountOfOptions: 0
     affinity: 0
-    cardBlueprint: {fileID: 0}
+    cardBlueprint: {fileID: 11400000, guid: 185970afd98f6f844a5e77342200a0f9, type: 2}
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
-  - roomType: 0
+  - roomType: 2
     difficulty: 3
     predetermineEnemies: 0
     enemyArchetypes: []
     predetermineDeck: 0
     deck:
       cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
+    amountOfOptions: 0
+    affinity: 1
+    cardBlueprint: {fileID: 11400000, guid: d4b95a6f25d74a440bf6976d1da4bf80, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 0
+    difficulty: 3
+    predetermineEnemies: 1
+    enemyArchetypes:
+    - points: 4
+      color: 1
+    - points: 8
+      color: 0
+    predetermineDeck: 1
+    deck:
+      cards:
+      - points: 4
+        color: 1
+      - points: 1
+        color: 1
+      - points: 2
+        color: 0
+      min: 0
+      max: 0
+    isTutorial: 0
+    amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 2
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
+    amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 11400000, guid: 92f6b66f8e4e8ae4888f95e3b6679761, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 2
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
+    amountOfOptions: 0
+    affinity: 1
+    cardBlueprint: {fileID: 11400000, guid: 66aab4f7596325945907934263230307, type: 2}
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 0
+    difficulty: 3
+    predetermineEnemies: 1
+    enemyArchetypes:
+    - points: 2
+      color: 0
+    - points: 5
+      color: 0
+    - points: 2
+      color: 1
+    - points: 5
+      color: 1
+    predetermineDeck: 1
+    deck:
+      cards:
+      - points: 2
+        color: 1
+      - points: 2
+        color: 0
+      - points: 1
+        color: 1
+      - points: 3
+        color: 1
+      - points: 2
+        color: 1
+      - points: 1
+        color: 1
+      - points: 4
+        color: 1
       min: 0
       max: 0
     isTutorial: 0
