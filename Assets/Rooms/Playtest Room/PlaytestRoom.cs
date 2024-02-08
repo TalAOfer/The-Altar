@@ -65,6 +65,7 @@ public class PlaytestRoom : Room
     public override void OnRoomFinishedLerping()
     {
         StartCoroutine(ChangeRoutine());
+        cardInteraction.gameObject.SetActive(true);
     }
 
     private IEnumerator ChangeRoutine()
@@ -79,9 +80,9 @@ public class PlaytestRoom : Room
         {
             yield return new WaitForSeconds(extraTextDelay);
             HandleExtraText();
-            cardInteraction.gameObject.SetActive(true);
             yield return new WaitForSeconds(enableButtonDelay);
         }
+
         button.gameObject.SetActive(true);
 
     }
