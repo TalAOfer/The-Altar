@@ -38,6 +38,9 @@
 		</relationship>
 	</object>
 	<object class="MasterTrack" id="{cfd782e3-59c4-4346-a69a-9012468e2b16}">
+		<relationship name="automationTracks">
+			<destination>{57218659-584a-4008-9a8a-498bd5ab16d3}</destination>
+		</relationship>
 		<relationship name="modules">
 			<destination>{9034a95e-72e0-45ea-820e-eda044bd4a51}</destination>
 		</relationship>
@@ -74,12 +77,17 @@
 			<destination>{37b8975c-2ca0-4ab1-a21b-976e573ff26e}</destination>
 		</relationship>
 	</object>
+	<object class="AutomationTrack" id="{57218659-584a-4008-9a8a-498bd5ab16d3}">
+		<relationship name="automator">
+			<destination>{d62e08b7-eb32-4eb6-8d72-acc5539de4e5}</destination>
+		</relationship>
+	</object>
 	<object class="SingleSound" id="{9034a95e-72e0-45ea-820e-eda044bd4a51}">
-		<property name="start">
-			<value>0.080000000000000002</value>
-		</property>
 		<property name="length">
-			<value>1.1000000000000001</value>
+			<value>0.81999999999999984</value>
+		</property>
+		<property name="timelockedOffset">
+			<value>0.27999999999999997</value>
 		</property>
 		<relationship name="fadeOutCurve">
 			<destination>{0d301d7a-dd0f-4bba-a214-bd4e1c6cab72}</destination>
@@ -97,6 +105,7 @@
 	<object class="MixerBusEffectChain" id="{b0c4ad8e-0491-412e-b4b8-d897371839b7}">
 		<relationship name="effects">
 			<destination>{1d2fbefb-28ab-46c5-b970-8306ae446c68}</destination>
+			<destination>{8cc023ce-62d0-45b3-b04f-b40794ea6716}</destination>
 			<destination>{1f1bbc43-2d0e-482e-8e72-b5c64fb2c4b5}</destination>
 		</relationship>
 	</object>
@@ -111,6 +120,20 @@
 	</object>
 	<object class="MixerBusFader" id="{d7e821d0-97dc-4cfa-a7af-242f14f1aa70}" />
 	<object class="MixerBusFader" id="{1d2fbefb-28ab-46c5-b970-8306ae446c68}" />
+	<object class="MultibandEqEffect" id="{8cc023ce-62d0-45b3-b04f-b40794ea6716}">
+		<property name="filterTypeA">
+			<value>9</value>
+		</property>
+		<property name="frequencyA">
+			<value>2770.78125</value>
+		</property>
+		<property name="gainA">
+			<value>7.5</value>
+		</property>
+		<relationship name="automators">
+			<destination>{d62e08b7-eb32-4eb6-8d72-acc5539de4e5}</destination>
+		</relationship>
+	</object>
 	<object class="SFXReverbEffect" id="{1f1bbc43-2d0e-482e-8e72-b5c64fb2c4b5}">
 		<property name="wetLevel">
 			<value>-13.5</value>
@@ -118,7 +141,7 @@
 	</object>
 	<object class="AutomationPoint" id="{92a83641-82d7-4326-b935-88433d88331b}">
 		<property name="position">
-			<value>0.88</value>
+			<value>0.51999999999999957</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -129,10 +152,46 @@
 	</object>
 	<object class="AutomationPoint" id="{223370c5-8803-46df-b1aa-2f7259fc641d}">
 		<property name="position">
-			<value>1.1800000000000002</value>
+			<value>0.81999999999999984</value>
 		</property>
 		<property name="value">
 			<value>0</value>
+		</property>
+	</object>
+	<object class="Automator" id="{d62e08b7-eb32-4eb6-8d72-acc5539de4e5}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>gainA</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{eb5b2e1b-3e50-4fe4-9658-f116d1a3d044}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationCurve" id="{eb5b2e1b-3e50-4fe4-9658-f116d1a3d044}">
+		<relationship name="parameter">
+			<destination>{a7519a89-26e7-4fa9-b5a0-bb0d3938445a}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{44a61e9f-a215-4506-9701-4afdc934e27c}</destination>
+			<destination>{a929138f-25ee-4a28-8995-9ecb02ffb73f}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationPoint" id="{44a61e9f-a215-4506-9701-4afdc934e27c}">
+		<property name="position">
+			<value>0.0022282430213464697</value>
+		</property>
+		<property name="value">
+			<value>7.5</value>
+		</property>
+		<property name="curveShape">
+			<value>0.186922416</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{a929138f-25ee-4a28-8995-9ecb02ffb73f}">
+		<property name="position">
+			<value>0.56000000000000005</value>
+		</property>
+		<property name="value">
+			<value>-30</value>
 		</property>
 	</object>
 </objects>
