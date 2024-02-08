@@ -11,6 +11,7 @@ public class PlaytestRoom : Room
     [SerializeField] private RoomData roomData;
     private FloorManager floorManager;
     private RoomBlueprint roomBlueprint;
+    [SerializeField] private CustomButton button;
     [SerializeField] private TextMeshProUGUI textUGUI;
     [TextArea(0, 3)]
     [SerializeField] private string playerInitialText;
@@ -19,11 +20,14 @@ public class PlaytestRoom : Room
     [SerializeField] private string enemyInitialText;
     [SerializeField] private string enemyExtraText;
     private Card card;
+    [SerializeField] private float extraTextDelay;
+    [SerializeField] private float enableButtonDelay;
 
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
         this.roomBlueprint = roomBlueprint;
         this.floorManager = floorManager;
+        cardInteraction.gameObject.SetActive(false);
 
         HandleInitialText();
         SpawnCard();
@@ -54,7 +58,7 @@ public class PlaytestRoom : Room
 
     private void HandleExtraText()
     {
-        textUGUI.text += "\n";
+        textUGUI.text += "\n\n";
         textUGUI.text += (roomBlueprint.affinity is CardOwner.Player) ? playerExtraText : enemyExtraText;
     }
 
@@ -71,13 +75,20 @@ public class PlaytestRoom : Room
 
         StartCoroutine(HandleAllShapeshiftsUntilStable());
         yield return StartCoroutine(card.HandleShapeshift());
-        
-        HandleExtraText();
-        cardInteraction.gameObject.SetActive(true);
+        if (roomBlueprint.shouldShowExtraText)
+        {
+            yield return new WaitForSeconds(extraTextDelay);
+            HandleExtraText();
+            cardInteraction.gameObject.SetActive(true);
+            yield return new WaitForSeconds(enableButtonDelay);
+        }
+        button.gameObject.SetActive(true);
+
     }
 
     public void NextRoom()
     {
+        cardInteraction.gameObject.SetActive(false);
         floorManager.NextRoom();
     }
 

@@ -9,6 +9,10 @@ public class TutorialBattleRoom : BattleRoom
 {
     [SerializeField] private RoomData roomData;
     [SerializeField] private Image curtain;
+    [SerializeField] private GraphicRaycaster canvasRaycaster;
+    [SerializeField] private Button canvasInteractionButton;
+    private int index = 0;
+
     [Title("Grid Tutorial")]
     [SerializeField] private SpriteRenderer gridGlow;
     [SerializeField] private GameObject gridText;
@@ -20,10 +24,9 @@ public class TutorialBattleRoom : BattleRoom
     [SerializeField] private GameObject doorText;
     [Title("Attack Tutorial")]
     [SerializeField] private GameObject attackText;
-    private int index = 0;
-    [SerializeField] private GraphicRaycaster canvasRaycaster;
-    [SerializeField] private Button canvasInteractionButton;
 
+    public void SetInteractability(bool enable) => canvasInteractionButton.interactable = enable;
+    public void SetRaycastBlock(bool enable) => canvasRaycaster.enabled = enable;
     public override void OnRoomFinishedLerping()
     {
         base.OnRoomFinishedLerping();
@@ -52,8 +55,6 @@ public class TutorialBattleRoom : BattleRoom
     {
         yield return new WaitForSeconds(1.5f);
 
-        canvasInteractionButton.interactable = true;
-
         foreach (MapSlot slot in grid)
         {
             slot.SetSortingLayer("Top");
@@ -70,10 +71,12 @@ public class TutorialBattleRoom : BattleRoom
 
         yield return new WaitForSeconds(0.5f);
         gridText.SetActive(true);
+        SetInteractability(true);
     }
 
     private IEnumerator HandRoutine()
     {
+        SetInteractability(false);
         gridGlow.DOFade(0, 0.5f);
         gridText.SetActive(false);
 
@@ -96,10 +99,12 @@ public class TutorialBattleRoom : BattleRoom
         handGlow.DOFade(1, 0.5f);
         yield return new WaitForSeconds(0.5f);
         handText.SetActive(true);
+        SetInteractability(true);
     }
 
     private IEnumerator DoorRoutine()
     {
+        SetInteractability(false);
         handGlow.DOFade(0, 0.5f);
         handText.SetActive(false);
 
@@ -113,6 +118,7 @@ public class TutorialBattleRoom : BattleRoom
         doorGlow.DOFade(1, 0.5f);
         yield return new WaitForSeconds(0.5f);
         doorText.SetActive(true);
+        SetInteractability(true);
     }
 
     private IEnumerator BattleRoutine()
@@ -145,13 +151,6 @@ public class TutorialBattleRoom : BattleRoom
         Card interactableEnemy = activeEnemies[0];
         interactableEnemy.visualHandler.SetSortingLayer("Top");
         activeEnemies[1].interactionHandler.SetInteractability(false);
-
-        var enemyGridSlot = grid[interactableEnemy.index];
-        enemyGridSlot.SetSortingLayer("Top");
-        enemyGridSlot.SetSortingOrder(-1);
-
-        yield return null;
-
     }
 
     public void FadeCurtain(bool fadeIn)
@@ -159,4 +158,6 @@ public class TutorialBattleRoom : BattleRoom
         float fade = fadeIn ? 0.7f : 0f;
         curtain.DOFade(fade, 0.5f);
     }
+
+
 }

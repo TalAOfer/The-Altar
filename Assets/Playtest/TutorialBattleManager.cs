@@ -7,7 +7,13 @@ public class TutorialBattleManager : BattleManager
     [SerializeField] private GameObject shapeshiftText;
     [SerializeField] private GameObject attackText;
     [SerializeField] private TutorialBattleRoom room;
-    
+    private bool isFrozen;
+
+    public void UnfreezeBattle()
+    {
+        isFrozen = false;
+    }
+
     public override IEnumerator AnimateBackoff()
     {
         room.FadeCurtain(false);
@@ -24,17 +30,27 @@ public class TutorialBattleManager : BattleManager
         bool isFirstFight = playerCard.visualHandler.GetSortingLayer() == "Top";
         if (isFirstFight)
         {
-            shapeshiftText.SetActive(true);
             Vector3 textPos = playerCard.transform.position;
             textPos.x += 6f;
             shapeshiftText.transform.position = textPos;
+            shapeshiftText.SetActive(true);
         }
 
         yield return base.DeathRoutine();
-        
+
         if (isFirstFight)
         {
-            yield return new WaitForSeconds(2f);
+            isFrozen = true;
+            room.SetRaycastBlock(true);
+            room.SetInteractability(true);
+
+            while (isFrozen)
+            {
+                yield return null;
+            }
+
+            room.SetRaycastBlock(false);
+            room.SetInteractability(false);
             shapeshiftText.SetActive(false);
         }
     }
@@ -43,7 +59,7 @@ public class TutorialBattleManager : BattleManager
     {
         attackText.SetActive(false);
         yield return StartCoroutine(base.BattleRoutine());
-        
+
         for (int i = 0; i < roomData.PlayerManager.activeCards.Count; i++)
         {
             Card currentCard = roomData.PlayerManager.activeCards[i];

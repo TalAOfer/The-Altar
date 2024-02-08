@@ -36,6 +36,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 1, y: 10}
     enemyDrawMinMax: {x: 1, y: 10}
   - roomType: 2
@@ -51,6 +52,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 11400000, guid: 3c1e82394196570499ea78cbd4a42466, type: 2}
+    shouldShowExtraText: 1
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 2
@@ -66,6 +68,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 1
     cardBlueprint: {fileID: 11400000, guid: 06b9ca1465283fa4e826ebd9d642c16f, type: 2}
+    shouldShowExtraText: 1
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 0
@@ -89,6 +92,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 1, y: 10}
     enemyDrawMinMax: {x: 1, y: 10}
   - roomType: 2
@@ -104,6 +108,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 11400000, guid: 52009d27a29626b4eb0619acafb8b5f0, type: 2}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 2
@@ -119,6 +124,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 1
     cardBlueprint: {fileID: 11400000, guid: 2982fb3ff519df1489caeda17ec133cd, type: 2}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 0
@@ -144,6 +150,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 2
@@ -159,6 +166,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 11400000, guid: 3dc9e63bfd731c348b0a1ad8f504a91e, type: 2}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 2
@@ -174,6 +182,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 1
     cardBlueprint: {fileID: 11400000, guid: c453545530b5ea442ba132e4df4a4f68, type: 2}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 0
@@ -201,6 +210,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 2
@@ -216,6 +226,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 11400000, guid: 185970afd98f6f844a5e77342200a0f9, type: 2}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 2
@@ -231,6 +242,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 1
     cardBlueprint: {fileID: 11400000, guid: d4b95a6f25d74a440bf6976d1da4bf80, type: 2}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 0
@@ -256,6 +268,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 2
@@ -271,6 +284,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 11400000, guid: 92f6b66f8e4e8ae4888f95e3b6679761, type: 2}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 2
@@ -286,6 +300,7 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 1
     cardBlueprint: {fileID: 11400000, guid: 66aab4f7596325945907934263230307, type: 2}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}
   - roomType: 0
@@ -323,5 +338,6 @@ MonoBehaviour:
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 0, y: 0}
     enemyDrawMinMax: {x: 0, y: 0}

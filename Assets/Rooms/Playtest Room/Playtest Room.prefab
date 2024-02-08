@@ -297,17 +297,20 @@ MonoBehaviour:
   cardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
   runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
   roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
+  button: {fileID: 3377209361634453481}
   textUGUI: {fileID: 1464761279}
   playerInitialText: 'One of your cards has been altered!
 
-    From now on, {0} will
-    have a new effect.'
-  playerExtraText: Hover over a card to see it's effect.
-  enemyInitialText: 'One the enemy cards has been altered!
-
-    From now on, {0}
+    From now on, <i>{0}</i>
     will have a new effect.'
+  playerExtraText: Hover over a card to see it's effect.
+  enemyInitialText: 'One the <b>enemy</b> cards has been altered!
+
+    From now on,
+    <i>{0}</i> will have a new effect.'
   enemyExtraText: Effect cards are indicated by an orange ornament.
+  extraTextDelay: 0.25
+  enableButtonDelay: 0.5
 --- !u!114 &4402735846368474908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,6 +627,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Custom Button
       objectReference: {fileID: 0}
+    - target: {fileID: 8203157476769932787, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8377377925825815728, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1.125
@@ -635,6 +642,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2389002168714266096, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
   m_PrefabInstance: {fileID: 258767640203291380}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3377209361634453481 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3263158961434955037, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+  m_PrefabInstance: {fileID: 258767640203291380}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e09fa15417beb49aa316a2c10572a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1125507745735049051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -708,7 +726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}

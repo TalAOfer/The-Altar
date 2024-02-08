@@ -73,6 +73,24 @@ public class BezierArrow : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        ResetArrow();
+    }
+
+    public void ResetArrow()
+    {
+        // Ensure arrow nodes are initialized
+        if (arrowNodes == null || arrowNodes.Count == 0) Initialize();
+
+        // Position the nodes off-screen or in their initial positions
+        arrowNodes.ForEach(a => a.position = new Vector3(-1000, -1000, 0));
+
+        // Optionally, reset other components like rotations or scales if needed
+        arrowNodes.ForEach(a => a.rotation = Quaternion.identity);
+        arrowNodes.ForEach(a => a.localScale = Vector3.one * scaleFactor);
+    }
+
     private void Update()
     {
         // Assuming origin is the position of this GameObject and it's already in world space

@@ -121,10 +121,10 @@ public static class Tools
         switch (owner)
         {
             case CardOwner.Player:
-                symbolName = archetype.color == CardColor.Red ? "Hearts" : "Clubs";
+                symbolName = archetype.color == CardColor.Red ? "Hearts" : "Spades";
                 break;
             case CardOwner.Enemy:
-                symbolName = archetype.color == CardColor.Red ? "Diamonds" : "Spades";
+                symbolName = archetype.color == CardColor.Red ? "Diamonds" : "Clubs";
                 break;
         }
 

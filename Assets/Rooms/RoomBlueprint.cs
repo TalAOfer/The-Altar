@@ -48,6 +48,10 @@ public class RoomBlueprint
     public CardBlueprint cardBlueprint;
 
     [FoldoutGroup("Room Data")]
+    [ShowIf("roomType", RoomType.Playtest)]
+    public bool shouldShowExtraText;
+
+    [FoldoutGroup("Room Data")]
     [HideIf("@ShouldHidePlayerMinmax()")]
     public Vector2Int playerDrawMinMax;
     
