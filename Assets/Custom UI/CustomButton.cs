@@ -8,18 +8,27 @@ using DG.Tweening;
 public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private CustomGameEvent response;
-    [FoldoutGroup("Components")]
-    [SerializeField] private Collider2D coll;
-    [FoldoutGroup("Components")]
-    [SerializeField] private SpriteRenderer sr;
-    [FoldoutGroup("Components")]
-    [SerializeField] private Tweener tweener;
+   
+    [SerializeField] private bool animate;
+    [ShowIf("animate")]
+    [FoldoutGroup("Animations")]
+    [SerializeField] private TweenBlueprint clickReaction;
+    [ShowIf("animate")]
+    [FoldoutGroup("Animations")]
+    [SerializeField] private TweenBlueprint hoverReaction;
+    [ShowIf("animate")]
+    [FoldoutGroup("Animations")]
+    [SerializeField] private TweenBlueprint hoverOutReaction;
+   
+    private Collider2D coll;
+    private Tweener tweener;
+   
 
     private void Awake()
     {
-        //SetInteractability(true);
+        coll = GetComponent<Collider2D>();
+        if (animate) tweener = GetComponentInChildren<Tweener>();
     }
-
     public void SetInteractability(bool enable)
     {
         coll.enabled = enable;
@@ -27,17 +36,21 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //tweener.TriggerShake();
+        if (animate) 
+            tweener.TriggerTween(clickReaction);
+
         response.Invoke(null, null);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //tweener.TriggerJiggle();
+        if (animate) 
+            tweener.TriggerTween(hoverReaction);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //tweener.TriggerBounce();
+        if (animate)
+            tweener.TriggerTween(hoverOutReaction);
     }
 }
