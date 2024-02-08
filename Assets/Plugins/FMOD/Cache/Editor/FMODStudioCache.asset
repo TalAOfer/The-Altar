@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638430029443250193
+  lastModified: 638430052201703963
   FileSizes:
   - Name: Desktop
-    Value: 906
+    Value: 944
   Exists: 1
 --- !u!114 &-2091959578879752958
 MonoBehaviour:
@@ -35,10 +35,10 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638430029443250193
+  lastModified: 638430052201684032
   FileSizes:
   - Name: Desktop
-    Value: 127648
+    Value: 777728
   Exists: 1
 --- !u!114 &-58266626308162695
 MonoBehaviour:
@@ -87,12 +87,13 @@ MonoBehaviour:
   - {fileID: 3603218683359353080}
   - {fileID: -58266626308162695}
   - {fileID: 6763912478453842792}
+  - {fileID: 6489803621721557769}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2091959578879752958}
   StringsBanks:
   - {fileID: -5086653365721492944}
-  cacheTime: 638430029443250193
+  cacheTime: 638430052201703963
   cacheVersion: 131609
 --- !u!114 &3603218683359353080
 MonoBehaviour:
@@ -120,7 +121,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 2269
+  Length: 2219
 --- !u!114 &4502771862774437572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +149,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
+--- !u!114 &6489803621721557769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambient
+  m_EditorClassIdentifier: 
+  Path: event:/Ambient
+  Guid:
+    Data1: -34436773
+    Data2: 1321846030
+    Data3: -765115714
+    Data4: 1310439274
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 56000
 --- !u!114 &6763912478453842792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,4 +202,4 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 3961
+  Length: 1180

@@ -75,9 +75,15 @@
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{9034a95e-72e0-45ea-820e-eda044bd4a51}">
-		<property name="length">
-			<value>3.9618958333333332</value>
+		<property name="start">
+			<value>0.080000000000000002</value>
 		</property>
+		<property name="length">
+			<value>1.1000000000000001</value>
+		</property>
+		<relationship name="fadeOutCurve">
+			<destination>{0d301d7a-dd0f-4bba-a214-bd4e1c6cab72}</destination>
+		</relationship>
 		<relationship name="audioFile">
 			<destination>{0578eba1-b8e4-45ba-af22-38b8f5d3d94b}</destination>
 		</relationship>
@@ -91,9 +97,42 @@
 	<object class="MixerBusEffectChain" id="{b0c4ad8e-0491-412e-b4b8-d897371839b7}">
 		<relationship name="effects">
 			<destination>{1d2fbefb-28ab-46c5-b970-8306ae446c68}</destination>
+			<destination>{1f1bbc43-2d0e-482e-8e72-b5c64fb2c4b5}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{42691a4c-0e19-4352-9e90-bf8a4b2c9740}" />
+	<object class="FadeCurve" id="{0d301d7a-dd0f-4bba-a214-bd4e1c6cab72}">
+		<relationship name="startPoint">
+			<destination>{92a83641-82d7-4326-b935-88433d88331b}</destination>
+		</relationship>
+		<relationship name="endPoint">
+			<destination>{223370c5-8803-46df-b1aa-2f7259fc641d}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusFader" id="{d7e821d0-97dc-4cfa-a7af-242f14f1aa70}" />
 	<object class="MixerBusFader" id="{1d2fbefb-28ab-46c5-b970-8306ae446c68}" />
+	<object class="SFXReverbEffect" id="{1f1bbc43-2d0e-482e-8e72-b5c64fb2c4b5}">
+		<property name="wetLevel">
+			<value>-13.5</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{92a83641-82d7-4326-b935-88433d88331b}">
+		<property name="position">
+			<value>0.88</value>
+		</property>
+		<property name="value">
+			<value>1</value>
+		</property>
+		<property name="curveShape">
+			<value>0.424286842</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{223370c5-8803-46df-b1aa-2f7259fc641d}">
+		<property name="position">
+			<value>1.1800000000000002</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+	</object>
 </objects>
