@@ -402,6 +402,7 @@ public class BattleManager : MonoBehaviour
 
         StartCoroutine(RemoveCardFromHand());
 
+        Tools.PlaySound("Card_Attack", playerCard.transform);
         Vector2 enemyCardClosestCollPos = enemyCard.movement.GetClosestCollPosToOtherCard(playerCard.transform.position);
         Coroutine playerCardHeadbutt = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, enemyCardClosestCollPos, Vector3.one, null, cardData.headbuttSpeed, cardData.headbuttCurve));
 

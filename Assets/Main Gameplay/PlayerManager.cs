@@ -59,5 +59,6 @@ public class PlayerManager : MonoBehaviour
         activeCards.Add(card);
         hand.AddCardToHand(card);
         hand.ResetCardsToPlaceholders();
+        Tools.PlaySound("Card_Draw", card.transform);
     }
 }

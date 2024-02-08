@@ -235,6 +235,7 @@ public class Card : MonoBehaviour
 
         if (IsDead)
         {
+            Tools.PlaySound("Card_Death", transform);
             yield return StartCoroutine(visualHandler.ToggleOverallVanish(true));
             yield break;
         }

@@ -1,10 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.Utilities;
-using UnityEngine.AI;
-using JetBrains.Annotations;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public static class Tools
 {
@@ -129,5 +124,11 @@ public static class Tools
         }
 
         return amountName + " of " + symbolName;
+    }
+
+    public static void PlaySound(string soundName, Transform emitter)
+    {
+        string eventName = "event:/" + soundName;
+        FMODUnity.RuntimeManager.PlayOneShot(eventName, emitter.position);
     }
 }

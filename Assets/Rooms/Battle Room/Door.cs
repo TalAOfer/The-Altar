@@ -31,6 +31,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
     {
         coll.enabled = true;
         gateAnimator.PlayAnimation("Open");
+        Tools.PlaySound("Door_Open", transform);
         float animationDuration = gateAnimator.GetAnimationDuration("Open");
         StartCoroutine(WaitForAnimationEnd(animationDuration));
     }
@@ -38,6 +39,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
     public IEnumerator WaitForAnimationEnd(float animationDuration)
     {
         yield return new WaitForSeconds(animationDuration);
+        events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
         didFinishAnimation = true;
         gateGO.SetActive(false);
         if (didClickDoor) floorManager.NextRoom();

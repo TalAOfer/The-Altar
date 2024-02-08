@@ -1393,6 +1393,7 @@ GameObject:
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420035}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1549,6 +1550,19 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &548971617
 GameObject:
   m_ObjectHideFlags: 0
@@ -7191,7 +7205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8647135f4b3b944eb1042cc07cc7971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 11400000, guid: b4cfa14c2621cf94b9ef573e4d726cfe, type: 2}
+  floor: {fileID: 11400000, guid: 6bf121c597079c749a97cf2f5e96eeb5, type: 2}
   currentRoomIndex: 0
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   swipeDuration: 1
