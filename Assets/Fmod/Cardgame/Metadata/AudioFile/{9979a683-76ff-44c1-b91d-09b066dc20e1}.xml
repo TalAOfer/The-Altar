@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{9979a683-76ff-44c1-b91d-09b066dc20e1}">
+		<property name="assetPath">
+			<value>ESM_FG_FX_one_shot_farming_axe_sword_swing_attack_1_tool_whoosh.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.36483333333333334</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e7004cd7-4497-4616-ad7d-78a4b4c4e95d}</destination>
+		</relationship>
+	</object>
+</objects>

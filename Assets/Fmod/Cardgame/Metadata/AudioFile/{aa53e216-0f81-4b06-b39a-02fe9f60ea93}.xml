@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{aa53e216-0f81-4b06-b39a-02fe9f60ea93}">
+		<property name="assetPath">
+			<value>ESM_Card_Game_Magic_Glitter_Missile_01_Fantasy_Cast_Spell_Shoot_Poof_Whoosh.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>5.5681250000000002</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e7004cd7-4497-4616-ad7d-78a4b4c4e95d}</destination>
+		</relationship>
+	</object>
+</objects>

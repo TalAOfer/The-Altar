@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{db3a69e4-30f9-431a-99a5-9377287bfb9f}">
+		<property name="assetPath">
+			<value>shs_oat2_church_bells_2_119.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>2.0168027210884354</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e7004cd7-4497-4616-ad7d-78a4b4c4e95d}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,213 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5086653365721492944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/Fmod/Cardgame/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638430780227066704
-  FileSizes:
-  - Name: Desktop
-    Value: 1152
-  Exists: 1
---- !u!114 &-4219248693387618430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Click_Confirm
-  m_EditorClassIdentifier: 
-  Path: event:/Click_Confirm
-  Guid:
-    Data1: -29206506
-    Data2: 1212613018
-    Data3: 524876696
-    Data4: -1210326702
-  Banks:
-  - {fileID: -2091959578879752958}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1442
---- !u!114 &-2091959578879752958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/Fmod/Cardgame/Build/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 638430861088212865
-  FileSizes:
-  - Name: Desktop
-    Value: 1777056
-  Exists: 1
---- !u!114 &-469990387951543394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Click_Default
-  m_EditorClassIdentifier: 
-  Path: event:/Click_Default
-  Guid:
-    Data1: 187870120
-    Data2: 1116150696
-    Data3: -982872910
-    Data4: -752977421
-  Banks:
-  - {fileID: -2091959578879752958}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1440
---- !u!114 &-58266626308162695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Door_Open
-  m_EditorClassIdentifier: 
-  Path: event:/Door_Open
-  Guid:
-    Data1: 1559111775
-    Data2: 1074591051
-    Data3: 2028114310
-    Data4: 1116464632
-  Banks:
-  - {fileID: -2091959578879752958}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 3503
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
-  m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: -5086653365721492944}
-  - {fileID: -2091959578879752958}
-  EditorEvents:
-  - {fileID: 4502771862774437572}
-  - {fileID: -58266626308162695}
-  - {fileID: 6763912478453842792}
-  - {fileID: 6489803621721557769}
-  - {fileID: 4217041681343620607}
-  - {fileID: 8246490254306207979}
-  - {fileID: -4219248693387618430}
-  - {fileID: 1711903269563966121}
-  - {fileID: -469990387951543394}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: -2091959578879752958}
-  StringsBanks:
-  - {fileID: -5086653365721492944}
-  cacheTime: 638430861088212865
-  cacheVersion: 131609
---- !u!114 &1711903269563966121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Scene_Transition
-  m_EditorClassIdentifier: 
-  Path: event:/Scene_Transition
-  Guid:
-    Data1: 1125133476
-    Data2: 1330743064
-    Data3: 29331328
-    Data4: -167041910
-  Banks:
-  - {fileID: -2091959578879752958}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 2126
---- !u!114 &4217041681343620607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Card_Attack_Impact
-  m_EditorClassIdentifier: 
-  Path: event:/Card_Attack_Impact
-  Guid:
-    Data1: -1791339753
-    Data2: 1331846493
-    Data3: 176686512
-    Data4: -897312642
-  Banks:
-  - {fileID: -2091959578879752958}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 3887
---- !u!114 &4502771862774437572
+--- !u!114 &-7987318875156978163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,7 +27,108 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
---- !u!114 &6489803621721557769
+--- !u!114 &-5086653365721492944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Fmod/Cardgame/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638430909001828570
+  FileSizes:
+  - Name: Desktop
+    Value: 1152
+  Exists: 1
+--- !u!114 &-4203423590384695126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Card_Death
+  m_EditorClassIdentifier: 
+  Path: event:/Card_Death
+  Guid:
+    Data1: -32926347
+    Data2: 1232259765
+    Data3: -627307604
+    Data4: -1833892590
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1922
+--- !u!114 &-4056204162548170840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Click_Confirm
+  m_EditorClassIdentifier: 
+  Path: event:/Click_Confirm
+  Guid:
+    Data1: -29206506
+    Data2: 1212613018
+    Data3: 524876696
+    Data4: -1210326702
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1442
+--- !u!114 &-3260420619650232580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Card_Attack_Impact
+  m_EditorClassIdentifier: 
+  Path: event:/Card_Attack_Impact
+  Guid:
+    Data1: -1791339753
+    Data2: 1331846493
+    Data3: 176686512
+    Data4: -897312642
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3887
+--- !u!114 &-3055628688315606182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,7 +155,27 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 224000
---- !u!114 &6763912478453842792
+--- !u!114 &-2091959578879752958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/Fmod/Cardgame/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638430909001798644
+  FileSizes:
+  - Name: Desktop
+    Value: 2107968
+  Exists: 1
+--- !u!114 &-1125502545626803955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,14 +185,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Card_Death
+  m_Name: event:/Scene_Transition
   m_EditorClassIdentifier: 
-  Path: event:/Card_Death
+  Path: event:/Scene_Transition
   Guid:
-    Data1: -2062122263
-    Data2: 1149111507
-    Data3: 1623141814
-    Data4: 1006463114
+    Data1: 1125133476
+    Data2: 1330743064
+    Data3: 29331328
+    Data4: -167041910
   Banks:
   - {fileID: -2091959578879752958}
   IsStream: 0
@@ -287,8 +201,67 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 820
---- !u!114 &8246490254306207979
+  Length: 2176
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -5086653365721492944}
+  - {fileID: -2091959578879752958}
+  EditorEvents:
+  - {fileID: -7987318875156978163}
+  - {fileID: -4056204162548170840}
+  - {fileID: -3260420619650232580}
+  - {fileID: -3055628688315606182}
+  - {fileID: 5754969494120930103}
+  - {fileID: 3838071039437591823}
+  - {fileID: -4203423590384695126}
+  - {fileID: -1125502545626803955}
+  - {fileID: 1265382808593118043}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -2091959578879752958}
+  StringsBanks:
+  - {fileID: -5086653365721492944}
+  cacheTime: 638430909001828570
+  cacheVersion: 131609
+--- !u!114 &1265382808593118043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Click_Default
+  m_EditorClassIdentifier: 
+  Path: event:/Click_Default
+  Guid:
+    Data1: 187870120
+    Data2: 1116150696
+    Data3: -982872910
+    Data4: -752977421
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1440
+--- !u!114 &3838071039437591823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -314,4 +287,31 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 4260
+  Length: 4030
+--- !u!114 &5754969494120930103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Door_Open
+  m_EditorClassIdentifier: 
+  Path: event:/Door_Open
+  Guid:
+    Data1: 1559111775
+    Data2: 1074591051
+    Data3: 2028114310
+    Data4: 1116464632
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3503

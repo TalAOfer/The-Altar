@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{64677bbf-d947-4e91-a255-dcd85777bd04}">
+		<property name="assetPath">
+			<value>ESM_Horror_Game_Fire_Organic_Lighter_Metal_Flip_Flame_Sizzle_Burn_1.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.8086666666666669</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e7004cd7-4497-4616-ad7d-78a4b4c4e95d}</destination>
+		</relationship>
+	</object>
+</objects>

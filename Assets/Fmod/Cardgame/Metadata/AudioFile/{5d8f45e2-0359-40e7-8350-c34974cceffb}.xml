@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5d8f45e2-0359-40e7-8350-c34974cceffb}">
+		<property name="assetPath">
+			<value>ESM_Card_Game_UI_General_Spring_Up_02_User_Interface_Tap_Click_Menu_Switch_Button.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.86346875000000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e7004cd7-4497-4616-ad7d-78a4b4c4e95d}</destination>
+		</relationship>
+	</object>
+</objects>
