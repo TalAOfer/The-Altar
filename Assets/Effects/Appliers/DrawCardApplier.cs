@@ -11,7 +11,7 @@ public class DrawCardApplier : EffectApplier
         for (int i = 0; i < amount; i++)
         {
             data.PlayerManager.DrawCardToHand();
-            yield return new WaitForSeconds(0.1f);
+            yield return Tools.GetWait(0.1f);
         }
         yield return null;
     }

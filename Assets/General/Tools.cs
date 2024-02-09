@@ -3,6 +3,26 @@ using UnityEngine;
 
 public static class Tools
 {
+    private static readonly Dictionary<float, WaitForSeconds> WaitDictionary = new Dictionary<float, WaitForSeconds>();
+
+    public static WaitForSeconds GetWait(float time)
+    {
+        if (WaitDictionary.TryGetValue(time, out var wait)) return wait;
+        WaitDictionary[time] = new WaitForSeconds(time);
+        return WaitDictionary[time];
+    }
+
+    public static Vector2 GetWorldPositionOfCanvasElement(RectTransform element)
+    {
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(element, element.position, Camera.main, out var result);
+        return result;
+    }
+
+    public static void DeleteChildren(this Transform t)
+    {
+        foreach (Transform child in t) Object.Destroy(child.gameObject);
+    }
+
     public static int DivideAndRoundUp(int original, int divisor)
     {
         float calcPoints = (float)original / divisor;

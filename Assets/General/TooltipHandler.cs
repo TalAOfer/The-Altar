@@ -19,7 +19,7 @@ public class TooltipHandler : MonoBehaviour
 
     public IEnumerator ShowTooltipRoutine(Card card)
     {
-        yield return new WaitForSeconds(delay);
+        yield return Tools.GetWait(delay);
         tooltip.InitializeTooltip(card);
         tooltip.gameObject.SetActive(true);
 

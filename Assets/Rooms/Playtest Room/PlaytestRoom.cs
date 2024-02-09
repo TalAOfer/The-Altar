@@ -78,9 +78,9 @@ public class PlaytestRoom : Room
         yield return StartCoroutine(card.HandleShapeshift());
         if (roomBlueprint.shouldShowExtraText)
         {
-            yield return new WaitForSeconds(extraTextDelay);
+            yield return Tools.GetWait(extraTextDelay);
             HandleExtraText();
-            yield return new WaitForSeconds(enableButtonDelay);
+            yield return Tools.GetWait(enableButtonDelay);
         }
 
         button.gameObject.SetActive(true);

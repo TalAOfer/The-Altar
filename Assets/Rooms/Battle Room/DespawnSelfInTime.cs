@@ -12,7 +12,8 @@ public class DespawnSelfInTime : MonoBehaviour
     }
     public IEnumerator DespawnAfterDelay()
     {
-        yield return new WaitForSeconds(time);
+        yield return Tools.GetWait(time);
         Pooler.Despawn(gameObject);
     }
 }
+    

@@ -65,7 +65,7 @@ public class HandManager : MonoBehaviour
                 //Handle SortingLayers
                 foreach (Card card in cardsInHand)
                 {
-                    card.ChangeCardState(CardState.Selectable);
+                    //card.ChangeCardState(CardState.Selectable);
                 }
 
                 break;
@@ -162,6 +162,8 @@ public class HandManager : MonoBehaviour
             switch (card.cardState)
             {
                 case CardState.Battle:
+                    break;
+                case CardState.Selected:
                     break;
                 case CardState.Default:
                     StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(cardData.ReorderSpeed, cardData.ReorderCurve));

@@ -34,7 +34,7 @@ public class SelectManager : MonoBehaviour
         selectButton.interactable = false;
 
         //handManager.RemoveCardFromHand(selectingCard, true);
-        selectingCard.ChangeCardState(CardState.Selecting);
+        //selectingCard.ChangeCardState(CardState.Selecting);
         StartCoroutine(selectingCard.movement.TransformCardUniformly(selectingCard.transform, askerTransform.position, Vector3.one, Vector3.zero, 0.15f, null));
         events.SetGameState.Raise(this, GameState.SelectPlayerCard);
         currentAsker = asker;

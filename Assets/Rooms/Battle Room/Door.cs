@@ -38,10 +38,10 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
 
     public IEnumerator WaitForAnimationEnd(float animationDuration)
     {
-        yield return new WaitForSeconds(animationDuration);
+        yield return Tools.GetWait(animationDuration);
+        gateGO.SetActive(false);
         events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
         didFinishAnimation = true;
-        gateGO.SetActive(false);
         if (didClickDoor) floorManager.NextRoom();
     }
 

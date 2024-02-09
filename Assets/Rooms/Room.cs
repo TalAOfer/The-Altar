@@ -29,8 +29,8 @@ public abstract class Room : MonoBehaviour
     protected IEnumerator WaitForAnimationEnd(string animationName)
     {
         float animationDuration = animator.GetAnimationDuration(animationName);
-        yield return new WaitForSeconds(animationDuration);
-    }
+        yield return Tools.GetWait(animationDuration);
+    }   
 
 }
 

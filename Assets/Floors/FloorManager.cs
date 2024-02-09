@@ -60,7 +60,7 @@ public class FloorManager : MonoBehaviour
 
     public IEnumerator WaitForAnimationEnd(float animationDuration)
     {
-        yield return new WaitForSeconds(animationDuration);
+        yield return Tools.GetWait(animationDuration);
     }
 
     public void NextRoom()

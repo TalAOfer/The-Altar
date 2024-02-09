@@ -295,7 +295,7 @@ public class BattleManager : MonoBehaviour
         Coroutine ApplyPlayerDeathShapeshift = null;
         Coroutine ApplyEnemyDeathShapeshift = null;
 
-        yield return new WaitForSeconds(cardData.impactFreezeDuration);
+        yield return Tools.GetWait(cardData.impactFreezeDuration);
         if (playerCardDied || enemyCardDied) Tools.PlaySound("Card_Death", transform);
 
         if (playerCardDied)
@@ -415,7 +415,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator RemoveCardFromHand()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return Tools.GetWait(0.1f);
         playerManager.hand.RemoveCardFromHand(playerCard);
     }
 

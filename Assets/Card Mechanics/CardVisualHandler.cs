@@ -286,7 +286,7 @@ public class CardVisualHandler : MonoBehaviour
         Vector3 startingScale = transform.localScale;
         Vector3 HeartbeatScale = startingScale * 1.2f;
         transform.localScale = HeartbeatScale;
-        yield return new WaitForSeconds(0.15f);
+        yield return Tools.GetWait(0.15f);
         transform.localScale = startingScale;
     }
 
@@ -295,7 +295,7 @@ public class CardVisualHandler : MonoBehaviour
         foreach (Sprite sprite in sprites)
         {
             sr.sprite = sprite;
-            yield return new WaitForSeconds(changeInterval);
+            yield return Tools.GetWait(changeInterval);
         }
     }
 

@@ -13,6 +13,7 @@ public enum BattleInteractionState
 public class BattleInteractionHandler : CardInteractionBase
 {
     [SerializeField] private CurrentGameState gameState;
+    [SerializeField] private RoomData roomData;
     private bool isArrowActive;
     private bool canClick = true;
 
@@ -33,6 +34,7 @@ public class BattleInteractionHandler : CardInteractionBase
     private void SelectCard(Card card)
     {
         selectedCard = card;
+        card.ChangeCardState(CardState.Selected);
         if (!card.movement.isHighlighted) Highlight(card);
         card.visualHandler.ToggleOutline(true);
     }
@@ -41,6 +43,7 @@ public class BattleInteractionHandler : CardInteractionBase
         if (selectedCard == null) return;
 
         selectedCard.visualHandler.ToggleOutline(false);
+        selectedCard.ChangeCardState(CardState.Default);
 
         if (selectedCard.movement.isHighlighted) Dehighlight(selectedCard);
 
@@ -239,6 +242,11 @@ public class BattleInteractionHandler : CardInteractionBase
 
         DeselectCurrentCard();
         DisableArrow();
+
+        //Vector3 handPos = roomData.PlayerManager.hand.transform.position;
+        //handPos.y += 0.5f;
+        //roomData.PlayerManager.hand.transform.position = handPos;
+        //roomData.PlayerManager.hand.ReorderPlaceholders(true);
     }
 
     public void HandleTriggerExit(Component sender, object data)
@@ -258,6 +266,11 @@ public class BattleInteractionHandler : CardInteractionBase
         if (handColl.OverlapPoint(worldPoint)) return;
 
         EnableArrow();
+
+        //Vector3 handPos = roomData.PlayerManager.hand.transform.position;
+        //handPos.y -= 0.5f;
+        //roomData.PlayerManager.hand.transform.position = handPos;
+        //roomData.PlayerManager.hand.ReorderPlaceholders(true);
     }
 
     #endregion

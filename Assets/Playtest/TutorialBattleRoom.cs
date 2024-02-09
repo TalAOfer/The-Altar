@@ -53,7 +53,7 @@ public class TutorialBattleRoom : BattleRoom
 
     private IEnumerator GridRoutine()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return Tools.GetWait(1.5f);
 
         foreach (MapSlot slot in grid)
         {
@@ -69,7 +69,7 @@ public class TutorialBattleRoom : BattleRoom
         gridGlow.DOFade(1, 0.5f);
         FadeCurtain(true);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return Tools.GetWait(0.5f);
         gridText.SetActive(true);
         SetInteractability(true);
     }
@@ -97,7 +97,7 @@ public class TutorialBattleRoom : BattleRoom
         }
 
         handGlow.DOFade(1, 0.5f);
-        yield return new WaitForSeconds(0.5f);
+        yield return Tools.GetWait(0.5f);
         handText.SetActive(true);
         SetInteractability(true);
     }
@@ -116,7 +116,7 @@ public class TutorialBattleRoom : BattleRoom
         }
 
         doorGlow.DOFade(1, 0.5f);
-        yield return new WaitForSeconds(0.5f);
+        yield return Tools.GetWait(0.5f);
         doorText.SetActive(true);
         SetInteractability(true);
     }
@@ -127,7 +127,7 @@ public class TutorialBattleRoom : BattleRoom
         doorText.SetActive(false);
         door.gateGO.GetComponent<SpriteRenderer>().sortingLayerName = ("Room");
         doorGlow.DOFade(0, 0.5f);
-        yield return new WaitForSeconds(0.5f);
+        yield return Tools.GetWait(0.5f);
 
 
         attackText.SetActive(true);

@@ -33,7 +33,7 @@ public class FallingDamage : MonoBehaviour
 
     public IEnumerator DespawnSelfInTime()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return Tools.GetWait(2.5f);
         Pooler.Despawn(gameObject);
     }
 }

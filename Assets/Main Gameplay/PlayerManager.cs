@@ -18,13 +18,13 @@ public class PlayerManager : MonoBehaviour
     {
         if (activeCards.Count < 3)
         {
-            yield return new WaitForSeconds(0.35f);
+            yield return Tools.GetWait(0.35f);
 
             int amountOfCardsToDraw = 3 - activeCards.Count;
             for (int i = 0; i < amountOfCardsToDraw; i++)
             {
                 DrawCardToHand();
-                yield return new WaitForSeconds(0.25f);
+                yield return Tools.GetWait(0.25f);
             }
         }
 

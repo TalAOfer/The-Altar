@@ -39,11 +39,11 @@ public class Effect : MonoBehaviour
 
     public IEnumerator Trigger()
     {
-        yield return new WaitForSeconds(predelay);
+        yield return Tools.GetWait(predelay);
 
         yield return Apply();
 
-        yield return new WaitForSeconds(postdelay);
+        yield return Tools.GetWait(postdelay);
     }
 
     public virtual IEnumerator Apply()
@@ -65,7 +65,7 @@ public class Effect : MonoBehaviour
         if (validTargetCards.Count > 0)
         {
             parentCard.visualHandler.Animate("Jiggle");
-            yield return new WaitForSeconds(1f);
+            yield return Tools.GetWait(1f);
         }
 
         foreach (var targetCard in validTargetCards)

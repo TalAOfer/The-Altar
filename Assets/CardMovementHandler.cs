@@ -39,7 +39,6 @@ public class CardMovementHandler : MonoBehaviour
     public void Highlight()
     {
         if (moveRoutine != null) StopCoroutine(moveRoutine);
-        
 
         isHighlighted = true;
         card.visualHandler.SetSortingLayer(GameConstants.TOP_PLAYER_CARD_LAYER);

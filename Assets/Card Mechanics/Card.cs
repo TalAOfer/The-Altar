@@ -283,11 +283,9 @@ public class Card : MonoBehaviour
 public enum CardState
 {
     Default,
+    Selected,
     Battle,
     Draw,
-    Selectable,
-    Selected,
-    Selecting,
 }
 
 public enum CardInteractionType
