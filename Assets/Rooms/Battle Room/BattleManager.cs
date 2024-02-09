@@ -399,6 +399,7 @@ public class BattleManager : MonoBehaviour
     {
         Vector3 targetPos = playerCard.transform.position;
         targetPos.y -= cardData.readyingDistance;
+        Tools.PlaySound("Card_Attack_Prepare", playerCard.transform);
         Coroutine playerCardReadying = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, targetPos, Vector3.one, null, cardData.readyingSpeed, cardData.readyingCurve));
 
         yield return playerCardReadying;
@@ -422,6 +423,7 @@ public class BattleManager : MonoBehaviour
     {
         playerManager.hand.AddCardToHand(playerCard);
         playerCard.visualHandler.SetSortingOrder(playerCard.index);
+        Tools.PlaySound("Card_Attack_Backoff", transform);
         yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToHoveredPlaceholder(cardData.backOffSpeed, cardData.backoffCurve));
         playerCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
     }

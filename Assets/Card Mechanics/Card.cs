@@ -240,6 +240,7 @@ public class Card : MonoBehaviour
         }
 
 
+        Tools.PlaySound("Shapeshift", transform);
         yield return visualHandler.ToggleSpritesVanish(true);
         visualHandler.SetNewCardVisual();
         gameObject.name = newForm.name;

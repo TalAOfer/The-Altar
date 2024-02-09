@@ -42,10 +42,10 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638430909001828570
+  lastModified: 638430931204408845
   FileSizes:
   - Name: Desktop
-    Value: 1152
+    Value: 1242
   Exists: 1
 --- !u!114 &-4203423590384695126
 MonoBehaviour:
@@ -101,6 +101,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1442
+--- !u!114 &-3472701654037127078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Card_Attack_Prepare
+  m_EditorClassIdentifier: 
+  Path: event:/Card_Attack_Prepare
+  Guid:
+    Data1: 1453850212
+    Data2: 1223818496
+    Data3: -1989222521
+    Data4: 1910817192
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 600
 --- !u!114 &-3260420619650232580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +182,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 224000
+--- !u!114 &-2673809111485645988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Shapeshift
+  m_EditorClassIdentifier: 
+  Path: event:/Shapeshift
+  Guid:
+    Data1: -735070988
+    Data2: 1300020729
+    Data3: -1744094800
+    Data4: -766968144
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1960
 --- !u!114 &-2091959578879752958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,10 +224,10 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638430909001798644
+  lastModified: 638430931204408845
   FileSizes:
   - Name: Desktop
-    Value: 2107968
+    Value: 2131200
   Exists: 1
 --- !u!114 &-1125502545626803955
 MonoBehaviour:
@@ -227,12 +281,14 @@ MonoBehaviour:
   - {fileID: -4203423590384695126}
   - {fileID: -1125502545626803955}
   - {fileID: 1265382808593118043}
+  - {fileID: -3472701654037127078}
+  - {fileID: -2673809111485645988}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2091959578879752958}
   StringsBanks:
   - {fileID: -5086653365721492944}
-  cacheTime: 638430909001828570
+  cacheTime: 638430931204408845
   cacheVersion: 131609
 --- !u!114 &1265382808593118043
 MonoBehaviour:

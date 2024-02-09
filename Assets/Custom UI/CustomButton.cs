@@ -39,6 +39,7 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         if (animate) 
             tweener.TriggerTween(clickReaction);
 
+        Tools.PlaySound("Click_Confirm", transform);
         response.Invoke(null, null);
     }
 
