@@ -110,7 +110,7 @@
 	</object>
 	<object class="SingleSound" id="{df1485a8-ba29-4b5f-8beb-d5383b60c04f}">
 		<property name="start">
-			<value>0.050000000000000003</value>
+			<value>0.044999999999999998</value>
 		</property>
 		<property name="length">
 			<value>0.55000000000000004</value>
@@ -123,6 +123,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{6434a2cd-0ff9-4e22-a939-3bf25c811941}">
+		<property name="volume">
+			<value>6.5</value>
+		</property>
 		<property name="name">
 			<value>Audio 2</value>
 		</property>
@@ -168,7 +171,7 @@
 	<object class="MixerBusFader" id="{216640a8-3356-41d8-8b62-cb3f519b4bae}" />
 	<object class="AutomationPoint" id="{8c9f2c81-529c-4c29-bf2d-bab01afbe266}">
 		<property name="position">
-			<value>0.34000000000000002</value>
+			<value>0.33500000000000002</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -179,7 +182,7 @@
 	</object>
 	<object class="AutomationPoint" id="{93839668-db6e-4cb6-9243-cf0287b8d965}">
 		<property name="position">
-			<value>0.60000000000000009</value>
+			<value>0.59500000000000008</value>
 		</property>
 		<property name="value">
 			<value>0</value>
@@ -191,10 +194,13 @@
 			<value>9</value>
 		</property>
 		<property name="frequencyA">
-			<value>466.398163</value>
+			<value>456.834198</value>
+		</property>
+		<property name="qualityA">
+			<value>0.359999985</value>
 		</property>
 		<property name="gainA">
-			<value>-8.79310417</value>
+			<value>-12.931036</value>
 		</property>
 	</object>
 </objects>

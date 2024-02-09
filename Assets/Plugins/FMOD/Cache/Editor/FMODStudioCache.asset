@@ -27,6 +27,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
+--- !u!114 &-5585072959621989320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Card_Attack_Backoff
+  m_EditorClassIdentifier: 
+  Path: event:/Card_Attack_Backoff
+  Guid:
+    Data1: 363841474
+    Data2: 1207276142
+    Data3: 764955037
+    Data4: -374447366
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 525
 --- !u!114 &-5086653365721492944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,10 +69,10 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638430931204408845
+  lastModified: 638430958431604023
   FileSizes:
   - Name: Desktop
-    Value: 1242
+    Value: 1280
   Exists: 1
 --- !u!114 &-4203423590384695126
 MonoBehaviour:
@@ -100,7 +127,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1442
+  Length: 1480
 --- !u!114 &-3472701654037127078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +154,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 600
+  Length: 595
 --- !u!114 &-3260420619650232580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +235,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1960
+  Length: 1900
 --- !u!114 &-2091959578879752958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,10 +251,10 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638430931204408845
+  lastModified: 638430958431584096
   FileSizes:
   - Name: Desktop
-    Value: 2131200
+    Value: 2181760
   Exists: 1
 --- !u!114 &-1125502545626803955
 MonoBehaviour:
@@ -283,12 +310,13 @@ MonoBehaviour:
   - {fileID: 1265382808593118043}
   - {fileID: -3472701654037127078}
   - {fileID: -2673809111485645988}
+  - {fileID: -5585072959621989320}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2091959578879752958}
   StringsBanks:
   - {fileID: -5086653365721492944}
-  cacheTime: 638430931204408845
+  cacheTime: 638430958431604023
   cacheVersion: 131609
 --- !u!114 &1265382808593118043
 MonoBehaviour:
@@ -370,4 +398,4 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 3503
+  Length: 3473
