@@ -37,5 +37,6 @@ public enum RoomType
 {
     Battle,
     CardPicking,
-    Playtest,
+    PlaytestCardGain,
+    PlaytestWin,
 }

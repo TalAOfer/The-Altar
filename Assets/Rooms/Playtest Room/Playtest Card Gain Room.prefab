@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 4402735846368474899}
   - component: {fileID: 4402735846368474908}
   m_Layer: 0
-  m_Name: Playtest Room
+  m_Name: Playtest Card Gain Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

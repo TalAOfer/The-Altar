@@ -32,7 +32,7 @@ MonoBehaviour:
         color: 1
       min: 1
       max: 10
-    isTutorial: 1
+    isTutorial: 0
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}
@@ -332,6 +332,22 @@ MonoBehaviour:
         color: 1
       - points: 4
         color: 1
+      min: 0
+      max: 0
+    isTutorial: 0
+    amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}
+  - roomType: 3
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
       min: 0
       max: 0
     isTutorial: 0

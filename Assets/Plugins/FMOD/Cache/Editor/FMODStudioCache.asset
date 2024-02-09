@@ -15,11 +15,38 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638430081085871572
+  lastModified: 638430780227066704
   FileSizes:
   - Name: Desktop
-    Value: 1000
+    Value: 1152
   Exists: 1
+--- !u!114 &-4219248693387618430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Click_Confirm
+  m_EditorClassIdentifier: 
+  Path: event:/Click_Confirm
+  Guid:
+    Data1: -29206506
+    Data2: 1212613018
+    Data3: 524876696
+    Data4: -1210326702
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1442
 --- !u!114 &-2091959578879752958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,11 +62,38 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638430081085841679
+  lastModified: 638430780227012905
   FileSizes:
   - Name: Desktop
-    Value: 812800
+    Value: 892768
   Exists: 1
+--- !u!114 &-469990387951543394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Click_Default
+  m_EditorClassIdentifier: 
+  Path: event:/Click_Default
+  Guid:
+    Data1: 187870120
+    Data2: 1116150696
+    Data3: -982872910
+    Data4: -752977421
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1440
 --- !u!114 &-58266626308162695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,13 +143,43 @@ MonoBehaviour:
   - {fileID: 6489803621721557769}
   - {fileID: 4217041681343620607}
   - {fileID: 8246490254306207979}
+  - {fileID: -4219248693387618430}
+  - {fileID: 1711903269563966121}
+  - {fileID: -469990387951543394}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2091959578879752958}
   StringsBanks:
   - {fileID: -5086653365721492944}
-  cacheTime: 638430081085871572
+  cacheTime: 638430780227066704
   cacheVersion: 131609
+--- !u!114 &1711903269563966121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Scene_Transition
+  m_EditorClassIdentifier: 
+  Path: event:/Scene_Transition
+  Guid:
+    Data1: 1125133476
+    Data2: 1330743064
+    Data3: 29331328
+    Data4: -167041910
+  Banks:
+  - {fileID: -2091959578879752958}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2126
 --- !u!114 &4217041681343620607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +287,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1180
+  Length: 820
 --- !u!114 &8246490254306207979
 MonoBehaviour:
   m_ObjectHideFlags: 0

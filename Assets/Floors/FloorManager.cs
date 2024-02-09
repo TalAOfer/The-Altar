@@ -18,7 +18,9 @@ public class FloorManager : MonoBehaviour
     [FoldoutGroup("Prefabs")]
     [SerializeField] private GameObject cardPickingRoomPrefab;
     [FoldoutGroup("Prefabs")]
-    [SerializeField] private GameObject playTestPrefab;
+    [SerializeField] private GameObject playTestCardGainPrefab;
+    [FoldoutGroup("Prefabs")]
+    [SerializeField] private GameObject playTestWinPrefab;
     [FoldoutGroup("Prefabs")]
     [SerializeField] private GameObject tutorialBattleRoomPrefab;
 
@@ -104,8 +106,11 @@ public class FloorManager : MonoBehaviour
             case RoomType.CardPicking:
                 roomPrefab = cardPickingRoomPrefab;
                 break;
-            case RoomType.Playtest:
-                roomPrefab = playTestPrefab;
+            case RoomType.PlaytestCardGain:
+                roomPrefab = playTestCardGainPrefab;
+                break;
+            case RoomType.PlaytestWin:
+                roomPrefab = playTestWinPrefab;
                 break;
         }
 

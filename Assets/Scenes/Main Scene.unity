@@ -7205,13 +7205,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8647135f4b3b944eb1042cc07cc7971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 11400000, guid: 6bf121c597079c749a97cf2f5e96eeb5, type: 2}
+  floor: {fileID: 11400000, guid: b4cfa14c2621cf94b9ef573e4d726cfe, type: 2}
   currentRoomIndex: 0
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   swipeDuration: 1
   battleRoomPrefab: {fileID: 4753181132387451872, guid: a937ae84303bf044286a26837ab2a30b, type: 3}
   cardPickingRoomPrefab: {fileID: 538613281772226367, guid: 572981d6cd2f5754f82ac9afc0f9c363, type: 3}
-  playTestPrefab: {fileID: 4402735846368474909, guid: 94ffe8bafff7ec648b4e6f12a31069b6, type: 3}
+  playTestCardGainPrefab: {fileID: 4402735846368474909, guid: 94ffe8bafff7ec648b4e6f12a31069b6, type: 3}
+  playTestWinPrefab: {fileID: 4402735846368474909, guid: 5e4ded038917a9d45a6357db637ecf79, type: 3}
   tutorialBattleRoomPrefab: {fileID: 4753181132387451872, guid: d7c5225ebfec44d4dad50fc0723c1f00, type: 3}
   newRoomSpawnPos: {fileID: 626566235}
   oldRoomSwipePos: {fileID: 1073820567}

@@ -11,7 +11,7 @@ public enum TweenType
     Shake
 }
 
-[CreateAssetMenu(menuName ="Animation/Tween Blueprint")]
+[CreateAssetMenu(menuName ="Tweener/Tween Blueprint")]
 public class TweenBlueprint : ScriptableObject
 {
     public TweenType type;

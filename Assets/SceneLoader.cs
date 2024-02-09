@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField] private Image screen;
+    [SerializeField] private GraphicRaycaster raycaster;
     [SerializeField] private bool fadeIn;
     [SerializeField] private bool fadeOut;
     [ShowIf("fadeIn")]
@@ -21,7 +22,7 @@ public class SceneLoader : MonoBehaviour
             screen.color = new Color(screen.color.r, screen.color.g, screen.color.b, 1f);
             screen.DOFade(0, 1).OnComplete(() =>
             {
-                gameObject.SetActive(false);
+                raycaster.enabled = false;
                 OnFadeInEnd.Invoke(this, null);
             }
             );
@@ -29,8 +30,14 @@ public class SceneLoader : MonoBehaviour
 
         else
         {
-            gameObject.SetActive(false);
+            raycaster.enabled = false;
         }
+    }
+
+    public void LoadScene(Component sender, object data)
+    {
+        int index = (int)data;
+        SwitchScenes(index);
     }
 
     public void SwitchScenes(int sceneIndex)

@@ -40,15 +40,15 @@ public class RoomBlueprint
     public int amountOfOptions;
 
     [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Playtest)]
+    [ShowIf("roomType", RoomType.PlaytestCardGain)]
     public CardOwner affinity;
 
     [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Playtest)]
+    [ShowIf("roomType", RoomType.PlaytestCardGain)]
     public CardBlueprint cardBlueprint;
 
     [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Playtest)]
+    [ShowIf("roomType", RoomType.PlaytestCardGain)]
     public bool shouldShowExtraText;
 
     [FoldoutGroup("Room Data")]
@@ -71,12 +71,12 @@ public class RoomBlueprint
 
     private bool ShouldHidePlayerMinmax()
     {
-        return roomType is not RoomType.CardPicking && (roomType is RoomType.Playtest || predetermineDeck);
+        return roomType is not RoomType.CardPicking && (roomType is RoomType.PlaytestCardGain || predetermineDeck);
     }
 
     private bool ShouldHideEnemyMinmax()
     {
-        return roomType is not RoomType.CardPicking && (roomType is RoomType.Playtest || predetermineEnemies);
+        return roomType is not RoomType.CardPicking && (roomType is RoomType.PlaytestCardGain || predetermineEnemies);
     }
 
     private bool ShouldShowDifficulty()
@@ -96,7 +96,7 @@ public class RoomBlueprint
                 //Muted green
                 color = new Color(0.3f, 0.6f, 0.3f, 1.0f);
                 break;
-            case RoomType.Playtest:
+            case RoomType.PlaytestCardGain:
                 //Muted blue
                 color = new Color(0.3f, 0.4f, 0.8f, 1.0f);
                 break;

@@ -48,4 +48,6 @@ public class AllEvents : ScriptableObject
 
     public GameEvent SetGameState;
     public GameEvent OnGameStateChange;
+
+    public GameEvent LoadScene;
 }

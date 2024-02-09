@@ -17,9 +17,35 @@ public class AlterBattlePointsApplier : EffectApplier
         List<BattlePointModifier> modifierList = battlePointType is BattlePointType.Attack ?
         targetCard.attackPointsModifiers :
         targetCard.hurtPointsModifiers;
-        data.events.OnEffectApplied.Raise(this, new EffectIndication("Deals +" + amount.ToString(), targetCard));
+        string sign = GetMathSign();
+        data.events.OnEffectApplied.Raise(this, new EffectIndication("Deals " + sign + amount.ToString(), targetCard));
         modifierList.Add(new BattlePointModifier(modifierType, amount));
 
         yield return null;
+    }
+
+    private string GetMathSign()
+    {
+        string sign = "";
+
+        switch (modifierType)
+        {
+            case ModifierType.Addition:
+                sign = "+";
+                break;
+            case ModifierType.Subtraction:
+                sign = "-";
+                break;
+            case ModifierType.Mult:
+                sign = "X";
+                break;
+            case ModifierType.Division:
+                sign = "/";
+                break;
+            case ModifierType.Replace:
+                break;
+        }
+
+        return sign;
     }
 }
