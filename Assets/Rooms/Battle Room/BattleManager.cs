@@ -68,6 +68,8 @@ public class BattleManager : MonoBehaviour
 
         yield return StartCoroutine(AnimateReadyAndHeadbutt());
 
+        //Impact
+        Tools.PlaySound("Card_Attack_Impact", playerCard.transform);
         playerCard.ToggleDamageVisual(false);
         enemyCard.ToggleDamageVisual(false);
         ApplyDamage();
@@ -281,9 +283,11 @@ public class BattleManager : MonoBehaviour
     {
         Coroutine ApplyPlayerCardOnDeathEffects = null;
         Coroutine ApplyEnemyCardOnDeathEffects = null;
+        bool playerCardDied = playerCard.IsDead;
+        bool enemyCardDied = enemyCard.IsDead;
 
-        if (playerCard.IsDead) ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyOnDeathEffects(enemyCard));
-        if (enemyCard.IsDead) ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyOnDeathEffects(playerCard));
+        if (playerCardDied) ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyOnDeathEffects(enemyCard));
+        if (enemyCardDied) ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyOnDeathEffects(playerCard));
 
         if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
         if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
@@ -291,22 +295,21 @@ public class BattleManager : MonoBehaviour
         Coroutine ApplyPlayerDeathShapeshift = null;
         Coroutine ApplyEnemyDeathShapeshift = null;
 
-        if (playerCard.IsDead)
+        yield return new WaitForSeconds(cardData.impactFreezeDuration);
+        if (playerCardDied || enemyCardDied) Tools.PlaySound("Card_Death", transform);
+
+        if (playerCardDied)
         {
             ApplyPlayerDeathShapeshift = StartCoroutine(playerCard.Shapeshift());
             playerManager.activeCards.Remove(playerCard);
             playerManager.hand.RemoveCardFromHand(playerCard);
         }
 
-        if (enemyCard.IsDead) ApplyEnemyDeathShapeshift = StartCoroutine(enemyCard.Shapeshift());
+        if (enemyCardDied) ApplyEnemyDeathShapeshift = StartCoroutine(enemyCard.Shapeshift());
 
         if (ApplyPlayerDeathShapeshift != null) yield return ApplyPlayerDeathShapeshift;
         if (ApplyEnemyDeathShapeshift != null) yield return ApplyEnemyDeathShapeshift;
 
-        if (ApplyPlayerCardOnDeathEffects == null && ApplyEnemyCardOnDeathEffects == null)
-        {
-            yield return new WaitForSeconds(cardData.impactFreezeDuration);
-        }
     }
 
     private IEnumerator GlobalDeathRoutine()
@@ -400,9 +403,9 @@ public class BattleManager : MonoBehaviour
 
         yield return playerCardReadying;
 
+        Tools.PlaySound("Card_Attack_Woosh", playerCard.transform);
         StartCoroutine(RemoveCardFromHand());
 
-        Tools.PlaySound("Card_Attack", playerCard.transform);
         Vector2 enemyCardClosestCollPos = enemyCard.movement.GetClosestCollPosToOtherCard(playerCard.transform.position);
         Coroutine playerCardHeadbutt = StartCoroutine(playerCard.movement.TransformCardUniformly(playerCard.transform, enemyCardClosestCollPos, Vector3.one, null, cardData.headbuttSpeed, cardData.headbuttCurve));
 

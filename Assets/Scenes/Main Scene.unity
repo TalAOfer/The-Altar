@@ -6578,33 +6578,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6372738546460851862, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
-      propertyPath: OnFadeInEnd.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6372738546460851862, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
-      propertyPath: OnFadeInEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6372738546460851862, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
       propertyPath: OnFadeInEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6877448689089928910}
-    - target: {fileID: 6372738546460851862, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
-      propertyPath: OnFadeInEnd.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6372738546460851862, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
-      propertyPath: OnFadeInEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: InitializeFloor
-      objectReference: {fileID: 0}
-    - target: {fileID: 6372738546460851862, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
-      propertyPath: OnFadeInEnd.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FloorManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6372738546460851862, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
-      propertyPath: OnFadeInEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 6372738546460851863, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
       propertyPath: m_Name
       value: Scene Loader

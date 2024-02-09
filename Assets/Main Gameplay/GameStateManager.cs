@@ -7,6 +7,10 @@ public class GameStateManager : MonoBehaviour
     public CurrentGameState gameState;
     [SerializeField] private AllEvents events;
 
+    private void OnDisable()
+    {
+        Pooler.ClearPools();
+    }
     public void SetGameState(Component sender, object data)
     {
         GameState newGameState = (GameState)data;

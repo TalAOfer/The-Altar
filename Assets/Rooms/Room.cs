@@ -23,6 +23,7 @@ public abstract class Room : MonoBehaviour
     public IEnumerator AnimateDown()
     {
         animator.PlayAnimation("Down");
+        Tools.PlaySound("Scene_Transition", transform);
         yield return WaitForAnimationEnd("Down");
     }
     protected IEnumerator WaitForAnimationEnd(string animationName)
