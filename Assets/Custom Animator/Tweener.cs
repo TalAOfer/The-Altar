@@ -14,7 +14,7 @@ public class Tweener : MonoBehaviour
     {
         // Store the original scale and position
         originalScale = transform.localScale;
-        originalPosition = transform.position;
+        originalPosition = transform.localPosition;
     }
 
     [ShowIf("test")]
@@ -97,7 +97,7 @@ public class Tweener : MonoBehaviour
     {
         DOTween.Kill(transform); // Stop any DOTween animations on this transform
         transform.localScale = originalScale; // Reset to original scale
-        transform.position = originalPosition; // Reset to original position
+        transform.localPosition = originalPosition; // Reset to original position
     }
 
     private void OnDestroy()

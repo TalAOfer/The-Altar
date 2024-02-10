@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 846099225
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 81ee1d021e5bb4440beabb2b4cc37dbc, type: 3}
-  m_Color: {r: 0.87, g: 0.6913393, b: 0.6796875, a: 1}
+  m_Sprite: {fileID: -610828046, guid: 87713750ef17dcc47b920b674c6daa9a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8269f0675bc74f14fb44bcf6fa0f4410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test: 0
+  testBlueprint: {fileID: 0}
 --- !u!1 &8203157476769932787
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,27 +147,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   response:
     m_PersistentCalls:
-      m_Calls: []
-  animate: 0
-  clickReaction:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: StartMenu, Assembly-CSharp
+        m_MethodName: Zoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  animate: 1
+  _ClickReaction:
+    Animate: 1
+    Animation: {fileID: 11400000, guid: 777bae7b1ce3a9d409bd2abd94778a32, type: 2}
+    ChangeSprite: 0
+    Sprite: {fileID: 0}
+    PlaySound: 0
+    soundEventName: 
+  _PointerDownReaction:
     Animate: 0
     Animation: {fileID: 0}
     ChangeSprite: 0
     Sprite: {fileID: 0}
     PlaySound: 0
     soundEventName: 
-  hoverReaction:
+  _PointerEnterReaction:
+    Animate: 1
+    Animation: {fileID: 11400000, guid: 861a5392376fd1d4a839c995189baf11, type: 2}
+    ChangeSprite: 1
+    Sprite: {fileID: 157754374, guid: 87713750ef17dcc47b920b674c6daa9a, type: 3}
+    PlaySound: 1
+    soundEventName: Click_Default
+  _PointerExitReaction:
     Animate: 0
     Animation: {fileID: 0}
-    ChangeSprite: 0
-    Sprite: {fileID: 0}
-    PlaySound: 0
-    soundEventName: 
-  hoverOutReaction:
-    Animate: 0
-    Animation: {fileID: 0}
-    ChangeSprite: 0
-    Sprite: {fileID: 0}
+    ChangeSprite: 1
+    Sprite: {fileID: -610828046, guid: 87713750ef17dcc47b920b674c6daa9a, type: 3}
     PlaySound: 0
     soundEventName: 
 --- !u!61 &8377377925825815728
@@ -181,7 +202,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0035905838, y: -0.0034543872}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -192,5 +213,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.85, y: 1}
+  m_Size: {x: 3.8726044, y: 0.9948056}
   m_EdgeRadius: 0

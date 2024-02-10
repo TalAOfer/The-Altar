@@ -2,21 +2,25 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
+using Unity.VisualScripting;
 
-public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     [SerializeField] private CustomGameEvent response;
 
     [SerializeField] private bool animate;
     [ShowIf("animate")]
     [FoldoutGroup("Animations")]
-    [SerializeField] private Reaction clickReaction;
+    [SerializeField] private Reaction _ClickReaction;
     [ShowIf("animate")]
     [FoldoutGroup("Animations")]
-    [SerializeField] private Reaction hoverReaction;
+    [SerializeField] private Reaction _PointerDownReaction;
     [ShowIf("animate")]
     [FoldoutGroup("Animations")]
-    [SerializeField] private Reaction hoverOutReaction;
+    [SerializeField] private Reaction _PointerEnterReaction;
+    [ShowIf("animate")]
+    [FoldoutGroup("Animations")]
+    [SerializeField] private Reaction _PointerExitReaction;
 
     private SpriteRenderer sr;
     private Collider2D coll;
@@ -36,18 +40,23 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        React(clickReaction);
         response.Invoke(null, null);
+        React(_ClickReaction);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        React(hoverReaction);
+        React(_PointerEnterReaction);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        React(hoverOutReaction);
+        React(_PointerExitReaction);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        React(_PointerDownReaction);
     }
 
     private void React(Reaction reaction)
@@ -64,6 +73,8 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
 }
+
+
 
 [Serializable]
 public class Reaction

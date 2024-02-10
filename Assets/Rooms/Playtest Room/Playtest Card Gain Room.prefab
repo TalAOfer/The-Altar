@@ -297,7 +297,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
   runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
   roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
-  button: {fileID: 3377209361634453481}
+  button: {fileID: 3640820136009279587}
   textUGUI: {fileID: 1464761279}
   playerInitialText: 'One of your cards has been altered!
 
@@ -619,6 +619,78 @@ PrefabInstance:
       propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: animate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: _ClickReaction.PlaySound
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: _PointerExitReaction.Sprite
+      value: 
+      objectReference: {fileID: -1329555599, guid: 3b31f184978e97d418fdced8896fcf19, type: 3}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: _PointerEnterReaction.Sprite
+      value: 
+      objectReference: {fileID: -1077577893, guid: 3b31f184978e97d418fdced8896fcf19, type: 3}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: _ClickReaction.soundEventName
+      value: Click_Confirm
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: response.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4402735846368474899}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlaytestRoom, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5959987311813219352, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5959987311813219352, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0625
+      objectReference: {fileID: 0}
+    - target: {fileID: 5959987311813219352, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1329555599, guid: 3b31f184978e97d418fdced8896fcf19, type: 3}
+    - target: {fileID: 5959987311813219352, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5959987311813219352, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5959987311813219352, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8089052458308230296, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
       propertyPath: settings
       value: 
@@ -629,7 +701,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8203157476769932787, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8377377925825815728, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_Size.x
+      value: 1.8715816
+      objectReference: {fileID: 0}
+    - target: {fileID: 8377377925825815728, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0020302534
       objectReference: {fileID: 0}
     - target: {fileID: 8377377925825815728, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
@@ -642,9 +722,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2389002168714266096, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
   m_PrefabInstance: {fileID: 258767640203291380}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3377209361634453481 stripped
+--- !u!114 &3640820136009279587 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3263158961434955037, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
   m_PrefabInstance: {fileID: 258767640203291380}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
