@@ -27,4 +27,4 @@ MonoBehaviour:
   shakeVibrato: 10
   shakeRandomness: 90
   scaleDuration: 1
-  scaleAmount: 4.75
+  scaleAmount: 5
