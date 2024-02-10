@@ -1,31 +1,31 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using DG.Tweening;
+using System;
 
 public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private CustomGameEvent response;
-   
+
     [SerializeField] private bool animate;
     [ShowIf("animate")]
     [FoldoutGroup("Animations")]
-    [SerializeField] private TweenBlueprint clickReaction;
+    [SerializeField] private Reaction clickReaction;
     [ShowIf("animate")]
     [FoldoutGroup("Animations")]
-    [SerializeField] private TweenBlueprint hoverReaction;
+    [SerializeField] private Reaction hoverReaction;
     [ShowIf("animate")]
     [FoldoutGroup("Animations")]
-    [SerializeField] private TweenBlueprint hoverOutReaction;
-   
+    [SerializeField] private Reaction hoverOutReaction;
+
+    private SpriteRenderer sr;
     private Collider2D coll;
     private Tweener tweener;
-   
+
 
     private void Awake()
     {
+        sr = GetComponentInChildren<SpriteRenderer>();
         coll = GetComponent<Collider2D>();
         if (animate) tweener = GetComponentInChildren<Tweener>();
     }
@@ -36,22 +36,47 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (animate) 
-            tweener.TriggerTween(clickReaction);
-
-        Tools.PlaySound("Click_Confirm", transform);
+        React(clickReaction);
         response.Invoke(null, null);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (animate) 
-            tweener.TriggerTween(hoverReaction);
+        React(hoverReaction);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (animate)
-            tweener.TriggerTween(hoverOutReaction);
+        React(hoverOutReaction);
     }
+
+    private void React(Reaction reaction)
+    {
+        if (reaction.Animate)
+            tweener.TriggerTween(reaction.Animation);
+
+        if (reaction.ChangeSprite)
+            sr.sprite = reaction.Sprite;
+
+        if (reaction.PlaySound)
+        {
+            Tools.PlaySound(reaction.soundEventName, transform);
+        }
+    }
+}
+
+[Serializable]
+public class Reaction
+{
+    public bool Animate;
+    [ShowIf("Animate")]
+    public TweenBlueprint Animation;
+
+    public bool ChangeSprite;
+    [ShowIf("ChangeSprite")]
+    public Sprite Sprite;
+
+    public bool PlaySound;
+    [ShowIf("PlaySound")]
+    public string soundEventName;
 }

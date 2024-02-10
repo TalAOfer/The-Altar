@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class Tweener : MonoBehaviour
     // Original properties to reset before applying a new effect
     private Vector3 originalScale;
     private Vector3 originalPosition;
+    [SerializeField] private bool test;
+    [ShowIf("test")] [SerializeField] private TweenBlueprint testBlueprint;
     void Start()
     {
         // Store the original scale and position
@@ -14,12 +17,21 @@ public class Tweener : MonoBehaviour
         originalPosition = transform.position;
     }
 
-    public void TriggerTween(TweenBlueprint blueprint)
+    [ShowIf("test")]
+    [Button]
+    public void TestTween()
     {
+        TriggerTween(testBlueprint);
+    }
+
+    public Tween TriggerTween(TweenBlueprint blueprint)
+    {
+        Tween tween = null;
+
         if (blueprint == null)
         {
             Debug.LogError("No blueprint was sent to tweener");
-            return;
+            return null;
         }
 
         switch (blueprint.type)
@@ -27,39 +39,60 @@ public class Tweener : MonoBehaviour
             case TweenType.None:
                 break;
             case TweenType.Jiggle:
-                TriggerJiggle(blueprint);
+                tween = TriggerJiggle(blueprint);
                 break;
             case TweenType.Bounce:
-                TriggerBounce(blueprint);
+                tween = TriggerBounce(blueprint);
                 break;
             case TweenType.Shake:
-                TriggerShake(blueprint);
+                tween = TriggerShake(blueprint);
+                break;
+            case TweenType.Scale:
+                tween = TriggerScale(blueprint);
                 break;
         }
+
+        return tween;
     }
 
     // Method to trigger a jiggle effect
-    private void TriggerJiggle(TweenBlueprint blueprint)
+    private Tween TriggerJiggle(TweenBlueprint blueprint)
     {
         ResetAnimations();
-        transform.DOPunchScale(new Vector3(blueprint.jiggleStrength, blueprint.jiggleStrength, blueprint.jiggleStrength), blueprint.jiggleDuration, blueprint.jiggleVibrato, blueprint.jiggleElasticity).SetUpdate(true);
+        return transform.DOPunchScale(new Vector3(blueprint.jiggleStrength, blueprint.jiggleStrength, blueprint.jiggleStrength), blueprint.jiggleDuration, blueprint.jiggleVibrato, blueprint.jiggleElasticity)
+            .SetUpdate(true)
+            .SetEase(blueprint.ease);
     }
 
     // Method to trigger a bounce effect
-    private void TriggerBounce(TweenBlueprint blueprint)
+    private Tween TriggerBounce(TweenBlueprint blueprint)
     {
         ResetAnimations();
-        transform.DOPunchPosition(blueprint.bouncePunch, blueprint.bounceDuration, blueprint.bounceVibrato, blueprint.bounceElasticity, false).SetUpdate(true);
+        return transform.DOPunchPosition(blueprint.bouncePunch, blueprint.bounceDuration, blueprint.bounceVibrato, blueprint.bounceElasticity, false)
+            .SetUpdate(true)
+            .SetEase(blueprint.ease);
     }
 
     // Method to trigger a shake effect
-    private void TriggerShake(TweenBlueprint blueprint)
+    private Tween TriggerShake(TweenBlueprint blueprint)
     {
         ResetAnimations();
-        transform.DOShakePosition(blueprint.shakeDuration, blueprint.shakeStrength, blueprint.shakeVibrato, blueprint.shakeRandomness, false, true).SetUpdate(true);
+        return transform.DOShakePosition(blueprint.shakeDuration, blueprint.shakeStrength, blueprint.shakeVibrato, blueprint.shakeRandomness, false, true)
+            .SetUpdate(true)
+            .SetEase(blueprint.ease);
+    }
+
+    private Tween TriggerScale(TweenBlueprint blueprint)
+    {
+        ResetAnimations();
+        return transform.DOScale(blueprint.scaleAmount, blueprint.scaleDuration)
+            .SetUpdate(true)
+            .SetEase(blueprint.ease);
     }
 
     // Reset animations and restore original properties
+    [ShowIf("test")]
+    [Button("Reset To Original")]
     private void ResetAnimations()
     {
         DOTween.Kill(transform); // Stop any DOTween animations on this transform

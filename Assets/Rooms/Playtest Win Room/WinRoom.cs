@@ -32,7 +32,7 @@ public class WinRoom : Room
     {
         int score = 0;
         
-        foreach(Card card in roomData.PlayerManager.activeCards)
+        foreach(Card card in roomData.PlayerManager.ActiveCards)
         {
             score += card.points;
         }

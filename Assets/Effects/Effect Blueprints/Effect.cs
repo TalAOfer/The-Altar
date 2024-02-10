@@ -157,7 +157,7 @@ public class Effect : MonoBehaviour
                 amount = data.GetAmountOfEnemies();
                 break;
             case GetAmountStrategy.CardsInHand:
-                amount = data.PlayerManager.activeCards.Count;
+                amount = data.PlayerManager.ActiveCards.Count;
                 break;
             case GetAmountStrategy.RoomCount:
                 amount = data.GetRoomIndex();

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,13 +9,16 @@ public enum TweenType
     None,
     Jiggle,
     Bounce,
-    Shake
+    Shake,
+    Scale
 }
 
 [CreateAssetMenu(menuName ="Tweener/Tween Blueprint")]
 public class TweenBlueprint : ScriptableObject
 {
     public TweenType type;
+
+    public Ease ease;
 
     [ShowIf("type", TweenType.Jiggle)]
     public float jiggleDuration = 0.5f;
@@ -43,5 +47,8 @@ public class TweenBlueprint : ScriptableObject
     [ShowIf("type", TweenType.Shake)]
     public float shakeRandomness = 90f;
 
-
+    [ShowIf("type", TweenType.Scale)]
+    public float scaleDuration = 0.5f;
+    [ShowIf("type", TweenType.Scale)]
+    public float scaleAmount = 2f;
 }

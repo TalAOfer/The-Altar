@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 846099225
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3b31f184978e97d418fdced8896fcf19, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 81ee1d021e5bb4440beabb2b4cc37dbc, type: 3}
+  m_Color: {r: 0.87, g: 0.6913393, b: 0.6796875, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2389002168714266096}
-  - component: {fileID: 3263158961434955037}
+  - component: {fileID: 3535775766509961879}
   - component: {fileID: 8377377925825815728}
   m_Layer: 0
   m_Name: Custom Button
@@ -131,7 +131,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3263158961434955037
+--- !u!114 &3535775766509961879
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,23 +145,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   response:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlaytestRoom, Assembly-CSharp
-        m_MethodName: NextRoom
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   animate: 0
-  clickReaction: {fileID: 0}
-  hoverReaction: {fileID: 0}
-  hoverOutReaction: {fileID: 0}
+  clickReaction:
+    Animate: 0
+    Animation: {fileID: 0}
+    ChangeSprite: 0
+    Sprite: {fileID: 0}
+    PlaySound: 0
+    soundEventName: 
+  hoverReaction:
+    Animate: 0
+    Animation: {fileID: 0}
+    ChangeSprite: 0
+    Sprite: {fileID: 0}
+    PlaySound: 0
+    soundEventName: 
+  hoverOutReaction:
+    Animate: 0
+    Animation: {fileID: 0}
+    ChangeSprite: 0
+    Sprite: {fileID: 0}
+    PlaySound: 0
+    soundEventName: 
 --- !u!61 &8377377925825815728
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -179,7 +185,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 1.125}
+    oldSize: {x: 1.84375, y: 0.65625}
     newSize: {x: 2, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

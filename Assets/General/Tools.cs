@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public static class Tools
@@ -150,5 +151,10 @@ public static class Tools
     {
         string eventName = "event:/" + soundName;
         FMODUnity.RuntimeManager.PlayOneShot(eventName, emitter.position);
+    }
+
+    public static AllEvents GetEvents()
+    {
+        return Resources.Load<AllEvents>("AllEvents");
     }
 }

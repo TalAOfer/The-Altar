@@ -1394,6 +1394,7 @@ GameObject:
   - component: {fileID: 519420033}
   - component: {fileID: 519420034}
   - component: {fileID: 519420035}
+  - component: {fileID: 519420036}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1469,7 +1470,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 8.453125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1563,6 +1564,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!114 &519420036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_AssetsPPU: 16
+  m_RefResolutionX: 320
+  m_RefResolutionY: 202
+  m_CropFrame: 0
+  m_GridSnapping: 1
+  m_UpscaleRT: 0
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
 --- !u!1 &548971617
 GameObject:
   m_ObjectHideFlags: 0
@@ -4464,10 +4488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045884222a2e1ca4a9421bde30692a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  activeCards: []
-  hand: {fileID: 1676934223}
-  spawner: {fileID: 1474505909}
+  <ActiveCards>k__BackingField: []
 --- !u!114 &1474505909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5110,7 +5131,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1676934222}
   - component: {fileID: 1676934223}
-  - component: {fileID: 1676934224}
   m_Layer: 0
   m_Name: Hand
   m_TagString: Untagged
@@ -5162,25 +5182,6 @@ MonoBehaviour:
   - {fileID: 1109517318}
   - {fileID: 1575119747}
   - {fileID: 662320239}
---- !u!114 &1676934224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1676934221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b93fcb8f0c70d264cb8e76851733892a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardBlueprint: {fileID: 11400000, guid: b589a0b7db1785f41817a86f92516afb, type: 2}
-  handManager: {fileID: 1676934223}
-  outOfScreenBoundsPosition: {x: 0, y: 10, z: 0}
-  mapMasterContainer: {fileID: 0}
-  amount: 5
-  revealedCardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
-  cardScale: 1
 --- !u!1 &1692924584
 GameObject:
   m_ObjectHideFlags: 0
@@ -5481,7 +5482,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 34
-    OrthographicSize: 10
+    OrthographicSize: 9
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -5526,7 +5527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf474e4b3567774886e9630f56632b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ClassicShake: {x: 1, y: 5, z: 0.25}
+  ClassicShake: {x: 4, y: 5, z: 0.25}
 --- !u!1 &1842920405
 GameObject:
   m_ObjectHideFlags: 0

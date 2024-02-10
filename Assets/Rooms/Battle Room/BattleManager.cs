@@ -137,7 +137,7 @@ public class BattleManager : MonoBehaviour
         
         else
         {
-            if (playerManager.activeCards.Count == 0)
+            if (playerManager.ActiveCards.Count == 0)
             {
                 Debug.Log("you lost");
             }
@@ -153,7 +153,7 @@ public class BattleManager : MonoBehaviour
     {
         bool changesOccurred;
         List<Card> allCards = new(roomManager.activeEnemies);
-        allCards.AddRange(playerManager.activeCards);
+        allCards.AddRange(playerManager.ActiveCards);
         allCards.Add(playerCard);
 
         do
@@ -246,7 +246,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator SupportEffectsRoutine()
     {
-        foreach (Card card in playerManager.activeCards)
+        foreach (Card card in playerManager.ActiveCards)
         {
             if (card.effects.SupportEffects.Count > 0)
             {
@@ -301,8 +301,8 @@ public class BattleManager : MonoBehaviour
         if (playerCardDied)
         {
             ApplyPlayerDeathShapeshift = StartCoroutine(playerCard.Shapeshift());
-            playerManager.activeCards.Remove(playerCard);
-            playerManager.hand.RemoveCardFromHand(playerCard);
+            playerManager.ActiveCards.Remove(playerCard);
+            playerManager.Hand.RemoveCardFromHand(playerCard);
         }
 
         if (enemyCardDied) ApplyEnemyDeathShapeshift = StartCoroutine(enemyCard.Shapeshift());
@@ -316,7 +316,7 @@ public class BattleManager : MonoBehaviour
     {
         if (enemyCard.IsDead || playerCard.IsDead)
         {
-            foreach (Card card in playerManager.activeCards)
+            foreach (Card card in playerManager.ActiveCards)
             {
                 if (!card.IsDead && card.effects.SupportEffects.Count > 0)
                 {
@@ -349,7 +349,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator BloodthirstEffectsRoutine()
     {
         //Debug.Log("Starting player on action effects application");
-        foreach (Card card in playerManager.activeCards)
+        foreach (Card card in playerManager.ActiveCards)
         {
             if (card.effects.BloodthirstEffects.Count > 0)
             {
@@ -372,7 +372,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator MeditateEffectsRoutine()
     {
         //Debug.Log("Starting player end of turn effects application");
-        foreach (Card card in playerManager.activeCards)
+        foreach (Card card in playerManager.ActiveCards)
         {
             if (card.effects.MeditateEffects.Count > 0)
             {
@@ -416,12 +416,12 @@ public class BattleManager : MonoBehaviour
     private IEnumerator RemoveCardFromHand()
     {
         yield return Tools.GetWait(0.1f);
-        playerManager.hand.RemoveCardFromHand(playerCard);
+        playerManager.Hand.RemoveCardFromHand(playerCard);
     }
 
     public virtual IEnumerator AnimateBackoff()
     {
-        playerManager.hand.AddCardToHand(playerCard);
+        playerManager.Hand.AddCardToHand(playerCard);
         playerCard.visualHandler.SetSortingOrder(playerCard.index);
         Tools.PlaySound("Card_Attack_Backoff", transform);
         yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToHoveredPlaceholder(cardData.backOffSpeed, cardData.backoffCurve));

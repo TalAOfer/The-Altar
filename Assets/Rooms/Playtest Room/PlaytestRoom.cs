@@ -96,7 +96,7 @@ public class PlaytestRoom : Room
     private IEnumerator HandleAllShapeshiftsUntilStable()
     {
         bool changesOccurred;
-        List<Card> allCards = new(roomData.PlayerManager.activeCards);
+        List<Card> allCards = new(roomData.PlayerManager.ActiveCards);
         if (allCards.Count <= 0) yield break;
 
         do

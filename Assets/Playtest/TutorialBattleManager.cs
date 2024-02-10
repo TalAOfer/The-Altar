@@ -17,7 +17,7 @@ public class TutorialBattleManager : BattleManager
     public override IEnumerator AnimateBackoff()
     {
         room.FadeCurtain(false);
-        playerManager.hand.AddCardToHand(playerCard);
+        playerManager.Hand.AddCardToHand(playerCard);
         playerCard.visualHandler.SetSortingOrder(playerCard.index);
         yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToHoveredPlaceholder(cardData.backOffSpeed, cardData.backoffCurve));
         bool isFirstFight = playerCard.visualHandler.GetSortingLayer() == "Top";
@@ -60,9 +60,9 @@ public class TutorialBattleManager : BattleManager
         attackText.SetActive(false);
         yield return StartCoroutine(base.BattleRoutine());
 
-        for (int i = 0; i < roomData.PlayerManager.activeCards.Count; i++)
+        for (int i = 0; i < roomData.PlayerManager.ActiveCards.Count; i++)
         {
-            Card currentCard = roomData.PlayerManager.activeCards[i];
+            Card currentCard = roomData.PlayerManager.ActiveCards[i];
             if (i != 2)
             {
                 currentCard.interactionHandler.SetInteractability(true);

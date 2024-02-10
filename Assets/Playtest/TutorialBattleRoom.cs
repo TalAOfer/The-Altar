@@ -91,7 +91,7 @@ public class TutorialBattleRoom : BattleRoom
             card.visualHandler.SetSortingLayer(GameConstants.ENEMY_CARD_LAYER);
         }
 
-        foreach (Card card in roomData.PlayerManager.activeCards)
+        foreach (Card card in roomData.PlayerManager.ActiveCards)
         {
             card.visualHandler.SetSortingLayer("Top");
         }
@@ -110,7 +110,7 @@ public class TutorialBattleRoom : BattleRoom
 
         door.gateGO.GetComponent<SpriteRenderer>().sortingLayerName = ("Top");
 
-        foreach (Card card in roomData.PlayerManager.activeCards)
+        foreach (Card card in roomData.PlayerManager.ActiveCards)
         {
             card.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
         }
@@ -133,9 +133,9 @@ public class TutorialBattleRoom : BattleRoom
         attackText.SetActive(true);
 
         //Deal with player interactability
-        for (int i = 0; i < roomData.PlayerManager.activeCards.Count; i++)
+        for (int i = 0; i < roomData.PlayerManager.ActiveCards.Count; i++)
         {
-            Card currentCard = roomData.PlayerManager.activeCards[i];
+            Card currentCard = roomData.PlayerManager.ActiveCards[i];
             if (i != 2)
             {
                 currentCard.interactionHandler.SetInteractability(false);

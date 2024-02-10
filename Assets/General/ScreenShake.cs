@@ -17,6 +17,12 @@ public class ScreenShake : MonoBehaviour
         perlin = cam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
+    [Button]
+    public void TestShake(CameraShakeTypes shakeType)
+    {
+        InitiateCameraShake(this, shakeType);
+    }
+
     public void InitiateCameraShake(Component sender, object data)
     {
         CameraShakeTypes shakeType = (CameraShakeTypes)data;

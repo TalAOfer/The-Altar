@@ -38,7 +38,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
 
     public IEnumerator WaitForAnimationEnd(float animationDuration)
     {
-        yield return Tools.GetWait(animationDuration);
+        yield return Tools.GetWait(animationDuration + 0.1f);
         gateGO.SetActive(false);
         events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
         didFinishAnimation = true;

@@ -79,7 +79,6 @@ public class Card : MonoBehaviour
 
         effects.Init(blueprint);
 
-        movement.Initialize();
         visualHandler.Init(blueprint, startingSortingLayer);
 
     }

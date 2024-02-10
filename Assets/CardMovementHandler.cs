@@ -16,13 +16,6 @@ public class CardMovementHandler : MonoBehaviour
 
     [FoldoutGroup("Default Transforms")]
     public Transform placeHolder;
-    [FoldoutGroup("Default Transforms")]
-    public Vector3 defaultPos;
-    [FoldoutGroup("Default Transforms")]
-    public Vector3 defaultScale = Vector3.one;
-    [FoldoutGroup("Default Transforms")]
-    public Vector3 defaultRotation;
-
 
     [SerializeField] private float highlightHeightBoostAmount;
     public bool isHighlighted;
@@ -31,20 +24,14 @@ public class CardMovementHandler : MonoBehaviour
 
     #region Movement Routines
 
-    public void Initialize()
-    {
-        SetNewDefaultLocation(card.transform.position, card.transform.localScale, card.transform.eulerAngles);
-    }
-
     public void Highlight()
     {
         if (moveRoutine != null) StopCoroutine(moveRoutine);
 
         isHighlighted = true;
         card.visualHandler.SetSortingLayer(GameConstants.TOP_PLAYER_CARD_LAYER);
-        SetNewDefaultLocation(null, null, null);
 
-        Vector3 temp = defaultPos;
+        Vector3 temp = transform.position;
         temp.y += highlightHeightBoostAmount;
         card.visualHandler.transform.SetPositionAndRotation(temp, Quaternion.Euler(Vector3.zero));
         card.visualHandler.transform.localScale = Vector3.one * 1.2f;
@@ -76,20 +63,6 @@ public class CardMovementHandler : MonoBehaviour
     public Vector2 GetClosestCollPosToOtherCard(Vector2 otherCardPos)
     {
         return coll.ClosestPoint(otherCardPos);
-    }
-
-    public void SetNewDefaultLocation(Vector3? position, Vector3? scale, Vector3? rotation)
-    {
-        defaultPos = position != null ? (Vector3)position : transform.position;
-        defaultScale = scale != null ? (Vector3)scale : transform.localScale;
-        defaultRotation = rotation != null ? (Vector3)rotation : transform.eulerAngles;
-    }
-
-    public void RestartTransformToDefault()
-    {
-        card.transform.localScale = defaultScale;
-        card.transform.position = defaultPos;
-        card.transform.rotation = Quaternion.Euler(defaultRotation);
     }
 
     public IEnumerator TransformCardUniformlyToPlaceholder(float speed, AnimationCurve curve)

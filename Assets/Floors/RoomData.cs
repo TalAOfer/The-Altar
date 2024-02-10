@@ -47,14 +47,14 @@ public class RoomData : ScriptableObject
 
     public List<Card> GetAllActivePlayerCards()
     {
-        return new(PlayerManager.activeCards);
+        return new(PlayerManager.ActiveCards);
     }
 
     public List<Card> GetAllCardsInHand()
     {
         if (BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle, use GetAllActivePlayerCards() instead");
 
-        List<Card> activeEnemies = new(PlayerManager.activeCards);
+        List<Card> activeEnemies = new(PlayerManager.ActiveCards);
         if (BattlingPlayerCard != null) activeEnemies.Remove(BattlingPlayerCard);
         return activeEnemies;
     }
@@ -113,7 +113,7 @@ public class RoomData : ScriptableObject
         int min = 100;
         Card chosenCard = null;
 
-        foreach (Card card in PlayerManager.activeCards)
+        foreach (Card card in PlayerManager.ActiveCards)
         {
             if (card == excludeThis) continue;
 

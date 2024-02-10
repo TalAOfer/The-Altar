@@ -44,12 +44,6 @@ public class CardSelectionRoom : Room
     public override void OnRoomFinishedLerping()
     {
         base.OnRoomFinishedLerping();
-
-        foreach (LinkedCards linkedCards in linkedCardsList)
-        {
-            linkedCards.playerCard.movement.SetNewDefaultLocation(linkedCards.playerCard.transform.position, Vector3.one, Vector3.zero);
-            linkedCards.enemyCard.movement.SetNewDefaultLocation(linkedCards.enemyCard.transform.position, Vector3.one, Vector3.zero);
-        }
     }
     public override void OnRoomFinished()
     {
@@ -132,7 +126,7 @@ public class CardSelectionRoom : Room
     private IEnumerator HandleAllShapeshiftsUntilStable()
     {
         bool changesOccurred;
-        List<Card> allCards = new(roomData.PlayerManager.activeCards);
+        List<Card> allCards = new(roomData.PlayerManager.ActiveCards);
         if (allCards.Count <= 0) yield break;
 
         do

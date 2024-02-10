@@ -97,7 +97,6 @@ public class HandManager : MonoBehaviour
             card.movement.placeHolder = placeholder;
 
             // Set the new default location for the card
-            card.movement.SetNewDefaultLocation(placeholder.position, card.transform.localScale, placeholder.eulerAngles);
             card.index = 0;
             card.visualHandler.SetSortingOrder(0);
 
@@ -134,14 +133,11 @@ public class HandManager : MonoBehaviour
                     if (currentCard != null)
                     {
                         currentCard.movement.placeHolder = cardPlaceholders[i];
-                        currentCard.movement.SetNewDefaultLocation(cardPosition, currentCard.transform.localScale, cardRotation.eulerAngles);
                         currentCard.index = i;
                     }
 
-                    //currentCard.transform.SetPositionAndRotation(cardPosition, cardRotation);
-                    //currentCard.visualHandler.SetSortingOrder(i);
-
                 }
+
                 else
                 {
                     // Deactivate the extra placeholders

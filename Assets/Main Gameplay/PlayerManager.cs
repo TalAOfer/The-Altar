@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private AllEvents events;
-    public List<Card> activeCards = new();
-    public HandManager hand;
-    [SerializeField] private PlayerCardSpawner spawner;
+    private AllEvents _events;
+    [field: SerializeField] public List<Card> ActiveCards { get; private set; } = new();
+    public HandManager Hand { get; private set; }
+    private PlayerCardSpawner _spawner;
+
+    private void Awake()
+    {
+        Hand = GetComponentInChildren<HandManager>();
+        _spawner = GetComponent<PlayerCardSpawner>();
+        _events = Resources.Load<AllEvents>("AllEvents");
+    }
 
     public void FillHandToMinimum()
     {
@@ -16,11 +23,11 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator FillHandRoutine()
     {
-        if (activeCards.Count < 3)
+        if (ActiveCards.Count < 3)
         {
             yield return Tools.GetWait(0.35f);
 
-            int amountOfCardsToDraw = 3 - activeCards.Count;
+            int amountOfCardsToDraw = 3 - ActiveCards.Count;
             for (int i = 0; i < amountOfCardsToDraw; i++)
             {
                 DrawCardToHand();
@@ -28,13 +35,13 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        events.OnFinishedHandFill.Raise();
-        events.SetGameState.Raise(this, GameState.Idle);
+        _events.OnFinishedHandFill.Raise();
+        _events.SetGameState.Raise(this, GameState.Idle);
     }
 
     public void SetAllCardState(CardState newState)
     {
-        foreach (Card card in activeCards)
+        foreach (Card card in ActiveCards)
         {
             card.ChangeCardState(newState);
         }
@@ -42,23 +49,23 @@ public class PlayerManager : MonoBehaviour
 
     public void DrawCardToHand()
     {
-        CardBlueprint blueprint = spawner.DrawCard();
+        CardBlueprint blueprint = _spawner.DrawCard();
         SpawnCardToHand(blueprint);
     }
 
     public void SpawnCardToHandByArchetype(CardArchetype archetype)
     {
-        CardBlueprint blueprint = spawner.Codex.GetCardOverride(archetype);
+        CardBlueprint blueprint = _spawner.Codex.GetCardOverride(archetype);
         SpawnCardToHand(blueprint);
     }
 
     private void SpawnCardToHand(CardBlueprint blueprint)
     {
-        Card card = spawner.SpawnCard(blueprint, GameConstants.PLAYER_CARD_LAYER);
+        Card card = _spawner.SpawnCard(blueprint, GameConstants.PLAYER_CARD_LAYER);
         card.ChangeCardState(CardState.Draw);
-        activeCards.Add(card);
-        hand.AddCardToHand(card);
-        hand.ResetCardsToPlaceholders();
+        ActiveCards.Add(card);
+        Hand.AddCardToHand(card);
+        Hand.ResetCardsToPlaceholders();
         Tools.PlaySound("Card_Draw", card.transform);
     }
 }
