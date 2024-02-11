@@ -139,7 +139,7 @@ public class BattleManager : MonoBehaviour
         {
             if (playerManager.ActiveCards.Count == 0)
             {
-                Debug.Log("you lost");
+                events.OnLose.Raise();
             }
         }
 

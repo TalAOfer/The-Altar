@@ -50,4 +50,5 @@ public class AllEvents : ScriptableObject
     public GameEvent OnGameStateChange;
 
     public GameEvent LoadScene;
+    public GameEvent OnLose;
 }
