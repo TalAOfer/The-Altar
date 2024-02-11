@@ -18,18 +18,15 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 0
   defaultPoints: 1
-  description: On death, give +1 to a random card in your hand.
-  higherBeing: 0
+  description: On death, give +1 to your lowest valued card.
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath:
   - {fileID: 11400000, guid: 4c2c54e1d167c484c9729969f9b3c8c5, type: 2}
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

@@ -140,6 +140,7 @@ public class BattleManager : MonoBehaviour
             if (playerManager.ActiveCards.Count == 0)
             {
                 events.OnLose.Raise();
+                yield break;
             }
         }
 

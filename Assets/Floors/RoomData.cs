@@ -110,19 +110,28 @@ public class RoomData : ScriptableObject
 
     public Card GetLowestPlayerCard(Card excludeThis)
     {
+        List<Card> availableCards = new(PlayerManager.ActiveCards);
+        availableCards.Remove(excludeThis);
+        if (availableCards.Count == 0) return null;
+
         int min = 100;
-        Card chosenCard = null;
+        List<Card> lowestCards = new();
 
-        foreach (Card card in PlayerManager.ActiveCards)
+        foreach (Card card in availableCards)
         {
-            if (card == excludeThis) continue;
-
             if (card.points < min)
             {
                 min = card.points;
-                chosenCard = card;
+                lowestCards.Clear();
+                lowestCards.Add(card);
+            } 
+            else if (card.points == min) {
+                lowestCards.Add(card);
             }
         }
+
+        int rand = Random.Range(0, lowestCards.Count);
+        Card chosenCard = lowestCards[rand];
 
         return chosenCard;
     }

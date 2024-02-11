@@ -51,4 +51,5 @@ public class AllEvents : ScriptableObject
 
     public GameEvent LoadScene;
     public GameEvent OnLose;
+    public GameEvent EnableMask;
 }

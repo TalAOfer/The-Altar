@@ -6,22 +6,15 @@ using UnityEngine;
 
 public class LoseManager : MonoBehaviour
 {
-    [SerializeField] private RectTransform leftWall;
-    [SerializeField] private RectTransform rightWall;
-    [SerializeField] private RectTransform wholeWall;
+    [SerializeField] private SpriteRenderer leftWall;
+    [SerializeField] private SpriteRenderer rightWall;
+    [SerializeField] private SpriteRenderer wholeWall;
     [SerializeField] private GameObject buttons;
-    [SerializeField] private TweenBlueprint blueprint;
     private AllEvents events;
 
     private void Awake()
     {
         events = Tools.GetEvents();
-    }
-
-
-    private void OnEnable()
-    {
-        CloseWalls();
     }
 
     [Button]
@@ -31,16 +24,18 @@ public class LoseManager : MonoBehaviour
         float targetPosX = 0f; // Center x position
 
         Tools.PlaySound("Scene_Transition", transform);
-        rightWall.DOAnchorPosX(targetPosX, duration).SetEase(Ease.OutQuad);
-        leftWall.DOAnchorPosX(targetPosX, duration).SetEase(Ease.OutQuad).OnComplete(() =>
+        rightWall.DOFade(1, duration);
+        rightWall.transform.DOMoveX(targetPosX, duration).SetEase(Ease.OutQuad);
+
+        leftWall.DOFade(1, duration);
+        leftWall.transform.DOMoveX(targetPosX, duration).SetEase(Ease.OutQuad).OnComplete(() =>
 
         {
             rightWall.gameObject.SetActive(false);
             leftWall.gameObject.SetActive(false);
             wholeWall.gameObject.SetActive(true);
-            wholeWall.DOShakePosition(blueprint.shakeDuration, blueprint.shakeStrength, blueprint.shakeVibrato, blueprint.shakeRandomness, false, true)
-                .SetEase(blueprint.ease);
             buttons.SetActive(true);
+            events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
         });
     }
 

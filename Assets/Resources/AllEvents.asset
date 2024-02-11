@@ -44,3 +44,4 @@ MonoBehaviour:
   OnGameStateChange: {fileID: 0}
   LoadScene: {fileID: 11400000, guid: fbd2695d7ad9392499011b250a027151, type: 2}
   OnLose: {fileID: 11400000, guid: 64450378617a1d8429918d164d95b5fa, type: 2}
+  EnableMask: {fileID: 11400000, guid: 137be2acdd095ea498e52294b8d05af6, type: 2}

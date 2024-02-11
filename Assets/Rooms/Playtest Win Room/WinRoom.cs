@@ -1,7 +1,9 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WinRoom : Room
 {
@@ -12,6 +14,16 @@ public class WinRoom : Room
     [SerializeField] private string beatHighscoreText;
     [SerializeField] private RoomData roomData;
     [SerializeField] private AllEvents events;
+    [SerializeField] private Image mask;
+    [SerializeField] private GameObject cardRain;
+
+    public override void OnRoomFinishedLerping()
+    {
+        base.OnRoomFinishedLerping();
+        events.EnableMask.Raise();
+        cardRain.SetActive(true);
+        mask.DOFade(0.25f, 1);
+    }
 
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {

@@ -359,7 +359,7 @@ RectTransform:
   m_Children:
   - {fileID: 1659690487423527442}
   m_Father: {fileID: 7086726489682121826}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -740,12 +740,12 @@ RectTransform:
   m_Children:
   - {fileID: 6011539242555868526}
   m_Father: {fileID: 7086726489682121826}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 7.56}
-  m_SizeDelta: {x: 9.06, y: 2}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 9.06, y: 3.4454002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3246464799894338078
 CanvasRenderer:
@@ -802,6 +802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   gameState: {fileID: 11400000, guid: f2df26a8c52270049a8d6cf95d1fda1a, type: 2}
+  roomData: {fileID: 0}
   state: 0
 --- !u!1 &2679826185454190124
 GameObject:
@@ -2645,9 +2646,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'This is the player hand.
+  m_text: 'This is your hand.
 
-    These are the cards you can play.'
+    If you run out of cards before the room is cleared,
+    you lose.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ac063ec167f1374f908f732e22a0592, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: f93b594c9b972b940bfd81fb2a56e4ba, type: 2}
@@ -3059,7 +3061,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "When cards gain/lose points, \nThey will change to a new card \naccording
-    to their value and color."
+    to their value and color.\n\nYou're all set now!\nClick anywhere to see it change
+    \nand start playing."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6ac063ec167f1374f908f732e22a0592, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: f93b594c9b972b940bfd81fb2a56e4ba, type: 2}
@@ -3163,8 +3166,8 @@ RectTransform:
   - {fileID: 4343105395654134350}
   - {fileID: 9032067302774539291}
   - {fileID: 7601871339051273949}
-  - {fileID: 2312523000118615090}
   - {fileID: 532418429882637101}
+  - {fileID: 2312523000118615090}
   m_Father: {fileID: 4753181132387451874}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

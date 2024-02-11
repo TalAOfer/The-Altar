@@ -40,10 +40,10 @@ public class TutorialBattleRoom : BattleRoom
         switch(index)
         {
             case 1:
-                StartCoroutine(HandRoutine());
+                StartCoroutine(DoorRoutine());
                 break;
             case 2:
-                StartCoroutine(DoorRoutine());
+                StartCoroutine(HandRoutine());
                 break;
             case 3:
                 StartCoroutine(BattleRoutine());
@@ -73,12 +73,14 @@ public class TutorialBattleRoom : BattleRoom
         gridText.SetActive(true);
         SetInteractability(true);
     }
-
-    private IEnumerator HandRoutine()
+    private IEnumerator DoorRoutine()
     {
         SetInteractability(false);
+
         gridGlow.DOFade(0, 0.5f);
         gridText.SetActive(false);
+
+        door.gateGO.GetComponent<SpriteRenderer>().sortingLayerName = ("Top");
 
         foreach (MapSlot slot in grid)
         {
@@ -91,6 +93,20 @@ public class TutorialBattleRoom : BattleRoom
             card.visualHandler.SetSortingLayer(GameConstants.ENEMY_CARD_LAYER);
         }
 
+        doorGlow.DOFade(1, 0.5f);
+        yield return Tools.GetWait(0.5f);
+        doorText.SetActive(true);
+        SetInteractability(true);
+    }
+
+    private IEnumerator HandRoutine()
+    {
+        SetInteractability(false);
+
+        doorText.SetActive(false);
+        door.gateGO.GetComponent<SpriteRenderer>().sortingLayerName = ("Room");
+        doorGlow.DOFade(0, 0.5f);
+
         foreach (Card card in roomData.PlayerManager.ActiveCards)
         {
             card.visualHandler.SetSortingLayer("Top");
@@ -102,31 +118,15 @@ public class TutorialBattleRoom : BattleRoom
         SetInteractability(true);
     }
 
-    private IEnumerator DoorRoutine()
-    {
-        SetInteractability(false);
-        handGlow.DOFade(0, 0.5f);
-        handText.SetActive(false);
 
-        door.gateGO.GetComponent<SpriteRenderer>().sortingLayerName = ("Top");
-
-        foreach (Card card in roomData.PlayerManager.ActiveCards)
-        {
-            card.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
-        }
-
-        doorGlow.DOFade(1, 0.5f);
-        yield return Tools.GetWait(0.5f);
-        doorText.SetActive(true);
-        SetInteractability(true);
-    }
 
     private IEnumerator BattleRoutine()
     {
         canvasRaycaster.enabled = false;
-        doorText.SetActive(false);
-        door.gateGO.GetComponent<SpriteRenderer>().sortingLayerName = ("Room");
-        doorGlow.DOFade(0, 0.5f);
+
+        handGlow.DOFade(0, 0.5f);
+        handText.SetActive(false);
+
         yield return Tools.GetWait(0.5f);
 
 
@@ -139,8 +139,9 @@ public class TutorialBattleRoom : BattleRoom
             if (i != 2)
             {
                 currentCard.interactionHandler.SetInteractability(false);
-            } 
-            
+                currentCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
+            }
+
             else
             {
                 currentCard.visualHandler.SetSortingLayer("Top");

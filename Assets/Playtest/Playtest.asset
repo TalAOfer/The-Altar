@@ -32,7 +32,7 @@ MonoBehaviour:
         color: 1
       min: 1
       max: 10
-    isTutorial: 0
+    isTutorial: 1
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}
