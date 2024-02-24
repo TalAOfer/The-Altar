@@ -4,13 +4,17 @@ using UnityEngine;
 public abstract class EffectApplier : MonoBehaviour
 {
     public Card parentCard;
-    public RoomData data;
+    protected DataProvider data;
+    protected PlayerActionProvider actions; 
+    protected AllEvents events;
 
     protected EffectTrigger triggerType;
-    public void BaseInitialize(Card parentCard, RoomData data, EffectTrigger triggerType)
+    public void BaseInitialize(Card parentCard, EffectTrigger triggerType)
     {
+        data = Locator.DataProvider;
+        events = Locator.Events;
+
         this.parentCard = parentCard;
-        this.data = data;
         this.triggerType = triggerType;
     }
 
@@ -21,4 +25,11 @@ public abstract class EffectApplier : MonoBehaviour
     }
 
     public abstract IEnumerator ApplyEffect(Card target, int amount);
+
+    public void RaiseEffectAppliedEvent(Card target, int amount)
+    {
+        events.OnEffectApplied.Raise(this, new EffectIndication(GetEffectIndicationString(target, amount), target));
+    }
+
+    public abstract string GetEffectIndicationString(Card target, int amount);
 }

@@ -53,19 +53,19 @@ public class LinkedCards : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void SpawnCards()
     {
-        CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y);
+        CardBlueprint playerDrawnBlueprint = runData.playerPool.GetRandomCardByPoints(runData.playerDeck.min, runData.playerDeck.max);
         playerCard = SpawnCard(playerDrawnBlueprint, GameConstants.ENEMY_CARD_LAYER, runData.playerCodex);
         playerCard.transform.localPosition = playerCardPos.localPosition;
         playerCard.index = index;
 
-        CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(roomBlueprint.enemyDrawMinMax.x, roomBlueprint.enemyDrawMinMax.y);
-        enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.ENEMY_CARD_LAYER, runData.enemyCodex);
+        //CardBlueprint enemyDrawnBlueprint = runData.enemyPool.GetRandomCardByPoints(roomBlueprint.enemyDrawMinMax.x, roomBlueprint.enemyDrawMinMax.y);
+        //enemyCard = SpawnCard(enemyDrawnBlueprint, GameConstants.ENEMY_CARD_LAYER, runData.enemyCodex);
         enemyCard.transform.localPosition = enemyCardPos.localPosition;
         enemyCard.index = index;
     }
 
 
-    public Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName, BlueprintPoolInstance codex)
+    public Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName, Codex codex)
     {
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, transform);
         cardGO.name = cardBlueprint.name;

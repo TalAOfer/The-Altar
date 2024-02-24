@@ -44,6 +44,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
         selectedCard.visualHandler.ToggleOutline(false);
         selectedCard.ChangeCardState(CardState.Default);
+        events.HideTooltip.Raise();
 
         if (selectedCard.movement.isHighlighted) Dehighlight(selectedCard);
 
@@ -58,6 +59,12 @@ public class BattleInteractionHandler : CardInteractionBase
     public virtual void Dehighlight(Card card)
     {
         card.movement.Dehighlight();
+    }
+
+    public void ResetInteractions()
+    {
+        DeselectCurrentCard();
+        DisableArrow();
     }
 
     private void DisableArrow()
@@ -139,7 +146,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
 
-        card.events.ShowTooltip.Raise(this, card);
+        events.ShowTooltip.Raise(this, card);
 
         if (isThisCardAPlayerCard)
         {
@@ -151,7 +158,7 @@ public class BattleInteractionHandler : CardInteractionBase
             card.visualHandler.Animate("Jiggle");
         }
 
-        card.events.ShowTooltip.Raise(this, card);
+        events.ShowTooltip.Raise(this, card);
     }
 
     protected override void HandlePointerExit(Card card, PointerEventData eventData)
@@ -160,7 +167,7 @@ public class BattleInteractionHandler : CardInteractionBase
         if (card.cardState != CardState.Default) return;
 
 
-        card.events.HideTooltip.Raise(this, card);
+        events.HideTooltip.Raise(this, card);
 
         bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
         bool isThisCardSelected = selectedCard == card;
@@ -275,8 +282,4 @@ public class BattleInteractionHandler : CardInteractionBase
 
     #endregion
 
-    #region Helpers
-
-
-    #endregion
 }

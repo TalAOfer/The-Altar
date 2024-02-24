@@ -151,9 +151,4 @@ public static class Tools
         string eventName = "event:/" + soundName;
         FMODUnity.RuntimeManager.PlayOneShot(eventName, emitter.position);
     }
-
-    public static AllEvents GetEvents()
-    {
-        return Resources.Load<AllEvents>("AllEvents");
-    }
 }

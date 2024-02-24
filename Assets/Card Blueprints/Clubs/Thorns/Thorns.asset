@@ -18,18 +18,15 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 1
   defaultPoints: 1
-  description: This card deals +1.
-  higherBeing: 0
+  description: In battle, this card deals +1 damage to its opponent.
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
+  Support: []
   BeforeAttacking:
   - {fileID: 11400000, guid: b7bd2d79a6b12c14ba1dbacf674b6157, type: 2}
-  Support: []
-  OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

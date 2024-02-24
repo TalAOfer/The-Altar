@@ -16,10 +16,15 @@ public class AddEffectApplier : EffectApplier
     {
         if (triggerType is EffectTrigger.Meditate)
         {
-            data.events.OnEffectApplied.Raise(this, new EffectIndication("Effect is now active", target));
+            RaiseEffectAppliedEvent(target, amount);
         }
 
         effectBlueprint.SpawnEffect(whenToTriggerAddedEffect, target);
         yield return null;
+    }
+
+    public override string GetEffectIndicationString(Card target, int amount)
+    {
+        return "Effect is now active";
     }
 }

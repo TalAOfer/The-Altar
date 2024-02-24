@@ -6,7 +6,12 @@ public class DebugApplier : EffectApplier
 {
     public override IEnumerator ApplyEffect(Card target, int amount)
     {
-        Debug.Log("Happened on " + target.name);
+        RaiseEffectAppliedEvent(target, amount);
         yield return null;
+    }
+
+    public override string GetEffectIndicationString(Card target, int amount)
+    {
+        return "Happened!";
     }
 }

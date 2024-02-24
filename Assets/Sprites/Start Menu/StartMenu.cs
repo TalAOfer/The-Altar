@@ -5,13 +5,11 @@ using UnityEngine;
 
 public class StartMenu : MonoBehaviour
 {
-    private AllEvents events;
     [SerializeField] private Tweener backgroundTweener;
     [SerializeField] private TweenBlueprint scaleTween;
     [SerializeField] private SpriteRenderer maskSr;
     private void Awake()
     {
-        events = Tools.GetEvents();
         Tools.PlaySound("Ambient", transform);
     }
 
@@ -22,7 +20,7 @@ public class StartMenu : MonoBehaviour
             Tools.PlaySound("Scene_Transition", transform);
             backgroundTweener.TriggerTween(scaleTween).OnComplete(() =>
             {
-                events.LoadScene.Raise(this, 1);
+                Locator.Events.LoadScene.Raise(this, 1);
             });
         });
     }

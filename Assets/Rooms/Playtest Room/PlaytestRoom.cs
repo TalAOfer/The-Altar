@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class PlaytestRoom : Room
 {
+    private PlayerActionProvider playerActions;
     public GameObject cardPrefab;
     public RunData runData;
+    public FloorData floorData;
     [SerializeField] private RoomData roomData;
     private FloorManager floorManager;
     private RoomBlueprint roomBlueprint;
@@ -23,6 +25,11 @@ public class PlaytestRoom : Room
     [SerializeField] private float extraTextDelay;
     [SerializeField] private float enableButtonDelay;
 
+    private void Awake()
+    {
+        playerActions = Locator.PlayerActionProvider;
+    }
+
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
         this.roomBlueprint = roomBlueprint;
@@ -33,9 +40,15 @@ public class PlaytestRoom : Room
         SpawnCard();
     }
 
+    public override void OnRoomFinishedLerping()
+    {
+        StartCoroutine(ChangeRoutine());
+        cardInteraction.gameObject.SetActive(true);
+    }
+
     private Card SpawnCard()
     {
-        BlueprintPoolInstance codex = roomBlueprint.affinity is CardOwner.Player ? runData.playerCodex : runData.enemyCodex;
+        Codex codex = roomBlueprint.affinity is CardOwner.Player ? runData.playerCodex : floorData.enemyCodex;
 
         CardBlueprint blueprintToGain = roomBlueprint.cardBlueprint;
         CardBlueprint currentBlueprint = codex.GetCardOverride(new CardArchetype(blueprintToGain.defaultPoints, blueprintToGain.cardColor));
@@ -62,19 +75,14 @@ public class PlaytestRoom : Room
         textUGUI.text += (roomBlueprint.affinity is CardOwner.Player) ? playerExtraText : enemyExtraText;
     }
 
-    public override void OnRoomFinishedLerping()
-    {
-        StartCoroutine(ChangeRoutine());
-        cardInteraction.gameObject.SetActive(true);
-    }
 
     private IEnumerator ChangeRoutine()
     {
-        BlueprintPoolInstance codex = roomBlueprint.affinity is CardOwner.Player ? runData.playerCodex : runData.enemyCodex;
+        Codex codex = roomBlueprint.affinity is CardOwner.Player ? runData.playerCodex : floorData.enemyCodex;
 
         codex.OverrideCard(roomBlueprint.cardBlueprint);
 
-        StartCoroutine(HandleAllShapeshiftsUntilStable());
+        StartCoroutine(playerActions.HandleAllShapeshiftsUntilStable());
         yield return StartCoroutine(card.HandleShapeshift());
         if (roomBlueprint.shouldShowExtraText)
         {
@@ -89,41 +97,8 @@ public class PlaytestRoom : Room
 
     public void NextRoom()
     {
+        button.gameObject.SetActive(false);
         cardInteraction.gameObject.SetActive(false);
         floorManager.NextRoom();
-    }
-
-    private IEnumerator HandleAllShapeshiftsUntilStable()
-    {
-        bool changesOccurred;
-        List<Card> allCards = new(roomData.PlayerManager.ActiveCards);
-        if (allCards.Count <= 0) yield break;
-
-        do
-        {
-            changesOccurred = false;
-            List<Coroutine> shapeshiftCoroutines = new List<Coroutine>();
-
-            foreach (Card card in allCards)
-            {
-                if (card.ShouldShapeshift())
-                {
-                    changesOccurred = true;
-                    Coroutine coroutine = StartCoroutine(card.HandleShapeshift());
-                    shapeshiftCoroutines.Add(coroutine);
-                }
-            }
-
-            // Wait for all shapeshift coroutines to finish
-            foreach (Coroutine coroutine in shapeshiftCoroutines)
-            {
-                yield return coroutine;
-            }
-
-            // If changesOccurred is true, the loop will continue
-        } while (changesOccurred);
-
-        // All shapeshifts are done and no more changes, proceed with the next operation
-        // ...
     }
 }

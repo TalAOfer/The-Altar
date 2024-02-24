@@ -9,4 +9,9 @@ public class DamageApplier : EffectApplier
         yield return target.CalcHurtPoints(amount);
         target.TakeDamage(this);
     }
+
+    public override string GetEffectIndicationString(Card target, int amount)
+    {
+        throw new System.NotImplementedException();
+    }
 }

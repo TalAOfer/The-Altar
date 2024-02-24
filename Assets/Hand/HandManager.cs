@@ -39,19 +39,25 @@ public class HandManager : MonoBehaviour
         switch (newState)
         {
             case HandState.Idle:
-                //Handle pos
                 transform.position = startingPos;
+                ////Handle pos
+                //transform.position = startingPos;
 
-                //Handle formation
-                baseSpacing = formationData.baseSpacing;
-                baseRotationAngle = formationData.baseRotationAngle;
-                yOffsetFactorMinMax = formationData.yOffsetFactorMinMax;
+                ////Handle formation
+                //baseSpacing = formationData.baseSpacing;
+                //baseRotationAngle = formationData.baseRotationAngle;
+                //yOffsetFactorMinMax = formationData.yOffsetFactorMinMax;
 
-                //Handle SortingLayers
-                foreach (Card card in cardsInHand)
-                {
-                    card.ChangeCardState(CardState.Default);
-                }
+                ////Handle SortingLayers
+                //foreach (Card card in cardsInHand)
+                //{
+                //    card.ChangeCardState(CardState.Default);
+                //}
+                break;
+            case HandState.Battle:
+                Vector3 battlePos = startingPos;
+                battlePos.y -= formationData.battleDrawbackY;
+                transform.position = battlePos;
                 break;
             case HandState.Select:
                 //Handle pos
@@ -69,6 +75,7 @@ public class HandManager : MonoBehaviour
                 }
 
                 break;
+            
         }
 
         ReorderPlaceholders(true);
@@ -200,5 +207,6 @@ public class HandManager : MonoBehaviour
 public enum HandState
 {
     Idle,
+    Battle,
     Select
 }

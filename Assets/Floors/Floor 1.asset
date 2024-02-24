@@ -15,102 +15,241 @@ MonoBehaviour:
   rooms:
   - roomType: 1
     difficulty: 0
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 2
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 1, y: 3}
     enemyDrawMinMax: {x: 1, y: 3}
   - roomType: 1
     difficulty: 0
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 2
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 1, y: 3}
     enemyDrawMinMax: {x: 1, y: 3}
   - roomType: 0
     difficulty: 4
-    isEnemyTest: 1
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 1, y: 3}
     enemyDrawMinMax: {x: 1, y: 3}
   - roomType: 1
     difficulty: 0
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 3
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 1, y: 4}
     enemyDrawMinMax: {x: 1, y: 4}
   - roomType: 0
     difficulty: 5
-    isEnemyTest: 0
-    enemiesForTest:
-    - {fileID: 11400000, guid: 2cf5b5e8162403b47a2b4e9bc22f7559, type: 2}
-    - {fileID: 11400000, guid: 5e1d186aae02a8844aeaf70d28fc7e3b, type: 2}
-    - {fileID: 11400000, guid: cb3f0d670cec8084cb171922a2967fa9, type: 2}
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 1, y: 4}
     enemyDrawMinMax: {x: 1, y: 4}
   - roomType: 1
     difficulty: 0
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 2
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 2, y: 5}
     enemyDrawMinMax: {x: 2, y: 5}
   - roomType: 0
     difficulty: 6
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 2, y: 4}
     enemyDrawMinMax: {x: 2, y: 4}
   - roomType: 1
     difficulty: 0
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 2
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 1, y: 5}
     enemyDrawMinMax: {x: 1, y: 5}
   - roomType: 0
     difficulty: 8
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 2, y: 5}
     enemyDrawMinMax: {x: 2, y: 5}
   - roomType: 1
     difficulty: 0
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 2
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 3, y: 6}
     enemyDrawMinMax: {x: 3, y: 6}
   - roomType: 0
     difficulty: 8
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 3, y: 6}
     enemyDrawMinMax: {x: 3, y: 6}
   - roomType: 0
     difficulty: 10
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 3, y: 6}
     enemyDrawMinMax: {x: 3, y: 6}
   - roomType: 1
     difficulty: 0
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 2
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 3, y: 7}
     enemyDrawMinMax: {x: 3, y: 7}
   - roomType: 0
     difficulty: 12
-    isEnemyTest: 0
-    enemiesForTest: []
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
     amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
     playerDrawMinMax: {x: 4, y: 7}
     enemyDrawMinMax: {x: 4, y: 7}
+  - roomType: 3
+    difficulty: 3
+    predetermineEnemies: 0
+    enemyArchetypes: []
+    predetermineDeck: 0
+    deck:
+      cards: []
+      min: 0
+      max: 0
+    isTutorial: 0
+    amountOfOptions: 0
+    affinity: 0
+    cardBlueprint: {fileID: 0}
+    shouldShowExtraText: 0
+    playerDrawMinMax: {x: 0, y: 0}
+    enemyDrawMinMax: {x: 0, y: 0}

@@ -6,16 +6,8 @@ using UnityEngine;
 //[CreateAssetMenu(menuName = "Run Data")]
 public class RunData : ScriptableObject
 {
-    public DeckInstance playerDeck;
-
-    [FoldoutGroup("Player")]
-    public BlueprintPoolInstance playerCodex;
-    [FoldoutGroup("Player")]
+    public Deck playerDeck;
+    public Codex playerCodex;
     public MetaPoolInstance playerPool;
-
-    [FoldoutGroup("Enemy")]
-    public BlueprintPoolInstance enemyCodex;
-    [FoldoutGroup("Enemy")]
-    public MetaPoolInstance enemyPool;
-
+    public PlayerManager playerManager;
 }

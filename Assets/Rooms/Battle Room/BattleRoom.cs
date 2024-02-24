@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class BattleRoom : Room
 {
+    private PlayerActionProvider actionProvider;
+
+
     [SerializeField] private BattleManager battleManager;
-    [SerializeField] private int difficulty;
-    [FoldoutGroup("Dependencies")]
-    [SerializeField] private AllEvents events;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private EnemyCardSpawner spawner;
     [FoldoutGroup("Dependencies")]
     [SerializeField] private RunData runData;
+    [FoldoutGroup("Dependencies")]
+    [SerializeField] protected RoomData roomData;
+
 
     [FoldoutGroup("Map Objects")]
     [SerializeField] protected Door door;
@@ -22,6 +25,11 @@ public class BattleRoom : Room
     public List<Card> activeEnemies;
     private RoomBlueprint roomBlueprint;
 
+    private void Awake()
+    {
+        
+    }
+
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
     {
         this.roomBlueprint = roomBlueprint;
@@ -30,38 +38,29 @@ public class BattleRoom : Room
 
         InitializeDeckForRoom();
 
-        battleManager.Initialize(floorManager);
-        door.Initialize(floorManager);
-        difficulty = roomBlueprint.difficulty;
+        roomData.EnemyManager = this;
+        roomData.BattleRoomState = BattleRoomState.Setup;
 
-        if (!roomBlueprint.predetermineEnemies) SpawnEnemies();
-        else SpawnTestEnemies();
+        door.Initialize(floorManager);
+
+        SpawnEnemies();
+    }
+
+    public override void OnRoomFinishedLerping()
+    {
+        base.OnRoomFinishedLerping();
+
+        actionProvider.FillHand();
     }
 
     private void InitializeDeckForRoom()
     {
         bool isPredetermined = roomBlueprint.predetermineDeck;
-        if (!isPredetermined) runData.playerDeck = new DeckInstance(roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y, true);
+        if (!isPredetermined) runData.playerDeck = new Deck(runData.playerDeck.min, runData.playerDeck.max);
         else runData.playerDeck.cards = new List<CardArchetype>(roomBlueprint.deck.cards);
     }
 
     public void SpawnEnemies()
-    {
-        List<int> enemyConfig = Tools.DivideRandomly(difficulty, roomBlueprint.playerDrawMinMax.x, roomBlueprint.playerDrawMinMax.y);
-        List<int> slots = Tools.GetXUniqueRandoms(enemyConfig.Count, 0, 8);
-
-        for (int i = 0; i < enemyConfig.Count; i++)
-        {
-            int slotIndex = slots[i];
-            int strength = enemyConfig[i];
-
-            Card enemy = spawner.SpawnEnemyInIndexByStrength(slotIndex, strength);
-
-            activeEnemies.Add(enemy);
-        }
-    }
-
-    public void SpawnTestEnemies()
     {
         int amountOfEnemies = roomBlueprint.enemyArchetypes.Count;
         List<int> slots = Tools.GetXUniqueRandoms(amountOfEnemies, 0, 8);
@@ -76,6 +75,7 @@ public class BattleRoom : Room
             activeEnemies.Add(enemy);
         }
     }
+
 
     public void RemoveEnemyFromManager(Card card)
     {

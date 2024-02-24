@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class TutorialBattleRoom : BattleRoom
 {
-    [SerializeField] private RoomData roomData;
     [SerializeField] private Image curtain;
     [SerializeField] private GraphicRaycaster canvasRaycaster;
     [SerializeField] private Button canvasInteractionButton;
     private int index = 0;
+    [SerializeField] private Floor Playtest;
 
     [Title("Grid Tutorial")]
     [SerializeField] private SpriteRenderer gridGlow;
@@ -31,6 +31,12 @@ public class TutorialBattleRoom : BattleRoom
     {
         base.OnRoomFinishedLerping();
         StartCoroutine(GridRoutine());
+    }
+
+    public override void OnRoomFinished()
+    {
+        base.OnRoomFinished();
+        Playtest.rooms[0].isTutorial = false;
     }
 
     public void SwitchRoutines()
@@ -107,10 +113,10 @@ public class TutorialBattleRoom : BattleRoom
         door.gateGO.GetComponent<SpriteRenderer>().sortingLayerName = ("Room");
         doorGlow.DOFade(0, 0.5f);
 
-        foreach (Card card in roomData.PlayerManager.ActiveCards)
-        {
-            card.visualHandler.SetSortingLayer("Top");
-        }
+        //foreach (Card card in roomData.PlayerManager.ActiveCards)
+        //{
+        //    card.visualHandler.SetSortingLayer("Top");
+        //}
 
         handGlow.DOFade(1, 0.5f);
         yield return Tools.GetWait(0.5f);
@@ -133,20 +139,20 @@ public class TutorialBattleRoom : BattleRoom
         attackText.SetActive(true);
 
         //Deal with player interactability
-        for (int i = 0; i < roomData.PlayerManager.ActiveCards.Count; i++)
-        {
-            Card currentCard = roomData.PlayerManager.ActiveCards[i];
-            if (i != 2)
-            {
-                currentCard.interactionHandler.SetInteractability(false);
-                currentCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
-            }
+        //for (int i = 0; i < roomData.PlayerManager.ActiveCards.Count; i++)
+        //{
+        //    Card currentCard = roomData.PlayerManager.ActiveCards[i];
+        //    if (i != 2)
+        //    {
+        //        currentCard.interactionHandler.SetInteractability(false);
+        //        currentCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
+        //    }
 
-            else
-            {
-                currentCard.visualHandler.SetSortingLayer("Top");
-            }
-        }
+        //    else
+        //    {
+        //        currentCard.visualHandler.SetSortingLayer("Top");
+        //    }
+        //}
 
         //Deal with enemy interactability
         Card interactableEnemy = activeEnemies[0];

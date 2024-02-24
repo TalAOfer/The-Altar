@@ -10,12 +10,6 @@ public class LoseManager : MonoBehaviour
     [SerializeField] private SpriteRenderer rightWall;
     [SerializeField] private SpriteRenderer wholeWall;
     [SerializeField] private GameObject buttons;
-    private AllEvents events;
-
-    private void Awake()
-    {
-        events = Tools.GetEvents();
-    }
 
     [Button]
     public void CloseWalls()
@@ -35,7 +29,7 @@ public class LoseManager : MonoBehaviour
             leftWall.gameObject.SetActive(false);
             wholeWall.gameObject.SetActive(true);
             buttons.SetActive(true);
-            events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
+            Locator.Events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
         });
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Effect : MonoBehaviour
 {
     public AllEvents events;
-    public RoomData data;
+    public DataProvider data;
 
     public Card parentCard;
     public EffectApplier applier;
@@ -20,6 +20,8 @@ public class Effect : MonoBehaviour
     public int defaultAmount;
     public void BaseInitialize(EffectApplier applier, Card parentCard, EffectBlueprint blueprint)
     {
+        data = Locator.DataProvider;
+
         this.applier = applier;
         this.parentCard = parentCard;
 
@@ -27,14 +29,12 @@ public class Effect : MonoBehaviour
         predelay = blueprint.predelay;
         postdelay = blueprint.postdelay;
         events = blueprint.events;
-        data = blueprint.data;
         target = blueprint.target;
         amountOfTargets = blueprint.amountOfTargets;
         amountStrategy = blueprint.amountStrategy;
         defaultAmount = blueprint.amount;
         isConditional = blueprint.isConditional;
         decision = blueprint.decision;
-
     }
 
     public IEnumerator Trigger()
@@ -157,7 +157,7 @@ public class Effect : MonoBehaviour
                 amount = data.GetAmountOfEnemies();
                 break;
             case GetAmountStrategy.CardsInHand:
-                amount = data.PlayerManager.ActiveCards.Count;
+                amount = data.GetAmountOfPlayerCards();
                 break;
             case GetAmountStrategy.RoomCount:
                 amount = data.GetRoomIndex();

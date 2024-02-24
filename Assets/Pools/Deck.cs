@@ -1,23 +1,33 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
-public class DeckInstance
+public class Deck
 {
     public List<CardArchetype> cards = new();
     public int min;
     public int max = 10;
 
-    public DeckInstance(int min, int max, bool shouldShuffle)
+    public Deck(int min, int max)
     {
         this.min = min;
         this.max = max;
-        Reinitialize(shouldShuffle);
+        RepopulateAndShuffle();
     }
 
-    public void Reinitialize(bool shouldShuffle)
+    public CardArchetype DrawCard()
+    {
+        if (cards.Count == 0)
+        {
+            RepopulateAndShuffle();
+        }
+
+        CardArchetype drawnArchetype = cards[0];
+        cards.RemoveAt(0); // Remove the card from the deck
+        return drawnArchetype;
+    }
+
+    public void RepopulateAndShuffle()
     {
         cards?.Clear();
 
@@ -31,9 +41,6 @@ public class DeckInstance
             cards.Add(new CardArchetype(i, CardColor.Red));
         }
 
-        if (shouldShuffle)
-        {
-            Tools.ShuffleList(cards);
-        }
+        Tools.ShuffleList(cards);
     }
 }

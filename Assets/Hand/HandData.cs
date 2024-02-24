@@ -5,6 +5,7 @@ using UnityEngine;
 //[CreateAssetMenu (menuName = "Hand Data")]
 public class HandData : ScriptableObject
 {
+    public float battleDrawbackY = 1f;
     public int maxCardAmount;
     public float baseSpacing = 1.5f;
     public float baseRotationAngle = 20f;

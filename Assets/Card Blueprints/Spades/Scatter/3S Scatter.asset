@@ -18,7 +18,7 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   defaultPoints: 3
-  description: When this card is destroyed, summon two 1 of spades to your hand.
+  description: When this card dies, summon 2 One of Spades to your hand.
   specialEffects: 0
   StartOfTurn: []
   StartOfBattle: []

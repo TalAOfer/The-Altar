@@ -6,8 +6,13 @@ public class GainPointsApplier : EffectApplier
 {
     public override IEnumerator ApplyEffect(Card target, int amount)
     {
-        data.events.OnEffectApplied.Raise(this, new EffectIndication("Gained +" + amount.ToString() + " points", target));
+        RaiseEffectAppliedEvent(target, amount);
         yield return target.GainPoints(amount);
+    }
+
+    public override string GetEffectIndicationString(Card target, int amount)
+    {
+        return "Gained +" + amount.ToString() + " points";
     }
 }
     

@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    [FoldoutGroup("Dependencies")]
-    public AllEvents events;
-
-    private BlueprintPoolInstance pool;
+    private Codex codex;
 
     [FoldoutGroup("Child Components")]
     public CardEffectHandler effects;
@@ -62,9 +59,9 @@ public class Card : MonoBehaviour
         get { return points <= 0; }
     }
 
-    public void Init(BlueprintPoolInstance pool, CardBlueprint blueprint, string startingSortingLayer, CardInteractionType cardInteractionType)
+    public void Init(Codex codex, CardBlueprint blueprint, string startingSortingLayer, CardInteractionType cardInteractionType)
     {
-        this.pool = pool;
+        this.codex = codex;
         this.cardInteractionType = cardInteractionType;
 
         currentOverride = blueprint;
@@ -86,7 +83,7 @@ public class Card : MonoBehaviour
     public CardBlueprint GetCurrentOverride()
     {
         if (higherBeing.isLocked && !IsDead) return currentOverride;
-        return pool.GetCardOverride(new CardArchetype(points, cardColor));
+        return codex.GetCardOverride(new CardArchetype(points, cardColor));
     }
 
     public void SetCardColor(CardColor newColor)
@@ -133,7 +130,7 @@ public class Card : MonoBehaviour
         //Debug.Log(gameObject.name + " has " + modifierList.Count.ToString() + " in " + listName);
 
         string log = currentOverride.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
-        events.AddLogEntry.Raise(this, log);
+        Locator.Events.AddLogEntry.Raise(this, log);
 
         foreach (BattlePointModifier modifier in modifierList)
         {

@@ -20,19 +20,19 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        card.events.OnCardPointerEnter.Raise(card, eventData);
+        Locator.Events.OnCardPointerEnter.Raise(card, eventData);
         //Debug.Log("Pointer Enter");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        card.events.OnCardPointerExit.Raise(card, eventData);
+        Locator.Events.OnCardPointerExit.Raise(card, eventData);
         //Debug.Log("Pointer Exit");
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        card.events.OnCardBeginDrag.Raise(card, eventData);
+        Locator.Events.OnCardBeginDrag.Raise(card, eventData);
         //Debug.Log("Begin Drag");
     }
 
@@ -40,13 +40,13 @@ public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        card.events.OnCardEndDrag.Raise(card, eventData);
+        Locator.Events.OnCardEndDrag.Raise(card, eventData);
         //Debug.Log("End Drag");
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        card.events.OnCardClicked.Raise(card, eventData);
+        Locator.Events.OnCardClicked.Raise(card, eventData);
         //Debug.Log("Click");
     }
 

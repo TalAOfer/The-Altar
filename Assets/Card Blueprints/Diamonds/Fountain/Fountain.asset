@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 1
   defaultPoints: 4
-  description: If this card survives in battle, give 2 points to a random card in
-    your hand.
+  description: When this card survives a battle, a random card in your hand gets
+    +2 points.
   specialEffects: 1
   StartOfTurn: []
   StartOfBattle: []

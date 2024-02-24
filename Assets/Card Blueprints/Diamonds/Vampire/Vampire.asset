@@ -18,18 +18,15 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 1
   defaultPoints: 5
-  description: On survive, get +2 before changing.
-  higherBeing: 0
+  description: When this card survives a battle, it gains +2 points.
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive:
-  - {fileID: 11400000, guid: 057b985625f0b66458986df62ed06ee7, type: 2}
+  BeforeAttacking: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive:
+  - {fileID: 11400000, guid: 057b985625f0b66458986df62ed06ee7, type: 2}
+  Bloodthirst: []
+  Meditate: []

@@ -18,7 +18,7 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 1
   defaultPoints: 2
-  description: On death, give +1 to a random enemy.
+  description: When this card dies, a random enemy card gains +1 points.
   specialEffects: 0
   StartOfTurn: []
   StartOfBattle: []

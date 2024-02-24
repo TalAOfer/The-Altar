@@ -16,7 +16,7 @@ public class BattleManager : MonoBehaviour
     protected Card playerCard;
 
     [FoldoutGroup("Dependencies")]
-    [SerializeField] protected RoomData roomData;
+    [SerializeField] protected DataProvider roomData;
     [FoldoutGroup("Dependencies")]
     [SerializeField] protected AllEvents events;
     [FoldoutGroup("Dependencies")]
@@ -24,15 +24,10 @@ public class BattleManager : MonoBehaviour
     [FoldoutGroup("Dependencies")]
     [SerializeField] protected BattleInteractionHandler interactionHandler;
 
-    public void Initialize(FloorManager floorManager)
+    public void Awake()
     {
-        playerManager = FindObjectOfType<PlayerManager>();
+        playerManager = Locator.PlayerManager;
         roomManager = GetComponentInParent<BattleRoom>();
-
-        roomData.PlayerManager = playerManager;
-        roomData.EnemyManager = roomManager;
-        roomData.BattleRoomState = BattleRoomState.Setup;
-        roomData.floorManager = floorManager;
     }
 
     public void OnAttack(Component sender, object data)
@@ -41,6 +36,7 @@ public class BattleManager : MonoBehaviour
         enemyCard = data as Card;
         roomData.BattlingPlayerCard = playerCard;
         roomData.BattlingEnemyCard = enemyCard;
+        playerManager.SetAllPlayerCardCollisions(false);
         interactionHandler.state = BattleInteractionState.Battle;
 
         StartCoroutine(BattleRoutine());
@@ -80,30 +76,19 @@ public class BattleManager : MonoBehaviour
         //events.AddLogEntry.Raise(this, "Global Death");
         yield return StartCoroutine(GlobalDeathRoutine());
 
-
         yield return StartCoroutine(SurviveRoutine());
 
         //events.AddLogEntry.Raise(this, "Aftermath Shapeshifts");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
-        if (enemyCard.IsDead) enemyCard.gameObject.SetActive(false);
-        if (playerCard.IsDead) playerCard.gameObject.SetActive(false);
-
-        if (!playerCard.IsDead)
+        if (DidEnemyCardDie) 
         {
-            yield return StartCoroutine(AnimateBackoff());
-        }
-
-        bool didEnemyDie = enemyCard.IsDead;
-        int deathIndex = enemyCard.index;
-
-        if (didEnemyDie)
-        {
+            enemyCard.gameObject.SetActive(false);
             roomManager.RemoveEnemyFromManager(enemyCard);
         }
 
-        //events.AddLogEntry.Raise(this, "On Obtain");
-        //yield return StartCoroutine(playerCard.effects.ApplyOnObtainEffects());
+        if (DidPlayerCardDie) playerCard.gameObject.SetActive(false);
+        else yield return StartCoroutine(AnimateBackoff());
 
         //events.AddLogEntry.Raise(this, "After On Obtain Shapeshift");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
@@ -125,27 +110,25 @@ public class BattleManager : MonoBehaviour
             yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToPlaceholder(cardData.backOffSpeed, cardData.backoffCurve));
         }
 
+        if (DidBeatRoom)
+        {
+            roomManager.OpenDoor();
+        }
+
+        else if (IsPlayerOutOfCards)
+        {
+            events.OnLose.Raise();
+            yield break;
+        }
 
         roomData.BattlingPlayerCard = null;
         roomData.BattlingEnemyCard = null;
 
         events.AddLogEntry.Raise(this, "New Turn Started");
-        if (roomManager.activeEnemies.Count == 0) 
-        {
-            roomManager.OpenDoor();
-        } 
-        
-        else
-        {
-            if (playerManager.ActiveCards.Count == 0)
-            {
-                events.OnLose.Raise();
-                yield break;
-            }
-        }
-
         events.SetGameState.Raise(this, GameState.Idle);
         interactionHandler.SetState(BattleInteractionState.Idle);
+        playerManager.Hand.ChangeHandState(HandState.Idle);
+        playerManager.SetAllPlayerCardCollisions(true);
     }
 
     #region Effect Routines
@@ -429,6 +412,8 @@ public class BattleManager : MonoBehaviour
         playerCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
     }
 
+
+
     #endregion
 
 
@@ -440,7 +425,10 @@ public class BattleManager : MonoBehaviour
         playerCard.TakeDamage(this);
     }
 
-
+    private bool DidBeatRoom => roomManager.activeEnemies.Count == 0;
+    private bool IsPlayerOutOfCards => playerManager.ActiveCards.Count == 0;
+    private bool DidEnemyCardDie => enemyCard.IsDead;
+    private bool DidPlayerCardDie => playerCard.IsDead;
     #endregion
 }
 

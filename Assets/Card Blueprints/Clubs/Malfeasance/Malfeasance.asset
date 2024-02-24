@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 1
   defaultPoints: 3
-  description: On Survive summon 1 of spades to your hand, and turn all of your cards
-    to black.
+  description: When this card survives a battle, change the color of all player cards,
+    and summon a One of Spades to your hand.
   specialEffects: 0
   StartOfTurn: []
   StartOfBattle: []

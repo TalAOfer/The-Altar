@@ -5,7 +5,7 @@ using UnityEngine;
 public class FloorManager : MonoBehaviour
 {
     [SerializeField] private Floor floor;
-    public int currentRoomIndex;
+    private FloorData floorData;
 
     [FoldoutGroup("Dependencies")]
     [SerializeField] private AllEvents events;
@@ -29,11 +29,16 @@ public class FloorManager : MonoBehaviour
     [FoldoutGroup("Transforms")]
     [SerializeField] private Transform oldRoomSwipePos;
 
-    private RoomBlueprint CurrentRoomBlueprint => floor.rooms[currentRoomIndex];
+    private RoomBlueprint CurrentRoomBlueprint => floor.rooms[floorData.currentRoomIndex];
 
     private Room previousRoom;
     private Room currentRoom;
 
+
+    private void Awake()
+    {
+        floorData = Locator.FloorData;
+    }
 
     [Button]
     public void InitializeFloor()
@@ -44,7 +49,7 @@ public class FloorManager : MonoBehaviour
 
     private IEnumerator FirstRoomRoutine()
     {
-        currentRoomIndex = 0;
+        floorData.currentRoomIndex = 0;
         currentRoom = SpawnRoom();
         currentRoom.InitializeRoom(this, CurrentRoomBlueprint);
 
@@ -71,9 +76,10 @@ public class FloorManager : MonoBehaviour
 
     private IEnumerator NextRoomRoutine()
     {
+        events.OnNewRoom.Raise(this, CurrentRoomBlueprint);
         previousRoom = currentRoom;
 
-        currentRoomIndex++;
+        floorData.currentRoomIndex++;
 
         currentRoom = SpawnRoom();
         currentRoom.InitializeRoom(this, CurrentRoomBlueprint);
@@ -84,11 +90,6 @@ public class FloorManager : MonoBehaviour
         yield return StartCoroutine(currentRoom.AnimateDown());
 
         currentRoom.OnRoomFinishedLerping();
-
-        if (CurrentRoomBlueprint.roomType == RoomType.Battle)
-        {
-            events.OnNewRoom.Raise(this, CurrentRoomBlueprint);
-        }
 
         previousRoom.gameObject.SetActive(false);
         Destroy(previousRoom.gameObject);

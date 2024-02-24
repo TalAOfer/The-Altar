@@ -5,9 +5,15 @@ using UnityEngine;
 public class EnemyCardSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cardPrefab;
-    [SerializeField] private RunData runData;
     [SerializeField] private BattleRoom room;
-    private BlueprintPoolInstance Codex => runData.enemyCodex;
+    
+    private FloorData floorData;
+    private Codex Codex => floorData.enemyCodex;
+
+    private void Awake()
+    {
+        floorData = Locator.FloorData;
+    }
 
     public Card SpawnEnemyInIndexByBlueprint(int containerIndex, CardBlueprint cardBlueprint)
     {

@@ -12,16 +12,15 @@ public class RoomBlueprint
     public RoomType roomType;
 
     [FoldoutGroup("Room Data")]
-    [ShowIf("@ShouldShowDifficulty()")]
+    [ShowIf("roomType", RoomType.Battle)]
     public int difficulty = 3;
     
     [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Battle)]
-    public bool predetermineEnemies;
-    
-    [FoldoutGroup("Room Data")]
-    [ShowIf("@ShouldShowEnemiesForTest()")]
     public List<CardArchetype> enemyArchetypes;
+
+    [FoldoutGroup("Room Data")]
+    [HideIf("@ShouldHideEnemyMinmax()")]
+    public Vector2Int enemyDrawMinMax;
 
     [FoldoutGroup("Room Data")]
     [ShowIf("roomType", RoomType.Battle)]
@@ -29,7 +28,7 @@ public class RoomBlueprint
     
     [FoldoutGroup("Room Data")]
     [ShowIf("@ShouldShowDeckBlueprint()")]
-    public DeckInstance deck;
+    public Deck deck;
 
     [FoldoutGroup("Room Data")]
     [ShowIf("roomType", RoomType.Battle)]
@@ -50,39 +49,17 @@ public class RoomBlueprint
     [FoldoutGroup("Room Data")]
     [ShowIf("roomType", RoomType.PlaytestCardGain)]
     public bool shouldShowExtraText;
-
-    [FoldoutGroup("Room Data")]
-    [HideIf("@ShouldHidePlayerMinmax()")]
-    public Vector2Int playerDrawMinMax;
     
-    [FoldoutGroup("Room Data")]
-    [HideIf("@ShouldHideEnemyMinmax()")]
-    public Vector2Int enemyDrawMinMax;
-
-    private bool ShouldShowEnemiesForTest()
-    {
-        return roomType is RoomType.Battle && predetermineEnemies;
-    }
-
     private bool ShouldShowDeckBlueprint()
     {
         return roomType is RoomType.Battle && predetermineDeck;
     }
 
-    private bool ShouldHidePlayerMinmax()
-    {
-        return roomType is not RoomType.CardPicking && (roomType is RoomType.PlaytestCardGain || predetermineDeck);
-    }
-
     private bool ShouldHideEnemyMinmax()
     {
-        return roomType is not RoomType.CardPicking && (roomType is RoomType.PlaytestCardGain || predetermineEnemies);
+        return roomType is not RoomType.CardPicking && (roomType is RoomType.PlaytestCardGain);
     }
 
-    private bool ShouldShowDifficulty()
-    {
-        return roomType is RoomType.Battle && !predetermineEnemies;
-    }
     private Color GetColorForRoomType()
     {
         Color color = Color.white;
@@ -105,5 +82,4 @@ public class RoomBlueprint
 
         return color;
     }
-
 }

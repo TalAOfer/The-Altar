@@ -47,6 +47,14 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void SetAllPlayerCardCollisions(bool enable)
+    {
+        foreach (Card card in ActiveCards)
+        {
+            card.interactionHandler.coll.enabled = enable;
+        }
+    }
+
     public void DrawCardToHand()
     {
         CardBlueprint blueprint = _spawner.DrawCard();

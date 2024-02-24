@@ -95,12 +95,13 @@ public class CardSelectionRoom : Room
         CardBlueprint chosenEnemyBlueprint = linkedCards.enemyCard.currentOverride;
 
         runData.playerCodex.OverrideCard(chosenPlayerBlueprint);
-        runData.enemyCodex.OverrideCard(chosenEnemyBlueprint);
+        //runData.enemyCodex.OverrideCard(chosenEnemyBlueprint);
 
         RemoveAllCards();
         events.HideTooltip.Raise(this, null);
 
-        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+        yield return null;
+        //yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
         floorManager.NextRoom();
     }
@@ -114,47 +115,13 @@ public class CardSelectionRoom : Room
             if (!linkedCards.wasChosen)
             {
                 runData.playerPool.ReturnBlueprintToPool(linkedCards.playerCard.currentOverride);
-                runData.enemyPool.ReturnBlueprintToPool(linkedCards.enemyCard.currentOverride);
+                //runData.enemyPool.ReturnBlueprintToPool(linkedCards.enemyCard.currentOverride);
             }
 
             linkedCardsList.Remove(linkedCards);
 
             Destroy(linkedCards.gameObject);
         }
-    }
-
-    private IEnumerator HandleAllShapeshiftsUntilStable()
-    {
-        bool changesOccurred;
-        List<Card> allCards = new(roomData.PlayerManager.ActiveCards);
-        if (allCards.Count <= 0) yield break;
-
-        do
-        {
-            changesOccurred = false;
-            List<Coroutine> shapeshiftCoroutines = new List<Coroutine>();
-
-            foreach (Card card in allCards)
-            {
-                if (card.ShouldShapeshift())
-                {
-                    changesOccurred = true;
-                    Coroutine coroutine = StartCoroutine(card.HandleShapeshift());
-                    shapeshiftCoroutines.Add(coroutine);
-                }
-            }
-
-            // Wait for all shapeshift coroutines to finish
-            foreach (Coroutine coroutine in shapeshiftCoroutines)
-            {
-                yield return coroutine;
-            }
-
-            // If changesOccurred is true, the loop will continue
-        } while (changesOccurred);
-
-        // All shapeshifts are done and no more changes, proceed with the next operation
-        // ...
     }
 }
 

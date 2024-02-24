@@ -26,7 +26,7 @@ public class Tooltip : MonoBehaviour
     public void InitializeTooltip(Card card)
     {
         cardName.text = card.currentOverride.cardName;
-        cardArchetype.text = card.currentOverride.defaultPoints.ToString() + " of " + GetSymbolName(card);
+        cardArchetype.text = Tools.GetCardNameByArchetype(new CardArchetype(card.points, card.cardColor), card.cardOwner);
         cardDescription.text = !card.currentOverride.isDefault ? GetDescription(card) : "No effect.";
         icon.sprite = card.currentOverride.cardSprite;
         SetCardSymbol(card);
@@ -49,6 +49,7 @@ public class Tooltip : MonoBehaviour
         higherBeingWindow.SetActive(card.currentOverride.specialEffects.HasFlag(SpecialEffects.HigherBeing));
         bloodthirstWindow.SetActive(card.currentOverride.specialEffects.HasFlag(SpecialEffects.Bloodthirst));
         meditateWindow.SetActive(card.currentOverride.specialEffects.HasFlag(SpecialEffects.Meditate));
+        
     }
 
     private string GetSymbolName(Card card)
@@ -96,7 +97,4 @@ public class Tooltip : MonoBehaviour
     {
         digit.sprite = sprites.numbers[card.currentOverride.defaultPoints];
     }
-
-
-
 }

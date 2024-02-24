@@ -13,6 +13,11 @@ public class AddGuardianApplier : EffectApplier
         yield return null;
     }
 
+    public override string GetEffectIndicationString(Card target, int amount)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void Initialize(GuardianType guardianType, EffectApplicationType applicationType)
     {
         this.guardianType = guardianType;

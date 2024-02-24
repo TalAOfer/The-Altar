@@ -18,19 +18,17 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 0
   defaultPoints: 4
-  description: This card deals +2 against black cards, and -2 against red cards.
-  higherBeing: 0
+  description: In battle, this card deals +2 damage against black enemy cards, and
+    -2 damage against red enemy cards.
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
+  Support: []
   BeforeAttacking:
   - {fileID: 11400000, guid: 5ee40ca1b99bae74b9a8e88327e09882, type: 2}
   - {fileID: 11400000, guid: 54715405f59d9be4d89167d12dbb51c6, type: 2}
-  Support: []
-  OnSurvive: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

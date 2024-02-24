@@ -18,8 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 0
   defaultPoints: 2
-  description: When this card is destroyed, draw a card.
-  higherBeing: 0
+  description: When this card dies, draw a card to your hand.
+  specialEffects: 0
   StartOfTurn: []
   StartOfBattle: []
   Support: []

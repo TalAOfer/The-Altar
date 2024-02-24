@@ -18,14 +18,6 @@ public class BlueprintPoolInstance
         red = new(pool.red);
     }
 
-    public void InitializeAsCodex(BlueprintPoolBlueprint poolBlueprint)
-    {
-        black?.Clear();
-        red?.Clear();
-        black = new(poolBlueprint.black);
-        red = new(poolBlueprint.red);
-    }
-
     public void ShuffleLists()
     {
         Tools.ShuffleList(black);

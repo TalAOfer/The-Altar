@@ -40,6 +40,7 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        SetInteractability(false);
         response.Invoke(null, null);
         React(_ClickReaction);
     }

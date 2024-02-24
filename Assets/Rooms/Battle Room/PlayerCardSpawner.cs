@@ -9,19 +9,12 @@ public class PlayerCardSpawner : MonoBehaviour
     public Transform spawnPos;
 
     [SerializeField] private RunData runData;
-    public BlueprintPoolInstance Codex => runData.playerCodex;
-    private DeckInstance Deck => runData.playerDeck;
+    public Codex Codex => runData.playerCodex;
+    private Deck Deck => runData.playerDeck;
 
     public CardBlueprint DrawCard()
     {
-        if (Deck.cards.Count == 0)
-        {
-            Deck.Reinitialize(true);
-        }
-
-        CardArchetype drawnArchetype = Deck.cards[0];
-        Deck.cards.RemoveAt(0); // Remove the card from the deck
-        CardBlueprint drawnBlueprint = Codex.GetCardOverride(drawnArchetype);
+        CardBlueprint drawnBlueprint = Codex.GetCardOverride(Deck.DrawCard());
         return drawnBlueprint;
     }
 

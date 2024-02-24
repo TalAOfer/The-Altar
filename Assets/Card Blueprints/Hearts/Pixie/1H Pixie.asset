@@ -18,7 +18,8 @@ MonoBehaviour:
   cardColor: 1
   cardOwner: 0
   defaultPoints: 1
-  description: On death, give +1 to your lowest valued card.
+  description: When this card dies, the lowest valued card in your hand gains +1
+    points.
   specialEffects: 0
   StartOfTurn: []
   StartOfBattle: []

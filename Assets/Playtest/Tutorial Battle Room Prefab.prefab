@@ -205,6 +205,7 @@ Transform:
   - {fileID: 4463099956543078125}
   - {fileID: 4784021673216525478}
   - {fileID: 539573033245798944}
+  - {fileID: 3927825154942973252}
   m_Father: {fileID: 7700374369909467821}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1774,6 +1775,7 @@ MonoBehaviour:
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   spawner: {fileID: 5966894109945736436}
   runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
+  roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
   door: {fileID: 2014044513494268645}
   grid:
   - {fileID: 2053341478124807371}
@@ -1786,10 +1788,10 @@ MonoBehaviour:
   - {fileID: 2053341477530452860}
   - {fileID: 2053341477546632342}
   activeEnemies: []
-  roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
   curtain: {fileID: 1342721931032058735}
   canvasRaycaster: {fileID: 5442125861509214012}
   canvasInteractionButton: {fileID: 6693559327450882564}
+  Playtest: {fileID: 11400000, guid: b4cfa14c2621cf94b9ef573e4d726cfe, type: 2}
   gridGlow: {fileID: 1121021052}
   gridText: {fileID: 8162594202439735247}
   handGlow: {fileID: 6536536229550419767}
@@ -3888,6 +3890,66 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &9115715476226604572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3927825154942973252}
+  - component: {fileID: 1043835385271622029}
+  m_Layer: 0
+  m_Name: OnRoomFinishedLerping
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3927825154942973252
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9115715476226604572}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6569282246871512127}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1043835385271622029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9115715476226604572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2087eb1c8d9093c47bb0f04a270fa87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 68f9ca6b4a3fad44c89f775b2ab5af45, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5711105961521163647}
+        m_TargetAssemblyTypeName: BattleInteractionHandler, Assembly-CSharp
+        m_MethodName: ResetInteractions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &4753181130515652737
 PrefabInstance:
   m_ObjectHideFlags: 0

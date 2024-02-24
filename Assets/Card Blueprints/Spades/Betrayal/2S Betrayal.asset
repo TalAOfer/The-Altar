@@ -18,18 +18,15 @@ MonoBehaviour:
   cardColor: 0
   cardOwner: 0
   defaultPoints: 2
-  description: When this card is destroyed, summon a 2 of hearts to your hand.
-  higherBeing: 0
+  description: When this card dies, summon a Two of Hearts to your hand.
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath:
   - {fileID: 11400000, guid: 590c43c72136ce646ad473637b49443e, type: 2}
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

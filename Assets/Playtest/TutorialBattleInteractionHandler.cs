@@ -41,6 +41,6 @@ public class TutorialBattleInteractionHandler : BattleInteractionHandler
             card.visualHandler.Animate("Jiggle");
         }
 
-        card.events.ShowTooltip.Raise(this, card);
+        events.ShowTooltip.Raise(this, card);
     }
 }

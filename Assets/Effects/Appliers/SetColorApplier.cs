@@ -14,7 +14,12 @@ public class SetColorApplier : EffectApplier
     public override IEnumerator ApplyEffect(Card target, int amount)
     {
         target.cardColor = color;
-        data.events.OnEffectApplied.Raise(this, new EffectIndication("Change to " + color.ToString(), target));
+        RaiseEffectAppliedEvent(target, amount);
         yield return null;
+    }
+
+    public override string GetEffectIndicationString(Card target, int amount)
+    {
+        return "Change to " + color.ToString();
     }
 }

@@ -60,23 +60,23 @@ public class TutorialBattleManager : BattleManager
         attackText.SetActive(false);
         yield return StartCoroutine(base.BattleRoutine());
 
-        for (int i = 0; i < roomData.PlayerManager.ActiveCards.Count; i++)
-        {
-            Card currentCard = roomData.PlayerManager.ActiveCards[i];
-            if (i != 2)
-            {
-                currentCard.interactionHandler.SetInteractability(true);
-            }
+        //for (int i = 0; i < roomData.PlayerManager.ActiveCards.Count; i++)
+        //{
+        //    Card currentCard = roomData.PlayerManager.ActiveCards[i];
+        //    if (i != 2)
+        //    {
+        //        currentCard.interactionHandler.SetInteractability(true);
+        //    }
 
-            else
-            {
-                currentCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
-            }
-        }
+        //    else
+        //    {
+        //        currentCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
+        //    }
+        //}
 
-        foreach (Card card in roomData.EnemyManager.activeEnemies)
-        {
-            card.interactionHandler.SetInteractability(true);
-        }
+        //foreach (Card card in roomData.EnemyManager.activeEnemies)
+        //{
+        //    card.interactionHandler.SetInteractability(true);
+        //}
     }
 }

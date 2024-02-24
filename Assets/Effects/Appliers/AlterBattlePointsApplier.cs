@@ -17,11 +17,16 @@ public class AlterBattlePointsApplier : EffectApplier
         List<BattlePointModifier> modifierList = battlePointType is BattlePointType.Attack ?
         targetCard.attackPointsModifiers :
         targetCard.hurtPointsModifiers;
-        string sign = GetMathSign();
-        data.events.OnEffectApplied.Raise(this, new EffectIndication("Deals " + sign + amount.ToString(), targetCard));
+        RaiseEffectAppliedEvent(targetCard, amount);
         modifierList.Add(new BattlePointModifier(modifierType, amount));
 
         yield return null;
+    }
+
+    public override string GetEffectIndicationString(Card target, int amount)
+    {
+        string sign = GetMathSign();
+        return "Deals " + sign + amount.ToString();
     }
 
     private string GetMathSign()
