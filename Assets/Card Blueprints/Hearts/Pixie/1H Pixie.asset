@@ -15,9 +15,10 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 303a339d266d5f649b6ae6053f0ec84c, type: 3}
   isDefault: 0
   cardName: Pixie
-  cardColor: 1
-  cardOwner: 0
-  defaultPoints: 1
+  archetype:
+    points: 1
+    color: 0
+  affinity: 0
   description: When this card dies, the lowest valued card in your hand gains +1
     points.
   specialEffects: 0

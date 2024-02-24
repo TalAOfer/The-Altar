@@ -15,9 +15,10 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 6066bd4375f715349bd615663d3c0563, type: 3}
   isDefault: 1
   cardName: Morning Star
-  cardColor: 1
-  cardOwner: 0
-  defaultPoints: 8
+  archetype:
+    points: 8
+    color: 1
+  affinity: 0
   description: 
   specialEffects: 0
   StartOfTurn: []

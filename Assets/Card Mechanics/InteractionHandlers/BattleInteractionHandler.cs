@@ -104,7 +104,7 @@ public class BattleInteractionHandler : CardInteractionBase
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
 
         bool isThereASelectedCard = selectedCard != null;
-        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+        bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
 
         if (isThereASelectedCard)
         {
@@ -144,7 +144,7 @@ public class BattleInteractionHandler : CardInteractionBase
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
         if (card.cardState != CardState.Default) return;
 
-        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+        bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
 
         events.ShowTooltip.Raise(this, card);
 
@@ -169,7 +169,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
         events.HideTooltip.Raise(this, card);
 
-        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+        bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
         bool isThisCardSelected = selectedCard == card;
 
         if (isThisCardAPlayerCard && !isThisCardSelected)
@@ -185,7 +185,7 @@ public class BattleInteractionHandler : CardInteractionBase
         canClick = false;
 
         bool isThereASelectedCard = selectedCard != null;
-        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+        bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
 
         if (!isThisCardAPlayerCard) return;
 
@@ -215,7 +215,7 @@ public class BattleInteractionHandler : CardInteractionBase
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
         if (selectedCard == null) return;
 
-        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+        bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
         if (!isThisCardAPlayerCard) return;
 
         GameObject goHit = eventData.pointerCurrentRaycast.gameObject;
@@ -233,7 +233,7 @@ public class BattleInteractionHandler : CardInteractionBase
             return;
         }
 
-        if (droppedCard.cardOwner == CardOwner.Enemy)
+        if (droppedCard.Affinity == Affinity.Enemy)
         {
             Attack(card, droppedCard);
         }

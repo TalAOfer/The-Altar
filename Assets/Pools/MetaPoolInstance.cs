@@ -42,8 +42,8 @@ public class MetaPoolInstance
 
     public void ReturnBlueprintToPool(CardBlueprint blueprint)
     {
-        BlueprintPoolInstance pointPool = pools[blueprint.defaultPoints];
-        CardColor poolColor = blueprint.cardColor;
+        BlueprintPoolInstance pointPool = pools[blueprint.archetype.points];
+        CardColor poolColor = blueprint.archetype.color;
         List<CardBlueprint> pool = poolColor is CardColor.Black ? pointPool.black : pointPool.red;
 
         pool.Add(blueprint);

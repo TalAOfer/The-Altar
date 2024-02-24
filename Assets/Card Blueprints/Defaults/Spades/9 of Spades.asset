@@ -15,9 +15,10 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 63131a9b047aa8f43a84ff500ee9b515, type: 3}
   isDefault: 1
   cardName: Sentinel
-  cardColor: 0
-  cardOwner: 0
-  defaultPoints: 9
+  archetype:
+    points: 9
+    color: 0
+  affinity: 0
   description: 
   specialEffects: 0
   StartOfTurn: []

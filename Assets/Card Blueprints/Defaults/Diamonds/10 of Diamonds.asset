@@ -15,9 +15,10 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 60d46ce171595594499fa4aec244a5cf, type: 3}
   isDefault: 1
   cardName: Abaddon
-  cardColor: 1
-  cardOwner: 1
-  defaultPoints: 10
+  archetype:
+    points: 10
+    color: 1
+  affinity: 1
   description: 
   specialEffects: 0
   StartOfTurn: []

@@ -1,11 +1,10 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleRoom : Room
 {
-    private PlayerActionProvider actionProvider;
+    private PlayerActionProvider playerActionProvider;
 
 
     [SerializeField] private BattleManager battleManager;
@@ -27,7 +26,7 @@ public class BattleRoom : Room
 
     private void Awake()
     {
-        
+        playerActionProvider = Locator.PlayerActionProvider;
     }
 
     public override void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)
@@ -50,7 +49,7 @@ public class BattleRoom : Room
     {
         base.OnRoomFinishedLerping();
 
-        actionProvider.FillHand();
+        playerActionProvider.FillHand();
     }
 
     private void InitializeDeckForRoom()
@@ -62,20 +61,17 @@ public class BattleRoom : Room
 
     public void SpawnEnemies()
     {
-        int amountOfEnemies = roomBlueprint.enemyArchetypes.Count;
-        List<int> slots = Tools.GetXUniqueRandoms(amountOfEnemies, 0, 8);
+        List<EnemySpawn> enemies = roomBlueprint.enemies;
 
-        for (int i = 0; i < amountOfEnemies; i++)
+        for (int i = 0; i < enemies.Count; i++)
         {
-            int slotIndex = slots[i];
-            CardBlueprint enemyBlueprint = spawner.DrawEnemyByArchetype(roomBlueprint.enemyArchetypes[i]);
+            CardBlueprint enemyBlueprint = spawner.DrawEnemyByArchetype(enemies[i].Blueprint.archetype);
 
-            Card enemy = spawner.SpawnEnemyInIndexByBlueprint(slotIndex, enemyBlueprint);
+            Card enemy = spawner.SpawnEnemyInIndexByBlueprint((int)enemies[i].Placement, enemyBlueprint);
 
             activeEnemies.Add(enemy);
         }
     }
-
 
     public void RemoveEnemyFromManager(Card card)
     {
@@ -98,4 +94,24 @@ public class BattleRoom : Room
 
         activeEnemies.Clear();
     }
+}
+
+[System.Serializable]
+public class EnemySpawn
+{
+    public CardBlueprint Blueprint;
+    public GridPlacement_3 Placement;
+
+    public EnemySpawn(CardBlueprint blueprint, GridPlacement_3 placement)
+    {
+        Blueprint = blueprint;
+        Placement = placement;
+    }
+}
+
+public enum GridPlacement_3
+{
+    TopLeft, TopMiddle, TopRight,
+    CenterLeft, CenterMiddle, CenterRight,
+    BottomLeft, BottomMiddle, BottomRight,
 }

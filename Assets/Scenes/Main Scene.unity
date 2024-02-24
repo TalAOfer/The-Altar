@@ -612,37 +612,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 187562342}
-  - component: {fileID: 187562341}
+  - component: {fileID: 187562343}
   m_Layer: 0
-  m_Name: SetupManager
+  m_Name: Run Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &187562341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 187562340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3edba2b117eb58b48b9f02a9f0cf3294, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
-  runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
-  setupOnAwake: 1
-  roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
-  playerManager: {fileID: 1474505908}
-  floorManager: {fileID: 6877448689089928910}
-  DefaultDrawabilityMinMax: {x: 1, y: 3}
-  playerCodexRecipe: {fileID: 11400000, guid: da1c71fee772bb540a82c5c99e76ac69, type: 2}
-  enemyCodexRecipe: {fileID: 11400000, guid: 9a055224e18694e4397df5dcb5b1aaa0, type: 2}
-  playerPoolRecipe: {fileID: 11400000, guid: 56056c9c7e42a0a448d8a386cddaae61, type: 2}
-  enemyPoolRecipe: {fileID: 11400000, guid: 6d44405a3538b3544b2f761d208bd2df, type: 2}
 --- !u!4 &187562342
 Transform:
   m_ObjectHideFlags: 0
@@ -658,6 +635,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &187562343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187562340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8385720c2edea5748bde3b3c85b1056c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setupOnAwake: 1
+  DefaultDrawabilityMinMax: {x: 1, y: 3}
+  playerCodexRecipe: {fileID: 11400000, guid: b4deaad8fc286364bb6294fc88f2abcc, type: 2}
+  playerPoolRecipe: {fileID: 11400000, guid: 56056c9c7e42a0a448d8a386cddaae61, type: 2}
 --- !u!1 &213638130
 GameObject:
   m_ObjectHideFlags: 0
@@ -2574,6 +2567,50 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &760928797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 760928798}
+  - component: {fileID: 760928799}
+  m_Layer: 0
+  m_Name: Player Action Provider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &760928798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760928797}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1284052149}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &760928799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760928797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9782a3da5d7aabc40ac0012e1545e349, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &774636087
 GameObject:
   m_ObjectHideFlags: 0
@@ -3102,50 +3139,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1033765154
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1033765156}
-  - component: {fileID: 1033765155}
-  m_Layer: 0
-  m_Name: Codex
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1033765155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033765154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 855aff9cac5bad2469cb638c4b3224a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1033765156
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033765154}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13, y: 6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1073820566
 GameObject:
   m_ObjectHideFlags: 0
@@ -4189,6 +4182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
+  _runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
+  _floorData: {fileID: 11400000, guid: bdca4779f6d433f48918e4b456bd32c7, type: 2}
+  _roomData: {fileID: 11400000, guid: 0e157c2db01383e448701be2a8f29f26, type: 2}
 --- !u!4 &1284052149
 Transform:
   m_ObjectHideFlags: 0
@@ -4200,9 +4196,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1371481340}
+  - {fileID: 760928798}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1296156653
 GameObject:
@@ -4445,6 +4443,52 @@ Transform:
   m_Father: {fileID: 800593661}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1371481339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1371481340}
+  - component: {fileID: 1371481341}
+  m_Layer: 0
+  m_Name: Data Provider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1371481340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371481339}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.49295267, y: -0.09131485, z: 11.523498}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1284052149}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1371481341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371481339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22146da389c0c24094719f23a97eb3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BattlingEnemyCard: {fileID: 0}
+  BattlingPlayerCard: {fileID: 0}
 --- !u!1 &1455554118
 GameObject:
   m_ObjectHideFlags: 0
@@ -6480,7 +6524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6372738546460851866, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6372738546460851866, guid: 156d4b5f450fa67429fead917105ed03, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7060,7 +7104,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 11400000, guid: b4cfa14c2621cf94b9ef573e4d726cfe, type: 2}
-  currentRoomIndex: 0
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   swipeDuration: 1
   battleRoomPrefab: {fileID: 4753181132387451872, guid: a937ae84303bf044286a26837ab2a30b, type: 3}

@@ -15,19 +15,18 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 705bce91e9353f24b8eae8242cff7d24, type: 3}
   isDefault: 1
   cardName: Rotten Finger
-  cardColor: 0
-  cardOwner: 1
-  defaultPoints: 7
+  archetype:
+    points: 7
+    color: 0
+  affinity: 1
   description: 
+  specialEffects: 0
   StartOfTurn: []
-  OnObtain: []
-  OnGainPoints: []
-  OnSacrifice: []
   StartOfBattle: []
-  BeforeAttacking: []
   Support: []
-  OnSurvive: []
+  BeforeAttacking: []
   OnDeath: []
   OnGlobalDeath: []
-  OnActionTaken: []
-  EndOfTurn: []
+  OnSurvive: []
+  Bloodthirst: []
+  Meditate: []

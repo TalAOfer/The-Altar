@@ -15,14 +15,20 @@ MonoBehaviour:
   blueprint:
     roomType: 0
     difficulty: 3
-    enemyArchetypes: []
-    enemyDrawMinMax: {x: 0, y: 0}
     predetermineDeck: 0
     deck:
       cards: []
       min: 0
       max: 0
     isTutorial: 0
+    codex: {fileID: 11400000, guid: b4deaad8fc286364bb6294fc88f2abcc, type: 2}
+    card: {fileID: 11400000, guid: c0d63a2e9baa8dd429adb49dac41ac4b, type: 2}
+    placement: 0
+    enemies:
+    - Blueprint: {fileID: 11400000, guid: fb1c33f081e8a0f46afda86154ff6a57, type: 2}
+      Placement: 0
+    - Blueprint: {fileID: 11400000, guid: c0d63a2e9baa8dd429adb49dac41ac4b, type: 2}
+      Placement: 1
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}

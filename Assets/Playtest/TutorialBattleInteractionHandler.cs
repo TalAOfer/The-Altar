@@ -29,7 +29,7 @@ public class TutorialBattleInteractionHandler : BattleInteractionHandler
         if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
         if (card.cardState != CardState.Default) return;
 
-        bool isThisCardAPlayerCard = card.cardOwner == CardOwner.Player;
+        bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
 
         if (isThisCardAPlayerCard)
         {

@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Blueprints/Card")]
@@ -11,9 +12,8 @@ public class CardBlueprint : ScriptableObject
     public bool isDefault;
 
     public string cardName;
-    public CardColor cardColor;
-    public CardOwner cardOwner;
-    public int defaultPoints;
+    public CardArchetype archetype;
+    public Affinity affinity;
     public string description;
     public SpecialEffects specialEffects;
 
@@ -36,7 +36,7 @@ public enum CardColor
     Black, Red
 }
 
-public enum CardOwner
+public enum Affinity
 {
     Player,
     Enemy,
@@ -54,9 +54,8 @@ public enum SpecialEffects
 [Serializable]
 public class CardArchetype
 {
-    [HorizontalGroup ("", Width = 100)] public int points;
-
-    [HorizontalGroup("")] public CardColor color;
+    public int points;
+    public CardColor color;
 
     public CardArchetype(int points, CardColor color)
     {

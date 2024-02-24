@@ -24,6 +24,6 @@ public class SpawnCardToHandApplier : EffectApplier
 
     public override string GetEffectIndicationString(Card target, int amount)
     {
-        return "Spawn " + amount.ToString() + " " + Tools.GetCardNameByArchetype(archetype, CardOwner.Player);
+        return "Spawn " + amount.ToString() + " " + Tools.GetCardNameByArchetype(archetype, Affinity.Player);
     }
 }

@@ -6,7 +6,7 @@ public class FloorManager : MonoBehaviour
 {
     [SerializeField] private Floor floor;
     private FloorData floorData;
-
+    
     [FoldoutGroup("Dependencies")]
     [SerializeField] private AllEvents events;
 
@@ -29,7 +29,7 @@ public class FloorManager : MonoBehaviour
     [FoldoutGroup("Transforms")]
     [SerializeField] private Transform oldRoomSwipePos;
 
-    private RoomBlueprint CurrentRoomBlueprint => floor.rooms[floorData.currentRoomIndex];
+    private RoomBlueprint CurrentRoomBlueprint => floor.Rooms[floorData.currentRoomIndex];
 
     private Room previousRoom;
     private Room currentRoom;
@@ -38,6 +38,8 @@ public class FloorManager : MonoBehaviour
     private void Awake()
     {
         floorData = Locator.FloorData;
+        floorData.enemyCodex = new Codex(floor.EnemyCodexBlueprint);
+        
     }
 
     [Button]

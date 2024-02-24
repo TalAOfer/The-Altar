@@ -26,7 +26,7 @@ public class Tooltip : MonoBehaviour
     public void InitializeTooltip(Card card)
     {
         cardName.text = card.currentOverride.cardName;
-        cardArchetype.text = Tools.GetCardNameByArchetype(new CardArchetype(card.points, card.cardColor), card.cardOwner);
+        cardArchetype.text = Tools.GetCardNameByArchetype(new CardArchetype(card.points, card.cardColor), card.Affinity);
         cardDescription.text = !card.currentOverride.isDefault ? GetDescription(card) : "No effect.";
         icon.sprite = card.currentOverride.cardSprite;
         SetCardSymbol(card);
@@ -55,12 +55,12 @@ public class Tooltip : MonoBehaviour
     private string GetSymbolName(Card card)
     {
         string symbolName = "";
-        switch (card.cardOwner)
+        switch (card.Affinity)
         {
-            case CardOwner.Player:
+            case Affinity.Player:
                 symbolName = card.cardColor == CardColor.Red ? "Hearts" : "Clubs";
                 break;
-            case CardOwner.Enemy:
+            case Affinity.Enemy:
                 symbolName = card.cardColor == CardColor.Red ? "Diamonds" : "Spades";
                 break;
         }
@@ -71,12 +71,12 @@ public class Tooltip : MonoBehaviour
     private void SetCardSymbol(Card card)
     {
         Sprite sprite = null;
-        switch (card.cardOwner)
+        switch (card.Affinity)
         {
-            case CardOwner.Player:
+            case Affinity.Player:
                 sprite = card.cardColor == CardColor.Red ? sprites.hearts : sprites.spades;
                 break;
-            case CardOwner.Enemy:
+            case Affinity.Enemy:
                 sprite = card.cardColor == CardColor.Red ? sprites.diamonds : sprites.clubs;
                 break;
         }
@@ -95,6 +95,6 @@ public class Tooltip : MonoBehaviour
 
     public void SetNumberSprites(Card card)
     {
-        digit.sprite = sprites.numbers[card.currentOverride.defaultPoints];
+        digit.sprite = sprites.numbers[card.currentOverride.archetype.points];
     }
 }

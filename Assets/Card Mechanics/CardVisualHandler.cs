@@ -101,7 +101,7 @@ public class CardVisualHandler : MonoBehaviour
 
     private void InitializeDamageVisualizerPosition()
     {
-        damageTransform.localPosition = card.cardOwner == CardOwner.Player ? data.playerDamageVisualizerPosition : data.enemyDamageVisualizerPosition;
+        damageTransform.localPosition = card.Affinity == Affinity.Player ? data.playerDamageVisualizerPosition : data.enemyDamageVisualizerPosition;
     }
 
     public void ToggleOutline(bool enable)
@@ -139,12 +139,12 @@ public class CardVisualHandler : MonoBehaviour
     private void SetCardSymbol()
     {
         Sprite sprite = null;
-        switch (card.cardOwner)
+        switch (card.Affinity)
         {
-            case CardOwner.Player:
+            case Affinity.Player:
                 sprite = card.cardColor == CardColor.Red ? sprites.hearts : sprites.spades;
                 break;
-            case CardOwner.Enemy:
+            case Affinity.Enemy:
                 sprite = card.cardColor == CardColor.Red ? sprites.diamonds : sprites.clubs;
                 break;
         }

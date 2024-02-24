@@ -15,9 +15,10 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 53a8b3aea8660f1468b3371fb569d612, type: 3}
   isDefault: 1
   cardName: Immovable
-  cardColor: 1
-  cardOwner: 1
-  defaultPoints: 9
+  archetype:
+    points: 9
+    color: 1
+  affinity: 1
   description: 
   specialEffects: 0
   StartOfTurn: []

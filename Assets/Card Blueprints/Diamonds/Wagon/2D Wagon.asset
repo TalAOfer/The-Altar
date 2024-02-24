@@ -15,11 +15,12 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 3d8512bf5277f924996081bcfb902f3b, type: 3}
   isDefault: 0
   cardName: Wagon
-  cardColor: 0
-  cardOwner: 1
-  defaultPoints: 3
+  archetype:
+    points: 2
+    color: 0
+  affinity: 0
   description: When this card is destroyed, draw a card.
-  higherBeing: 0
+  specialEffects: 0
   StartOfTurn: []
   StartOfBattle: []
   Support: []

@@ -94,7 +94,7 @@ public static class Tools
         return uniqueRandoms;
     }
 
-    public static string GetCardNameByArchetype(CardArchetype archetype, CardOwner owner)
+    public static string GetCardNameByArchetype(CardArchetype archetype, Affinity owner)
     {
         string amountName = "";
 
@@ -135,10 +135,10 @@ public static class Tools
         string symbolName = "";
         switch (owner)
         {
-            case CardOwner.Player:
+            case Affinity.Player:
                 symbolName = archetype.color == CardColor.Red ? "Hearts" : "Spades";
                 break;
-            case CardOwner.Enemy:
+            case Affinity.Enemy:
                 symbolName = archetype.color == CardColor.Red ? "Diamonds" : "Clubs";
                 break;
         }

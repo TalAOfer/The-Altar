@@ -24,7 +24,7 @@ public class DataProvider : MonoBehaviour
     public Card GetOpponent(Card card)
     {
         if (roomData.BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle this will return null");
-        return card.cardOwner == CardOwner.Player ? BattlingEnemyCard : BattlingPlayerCard;
+        return card.Affinity == Affinity.Player ? BattlingEnemyCard : BattlingPlayerCard;
     }
 
     public List<Card> GetAllActiveEnemies()

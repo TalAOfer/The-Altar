@@ -15,9 +15,10 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: a6c2892f789dd6547bbffb892a5d0193, type: 3}
   isDefault: 1
   cardName: Paladin
-  cardColor: 1
-  cardOwner: 0
-  defaultPoints: 10
+  archetype:
+    points: 10
+    color: 1
+  affinity: 0
   description: 
   specialEffects: 0
   StartOfTurn: []

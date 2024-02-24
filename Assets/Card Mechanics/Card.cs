@@ -26,7 +26,7 @@ public class Card : MonoBehaviour
     public CardColor cardColor;
 
     [FoldoutGroup("Card Info")]
-    public CardOwner cardOwner;
+    public Affinity Affinity { get; private set; }
 
     [FoldoutGroup("Card Info")]
     public CardState cardState;
@@ -65,9 +65,9 @@ public class Card : MonoBehaviour
         this.cardInteractionType = cardInteractionType;
 
         currentOverride = blueprint;
-        SetCardColor(blueprint.cardColor);
-        cardOwner = blueprint.cardOwner;
-        points = blueprint.defaultPoints;
+        SetCardColor(blueprint.archetype.color);
+        Affinity = blueprint.affinity;
+        points = blueprint.archetype.points;
 
         higherBeing = new HigherBeing(blueprint.specialEffects.HasFlag(SpecialEffects.HigherBeing), 0);
 
@@ -256,8 +256,8 @@ public class Card : MonoBehaviour
 
     public IEnumerator ForceShapeshift(CardBlueprint blueprint)
     {
-        points = blueprint.defaultPoints;
-        cardColor = blueprint.cardColor;
+        points = blueprint.archetype.points;
+        cardColor = blueprint.archetype.color;
         yield return Shapeshift();
     }
 

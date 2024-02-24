@@ -15,9 +15,10 @@ MonoBehaviour:
   cardSprite: {fileID: 21300000, guid: 38ab798d36a947147acabee05647def6, type: 3}
   isDefault: 1
   cardName: Broad Sword
-  cardColor: 0
-  cardOwner: 0
-  defaultPoints: 7
+  archetype:
+    points: 7
+    color: 0
+  affinity: 0
   description: 
   specialEffects: 0
   StartOfTurn: []

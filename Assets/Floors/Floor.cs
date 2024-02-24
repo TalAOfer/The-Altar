@@ -6,6 +6,8 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(menuName ="Floor")]
 public class Floor : ScriptableObject
 {
+    public CodexBlueprint EnemyCodexBlueprint;
+
     [TableList(ShowIndexLabels = true)]
-    public List<RoomBlueprint> rooms;
+    public List<RoomBlueprint> Rooms;
 }

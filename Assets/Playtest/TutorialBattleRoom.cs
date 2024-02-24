@@ -36,7 +36,7 @@ public class TutorialBattleRoom : BattleRoom
     public override void OnRoomFinished()
     {
         base.OnRoomFinished();
-        Playtest.rooms[0].isTutorial = false;
+        Playtest.Rooms[0].isTutorial = false;
     }
 
     public void SwitchRoutines()

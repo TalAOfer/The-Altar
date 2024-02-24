@@ -15,10 +15,13 @@ public class RunManager : MonoBehaviour
 
     [SerializeField] private MetaPoolRecipe playerPoolRecipe;
 
+    public Codex playerCodex;
+
     public void Awake()
     {
         runData = Locator.RunData;
         if (setupOnAwake) InitializeRun();
+
     }
 
     [Button]

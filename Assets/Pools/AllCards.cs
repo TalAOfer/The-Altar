@@ -27,9 +27,9 @@ public class AllCards : ScriptableObject
         foreach (var card in allCards)
         {
             if (card.isDefault) continue;
-            MetaPoolRecipe metaPool = card.cardOwner is CardOwner.Player ? playerPool : enemyPool;
-            BlueprintPoolInstance pointPool = metaPool.pools[card.defaultPoints];
-            List<CardBlueprint> correctPool = card.cardColor is CardColor.Black ? pointPool.black : pointPool.red;
+            MetaPoolRecipe metaPool = card.affinity is Affinity.Player ? playerPool : enemyPool;
+            BlueprintPoolInstance pointPool = metaPool.pools[card.archetype.points];
+            List<CardBlueprint> correctPool = card.archetype.color is CardColor.Black ? pointPool.black : pointPool.red;
             correctPool.Add(card);
         }
 

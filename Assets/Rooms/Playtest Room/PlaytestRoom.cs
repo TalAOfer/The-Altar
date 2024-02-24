@@ -48,10 +48,10 @@ public class PlaytestRoom : Room
 
     private Card SpawnCard()
     {
-        Codex codex = roomBlueprint.affinity is CardOwner.Player ? runData.playerCodex : floorData.enemyCodex;
+        Codex codex = roomBlueprint.affinity is Affinity.Player ? runData.playerCodex : floorData.enemyCodex;
 
         CardBlueprint blueprintToGain = roomBlueprint.cardBlueprint;
-        CardBlueprint currentBlueprint = codex.GetCardOverride(new CardArchetype(blueprintToGain.defaultPoints, blueprintToGain.cardColor));
+        CardBlueprint currentBlueprint = codex.GetCardOverride(new CardArchetype(blueprintToGain.archetype.points, blueprintToGain.archetype.color));
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, transform);
         cardGO.name = currentBlueprint.name;
         card = cardGO.GetComponent<Card>();
@@ -63,8 +63,8 @@ public class PlaytestRoom : Room
     private void HandleInitialText()
     {
         CardBlueprint blueprintToGain = roomBlueprint.cardBlueprint;
-        string text = (roomBlueprint.affinity is CardOwner.Player) ? playerInitialText : enemyInitialText;
-        string cardName = Tools.GetCardNameByArchetype(new CardArchetype(blueprintToGain.defaultPoints, blueprintToGain.cardColor), roomBlueprint.affinity);
+        string text = (roomBlueprint.affinity is Affinity.Player) ? playerInitialText : enemyInitialText;
+        string cardName = Tools.GetCardNameByArchetype(new CardArchetype(blueprintToGain.archetype.points, blueprintToGain.archetype.color), roomBlueprint.affinity);
         text = string.Format(text, cardName);
         textUGUI.text = text;
     }
@@ -72,13 +72,13 @@ public class PlaytestRoom : Room
     private void HandleExtraText()
     {
         textUGUI.text += "\n\n";
-        textUGUI.text += (roomBlueprint.affinity is CardOwner.Player) ? playerExtraText : enemyExtraText;
+        textUGUI.text += (roomBlueprint.affinity is Affinity.Player) ? playerExtraText : enemyExtraText;
     }
 
 
     private IEnumerator ChangeRoutine()
     {
-        Codex codex = roomBlueprint.affinity is CardOwner.Player ? runData.playerCodex : floorData.enemyCodex;
+        Codex codex = roomBlueprint.affinity is Affinity.Player ? runData.playerCodex : floorData.enemyCodex;
 
         codex.OverrideCard(roomBlueprint.cardBlueprint);
 
