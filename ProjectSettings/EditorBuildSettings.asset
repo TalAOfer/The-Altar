@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Start Menu.unity
     guid: 49137bf348843df4ea219585e8c1df29
   - enabled: 1
-    path: Assets/Scenes/Main Scene.unity
+    path: Assets/Scenes/Prison.unity
     guid: 10530f3b6cabb7445a0f11f170617553
   m_configObjects: {}

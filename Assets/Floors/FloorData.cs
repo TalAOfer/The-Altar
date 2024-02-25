@@ -3,8 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/Floor")]
-public class FloorData : ScriptableObject
+public class FloorData : ScriptableObject, IResetOnPlaymodeExit
 {
     public int currentRoomIndex;
     public Codex enemyCodex;
+    public PlayerManager playerManager;
+
+    public void Initialize(CodexBlueprint enemyCodexBlueprint)
+    {
+        currentRoomIndex = 0;
+        enemyCodex = new Codex(enemyCodexBlueprint);
+        playerManager = Locator.PlayerManager;
+    }
+
+    public void PlaymodeExitReset()
+    {
+        currentRoomIndex = 0;
+        enemyCodex = null;
+        playerManager = null;
+    }
 }

@@ -29,53 +29,7 @@ public class RoomBlueprint
     [ShowIf("roomType", RoomType.Battle)]
     public bool isTutorial;
 
-    [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Battle)]
-    public CodexBlueprint codex;
-
-    [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Battle)]
-    [ValueDropdown("AvailableCards")]
-    public CardBlueprint card;
-
-    private IEnumerable<CardBlueprint> AvailableCards
-    {
-        get
-        {
-            if (codex != null)
-            {
-                // Combine lists if you want to include multiple categories
-                return codex.black.Concat(codex.red);
-            }
-            return new List<CardBlueprint>();
-        }
-    }
-
-    [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Battle)]
-    public GridPlacement_3 placement;
-
-    [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Battle)]
-    [TableList(ShowIndexLabels = true)]
-    public List<EnemySpawn> enemies;
-
-    [FoldoutGroup("Room Data")]
-    [OnInspectorGUI]
-    private void ValidateSpawns()
-    {
-        if (enemies.GroupBy(x => x.Placement).Any(g => g.Count() > 1))
-        {
-            Sirenix.Utilities.Editor.SirenixEditorGUI.ErrorMessageBox("Some of the EnemySpawns have the same placement. Please ensure all EnemySpawns have unique placements.");
-        }
-    }
-
-    [FoldoutGroup("Room Data")]
-    [Button]
-    public void AddToEnemies()
-    {
-        enemies.Add(new EnemySpawn(card, placement));
-    }
+    public BattleBlueprint battle;
 
     #endregion
 

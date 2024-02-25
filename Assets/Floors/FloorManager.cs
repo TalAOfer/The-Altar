@@ -6,11 +6,8 @@ public class FloorManager : MonoBehaviour
 {
     [SerializeField] private Floor floor;
     private FloorData floorData;
-    
-    [FoldoutGroup("Dependencies")]
-    [SerializeField] private AllEvents events;
+    private AllEvents events;
 
-    [FoldoutGroup("Visuals")]
     [SerializeField] private float swipeDuration;
 
     [FoldoutGroup("Prefabs")]
@@ -37,12 +34,12 @@ public class FloorManager : MonoBehaviour
 
     private void Awake()
     {
+        events = Locator.Events;
         floorData = Locator.FloorData;
-        floorData.enemyCodex = new Codex(floor.EnemyCodexBlueprint);
+        floorData.Initialize(floor.EnemyCodexBlueprint);
         
     }
 
-    [Button]
     public void InitializeFloor()
     {
         StartCoroutine(FirstRoomRoutine());

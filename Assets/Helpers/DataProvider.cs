@@ -43,14 +43,14 @@ public class DataProvider : MonoBehaviour
 
     public List<Card> GetAllActivePlayerCards()
     {
-        return new(runData.playerManager.ActiveCards);
+        return new(floorData.playerManager.ActiveCards);
     }
 
     public List<Card> GetAllCardsInHand()
     {
         if (roomData.BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle, use GetAllActivePlayerCards() instead");
 
-        List<Card> activeEnemies = new(runData.playerManager.ActiveCards);
+        List<Card> activeEnemies = new(floorData.playerManager.ActiveCards);
         if (BattlingPlayerCard != null) activeEnemies.Remove(BattlingPlayerCard);
         return activeEnemies;
     }
@@ -106,7 +106,7 @@ public class DataProvider : MonoBehaviour
 
     public Card GetLowestPlayerCard(Card excludeThis)
     {
-        List<Card> availableCards = new(runData.playerManager.ActiveCards);
+        List<Card> availableCards = new(floorData.playerManager.ActiveCards);
         availableCards.Remove(excludeThis);
         if (availableCards.Count == 0) return null;
 
@@ -139,7 +139,7 @@ public class DataProvider : MonoBehaviour
 
     public int GetAmountOfPlayerCards()
     {
-        return runData.playerManager.ActiveCards.Count;
+        return floorData.playerManager.ActiveCards.Count;
     }
 
     public int GetEmptySpacesAmount()

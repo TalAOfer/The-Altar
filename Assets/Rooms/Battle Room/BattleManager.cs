@@ -12,11 +12,12 @@ public class BattleManager : MonoBehaviour
     protected PlayerManager playerManager;
     protected BattleRoom roomManager;
 
+    protected DataProvider data;
+
+
     protected Card enemyCard;
     protected Card playerCard;
 
-    [FoldoutGroup("Dependencies")]
-    [SerializeField] protected DataProvider roomData;
     [FoldoutGroup("Dependencies")]
     [SerializeField] protected AllEvents events;
     [FoldoutGroup("Dependencies")]
@@ -27,6 +28,7 @@ public class BattleManager : MonoBehaviour
     public void Awake()
     {
         playerManager = Locator.PlayerManager;
+        data = Locator.DataProvider;
         roomManager = GetComponentInParent<BattleRoom>();
     }
 
@@ -34,8 +36,8 @@ public class BattleManager : MonoBehaviour
     {
         playerCard = sender as Card;
         enemyCard = data as Card;
-        roomData.BattlingPlayerCard = playerCard;
-        roomData.BattlingEnemyCard = enemyCard;
+        this.data.BattlingPlayerCard = playerCard;
+        this.data.BattlingEnemyCard = enemyCard;
         playerManager.SetAllPlayerCardCollisions(false);
         interactionHandler.state = BattleInteractionState.Battle;
 
@@ -121,8 +123,8 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
-        roomData.BattlingPlayerCard = null;
-        roomData.BattlingEnemyCard = null;
+        data.BattlingPlayerCard = null;
+        data.BattlingEnemyCard = null;
 
         events.AddLogEntry.Raise(this, "New Turn Started");
         events.SetGameState.Raise(this, GameState.Idle);

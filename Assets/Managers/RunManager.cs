@@ -5,53 +5,8 @@ using UnityEngine;
 
 public class RunManager : MonoBehaviour
 {
-    private RunData runData;    
-
-    [SerializeField] private bool setupOnAwake;
-
-    [SerializeField] private Vector2Int DefaultDrawabilityMinMax;
-
-    [SerializeField] private CodexBlueprint playerCodexRecipe;
-
-    [SerializeField] private MetaPoolRecipe playerPoolRecipe;
-
-    public Codex playerCodex;
-
     public void Awake()
     {
-        runData = Locator.RunData;
-        if (setupOnAwake) InitializeRun();
-
+            Locator.RunData.Initialize();
     }
-
-    [Button]
-    public void InitializeRun()
-    {
-        InitializePlayerManager();
-        InitializePlayerDeck();
-        InitializePlayerCodex();
-        InitializePlayerPool();
-    }
-
-    private void InitializePlayerManager()
-    {
-        runData.playerManager = Locator.PlayerManager;
-    }
-
-    private void InitializePlayerDeck()
-    {
-        runData.playerDeck = new Deck(DefaultDrawabilityMinMax.x, DefaultDrawabilityMinMax.y);
-    }
-
-    private void InitializePlayerCodex()
-    {
-        runData.playerCodex = new(playerCodexRecipe);
-    }
-
-    private void InitializePlayerPool()
-    {
-        runData.playerPool = new();
-        runData.playerPool.Initialize(playerPoolRecipe);
-    }
-
 }

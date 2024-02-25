@@ -22,14 +22,7 @@ MonoBehaviour:
       min: 0
       max: 0
     isTutorial: 0
-    codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
-    card: {fileID: 11400000, guid: 276e5b11ddf0680488d91a09aeafa9c0, type: 2}
-    placement: 2
-    enemies:
-    - Blueprint: {fileID: 11400000, guid: e10e674f7974c6b4db16cdaa3b1c23d6, type: 2}
-      Placement: 0
-    - Blueprint: {fileID: 11400000, guid: 276e5b11ddf0680488d91a09aeafa9c0, type: 2}
-      Placement: 2
+    battle: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
     amountOfOptions: 0
     affinity: 0
     cardBlueprint: {fileID: 0}

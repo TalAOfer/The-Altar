@@ -647,10 +647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8385720c2edea5748bde3b3c85b1056c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setupOnAwake: 1
-  DefaultDrawabilityMinMax: {x: 1, y: 3}
-  playerCodexRecipe: {fileID: 11400000, guid: b4deaad8fc286364bb6294fc88f2abcc, type: 2}
-  playerPoolRecipe: {fileID: 11400000, guid: 56056c9c7e42a0a448d8a386cddaae61, type: 2}
 --- !u!1 &213638130
 GameObject:
   m_ObjectHideFlags: 0
@@ -7104,7 +7100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 11400000, guid: b4cfa14c2621cf94b9ef573e4d726cfe, type: 2}
-  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   swipeDuration: 1
   battleRoomPrefab: {fileID: 4753181132387451872, guid: a937ae84303bf044286a26837ab2a30b, type: 3}
   cardPickingRoomPrefab: {fileID: 538613281772226367, guid: 572981d6cd2f5754f82ac9afc0f9c363, type: 3}
