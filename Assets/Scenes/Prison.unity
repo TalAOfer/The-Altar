@@ -4610,7 +4610,6 @@ MonoBehaviour:
   cardPrefab: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
   spawnContainer: {fileID: 1524008074}
   spawnPos: {fileID: 677448647}
-  runData: {fileID: 11400000, guid: 98778a2e9861510469c7f84dcb8a0793, type: 2}
 --- !u!1 &1522083605
 GameObject:
   m_ObjectHideFlags: 0
@@ -7099,7 +7098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8647135f4b3b944eb1042cc07cc7971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 11400000, guid: b4cfa14c2621cf94b9ef573e4d726cfe, type: 2}
+  floor: {fileID: 11400000, guid: 6bf121c597079c749a97cf2f5e96eeb5, type: 2}
   swipeDuration: 1
   battleRoomPrefab: {fileID: 4753181132387451872, guid: a937ae84303bf044286a26837ab2a30b, type: 3}
   cardPickingRoomPrefab: {fileID: 538613281772226367, guid: 572981d6cd2f5754f82ac9afc0f9c363, type: 3}

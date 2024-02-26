@@ -129,12 +129,12 @@ public class CardVisualHandler : MonoBehaviour
 
     public void SetOrnament()
     {
-        ornamentSr.gameObject.SetActive(!card.currentOverride.isDefault);
+        ornamentSr.gameObject.SetActive(!card.Mask.isDefault);
     }
 
     private void SetCardIcon()
     {
-        iconSr.sprite = card.currentOverride.cardSprite;
+        iconSr.sprite = card.Mask.cardSprite;
     }
     private void SetCardSymbol()
     {

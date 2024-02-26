@@ -1,22 +1,15 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardEffectHandler : MonoBehaviour
+public class CardEffectHandler : SerializedMonoBehaviour
 {
     [SerializeField] private Card card;
+    [SerializeField] private EffectTriggerRegistry triggers;
 
-    public List<Effect> StartOfTurnEffects = new();
-
-    public List<Effect> StartOfBattleEffects = new();
-    public List<Effect> SupportEffects = new();
-    public List<Effect> BeforeAttackingEffects = new();
-    public List<Effect> OnDeathEffects = new();
-    public List<Effect> OnGlobalDeathEffects = new();
-    public List<Effect> OnSurviveEffects = new();
-
-    public List<Effect> BloodthirstEffects = new();
-    public List<Effect> MeditateEffects = new();
+    [ShowInInspector]
+    private Dictionary<EffectTrigger, List<Effect>> effects = new();
 
     public void Init(CardBlueprint blueprint)
     {
@@ -25,71 +18,37 @@ public class CardEffectHandler : MonoBehaviour
 
     public void SpawnEffects(CardBlueprint blueprint)
     {
-        foreach (EffectBlueprint effect in blueprint.StartOfBattle)
+        foreach (var trigger in triggers.triggers)
         {
-            effect.SpawnEffect(EffectTrigger.StartOfBattle, card);
+            var effectsForTrigger = blueprint.GetEffectsForTrigger(trigger);
+            foreach (var effectBlueprint in effectsForTrigger)
+            {
+                effectBlueprint.Value.SpawnEffect(trigger, card); // Ensure SpawnEffect is adapted to use EffectTriggerSO
+            }
         }
+    }
 
-        foreach (EffectBlueprint effect in blueprint.BeforeAttacking)
+    public void AddEffectToDictionary(EffectTrigger trigger, Effect effect)
+    {
+        if (!effects.ContainsKey(trigger))
         {
-            effect.SpawnEffect(EffectTrigger.BeforeAttacking, card);
+            effects[trigger] = new List<Effect>();
         }
-
-        foreach (EffectBlueprint effect in blueprint.OnDeath)
-        {
-            effect.SpawnEffect(EffectTrigger.OnDeath, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.OnSurvive)
-        {
-            effect.SpawnEffect(EffectTrigger.OnSurvive, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.OnGlobalDeath)
-        {
-            effect.SpawnEffect(EffectTrigger.OnGlobalDeath, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.Support)
-        {
-            effect.SpawnEffect(EffectTrigger.Support, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.StartOfTurn)
-        {
-            effect.SpawnEffect(EffectTrigger.StartOfTurn, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.Meditate)
-        {
-            effect.SpawnEffect(EffectTrigger.Meditate, card);
-        }
-
-        foreach (EffectBlueprint effect in blueprint.Bloodthirst)
-        {
-            effect.SpawnEffect(EffectTrigger.Bloodthirst, card);
-        }
+        effects[trigger].Add(effect);
     }
 
     public IEnumerator RemoveCurrentEffects()
     {
-        RemoveEffects(StartOfBattleEffects);
-        RemoveEffects(BeforeAttackingEffects);
-        RemoveEffects(OnSurviveEffects);
-        RemoveEffects(OnDeathEffects);
-        RemoveEffects(OnGlobalDeathEffects);
-        RemoveEffects(SupportEffects);
-        RemoveEffects(StartOfTurnEffects);
-        RemoveEffects(MeditateEffects);
-        RemoveEffects(BloodthirstEffects);
+        foreach (var effectList in effects.Values)
+        {
+            RemoveEffects(effectList);
+        }
 
         yield return new WaitForFixedUpdate();
     }
 
     private void RemoveEffects(List<Effect> effects)
     {
-        if (effects.Count <= 0) return;
-
         List<Effect> toRemove = new List<Effect>(effects);
         foreach (Effect effect in toRemove)
         {
@@ -99,59 +58,18 @@ public class CardEffectHandler : MonoBehaviour
         }
     }
 
-    // Apply methods for each effect type
-    public IEnumerator ApplyStartOfBattleEffects(Card otherCard)
+    public IEnumerator ApplyEffects(TriggerType type)
     {
-        yield return ApplyEffects(StartOfBattleEffects);
-    }
+        EffectTrigger triggerType = triggers.GetTriggerByEnum(type);
 
-    public IEnumerator ApplyBeforeAttackingEffects(Card otherCard)
-    {
-        yield return ApplyEffects(BeforeAttackingEffects);
-    }
-
-    public IEnumerator ApplyOnSurviveEffects(Card otherCard)
-    {
-        yield return ApplyEffects(OnSurviveEffects);
-    }
-
-    public IEnumerator ApplyOnDeathEffects(Card killingCard)
-    {
-        yield return ApplyEffects(OnDeathEffects);
-    }
-
-    public IEnumerator ApplyOnGlobalDeathEffects()
-    {
-        yield return ApplyEffects(OnGlobalDeathEffects);
-    }
-
-    public IEnumerator ApplySupportEffects(Card otherCard)
-    {
-        yield return ApplyEffects(SupportEffects);
-    }
-
-    public IEnumerator ApplyStartOfTurnEffects()
-    {
-        yield return ApplyEffects(StartOfTurnEffects);
-    }
-
-    public IEnumerator ApplyMeditateEffects()
-    {
-        yield return ApplyEffects(MeditateEffects);
-        RemoveEffects(MeditateEffects);
-    }
-
-    public IEnumerator ApplyBloodthirstEffects()
-    {
-        yield return ApplyEffects(BloodthirstEffects);
-    }
-
-
-    private IEnumerator ApplyEffects(List<Effect> effects)
-    {
-        foreach (Effect effect in effects)
+        if (effects.TryGetValue(triggerType, out List<Effect> allEffects))
         {
-            yield return StartCoroutine(effect.Trigger());
+            foreach (Effect effect in allEffects)
+            {
+                yield return StartCoroutine(effect.Trigger());
+            }
         }
+
+        yield return null;
     }
 }

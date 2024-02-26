@@ -33,8 +33,8 @@ public class Codex
 
     public void OverrideCard(CardBlueprint cardBlueprint)
     {
-        List<CardBlueprint> targetDeck = cardBlueprint.archetype.color is CardColor.Black ? black : red;
-        int index = cardBlueprint.archetype.points;
+        List<CardBlueprint> targetDeck = cardBlueprint.Archetype.color is CardColor.Black ? black : red;
+        int index = cardBlueprint.Archetype.points;
         targetDeck.Insert(index, cardBlueprint);
         targetDeck.RemoveAt(index + 1);
     }

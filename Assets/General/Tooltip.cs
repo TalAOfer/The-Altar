@@ -19,16 +19,16 @@ public class Tooltip : MonoBehaviour
     [SerializeField] private GameObject bloodthirstWindow;
     [SerializeField] private GameObject meditateWindow;
 
-    private bool IsHigherBeing(Card card) => card.currentOverride.specialEffects.HasFlag(SpecialEffects.HigherBeing);
-    private bool IsBloodthirst(Card card) => card.currentOverride.specialEffects.HasFlag(SpecialEffects.Bloodthirst);
-    private bool IsMeditate(Card card) => card.currentOverride.specialEffects.HasFlag(SpecialEffects.Meditate);
+    private bool IsHigherBeing(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing);
+    private bool IsBloodthirst(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.Bloodthirst);
+    private bool IsMeditate(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.Meditate);
 
     public void InitializeTooltip(Card card)
     {
-        cardName.text = card.currentOverride.cardName;
+        cardName.text = card.Mask.cardName;
         cardArchetype.text = Tools.GetCardNameByArchetype(new CardArchetype(card.points, card.cardColor), card.Affinity);
-        cardDescription.text = !card.currentOverride.isDefault ? GetDescription(card) : "No effect.";
-        icon.sprite = card.currentOverride.cardSprite;
+        cardDescription.text = !card.Mask.isDefault ? GetDescription(card) : "No effect.";
+        icon.sprite = card.Mask.cardSprite;
         SetCardSymbol(card);
         SetSpritesColor(card);
         InitializeSpecialEffectWindows(card);
@@ -40,15 +40,15 @@ public class Tooltip : MonoBehaviour
         if (IsHigherBeing(card)) description += "<b>Higher-Being.</b>\n";
         if (IsMeditate(card)) description += "<b>Meditate.</b>\n";
         if (IsBloodthirst(card)) description += "<b>Bloodthirst.</b>\n";
-        description += card.currentOverride.description;
+        description += card.Mask.Description;
         return description;
     }
 
     private void InitializeSpecialEffectWindows(Card card)
     {
-        higherBeingWindow.SetActive(card.currentOverride.specialEffects.HasFlag(SpecialEffects.HigherBeing));
-        bloodthirstWindow.SetActive(card.currentOverride.specialEffects.HasFlag(SpecialEffects.Bloodthirst));
-        meditateWindow.SetActive(card.currentOverride.specialEffects.HasFlag(SpecialEffects.Meditate));
+        higherBeingWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing));
+        bloodthirstWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Bloodthirst));
+        meditateWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Meditate));
         
     }
 
@@ -95,6 +95,6 @@ public class Tooltip : MonoBehaviour
 
     public void SetNumberSprites(Card card)
     {
-        digit.sprite = sprites.numbers[card.currentOverride.archetype.points];
+        digit.sprite = sprites.numbers[card.Mask.Archetype.points];
     }
 }

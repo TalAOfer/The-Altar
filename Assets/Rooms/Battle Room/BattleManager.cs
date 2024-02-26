@@ -83,7 +83,7 @@ public class BattleManager : MonoBehaviour
         //events.AddLogEntry.Raise(this, "Aftermath Shapeshifts");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
-        if (DidEnemyCardDie) 
+        if (DidEnemyCardDie)
         {
             enemyCard.gameObject.SetActive(false);
             roomManager.RemoveEnemyFromManager(enemyCard);
@@ -178,8 +178,8 @@ public class BattleManager : MonoBehaviour
         //int amountOfOccurances = 1;
         #endregion
 
-        Coroutine ApplyPlayerCardStartOfBattleEffects = StartCoroutine(playerCard.effects.ApplyStartOfBattleEffects(enemyCard));
-        Coroutine ApplyEnemyCardStartOfBattleEffects = StartCoroutine(enemyCard.effects.ApplyStartOfBattleEffects(playerCard));
+        Coroutine ApplyPlayerCardStartOfBattleEffects = StartCoroutine(playerCard.effects.ApplyEffects(TriggerType.StartOfBattle));
+        Coroutine ApplyEnemyCardStartOfBattleEffects = StartCoroutine(enemyCard.effects.ApplyEffects(TriggerType.StartOfBattle));
 
         yield return ApplyPlayerCardStartOfBattleEffects;
         yield return ApplyEnemyCardStartOfBattleEffects;
@@ -211,8 +211,8 @@ public class BattleManager : MonoBehaviour
             Coroutine ReapplyPlayerCardStartOfBattleEffects = null;
             Coroutine ReapplyEnemyCardStartOfBattleEffects = null;
 
-            if (didPlayerShapeshift) ReapplyPlayerCardStartOfBattleEffects = StartCoroutine(playerCard.effects.ApplyStartOfBattleEffects(enemyCard));
-            if (didEnemyShapeshift) ReapplyEnemyCardStartOfBattleEffects = StartCoroutine(enemyCard.effects.ApplyStartOfBattleEffects(playerCard));
+            if (didPlayerShapeshift) ReapplyPlayerCardStartOfBattleEffects = StartCoroutine(playerCard.effects.ApplyEffects(TriggerType.StartOfBattle));
+            if (didEnemyShapeshift) ReapplyEnemyCardStartOfBattleEffects = StartCoroutine(enemyCard.effects.ApplyEffects(TriggerType.StartOfBattle));
 
             if (ReapplyPlayerCardStartOfBattleEffects != null) yield return ReapplyPlayerCardStartOfBattleEffects;
             if (ReapplyEnemyCardStartOfBattleEffects != null) yield return ReapplyEnemyCardStartOfBattleEffects;
@@ -223,8 +223,8 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator BeforeAttackingRoutine()
     {
-        Coroutine ApplyPlayerCardBeforeAttackingEffects = StartCoroutine(playerCard.effects.ApplyBeforeAttackingEffects(enemyCard));
-        Coroutine ApplyEnemyCardBeforeAttackingEffects = StartCoroutine(enemyCard.effects.ApplyBeforeAttackingEffects(playerCard));
+        Coroutine ApplyPlayerCardBeforeAttackingEffects = StartCoroutine(playerCard.effects.ApplyEffects(TriggerType.BeforeAttacking));
+        Coroutine ApplyEnemyCardBeforeAttackingEffects = StartCoroutine(enemyCard.effects.ApplyEffects(TriggerType.BeforeAttacking));
 
         yield return ApplyPlayerCardBeforeAttackingEffects;
         yield return ApplyEnemyCardBeforeAttackingEffects;
@@ -234,19 +234,13 @@ public class BattleManager : MonoBehaviour
     {
         foreach (Card card in playerManager.ActiveCards)
         {
-            if (card.effects.SupportEffects.Count > 0)
-            {
-                yield return StartCoroutine(card.effects.ApplySupportEffects(playerCard));
-            }
+            yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Support));
         }
 
         foreach (Card card in roomManager.activeEnemies)
         {
             if (card == enemyCard) continue;
-            if (card.effects.SupportEffects.Count > 0)
-            {
-                yield return StartCoroutine(card.effects.ApplySupportEffects(enemyCard));
-            }
+            yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Support));
         }
     }
 
@@ -272,8 +266,8 @@ public class BattleManager : MonoBehaviour
         bool playerCardDied = playerCard.IsDead;
         bool enemyCardDied = enemyCard.IsDead;
 
-        if (playerCardDied) ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyOnDeathEffects(enemyCard));
-        if (enemyCardDied) ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyOnDeathEffects(playerCard));
+        if (playerCardDied) ApplyPlayerCardOnDeathEffects = StartCoroutine(playerCard.effects.ApplyEffects(TriggerType.OnDeath));
+        if (enemyCardDied) ApplyEnemyCardOnDeathEffects = StartCoroutine(enemyCard.effects.ApplyEffects(TriggerType.OnDeath));
 
         if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
         if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
@@ -304,17 +298,17 @@ public class BattleManager : MonoBehaviour
         {
             foreach (Card card in playerManager.ActiveCards)
             {
-                if (!card.IsDead && card.effects.SupportEffects.Count > 0)
+                if (!card.IsDead)
                 {
-                    yield return StartCoroutine(card.effects.ApplyOnGlobalDeathEffects());
+                    yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.OnGlobalDeath));
                 }
             }
 
             foreach (Card card in roomManager.activeEnemies)
             {
-                if (!card.IsDead && card.effects.SupportEffects.Count > 0)
+                if (!card.IsDead)
                 {
-                    yield return StartCoroutine(card.effects.ApplyOnGlobalDeathEffects());
+                    yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.OnGlobalDeath));
                 }
             }
         }
@@ -325,8 +319,8 @@ public class BattleManager : MonoBehaviour
         Coroutine ApplyPlayerCardOnSurviveEffects = null;
         Coroutine ApplyEnemyCardOnSurviveEffects = null;
 
-        if (!playerCard.IsDead) ApplyPlayerCardOnSurviveEffects = StartCoroutine(playerCard.effects.ApplyOnSurviveEffects(enemyCard));
-        if (!enemyCard.IsDead) ApplyEnemyCardOnSurviveEffects = StartCoroutine(enemyCard.effects.ApplyOnSurviveEffects(playerCard));
+        if (!playerCard.IsDead) ApplyPlayerCardOnSurviveEffects = StartCoroutine(playerCard.effects.ApplyEffects(TriggerType.OnSurvive));
+        if (!enemyCard.IsDead) ApplyEnemyCardOnSurviveEffects = StartCoroutine(enemyCard.effects.ApplyEffects(TriggerType.OnSurvive));
 
         if (ApplyPlayerCardOnSurviveEffects != null) yield return ApplyPlayerCardOnSurviveEffects;
         if (ApplyEnemyCardOnSurviveEffects != null) yield return ApplyEnemyCardOnSurviveEffects;
@@ -337,21 +331,15 @@ public class BattleManager : MonoBehaviour
         //Debug.Log("Starting player on action effects application");
         foreach (Card card in playerManager.ActiveCards)
         {
-            if (card.effects.BloodthirstEffects.Count > 0)
-            {
-                //Debug.Log("Applying " + card.name + "'s effects");
-                yield return StartCoroutine(card.effects.ApplyBloodthirstEffects());
-            }
+            //Debug.Log("Applying " + card.name + "'s effects");
+            yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Bloodthirst));
         }
 
         //Debug.Log("Starting enemy on action effects application");
         foreach (Card card in roomManager.activeEnemies)
         {
-            if (card.effects.BloodthirstEffects.Count > 0)
-            {
-                //Debug.Log("Applying " + card.name + "'s effects");
-                yield return StartCoroutine(card.effects.ApplyBloodthirstEffects());
-            }
+            //Debug.Log("Applying " + card.name + "'s effects");
+            yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Bloodthirst));
         }
     }
 
@@ -360,20 +348,14 @@ public class BattleManager : MonoBehaviour
         //Debug.Log("Starting player end of turn effects application");
         foreach (Card card in playerManager.ActiveCards)
         {
-            if (card.effects.MeditateEffects.Count > 0)
-            {
-                //Debug.Log("Applying " + card.name + "'s effects");
-                yield return StartCoroutine(card.effects.ApplyMeditateEffects());
-            }
+            //Debug.Log("Applying " + card.name + "'s effects");
+            yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Meditate));
         }
 
         foreach (Card card in roomManager.activeEnemies)
         {
-            if (card.effects.MeditateEffects.Count > 0)
-            {
-                //Debug.Log("Applying " + card.name + "'s effects");
-                yield return StartCoroutine(card.effects.ApplyMeditateEffects());
-            }
+            //Debug.Log("Applying " + card.name + "'s effects");
+            yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Meditate));
         }
     }
 

@@ -51,7 +51,7 @@ public class PlaytestRoom : Room
         Codex codex = roomBlueprint.affinity is Affinity.Player ? runData.playerCodex : floorData.enemyCodex;
 
         CardBlueprint blueprintToGain = roomBlueprint.cardBlueprint;
-        CardBlueprint currentBlueprint = codex.GetCardOverride(new CardArchetype(blueprintToGain.archetype.points, blueprintToGain.archetype.color));
+        CardBlueprint currentBlueprint = codex.GetCardOverride(new CardArchetype(blueprintToGain.Archetype.points, blueprintToGain.Archetype.color));
         GameObject cardGO = Instantiate(cardPrefab, transform.position, Quaternion.identity, transform);
         cardGO.name = currentBlueprint.name;
         card = cardGO.GetComponent<Card>();
@@ -64,7 +64,7 @@ public class PlaytestRoom : Room
     {
         CardBlueprint blueprintToGain = roomBlueprint.cardBlueprint;
         string text = (roomBlueprint.affinity is Affinity.Player) ? playerInitialText : enemyInitialText;
-        string cardName = Tools.GetCardNameByArchetype(new CardArchetype(blueprintToGain.archetype.points, blueprintToGain.archetype.color), roomBlueprint.affinity);
+        string cardName = Tools.GetCardNameByArchetype(new CardArchetype(blueprintToGain.Archetype.points, blueprintToGain.Archetype.color), roomBlueprint.affinity);
         text = string.Format(text, cardName);
         textUGUI.text = text;
     }

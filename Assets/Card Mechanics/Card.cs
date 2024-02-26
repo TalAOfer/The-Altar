@@ -7,6 +7,8 @@ public class Card : MonoBehaviour
 {
     private Codex codex;
 
+    public CardBase cardBase {  get; private set; }
+
     [FoldoutGroup("Child Components")]
     public CardEffectHandler effects;
     [FoldoutGroup("Child Components")]
@@ -35,7 +37,7 @@ public class Card : MonoBehaviour
     public CardInteractionType cardInteractionType;
 
     [FoldoutGroup("Card Info")]
-    public CardBlueprint currentOverride;
+    public CardBlueprint Mask;
 
     [FoldoutGroup("Battle Points")]
     public BattlePoint attackPoints;
@@ -64,12 +66,12 @@ public class Card : MonoBehaviour
         this.codex = codex;
         this.cardInteractionType = cardInteractionType;
 
-        currentOverride = blueprint;
-        SetCardColor(blueprint.archetype.color);
-        Affinity = blueprint.affinity;
-        points = blueprint.archetype.points;
+        Mask = blueprint;
+        SetCardColor(blueprint.Archetype.color);
+        Affinity = blueprint.Affinity;
+        points = blueprint.Archetype.points;
 
-        higherBeing = new HigherBeing(blueprint.specialEffects.HasFlag(SpecialEffects.HigherBeing), 0);
+        higherBeing = new HigherBeing(blueprint.SpecialEffects.HasFlag(SpecialEffects.HigherBeing), 0);
 
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
         hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
@@ -80,9 +82,9 @@ public class Card : MonoBehaviour
 
     }
 
-    public CardBlueprint GetCurrentOverride()
+    public CardBlueprint GetCurrentMask()
     {
-        if (higherBeing.isLocked && !IsDead) return currentOverride;
+        if (higherBeing.isLocked && !IsDead) return Mask;
         return codex.GetCardOverride(new CardArchetype(points, cardColor));
     }
 
@@ -129,13 +131,13 @@ public class Card : MonoBehaviour
         //string listName = battlePoint.type == BattlePointType.Attack ? "attackPointsModifiers" : "hurtPointsModifiers";
         //Debug.Log(gameObject.name + " has " + modifierList.Count.ToString() + " in " + listName);
 
-        string log = currentOverride.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
+        string log = Mask.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
         Locator.Events.AddLogEntry.Raise(this, log);
 
         foreach (BattlePointModifier modifier in modifierList)
         {
             calcValue = modifier.Apply(calcValue);
-            log = currentOverride.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
+            log = Mask.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
         }
 
         battlePoint.value = calcValue;
@@ -211,7 +213,7 @@ public class Card : MonoBehaviour
 
     public bool ShouldShapeshift()
     {
-        return currentOverride != GetCurrentOverride();
+        return Mask != GetCurrentMask();
     }
 
     public IEnumerator HandleShapeshift()
@@ -222,11 +224,11 @@ public class Card : MonoBehaviour
 
     public IEnumerator Shapeshift()
     {
-        CardBlueprint newForm = GetCurrentOverride();
+        CardBlueprint newMask = GetCurrentMask();
 
-        if (currentOverride != newForm)
+        if (Mask != newMask)
         {
-            currentOverride = newForm;
+            Mask = newMask;
         }
 
         if (IsDead)
@@ -239,11 +241,11 @@ public class Card : MonoBehaviour
         Tools.PlaySound("Shapeshift", transform);
         yield return visualHandler.ToggleSpritesVanish(true);
         visualHandler.SetNewCardVisual();
-        gameObject.name = newForm.name;
-        higherBeing.isLocked = newForm.specialEffects.HasFlag(SpecialEffects.HigherBeing);
+        gameObject.name = newMask.name;
+        higherBeing.isLocked = newMask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing);
         yield return StartCoroutine(effects.RemoveCurrentEffects());
         ResetPointAlterations();
-        effects.SpawnEffects(newForm);
+        effects.SpawnEffects(newMask);
         yield return visualHandler.ToggleSpritesVanish(false);
 
     }
@@ -256,8 +258,8 @@ public class Card : MonoBehaviour
 
     public IEnumerator ForceShapeshift(CardBlueprint blueprint)
     {
-        points = blueprint.archetype.points;
-        cardColor = blueprint.archetype.color;
+        points = blueprint.Archetype.points;
+        cardColor = blueprint.Archetype.color;
         yield return Shapeshift();
     }
 
@@ -279,7 +281,7 @@ public class Card : MonoBehaviour
 public enum CardState
 {
     Default,
-    Selected,
+    Selected, 
     Battle,
     Draw,
 }

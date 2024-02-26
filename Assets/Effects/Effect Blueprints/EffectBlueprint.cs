@@ -1,14 +1,10 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-[CreateAssetMenu(menuName = "Blueprints/Effect")]
-public class EffectBlueprint : ScriptableObject
+[Serializable]
+public class EffectBlueprint
 {
-    public RoomData data;
-
     [Title("Protoype")]
     public EffectPrototype prototype;
     [ShowIf("prototype", EffectPrototype.Select)]
@@ -17,14 +13,11 @@ public class EffectBlueprint : ScriptableObject
     [ShowIf("prototype", EffectPrototype.Normal)]
     public EffectTarget target;
 
-
-
     [ShowIf("@ShouldShowAmountOfTargets()")]
     public int amountOfTargets = 1;
 
     public float predelay = 0f;
     public float postdelay = 0f;
-
 
     [Title("Applier")]
     public EffectApplicationType applicationType;
@@ -55,7 +48,7 @@ public class EffectBlueprint : ScriptableObject
     public EffectApplicationType guardianApplicationType;
 
     [ShowIf("applierType", ApplierType.AddEffect)]
-    public EffectBlueprint effectBlueprint;
+    public EffectBlueprintReference effectBlueprint;
 
     [ShowIf("applierType", ApplierType.AddEffect)]
     public EffectTrigger whenToTriggerAddedEffect;
@@ -66,11 +59,11 @@ public class EffectBlueprint : ScriptableObject
     public Decision decision;
     public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
     {
-        GameObject newEffectGO = new GameObject(triggerType.ToString() + " : " + applierType.ToString());
+        GameObject newEffectGO = new GameObject(triggerType.name + " : " + applierType.ToString());
         newEffectGO.transform.SetParent(parentCard.transform, false);
         newEffectGO.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-        if (triggerType is EffectTrigger.StartOfBattle && isConditional) Debug.LogError("Conditional effects need to be in before attacking, not start of battle");
+        if (triggerType.TriggerType == TriggerType.StartOfBattle && isConditional) Debug.LogError("Conditional effects need to be in before attacking, not start of battle");
 
         EffectApplier applier = null;
 
@@ -132,43 +125,9 @@ public class EffectBlueprint : ScriptableObject
         effect.BaseInitialize(applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
         applier.BaseInitialize(parentCard, triggerType);
 
-        AddEffectToList(parentCard, triggerType, effect);
+        parentCard.effects.AddEffectToDictionary(triggerType, effect);
 
         return effect;
-    }
-
-    public void AddEffectToList(Card parentCard, EffectTrigger triggerType, Effect effect)
-    {
-        switch (triggerType)
-        {
-            case EffectTrigger.StartOfTurn:
-                parentCard.effects.StartOfTurnEffects.Add(effect);
-                break;
-            case EffectTrigger.StartOfBattle:
-                parentCard.effects.StartOfBattleEffects.Add(effect);
-                break;
-            case EffectTrigger.Support:
-                parentCard.effects.SupportEffects.Add(effect);
-                break;
-            case EffectTrigger.BeforeAttacking:
-                parentCard.effects.BeforeAttackingEffects.Add(effect);
-                break;
-            case EffectTrigger.OnDeath:
-                parentCard.effects.OnDeathEffects.Add(effect);
-                break;
-            case EffectTrigger.OnGlobalDeath:
-                parentCard.effects.OnGlobalDeathEffects.Add(effect);
-                break;
-            case EffectTrigger.OnSurvive:
-                parentCard.effects.OnSurviveEffects.Add(effect);
-                break;
-            case EffectTrigger.Bloodthirst:
-                parentCard.effects.BloodthirstEffects.Add(effect);
-                break;
-            case EffectTrigger.Meditate:
-                parentCard.effects.MeditateEffects.Add(effect);
-                break;
-        }
     }
 
     private bool ShouldShowAmount()
@@ -199,22 +158,6 @@ public class EffectBlueprint : ScriptableObject
     {
         return target is EffectTarget.RandomCardOnMap or EffectTarget.RandomCardFromHand;
     }
-}
-
-
-public enum EffectTrigger
-{
-    StartOfTurn,
-
-    StartOfBattle,
-    Support,
-    BeforeAttacking,
-    OnDeath,
-    OnGlobalDeath,
-    OnSurvive,
-
-    Bloodthirst,
-    Meditate,
 }
 
 public enum EffectApplicationType

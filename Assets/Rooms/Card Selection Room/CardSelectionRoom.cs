@@ -91,8 +91,8 @@ public class CardSelectionRoom : Room
         LinkedCards linkedCards = linkedCardsList[index];
 
         linkedCards.wasChosen = true;
-        CardBlueprint chosenPlayerBlueprint = linkedCards.playerCard.currentOverride;
-        CardBlueprint chosenEnemyBlueprint = linkedCards.enemyCard.currentOverride;
+        CardBlueprint chosenPlayerBlueprint = linkedCards.playerCard.Mask;
+        CardBlueprint chosenEnemyBlueprint = linkedCards.enemyCard.Mask;
 
         runData.playerCodex.OverrideCard(chosenPlayerBlueprint);
         //runData.enemyCodex.OverrideCard(chosenEnemyBlueprint);
@@ -114,7 +114,7 @@ public class CardSelectionRoom : Room
         {
             if (!linkedCards.wasChosen)
             {
-                runData.playerPool.ReturnBlueprintToPool(linkedCards.playerCard.currentOverride);
+                runData.playerPool.ReturnBlueprintToPool(linkedCards.playerCard.Mask);
                 //runData.enemyPool.ReturnBlueprintToPool(linkedCards.enemyCard.currentOverride);
             }
 

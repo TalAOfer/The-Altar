@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AddEffectApplier : EffectApplier
 {
-    public EffectBlueprint effectBlueprint;
+    public EffectBlueprintReference effectBlueprint;
     public EffectTrigger whenToTriggerAddedEffect;
-    public void Initialize(EffectBlueprint effectBlueprint, EffectTrigger whenToTriggerAddedEffect)
+    public void Initialize(EffectBlueprintReference effectBlueprint, EffectTrigger whenToTriggerAddedEffect)
     {
         this.effectBlueprint = effectBlueprint;
         this.whenToTriggerAddedEffect = whenToTriggerAddedEffect;
@@ -14,12 +14,12 @@ public class AddEffectApplier : EffectApplier
 
     public override IEnumerator ApplyEffect(Card target, int amount)
     {
-        if (triggerType is EffectTrigger.Meditate)
+        if (triggerType.TriggerType is TriggerType.Meditate)
         {
             RaiseEffectAppliedEvent(target, amount);
         }
 
-        effectBlueprint.SpawnEffect(whenToTriggerAddedEffect, target);
+        effectBlueprint.Value.SpawnEffect(whenToTriggerAddedEffect, target);
         yield return null;
     }
 

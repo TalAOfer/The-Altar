@@ -1730,6 +1730,7 @@ MonoBehaviour:
   backgroundTweener: {fileID: 469855937}
   scaleTween: {fileID: 11400000, guid: d3b342b5a0de34f4fa7e4dd553a615dc, type: 2}
   maskSr: {fileID: 147747952}
+  runData: {fileID: 0}
 --- !u!4 &1725090145
 Transform:
   m_ObjectHideFlags: 0
@@ -2198,6 +2199,10 @@ PrefabInstance:
       propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1725090144}
+    - target: {fileID: 3535775766509961879, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
+      propertyPath: response.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartRun
+      objectReference: {fileID: 0}
     - target: {fileID: 8203157476769932787, guid: b578d3f397f99a0418b2da058c804e1e, type: 3}
       propertyPath: m_Name
       value: Start

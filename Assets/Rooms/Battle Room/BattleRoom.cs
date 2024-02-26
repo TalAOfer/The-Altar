@@ -65,7 +65,7 @@ public class BattleRoom : Room
 
         for (int i = 0; i < enemies.Count; i++)
         {
-            CardBlueprint enemyBlueprint = spawner.DrawEnemyByArchetype(enemies[i].Blueprint.archetype);
+            CardBlueprint enemyBlueprint = spawner.DrawEnemyByArchetype(enemies[i].Blueprint.Archetype);
 
             Card enemy = spawner.SpawnEnemyInIndexByBlueprint((int)enemies[i].Placement, enemyBlueprint);
 

@@ -5,30 +5,27 @@ using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Blueprints/Card")]
-public class CardBlueprint : ScriptableObject
+public class CardBlueprint : SerializedScriptableObject
 {
     [PreviewField(150)]
     public Sprite cardSprite;
     public bool isDefault;
 
     public string cardName;
-    public CardArchetype archetype;
-    public Affinity affinity;
-    public string description;
-    public SpecialEffects specialEffects;
+    public CardArchetype Archetype;
+    public Affinity Affinity;
+    public string Description;
+    public SpecialEffects SpecialEffects;
 
-    [Title("Effects")]
-    public List<EffectBlueprint> StartOfTurn;
-    
-    public List<EffectBlueprint> StartOfBattle;
-    public List<EffectBlueprint> Support;
-    public List<EffectBlueprint> BeforeAttacking;
-    public List<EffectBlueprint> OnDeath;
-    public List<EffectBlueprint> OnGlobalDeath;
-    public List<EffectBlueprint> OnSurvive;
-
-    public List<EffectBlueprint> Bloodthirst;
-    public List<EffectBlueprint> Meditate;
+    public Dictionary<EffectTrigger, List<EffectBlueprintReference>> Effects = new();
+    public List<EffectBlueprintReference> GetEffectsForTrigger(EffectTrigger trigger)
+    {
+        if (Effects.TryGetValue(trigger, out List<EffectBlueprintReference> effectBlueprints))
+        {
+            return effectBlueprints;
+        }
+        return new List<EffectBlueprintReference>(); // Return an empty list if no effects are found for the trigger
+    }
 }
 
 public enum CardColor

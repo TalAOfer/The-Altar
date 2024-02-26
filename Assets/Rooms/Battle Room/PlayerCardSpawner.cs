@@ -8,9 +8,14 @@ public class PlayerCardSpawner : MonoBehaviour
     public Transform spawnContainer;
     public Transform spawnPos;
 
-    [SerializeField] private RunData runData;
+    private RunData runData;
     public Codex Codex => runData.playerCodex;
     private Deck Deck => runData.playerDeck;
+
+    private void Awake()
+    {
+        runData = Locator.RunData;
+    }
 
     public CardBlueprint DrawCard()
     {
