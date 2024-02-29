@@ -47,6 +47,6 @@ MonoBehaviour:
   Archetype:
     points: 10
     color: 1
-  Affinity: 0
+  Affinity: 1
   Description: 
   SpecialEffects: 0

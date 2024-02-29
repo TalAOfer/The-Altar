@@ -6,7 +6,7 @@ public abstract class EffectApplier : MonoBehaviour
     public Card parentCard;
     protected DataProvider data;
     protected PlayerActionProvider actions; 
-    protected AllEvents events;
+    protected EventRegistry events;
 
     protected EffectTrigger triggerType;
     public void BaseInitialize(Card parentCard, EffectTrigger triggerType)

@@ -23,7 +23,7 @@ public class DataProvider : MonoBehaviour
 
     public Card GetOpponent(Card card)
     {
-        if (roomData.BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle this will return null");
+        if (roomData.BattleRoomState != BattleRoomStateEnum.Battle) Debug.Log("When not in battle this will return null");
         return card.Affinity == Affinity.Player ? BattlingEnemyCard : BattlingPlayerCard;
     }
 
@@ -34,7 +34,7 @@ public class DataProvider : MonoBehaviour
 
     public List<Card> GetAllActiveEnemiesOnMap()
     {
-        if (roomData.BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle, use GetAllActiveEnemies() instead");
+        if (roomData.BattleRoomState != BattleRoomStateEnum.Battle) Debug.Log("When not in battle, use GetAllActiveEnemies() instead");
 
         List<Card> activeEnemies = new(roomData.EnemyManager.activeEnemies);
         if (BattlingEnemyCard != null) activeEnemies.Remove(BattlingEnemyCard);
@@ -48,7 +48,7 @@ public class DataProvider : MonoBehaviour
 
     public List<Card> GetAllCardsInHand()
     {
-        if (roomData.BattleRoomState != BattleRoomState.Battle) Debug.Log("When not in battle, use GetAllActivePlayerCards() instead");
+        if (roomData.BattleRoomState != BattleRoomStateEnum.Battle) Debug.Log("When not in battle, use GetAllActivePlayerCards() instead");
 
         List<Card> activeEnemies = new(floorData.playerManager.ActiveCards);
         if (BattlingPlayerCard != null) activeEnemies.Remove(BattlingPlayerCard);

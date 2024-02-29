@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlaytestInteractionHandler : CardInteractionBase
+public class PlaytestInteractionHandler : CardInteractionStateMachine
 {
     [SerializeField] private PlaytestRoom room;
     protected override void HandlePointerEnter(Card card, PointerEventData eventData)

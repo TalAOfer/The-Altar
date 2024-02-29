@@ -9,7 +9,7 @@ public class HandManager : MonoBehaviour
 {
     [SerializeField] private int maxCardAmount = 5;
     [SerializeField] private HandData formationData;
-    [SerializeField] private AllEvents events;
+    [SerializeField] private EventRegistry events;
     [SerializeField] private CardData cardData;
     public List<Card> cardsInHand = new();
     public List<Transform> cardPlaceholders = new();

@@ -7,7 +7,7 @@ public class SelectManager : MonoBehaviour
 {
     private Card selectedCard = null;
 
-    [SerializeField] private AllEvents events;
+    [SerializeField] private EventRegistry events;
     private SelectEffect currentAsker;
 
     [SerializeField] private HandManager handManager;

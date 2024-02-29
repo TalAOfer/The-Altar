@@ -16,7 +16,7 @@ public class Card : MonoBehaviour
     [FoldoutGroup("Child Components")]
     public CardMovementHandler movement;
     [FoldoutGroup("Child Components")]
-    public CardInteractionHandler interactionHandler;
+    public InteractionEventEmitter interactionHandler;
 
     [FoldoutGroup("Card Info")]
     public int points;
@@ -213,7 +213,7 @@ public class Card : MonoBehaviour
 
     public bool ShouldShapeshift()
     {
-        return Mask != GetCurrentMask();
+        return !IsDead && Mask != GetCurrentMask();
     }
 
     public IEnumerator HandleShapeshift()
@@ -224,19 +224,18 @@ public class Card : MonoBehaviour
 
     public IEnumerator Shapeshift()
     {
-        CardBlueprint newMask = GetCurrentMask();
-
-        if (Mask != newMask)
-        {
-            Mask = newMask;
-        }
-
         if (IsDead)
         {
             yield return StartCoroutine(visualHandler.ToggleOverallVanish(true));
             yield break;
         }
 
+        CardBlueprint newMask = GetCurrentMask();
+
+        if (Mask != newMask)
+        {
+            Mask = newMask;
+        }
 
         Tools.PlaySound("Shapeshift", transform);
         yield return visualHandler.ToggleSpritesVanish(true);
@@ -245,7 +244,7 @@ public class Card : MonoBehaviour
         higherBeing.isLocked = newMask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing);
         yield return StartCoroutine(effects.RemoveCurrentEffects());
         ResetPointAlterations();
-        effects.SpawnEffects(newMask);
+        effects.InstantiateEffects(newMask);
         yield return visualHandler.ToggleSpritesVanish(false);
 
     }

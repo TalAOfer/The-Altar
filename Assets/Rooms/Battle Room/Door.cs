@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private AllEvents events;
+    [SerializeField] private EventRegistry events;
     private FloorManager floorManager;
 
     [Title("Gate")]

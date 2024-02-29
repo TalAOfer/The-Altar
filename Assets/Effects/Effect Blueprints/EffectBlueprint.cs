@@ -8,7 +8,7 @@ public class EffectBlueprint
     [Title("Protoype")]
     public EffectPrototype prototype;
     [ShowIf("prototype", EffectPrototype.Select)]
-    public AllEvents events;
+    public EventRegistry events;
 
     [ShowIf("prototype", EffectPrototype.Normal)]
     public EffectTarget target;
@@ -57,9 +57,9 @@ public class EffectBlueprint
 
     [ShowIf("isConditional")]
     public Decision decision;
-    public void SpawnEffect(EffectTrigger triggerType, Card parentCard)
+    public void InstantiateEffect(EffectTrigger triggerType, Card parentCard)
     {
-        GameObject newEffectGO = new GameObject(triggerType.name + " : " + applierType.ToString());
+        GameObject newEffectGO = new(triggerType.name + " : " + applierType.ToString());
         newEffectGO.transform.SetParent(parentCard.transform, false);
         newEffectGO.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 

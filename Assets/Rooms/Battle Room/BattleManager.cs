@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ public class BattleManager : MonoBehaviour
     protected Card playerCard;
 
     [FoldoutGroup("Dependencies")]
-    [SerializeField] protected AllEvents events;
+    [SerializeField] protected EventRegistry events;
     [FoldoutGroup("Dependencies")]
     [SerializeField] protected CardData cardData;
     [FoldoutGroup("Dependencies")]
@@ -39,7 +40,7 @@ public class BattleManager : MonoBehaviour
         this.data.BattlingPlayerCard = playerCard;
         this.data.BattlingEnemyCard = enemyCard;
         playerManager.SetAllPlayerCardCollisions(false);
-        interactionHandler.state = BattleInteractionState.Battle;
+        interactionHandler.state = BattleInteractionStates.Battle;
 
         StartCoroutine(BattleRoutine());
     }
@@ -75,6 +76,12 @@ public class BattleManager : MonoBehaviour
 
         yield return StartCoroutine(DeathRoutine());
 
+        if (DidEnemyCardDie)
+            roomManager.RemoveEnemyFromManager(enemyCard);
+
+        if (DidPlayerCardDie) 
+            playerManager.RemoveCardFromManager(playerCard);
+
         //events.AddLogEntry.Raise(this, "Global Death");
         yield return StartCoroutine(GlobalDeathRoutine());
 
@@ -83,13 +90,12 @@ public class BattleManager : MonoBehaviour
         //events.AddLogEntry.Raise(this, "Aftermath Shapeshifts");
         yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
 
-        if (DidEnemyCardDie)
-        {
+        if (DidEnemyCardDie) 
             enemyCard.gameObject.SetActive(false);
-            roomManager.RemoveEnemyFromManager(enemyCard);
-        }
 
-        if (DidPlayerCardDie) playerCard.gameObject.SetActive(false);
+        if (DidPlayerCardDie) 
+            playerCard.gameObject.SetActive(false);
+
         else yield return StartCoroutine(AnimateBackoff());
 
         //events.AddLogEntry.Raise(this, "After On Obtain Shapeshift");
@@ -128,7 +134,7 @@ public class BattleManager : MonoBehaviour
 
         events.AddLogEntry.Raise(this, "New Turn Started");
         events.SetGameState.Raise(this, GameState.Idle);
-        interactionHandler.SetState(BattleInteractionState.Idle);
+        interactionHandler.SetState(BattleInteractionStates.Idle);
         playerManager.Hand.ChangeHandState(HandState.Idle);
         playerManager.SetAllPlayerCardCollisions(true);
     }
@@ -138,14 +144,13 @@ public class BattleManager : MonoBehaviour
     private IEnumerator HandleAllShapeshiftsUntilStable()
     {
         bool changesOccurred;
-        List<Card> allCards = new(roomManager.activeEnemies);
-        allCards.AddRange(playerManager.ActiveCards);
-        allCards.Add(playerCard);
+
+        List<Card> allCards = roomManager.activeEnemies.Concat(playerManager.ActiveCards).ToList();
 
         do
         {
             changesOccurred = false;
-            List<Coroutine> shapeshiftCoroutines = new List<Coroutine>();
+            List<Coroutine> shapeshiftCoroutines = new();
 
             foreach (Card card in allCards)
             {

@@ -84,8 +84,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  card: {fileID: 3041129387846409230}
-  triggers: {fileID: 11400000, guid: 358c337ff00c47b45ae3374345076db8, type: 2}
+  _card: {fileID: 3041129387846409230}
+  _triggers: {fileID: 11400000, guid: 358c337ff00c47b45ae3374345076db8, type: 2}
 --- !u!1 &2125806875814836057
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Locator : MonoBehaviour
 {
-    [SerializeField] private AllEvents _events;
-    public static AllEvents Events { get; private set; }
+    [SerializeField] private EventRegistry _events;
+    public static EventRegistry Events { get; private set; }
 
     [SerializeField] private RunData _runData;
     public static RunData RunData { get; private set; }

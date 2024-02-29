@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 //[CreateAssetMenu(menuName ="AllEvents")]
-public class AllEvents : ScriptableObject
+public class EventRegistry : ScriptableObject
 {
     [Title("Card Interaction")]
     public GameEvent OnCardPointerEnter;
@@ -21,11 +21,6 @@ public class AllEvents : ScriptableObject
     public GameEvent OnFinishedHandFill;
     public GameEvent OnEffectApplied;
 
-    [Title("Card Selection")]
-    public GameEvent OnLinkPointerEnter;
-    public GameEvent OnLinkPointerExit;
-    public GameEvent OnLinkClick;
-
     [Title("Battle Selection")]
     public GameEvent WaitForPlayerSelection;
 
@@ -33,11 +28,7 @@ public class AllEvents : ScriptableObject
     public GameEvent OnNewRoom;
 
     [Title("Hand")]
-    public GameEvent OnHandCardStartDrag;
-    public GameEvent OnHandCardDroppedNowhere;
     public GameEvent OnDraggedCardHoveredOverHandCard;
-    public GameEvent RemoveCardFromHand;
-    public GameEvent InsertCardToHandInIndex;
     
     [Title("Global Handling")]
     public GameEvent ShowTooltip;
@@ -47,7 +38,6 @@ public class AllEvents : ScriptableObject
     public GameEvent ShakeScreen;
 
     public GameEvent SetGameState;
-    public GameEvent OnGameStateChange;
 
     public GameEvent LoadScene;
     public GameEvent OnLose;

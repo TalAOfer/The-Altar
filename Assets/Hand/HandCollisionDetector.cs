@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class HandCollisionDetector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private AllEvents events;
+    [SerializeField] private EventRegistry events;
     [SerializeField] private HandManager hand;
     public BoxCollider2D coll;
 

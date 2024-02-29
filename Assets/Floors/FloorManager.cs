@@ -6,7 +6,7 @@ public class FloorManager : MonoBehaviour
 {
     [SerializeField] private Floor floor;
     private FloorData floorData;
-    private AllEvents events;
+    private EventRegistry events;
 
     [SerializeField] private float swipeDuration;
 

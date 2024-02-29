@@ -17,7 +17,7 @@ public class EffectTriggerRegistry : ScriptableObject
     {
         triggers.Clear(); // Clear the list to prevent duplicates
 
-        string[] guids = AssetDatabase.FindAssets("t:EffectTriggerSO");
+        string[] guids = AssetDatabase.FindAssets("t:EffectTrigger");
         foreach (string guid in guids)
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(guid);

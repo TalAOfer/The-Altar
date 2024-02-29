@@ -11,6 +11,6 @@ public class CodexBlueprint : ScriptableObject
     public CardBlueprint GetBlueprintByArchetype(CardArchetype archetype)
     {
         List<CardBlueprint> targetDeck = archetype.color is CardColor.Black ? black : red;
-        return targetDeck[archetype.points];
+        return targetDeck[archetype.points - 1];
     }
 }

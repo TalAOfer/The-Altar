@@ -22,20 +22,21 @@ public class Codex
     public CardBlueprint GetCardOverride(CardArchetype archetype)
     {
         List<CardBlueprint> targetDeck = archetype.color is CardColor.Black ? black : red;
-        return targetDeck[archetype.points];
+        return targetDeck[archetype.points - 1];
     }
 
     public void PurgeOverrideToDefault(CardArchetype archetype)
     {
         List<CardBlueprint> targetDeck = archetype.color is CardColor.Black ? black : red;
-        targetDeck[archetype.points] = defaultCodex.GetBlueprintByArchetype(archetype);
+        targetDeck[archetype.points - 1] = defaultCodex.GetBlueprintByArchetype(archetype);
     }
 
     public void OverrideCard(CardBlueprint cardBlueprint)
     {
         List<CardBlueprint> targetDeck = cardBlueprint.Archetype.color is CardColor.Black ? black : red;
         int index = cardBlueprint.Archetype.points;
-        targetDeck.Insert(index, cardBlueprint);
-        targetDeck.RemoveAt(index + 1);
+        targetDeck[index - 1] = cardBlueprint;
+        //targetDeck.Insert(index, cardBlueprint);
+        //targetDeck.RemoveAt(index + 1);
     }
 }

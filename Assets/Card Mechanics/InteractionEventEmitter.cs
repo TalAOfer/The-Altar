@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 [System.Serializable]
 [RequireComponent(typeof(Collider2D))]
-public class CardInteractionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InteractionEventEmitter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [FoldoutGroup("Components")]
     public Card card;

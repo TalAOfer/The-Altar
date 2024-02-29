@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Effect : MonoBehaviour
 {
-    public AllEvents events;
+    public EventRegistry events;
     public DataProvider data;
 
     public Card parentCard;
@@ -162,7 +162,6 @@ public class Effect : MonoBehaviour
             case GetAmountStrategy.RoomCount:
                 amount = data.GetRoomIndex();
                 break;
-
             case GetAmountStrategy.NotImplementedDeadEnemiesOnMap:
                 break;
             case GetAmountStrategy.LowestValueEnemyCard:

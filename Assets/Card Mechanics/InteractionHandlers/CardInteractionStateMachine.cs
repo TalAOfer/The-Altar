@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class CardInteractionBase : MonoBehaviour
+public abstract class CardInteractionStateMachine : MonoBehaviour
 {
-    [SerializeField] protected AllEvents events;
+    [SerializeField] protected EventRegistry events;
 
     protected Card selectedCard = null;
     protected Card draggedCard = null;
-    protected bool isDragging = false;
+    public bool isDragging = false;
 
     public void OnCardPointerEnter(Component sender, object data) 
     {

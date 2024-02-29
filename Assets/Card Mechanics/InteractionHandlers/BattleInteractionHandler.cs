@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum BattleInteractionState
+public enum BattleInteractionStates
 {
     Setup,
     Idle,
     Battle
 }
 
-public class BattleInteractionHandler : CardInteractionBase
+public class BattleInteractionHandler : CardInteractionStateMachine
 {
     [SerializeField] private CurrentGameState gameState;
     [SerializeField] private RoomData roomData;
     private bool isArrowActive;
     private bool canClick = true;
 
-    public BattleInteractionState state;
+    public BattleInteractionStates state;
 
 
     private void Awake()
     {
-        SetState(BattleInteractionState.Setup);
+        SetState(BattleInteractionStates.Setup);
     }
-    public void SetState(BattleInteractionState newState)
+    public void SetState(BattleInteractionStates newState)
     {
         state = newState;
     }
@@ -94,14 +94,14 @@ public class BattleInteractionHandler : CardInteractionBase
     #region Event Handlers
     public void EnableInteraction()
     {
-        SetState(BattleInteractionState.Idle);
+        SetState(BattleInteractionStates.Idle);
     }
 
     protected override void HandlePointerClick(Card card, PointerEventData eventData)
     {
         if (!canClick) return;
         if (card.cardState != CardState.Default) return;
-        if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (state is BattleInteractionStates.Battle or BattleInteractionStates.Setup) return;
 
         bool isThereASelectedCard = selectedCard != null;
         bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
@@ -141,7 +141,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandlePointerEnter(Card card, PointerEventData eventData)
     {
-        if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (state is BattleInteractionStates.Battle or BattleInteractionStates.Setup) return;
         if (card.cardState != CardState.Default) return;
 
         bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
@@ -163,9 +163,8 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandlePointerExit(Card card, PointerEventData eventData)
     {
-        if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (state is BattleInteractionStates.Battle or BattleInteractionStates.Setup) return;
         if (card.cardState != CardState.Default) return;
-
 
         events.HideTooltip.Raise(this, card);
 
@@ -180,7 +179,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
     protected override void HandleBeginDrag(Card card, PointerEventData eventData)
     {
-        if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (state is BattleInteractionStates.Battle or BattleInteractionStates.Setup) return;
         if (card.cardState != CardState.Default) return;
         canClick = false;
 
@@ -212,7 +211,7 @@ public class BattleInteractionHandler : CardInteractionBase
     protected override void HandleEndDrag(Card card, PointerEventData eventData)
     {
         canClick = true;
-        if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (state is BattleInteractionStates.Battle or BattleInteractionStates.Setup) return;
         if (selectedCard == null) return;
 
         bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
@@ -222,7 +221,7 @@ public class BattleInteractionHandler : CardInteractionBase
         Card droppedCard = null;
         if (goHit != null)
         {
-            CardInteractionHandler cardIhThatItDroppedOn = goHit.GetComponent<CardInteractionHandler>();
+            InteractionEventEmitter cardIhThatItDroppedOn = goHit.GetComponent<InteractionEventEmitter>();
             droppedCard = cardIhThatItDroppedOn != null ? cardIhThatItDroppedOn.card : null;
         }
 
@@ -242,7 +241,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
     public void HandleTriggerEnter(Component sender, object data)
     {
-        if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (state is BattleInteractionStates.Battle or BattleInteractionStates.Setup) return;
         
         if (selectedCard == null) return;
         if (!isArrowActive) return;
@@ -258,7 +257,7 @@ public class BattleInteractionHandler : CardInteractionBase
 
     public void HandleTriggerExit(Component sender, object data)
     {
-        if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (state is BattleInteractionStates.Battle or BattleInteractionStates.Setup) return;
 
         if (selectedCard == null) return;
         if (isArrowActive) return;

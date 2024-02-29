@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Room : MonoBehaviour
 {
-    public CardInteractionBase cardInteraction;
+    public CardInteractionStateMachine cardInteraction;
     public CustomAnimator animator;
 
     public virtual void InitializeRoom(FloorManager floorManager, RoomBlueprint roomBlueprint)

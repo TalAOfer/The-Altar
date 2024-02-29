@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     public CurrentGameState gameState;
-    [SerializeField] private AllEvents events;
+    [SerializeField] private EventRegistry events;
 
     private void OnDisable()
     {

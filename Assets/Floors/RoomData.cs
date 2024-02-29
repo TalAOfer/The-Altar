@@ -10,12 +10,12 @@ public class RoomData : ScriptableObject
     public RoomType RoomType;
 
     [ShowIf("RoomType", RoomType.Battle)]
-    public BattleRoomState BattleRoomState;
+    public BattleRoomStateEnum BattleRoomState;
     [ShowIf("RoomType", RoomType.Battle)]
     public BattleRoom EnemyManager;
 }
 
-public enum BattleRoomState
+public enum BattleRoomStateEnum
 {
     Setup,
     Idle,

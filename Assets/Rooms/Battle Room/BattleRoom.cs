@@ -38,7 +38,7 @@ public class BattleRoom : Room
         InitializeDeckForRoom();
 
         roomData.EnemyManager = this;
-        roomData.BattleRoomState = BattleRoomState.Setup;
+        roomData.BattleRoomState = BattleRoomStateEnum.Setup;
 
         door.Initialize(floorManager);
 
@@ -65,9 +65,7 @@ public class BattleRoom : Room
 
         for (int i = 0; i < enemies.Count; i++)
         {
-            CardBlueprint enemyBlueprint = spawner.DrawEnemyByArchetype(enemies[i].Blueprint.Archetype);
-
-            Card enemy = spawner.SpawnEnemyInIndexByBlueprint((int)enemies[i].Placement, enemyBlueprint);
+            Card enemy = spawner.SpawnEnemyInIndexByBlueprint((int)enemies[i].Placement, enemies[i].Blueprint);
 
             activeEnemies.Add(enemy);
         }
@@ -75,7 +73,7 @@ public class BattleRoom : Room
 
     private List<EnemySpawn> GetEnemies()
     {
-        List<EnemySpawn> enemies = new List<EnemySpawn>();
+        List<EnemySpawn> enemies = new();
 
 
         for (int row = 0; row < roomBlueprint.battle.cardGrid.GetLength(0); row++)

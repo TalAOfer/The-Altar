@@ -26,7 +26,7 @@ public class TutorialBattleInteractionHandler : BattleInteractionHandler
 
     protected override void HandlePointerEnter(Card card, PointerEventData eventData)
     {
-        if (state is BattleInteractionState.Battle or BattleInteractionState.Setup) return;
+        if (state is BattleInteractionStates.Battle or BattleInteractionStates.Setup) return;
         if (card.cardState != CardState.Default) return;
 
         bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;

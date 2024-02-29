@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 public class Tooltip : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI cardName;
-    [SerializeField] private TextMeshProUGUI cardArchetype;
-    [SerializeField] private TextMeshProUGUI cardDescription;
-    [SerializeField] private Image icon;
-    [SerializeField] private Image digit;
-    [SerializeField] private Image symbol;
-    [SerializeField] private SpriteFolder sprites;
-    [SerializeField] private Palette palette;
+    [SerializeField] private TextMeshProUGUI _cardName;
+    [SerializeField] private TextMeshProUGUI _cardArchetype;
+    [SerializeField] private TextMeshProUGUI _cardDescription;
+    [SerializeField] private Image _icon;
+    [SerializeField] private Image _digit;
+    [SerializeField] private Image _symbol;
+    [SerializeField] private SpriteFolder _sprites;
+    [SerializeField] private Palette _palette;
 
-    [SerializeField] private GameObject higherBeingWindow;
-    [SerializeField] private GameObject bloodthirstWindow;
-    [SerializeField] private GameObject meditateWindow;
+    [SerializeField] private GameObject _higherBeingWindow;
+    [SerializeField] private GameObject _bloodthirstWindow;
+    [SerializeField] private GameObject _meditateWindow;
 
     private bool IsHigherBeing(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing);
     private bool IsBloodthirst(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.Bloodthirst);
@@ -25,10 +25,10 @@ public class Tooltip : MonoBehaviour
 
     public void InitializeTooltip(Card card)
     {
-        cardName.text = card.Mask.cardName;
-        cardArchetype.text = Tools.GetCardNameByArchetype(new CardArchetype(card.points, card.cardColor), card.Affinity);
-        cardDescription.text = !card.Mask.isDefault ? GetDescription(card) : "No effect.";
-        icon.sprite = card.Mask.cardSprite;
+        _cardName.text = card.Mask.cardName;
+        _cardArchetype.text = Tools.GetCardNameByArchetype(new CardArchetype(card.points, card.cardColor), card.Affinity);
+        _cardDescription.text = !card.Mask.isDefault ? GetDescription(card) : "No effect.";
+        _icon.sprite = card.Mask.cardSprite;
         SetCardSymbol(card);
         SetSpritesColor(card);
         InitializeSpecialEffectWindows(card);
@@ -46,9 +46,9 @@ public class Tooltip : MonoBehaviour
 
     private void InitializeSpecialEffectWindows(Card card)
     {
-        higherBeingWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing));
-        bloodthirstWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Bloodthirst));
-        meditateWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Meditate));
+        _higherBeingWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing));
+        _bloodthirstWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Bloodthirst));
+        _meditateWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Meditate));
         
     }
 
@@ -74,27 +74,27 @@ public class Tooltip : MonoBehaviour
         switch (card.Affinity)
         {
             case Affinity.Player:
-                sprite = card.cardColor == CardColor.Red ? sprites.hearts : sprites.spades;
+                sprite = card.cardColor == CardColor.Red ? _sprites.hearts : _sprites.spades;
                 break;
             case Affinity.Enemy:
-                sprite = card.cardColor == CardColor.Red ? sprites.diamonds : sprites.clubs;
+                sprite = card.cardColor == CardColor.Red ? _sprites.diamonds : _sprites.clubs;
                 break;
         }
 
-        symbol.sprite = sprite;
+        _symbol.sprite = sprite;
     }
 
     public void SetSpritesColor(Card card)
     {
-        Color color = card.cardColor == CardColor.Black ? palette.darkPurple : palette.lightRed;
+        Color color = card.cardColor == CardColor.Black ? _palette.darkPurple : _palette.lightRed;
         color.a = 0.1f;
-        icon.color = color;
-        digit.color = color;
-        symbol.color = color;
+        _icon.color = color;
+        _digit.color = color;
+        _symbol.color = color;
     }
 
     public void SetNumberSprites(Card card)
     {
-        digit.sprite = sprites.numbers[card.Mask.Archetype.points];
+        _digit.sprite = _sprites.numbers[card.Mask.Archetype.points];
     }
 }

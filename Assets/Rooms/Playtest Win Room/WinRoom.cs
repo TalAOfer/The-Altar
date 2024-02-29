@@ -13,7 +13,7 @@ public class WinRoom : Room
     [SerializeField] private string highscoreText;
     [TextArea(0, 2)]
     [SerializeField] private string beatHighscoreText;
-    [SerializeField] private AllEvents events;
+    [SerializeField] private EventRegistry events;
     [SerializeField] private Image mask;
     [SerializeField] private GameObject cardRain;
 

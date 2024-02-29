@@ -80,19 +80,19 @@ public class BattleBlueprint : SerializedScriptableObject
     }
 
     [BoxGroup()]
-    [Button]
+    [Button("Add")]
     public void AddToEnemies()
     {
         if (!IsOccupied())
         {
             var (row, col) = GetGridSlotIndices();
-            Debug.Log($"Adding - Row: {row}, Col: {col}");
+            //Debug.Log($"Adding - Row: {row}, Col: {col}");
             cardGrid[row, col] = card;
         }
     }
 
     [BoxGroup()]
-    [Button]
+    [Button("Remove")]
     public void RemoveFromGrid()
     {
         if (IsOccupied())

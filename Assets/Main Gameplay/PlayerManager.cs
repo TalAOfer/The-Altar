@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    private AllEvents _events;
+    private EventRegistry _events;
     [field: SerializeField] public List<Card> ActiveCards { get; private set; } = new();
     public HandManager Hand { get; private set; }
     private PlayerCardSpawner _spawner;
@@ -13,7 +13,12 @@ public class PlayerManager : MonoBehaviour
     {
         Hand = GetComponentInChildren<HandManager>();
         _spawner = GetComponent<PlayerCardSpawner>();
-        _events = Resources.Load<AllEvents>("AllEvents");
+        _events = Locator.Events;
+    }
+
+    public void RemoveCardFromManager(Card card)
+    {
+        ActiveCards.Remove(card);
     }
 
     public void FillHandToMinimum()

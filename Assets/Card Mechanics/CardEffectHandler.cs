@@ -1,54 +1,60 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardEffectHandler : SerializedMonoBehaviour
 {
-    [SerializeField] private Card card;
-    [SerializeField] private EffectTriggerRegistry triggers;
+    [SerializeField] private Card _card;
+    [SerializeField] private EffectTriggerRegistry _triggers;
 
     [ShowInInspector]
-    private Dictionary<EffectTrigger, List<Effect>> effects = new();
+    private Dictionary<EffectTrigger, List<Effect>> _effectsDict = new();
+
+    private List<Effect> GetListByEnum(TriggerType type) => _effectsDict[_triggers.GetTriggerByEnum(type)];
+
 
     public void Init(CardBlueprint blueprint)
     {
-        SpawnEffects(blueprint);
+        InstantiateEffects(blueprint);
     }
 
-    public void SpawnEffects(CardBlueprint blueprint)
+    public void InstantiateEffects(CardBlueprint blueprint)
     {
-        foreach (var trigger in triggers.triggers)
+        foreach (var trigger in _triggers.triggers)
         {
             var effectsForTrigger = blueprint.GetEffectsForTrigger(trigger);
             foreach (var effectBlueprint in effectsForTrigger)
             {
-                effectBlueprint.Value.SpawnEffect(trigger, card); // Ensure SpawnEffect is adapted to use EffectTriggerSO
+                effectBlueprint.Value.InstantiateEffect(trigger, _card); // Ensure SpawnEffect is adapted to use EffectTriggerSO
             }
         }
     }
 
     public void AddEffectToDictionary(EffectTrigger trigger, Effect effect)
     {
-        if (!effects.ContainsKey(trigger))
+        if (!_effectsDict.ContainsKey(trigger))
         {
-            effects[trigger] = new List<Effect>();
+            _effectsDict[trigger] = new List<Effect>();
         }
-        effects[trigger].Add(effect);
+        _effectsDict[trigger].Add(effect);
     }
 
     public IEnumerator RemoveCurrentEffects()
     {
-        foreach (var effectList in effects.Values)
+        foreach (var trigger in _effectsDict.Keys)
         {
-            RemoveEffects(effectList);
+            RemoveEffects(trigger);
         }
 
         yield return new WaitForFixedUpdate();
     }
 
-    private void RemoveEffects(List<Effect> effects)
+    private void RemoveEffects(EffectTrigger trigger)
     {
+        List<Effect> effects = _effectsDict[trigger];
+
         List<Effect> toRemove = new List<Effect>(effects);
         foreach (Effect effect in toRemove)
         {
@@ -56,13 +62,26 @@ public class CardEffectHandler : SerializedMonoBehaviour
             effects.Remove(effect);
             Destroy(effect.gameObject);
         }
+
+        if (effects.Count == 0)
+        {
+            _effectsDict.Remove(trigger);
+        }
+
     }
 
     public IEnumerator ApplyEffects(TriggerType type)
     {
-        EffectTrigger triggerType = triggers.GetTriggerByEnum(type);
+        EffectTrigger triggerType = _triggers.GetTriggerByEnum(type);
 
-        if (effects.TryGetValue(triggerType, out List<Effect> allEffects))
+        /*Debugging
+        //Debug.Log("Is there a dict: " + (_effectsDict != null).ToString());
+        //Debug.Log("Is there a key: " + (triggerType != null).ToString());
+        */
+
+        if (!_effectsDict.ContainsKey(triggerType)) yield break;
+
+        if (_effectsDict.TryGetValue(triggerType, out List<Effect> allEffects))
         {
             foreach (Effect effect in allEffects)
             {
@@ -70,6 +89,12 @@ public class CardEffectHandler : SerializedMonoBehaviour
             }
         }
 
+        if (type is TriggerType.Meditate)
+        {
+            RemoveEffects(triggerType);
+        }
+
         yield return null;
     }
+
 }
