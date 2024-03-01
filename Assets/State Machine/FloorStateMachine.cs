@@ -1,14 +1,19 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FloorStateMachine : MonoBehaviour
 {
+    [ShowInInspector]
+    [ReadOnly]
     private BaseFloorState _currentState;
 
     public RunData RunData { get; private set; }
 
     #region Floor Data
+
+    public int CurrentRoomIndex {  get; private set; }
 
     [SerializeField] private Codex _enemyCodex;
     public Codex EnemyCodex { get { return _enemyCodex; } }
@@ -25,6 +30,8 @@ public class FloorStateMachine : MonoBehaviour
     private void Awake()
     {
         RunData = Locator.RunData;
+        RunData.Initialize();
+        //InitializeStateMachine();
     }
     private void InitializeStateMachine(BaseFloorState state)
     {
