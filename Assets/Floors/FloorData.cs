@@ -7,7 +7,7 @@ public class FloorData : ScriptableObject, IResetOnPlaymodeExit
 {
     public int currentRoomIndex;
     public Codex enemyCodex;
-    public PlayerManager playerManager;
+    public PlayerCardManager playerManager;
 
     public void Initialize(CodexBlueprint enemyCodexBlueprint)
     {

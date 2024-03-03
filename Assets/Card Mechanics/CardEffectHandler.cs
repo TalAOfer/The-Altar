@@ -27,7 +27,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
             var effectsForTrigger = blueprint.GetEffectsForTrigger(trigger);
             foreach (var effectBlueprint in effectsForTrigger)
             {
-                effectBlueprint.Value.InstantiateEffect(trigger, _card); // Ensure SpawnEffect is adapted to use EffectTriggerSO
+                effectBlueprint.Value.InstantiateEffect(trigger, _card, _card.DataProvider); // Ensure SpawnEffect is adapted to use EffectTriggerSO
             }
         }
     }

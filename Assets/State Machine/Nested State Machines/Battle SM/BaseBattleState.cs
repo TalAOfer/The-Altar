@@ -3,7 +3,9 @@
 public abstract class BaseBattleState
 {
     protected BattleStateMachine _ctx;
-    protected BaseBattleState(BattleStateMachine ctx) 
+    protected NewFloorManager FloorCtx => _ctx.FloorCtx;
+
+    public BaseBattleState(BattleStateMachine ctx) 
     {
         _ctx = ctx;
     }

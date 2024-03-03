@@ -5,7 +5,7 @@ using UnityEngine;
 public class Effect : MonoBehaviour
 {
     public EventRegistry events;
-    public DataProvider data;
+    public BattleRoomDataProvider data;
 
     public Card parentCard;
     public EffectApplier applier;
@@ -18,10 +18,9 @@ public class Effect : MonoBehaviour
     protected Decision decision;
     GetAmountStrategy amountStrategy;
     public int defaultAmount;
-    public void BaseInitialize(EffectApplier applier, Card parentCard, EffectBlueprint blueprint)
+    public void BaseInitialize(BattleRoomDataProvider data, EffectApplier applier, Card parentCard, EffectBlueprint blueprint)
     {
-        data = Locator.DataProvider;
-
+        this.data = data;
         this.applier = applier;
         this.parentCard = parentCard;
 
@@ -149,9 +148,6 @@ public class Effect : MonoBehaviour
         {
             case GetAmountStrategy.Value:
                 amount = defaultAmount;
-                break;
-            case GetAmountStrategy.EmptySpacesOnMap:
-                amount = data.GetEmptySpacesAmount();
                 break;
             case GetAmountStrategy.EnemiesOnMap:
                 amount = data.GetAmountOfEnemies();

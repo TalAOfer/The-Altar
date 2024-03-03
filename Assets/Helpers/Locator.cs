@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Locator : MonoBehaviour
 {
+    [SerializeField] private PrefabRegistry _prefabs;
+    public static PrefabRegistry Prefabs { get; private set; }
+
     [SerializeField] private EventRegistry _events;
     public static EventRegistry Events { get; private set; }
 
@@ -14,12 +17,7 @@ public class Locator : MonoBehaviour
     [SerializeField] private FloorData _floorData;
     public static FloorData FloorData { get; private set; }
 
-    [SerializeField] private RoomData _roomData;
-    public static RoomData RoomData { get; private set; }
-
-    public static PlayerManager PlayerManager { get; private set; }
-
-    public static DataProvider DataProvider {  get; private set; }
+    public static PlayerCardManager PlayerManager { get; private set; }
     public static PlayerActionProvider PlayerActionProvider { get; private set; }
 
 
@@ -28,10 +26,9 @@ public class Locator : MonoBehaviour
         Events = _events;
         RunData = _runData;
         FloorData = _floorData;
-        RoomData = _roomData;
+        Prefabs = _prefabs;
 
-        PlayerManager = FindComponent<PlayerManager>();
-        DataProvider = FindComponent<DataProvider>();
+        PlayerManager = FindComponent<PlayerCardManager>();
         PlayerActionProvider = FindComponent<PlayerActionProvider>();
     }
 

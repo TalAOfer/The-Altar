@@ -1,0 +1,171 @@
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class BattleRoomDataProvider
+{
+    private BattleStateMachine _ctx;
+    private FloorData floorData;
+
+    public Card BattlingEnemyCard;
+    public Card BattlingPlayerCard;
+
+    public BattleRoomDataProvider(BattleStateMachine ctx)
+    {
+        _ctx = ctx;
+    }
+
+    private void Awake()
+    {
+        floorData = Locator.FloorData;
+    }
+
+    #region Target Providers
+
+    public Card GetOpponent(Card card)
+    {
+        return card.Affinity == Affinity.Player ? BattlingEnemyCard : BattlingPlayerCard;
+    }
+
+    public List<Card> GetAllActiveEnemies()
+    {
+        return new(_ctx.EnemyCardManager.ActiveEnemies);
+    }
+
+    public List<Card> GetAllActiveEnemiesOnMap()
+    {
+        List<Card> activeEnemies = new(_ctx.EnemyCardManager.ActiveEnemies);
+        if (BattlingEnemyCard != null) activeEnemies.Remove(BattlingEnemyCard);
+        return activeEnemies;
+    }
+
+    public List<Card> GetAllActivePlayerCards()
+    {
+        return new(floorData.playerManager.ActiveCards);
+    }
+
+    public List<Card> GetAllCardsInHand()
+    {
+        List<Card> activeEnemies = new(floorData.playerManager.ActiveCards);
+        if (BattlingPlayerCard != null) activeEnemies.Remove(BattlingPlayerCard);
+        return activeEnemies;
+    }
+
+    public List<Card> GetRandomPlayerCards(int numberOfCards, Card excludeThis)
+    {
+        List<Card> cardsToPickFrom = GetAllActivePlayerCards();
+
+        if (excludeThis != null)
+        {
+            cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
+        }
+
+        cardsToPickFrom.Remove(BattlingPlayerCard);
+
+        // Adjust the number of cards to draw if necessary
+        int drawCount = Mathf.Min(numberOfCards, cardsToPickFrom.Count);
+
+        if (drawCount == 0)
+        {
+            return new List<Card>(); // Return an empty list instead of null
+        }
+
+        List<int> randomIndices = Tools.GetXUniqueRandoms(drawCount, 0, cardsToPickFrom.Count);
+        List<Card> randomCards = randomIndices.Select(index => cardsToPickFrom[index]).ToList();
+
+        return randomCards;
+    }
+    public List<Card> GetRandomEnemyCards(int numberOfCards, Card excludeThis)
+    {
+        List<Card> cardsToPickFrom = GetAllActiveEnemies();
+
+        if (excludeThis != null)
+        {
+            cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
+        }
+
+        cardsToPickFrom.Remove(BattlingEnemyCard);
+
+        // Adjust the number of cards to draw if necessary
+        int drawCount = Mathf.Min(numberOfCards, cardsToPickFrom.Count);
+
+        if (drawCount == 0)
+        {
+            return new List<Card>(); // Return an empty list instead of null
+        }
+
+        List<int> randomIndices = Tools.GetXUniqueRandoms(drawCount, 0, cardsToPickFrom.Count);
+        List<Card> randomCards = randomIndices.Select(index => cardsToPickFrom[index]).ToList();
+
+        return randomCards;
+    }
+
+    public Card GetLowestPlayerCard(Card excludeThis)
+    {
+        List<Card> availableCards = new(floorData.playerManager.ActiveCards);
+        availableCards.Remove(excludeThis);
+        if (availableCards.Count == 0) return null;
+
+        int min = 100;
+        List<Card> lowestCards = new();
+
+        foreach (Card card in availableCards)
+        {
+            if (card.points < min)
+            {
+                min = card.points;
+                lowestCards.Clear();
+                lowestCards.Add(card);
+            }
+            else if (card.points == min)
+            {
+                lowestCards.Add(card);
+            }
+        }
+
+        int rand = Random.Range(0, lowestCards.Count);
+        Card chosenCard = lowestCards[rand];
+
+        return chosenCard;
+    }
+
+    #endregion
+
+    #region Amount Providers
+
+    public int GetAmountOfPlayerCards()
+    {
+        return floorData.playerManager.ActiveCards.Count;
+    }
+
+    public int GetAmountOfEnemies()
+    {
+        return _ctx.EnemyCardManager.ActiveEnemies.Count;
+    }
+
+    public int GetRoomIndex()
+    {
+        return floorData.currentRoomIndex;
+    }
+
+    public int GetLowestEnemyCardValue(Card excludeThis)
+    {
+        int amount = 100;
+
+        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
+        {
+            if (card == excludeThis) continue;
+
+            if (card.points < amount)
+            {
+                amount = card.points;
+            }
+        }
+
+        return amount;
+    }
+
+    #endregion
+}
+
+

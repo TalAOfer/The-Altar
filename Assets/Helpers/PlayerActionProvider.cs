@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerActionProvider : MonoBehaviour
 {
-    private PlayerManager playerManager;
+    private PlayerCardManager playerManager;
     private void Awake()
     {
         playerManager = Locator.PlayerManager;
@@ -18,11 +18,6 @@ public class PlayerActionProvider : MonoBehaviour
     public void SpawnCardToHandByArchetype(CardArchetype archetype)
     {
         playerManager.SpawnCardToHandByArchetype(archetype);
-    }
-
-    public void FillHand()
-    {
-        playerManager.FillHandToMinimum();
     }
 
     public IEnumerator HandleAllShapeshiftsUntilStable()

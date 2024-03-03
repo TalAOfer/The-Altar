@@ -13,7 +13,6 @@ public enum BattleInteractionStates
 public class BattleInteractionHandler : CardInteractionStateMachine
 {
     [SerializeField] private CurrentGameState gameState;
-    [SerializeField] private RoomData roomData;
     private bool isArrowActive;
     private bool canClick = true;
 

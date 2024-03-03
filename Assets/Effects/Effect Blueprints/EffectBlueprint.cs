@@ -57,7 +57,7 @@ public class EffectBlueprint
 
     [ShowIf("isConditional")]
     public Decision decision;
-    public void InstantiateEffect(EffectTrigger triggerType, Card parentCard)
+    public void InstantiateEffect(EffectTrigger triggerType, Card parentCard, BattleRoomDataProvider data)
     {
         GameObject newEffectGO = new(triggerType.name + " : " + applierType.ToString());
         newEffectGO.transform.SetParent(parentCard.transform, false);
@@ -111,19 +111,19 @@ public class EffectBlueprint
         switch (prototype)
         {
             case EffectPrototype.Normal:
-                BaseInitializeEffect<Effect>(newEffectGO, applier, triggerType, parentCard);
+                BaseInitializeEffect<Effect>(newEffectGO, applier, triggerType, parentCard, data);
                 break;
             case EffectPrototype.Select:
-                BaseInitializeEffect<SelectEffect>(newEffectGO, applier, triggerType, parentCard);
+                BaseInitializeEffect<SelectEffect>(newEffectGO, applier, triggerType, parentCard, data);
                 break;
         }
     }
 
-    public T BaseInitializeEffect<T>(GameObject newEffectGO, EffectApplier applier, EffectTrigger triggerType, Card parentCard) where T : Effect
+    public T BaseInitializeEffect<T>(GameObject newEffectGO, EffectApplier applier, EffectTrigger triggerType, Card parentCard, BattleRoomDataProvider data) where T : Effect
     {
         T effect = newEffectGO.AddComponent<T>();
-        effect.BaseInitialize(applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
-        applier.BaseInitialize(parentCard, triggerType);
+        effect.BaseInitialize(data, applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
+        applier.BaseInitialize(data, parentCard, triggerType);
 
         parentCard.effects.AddEffectToDictionary(triggerType, effect);
 

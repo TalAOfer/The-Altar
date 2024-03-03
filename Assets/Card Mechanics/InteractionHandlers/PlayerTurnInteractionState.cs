@@ -12,7 +12,6 @@ public class PlayerTurnInteractionState : CardInteractionState
 
     private Card selectedCard;
     [SerializeField] private CurrentGameState gameState;
-    [SerializeField] private RoomData roomData;
     private bool isArrowActive;
     private bool canClick = true;
 

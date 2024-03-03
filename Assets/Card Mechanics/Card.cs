@@ -6,7 +6,7 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     private Codex codex;
-
+    public BattleRoomDataProvider DataProvider {  get; private set; }
     public CardBase cardBase {  get; private set; }
 
     [FoldoutGroup("Child Components")]
@@ -61,10 +61,11 @@ public class Card : MonoBehaviour
         get { return points <= 0; }
     }
 
-    public void Init(Codex codex, CardBlueprint blueprint, string startingSortingLayer, CardInteractionType cardInteractionType)
+    public void Init(Codex codex, CardBlueprint blueprint, string startingSortingLayer, CardInteractionType cardInteractionType, BattleRoomDataProvider dataProvider)
     {
         this.codex = codex;
         this.cardInteractionType = cardInteractionType;
+        DataProvider = dataProvider;
 
         Mask = blueprint;
         SetCardColor(blueprint.Archetype.color);

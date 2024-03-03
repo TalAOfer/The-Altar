@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private EventRegistry events;
-    private FloorManager floorManager;
+    //private FloorManager floorManager;
 
     [Title("Gate")]
     public GameObject gateGO;
@@ -22,10 +22,10 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
     private bool didFinishAnimation;
     private bool didClickDoor;
 
-    public void Initialize(FloorManager floorManager)
-    {
-        this.floorManager = floorManager;
-    }
+    //public void Initialize(FloorManager floorManager)
+    //{
+    //    this.floorManager = floorManager;
+    //}
 
     public void OpenDoor()
     {
@@ -42,7 +42,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
         gateGO.SetActive(false);
         events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
         didFinishAnimation = true;
-        if (didClickDoor) floorManager.NextRoom();
+        //if (didClickDoor) floorManager.NextRoom();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -50,7 +50,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
         if (!didClickDoor)
         {
             didClickDoor = true;
-            if (didFinishAnimation) floorManager.NextRoom();
+            //if (didFinishAnimation) floorManager.NextRoom();
         }
     }
 

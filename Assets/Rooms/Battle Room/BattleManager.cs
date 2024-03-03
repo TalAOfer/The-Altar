@@ -1,20 +1,13 @@
 using Sirenix.OdinInspector;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 
 public class BattleManager : MonoBehaviour
 {
-    protected PlayerManager playerManager;
-    protected BattleRoom roomManager;
-
-    protected DataProvider data;
-
+    protected BattleRoomDataProvider data;
+    private BattleStateMachine _ctx;
 
     protected Card enemyCard;
     protected Card playerCard;
@@ -26,11 +19,9 @@ public class BattleManager : MonoBehaviour
     [FoldoutGroup("Dependencies")]
     [SerializeField] protected BattleInteractionHandler interactionHandler;
 
-    public void Awake()
+    public void Initialize(BattleStateMachine ctx)
     {
-        playerManager = Locator.PlayerManager;
-        data = Locator.DataProvider;
-        roomManager = GetComponentInParent<BattleRoom>();
+        _ctx = ctx;
     }
 
     public void OnAttack(Component sender, object data)
@@ -39,7 +30,7 @@ public class BattleManager : MonoBehaviour
         enemyCard = data as Card;
         this.data.BattlingPlayerCard = playerCard;
         this.data.BattlingEnemyCard = enemyCard;
-        playerManager.SetAllPlayerCardCollisions(false);
+        //playerManager.SetAllPlayerCardCollisions(false);
         interactionHandler.state = BattleInteractionStates.Battle;
 
         StartCoroutine(BattleRoutine());
@@ -77,10 +68,10 @@ public class BattleManager : MonoBehaviour
         yield return StartCoroutine(DeathRoutine());
 
         if (DidEnemyCardDie)
-            roomManager.RemoveEnemyFromManager(enemyCard);
+            _ctx.EnemyCardManager.RemoveEnemyFromManager(enemyCard);
 
         if (DidPlayerCardDie) 
-            playerManager.RemoveCardFromManager(playerCard);
+            _ctx.PlayerCardManager.RemoveCardFromManager(playerCard);
 
         //events.AddLogEntry.Raise(this, "Global Death");
         yield return StartCoroutine(GlobalDeathRoutine());
@@ -88,7 +79,7 @@ public class BattleManager : MonoBehaviour
         yield return StartCoroutine(SurviveRoutine());
 
         //events.AddLogEntry.Raise(this, "Aftermath Shapeshifts");
-        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+        yield return StartCoroutine(_ctx.HandleAllShapeshiftsUntilStable());
 
         if (DidEnemyCardDie) 
             enemyCard.gameObject.SetActive(false);
@@ -99,19 +90,19 @@ public class BattleManager : MonoBehaviour
         else yield return StartCoroutine(AnimateBackoff());
 
         //events.AddLogEntry.Raise(this, "After On Obtain Shapeshift");
-        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+        yield return StartCoroutine(_ctx.HandleAllShapeshiftsUntilStable());
 
         //events.AddLogEntry.Raise(this, "On Action");
         yield return StartCoroutine(BloodthirstEffectsRoutine());
 
         //events.AddLogEntry.Raise(this, "After On Action Shapeshift");
-        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+        yield return StartCoroutine(_ctx.HandleAllShapeshiftsUntilStable());
 
         //events.AddLogEntry.Raise(this, "End Of Turn");
         yield return StartCoroutine(MeditateEffectsRoutine());
 
         //events.AddLogEntry.Raise(this, "After End Of Turn Shapeshift");
-        yield return StartCoroutine(HandleAllShapeshiftsUntilStable());
+        yield return StartCoroutine(_ctx.HandleAllShapeshiftsUntilStable());
 
         if (!playerCard.IsDead)
         {
@@ -120,7 +111,7 @@ public class BattleManager : MonoBehaviour
 
         if (DidBeatRoom)
         {
-            roomManager.OpenDoor();
+            //roomManager.OpenDoor();
         }
 
         else if (IsPlayerOutOfCards)
@@ -135,45 +126,13 @@ public class BattleManager : MonoBehaviour
         events.AddLogEntry.Raise(this, "New Turn Started");
         events.SetGameState.Raise(this, GameState.Idle);
         interactionHandler.SetState(BattleInteractionStates.Idle);
-        playerManager.Hand.ChangeHandState(HandState.Idle);
-        playerManager.SetAllPlayerCardCollisions(true);
+        _ctx.PlayerCardManager.Hand.ChangeHandState(HandState.Idle);
+        //playerManager.SetAllPlayerCardCollisions(true);
     }
 
     #region Effect Routines
 
-    private IEnumerator HandleAllShapeshiftsUntilStable()
-    {
-        bool changesOccurred;
 
-        List<Card> allCards = roomManager.activeEnemies.Concat(playerManager.ActiveCards).ToList();
-
-        do
-        {
-            changesOccurred = false;
-            List<Coroutine> shapeshiftCoroutines = new();
-
-            foreach (Card card in allCards)
-            {
-                if (card.ShouldShapeshift())
-                {
-                    changesOccurred = true;
-                    Coroutine coroutine = StartCoroutine(card.HandleShapeshift());
-                    shapeshiftCoroutines.Add(coroutine);
-                }
-            }
-
-            // Wait for all shapeshift coroutines to finish
-            foreach (Coroutine coroutine in shapeshiftCoroutines)
-            {
-                yield return coroutine;
-            }
-
-            // If changesOccurred is true, the loop will continue
-        } while (changesOccurred);
-
-        // All shapeshifts are done and no more changes, proceed with the next operation
-        // ...
-    }
 
     private IEnumerator StartOfBattleRoutine()
     {
@@ -210,7 +169,7 @@ public class BattleManager : MonoBehaviour
 
             if (!battleStartEnded)
             {
-                yield return (HandleAllShapeshiftsUntilStable());
+                yield return (_ctx.HandleAllShapeshiftsUntilStable());
             }
 
             Coroutine ReapplyPlayerCardStartOfBattleEffects = null;
@@ -237,12 +196,12 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator SupportEffectsRoutine()
     {
-        foreach (Card card in playerManager.ActiveCards)
+        foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
         {
             yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Support));
         }
 
-        foreach (Card card in roomManager.activeEnemies)
+        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
         {
             if (card == enemyCard) continue;
             yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Support));
@@ -286,8 +245,8 @@ public class BattleManager : MonoBehaviour
         if (playerCardDied)
         {
             ApplyPlayerDeathShapeshift = StartCoroutine(playerCard.Shapeshift());
-            playerManager.ActiveCards.Remove(playerCard);
-            playerManager.Hand.RemoveCardFromHand(playerCard);
+            _ctx.PlayerCardManager.ActiveCards.Remove(playerCard);
+            _ctx.PlayerCardManager.Hand.RemoveCardFromHand(playerCard);
         }
 
         if (enemyCardDied) ApplyEnemyDeathShapeshift = StartCoroutine(enemyCard.Shapeshift());
@@ -301,7 +260,7 @@ public class BattleManager : MonoBehaviour
     {
         if (enemyCard.IsDead || playerCard.IsDead)
         {
-            foreach (Card card in playerManager.ActiveCards)
+            foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
             {
                 if (!card.IsDead)
                 {
@@ -309,7 +268,7 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
-            foreach (Card card in roomManager.activeEnemies)
+            foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
             {
                 if (!card.IsDead)
                 {
@@ -334,14 +293,14 @@ public class BattleManager : MonoBehaviour
     private IEnumerator BloodthirstEffectsRoutine()
     {
         //Debug.Log("Starting player on action effects application");
-        foreach (Card card in playerManager.ActiveCards)
+        foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
         {
             //Debug.Log("Applying " + card.name + "'s effects");
             yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Bloodthirst));
         }
 
         //Debug.Log("Starting enemy on action effects application");
-        foreach (Card card in roomManager.activeEnemies)
+        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
         {
             //Debug.Log("Applying " + card.name + "'s effects");
             yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Bloodthirst));
@@ -351,13 +310,13 @@ public class BattleManager : MonoBehaviour
     private IEnumerator MeditateEffectsRoutine()
     {
         //Debug.Log("Starting player end of turn effects application");
-        foreach (Card card in playerManager.ActiveCards)
+        foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
         {
             //Debug.Log("Applying " + card.name + "'s effects");
             yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Meditate));
         }
 
-        foreach (Card card in roomManager.activeEnemies)
+        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
         {
             //Debug.Log("Applying " + card.name + "'s effects");
             yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Meditate));
@@ -389,19 +348,17 @@ public class BattleManager : MonoBehaviour
     private IEnumerator RemoveCardFromHand()
     {
         yield return Tools.GetWait(0.1f);
-        playerManager.Hand.RemoveCardFromHand(playerCard);
+        _ctx.PlayerCardManager.Hand.RemoveCardFromHand(playerCard);
     }
 
     public virtual IEnumerator AnimateBackoff()
     {
-        playerManager.Hand.AddCardToHand(playerCard);
+        _ctx.PlayerCardManager.Hand.AddCardToHand(playerCard);
         playerCard.visualHandler.SetSortingOrder(playerCard.index);
         Tools.PlaySound("Card_Attack_Backoff", transform);
         yield return StartCoroutine(playerCard.movement.TransformCardUniformlyToHoveredPlaceholder(cardData.backOffSpeed, cardData.backoffCurve));
         playerCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
     }
-
-
 
     #endregion
 
@@ -414,8 +371,8 @@ public class BattleManager : MonoBehaviour
         playerCard.TakeDamage(this);
     }
 
-    private bool DidBeatRoom => roomManager.activeEnemies.Count == 0;
-    private bool IsPlayerOutOfCards => playerManager.ActiveCards.Count == 0;
+    private bool DidBeatRoom => _ctx.EnemyCardManager.ActiveEnemies.Count == 0;
+    private bool IsPlayerOutOfCards => _ctx.PlayerCardManager.ActiveCards.Count == 0;
     private bool DidEnemyCardDie => enemyCard.IsDead;
     private bool DidPlayerCardDie => playerCard.IsDead;
     #endregion

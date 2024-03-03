@@ -4,16 +4,16 @@ using UnityEngine;
 public abstract class EffectApplier : MonoBehaviour
 {
     public Card parentCard;
-    protected DataProvider data;
+    protected BattleRoomDataProvider data;
     protected PlayerActionProvider actions; 
     protected EventRegistry events;
 
     protected EffectTrigger triggerType;
-    public void BaseInitialize(Card parentCard, EffectTrigger triggerType)
+    public void BaseInitialize(BattleRoomDataProvider data, Card parentCard, EffectTrigger triggerType)
     {
-        data = Locator.DataProvider;
         events = Locator.Events;
 
+        this.data = data;
         this.parentCard = parentCard;
         this.triggerType = triggerType;
     }

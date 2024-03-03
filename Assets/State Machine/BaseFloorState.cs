@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 public abstract class BaseFloorState
 {
-    public FloorStateMachine _ctx;
-    public BaseFloorState(FloorStateMachine stateMachine)
+    public NewFloorManager _ctx;
+    public BaseFloorState(NewFloorManager stateMachine)
     {
         _ctx = stateMachine;
     }

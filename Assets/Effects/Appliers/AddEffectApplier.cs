@@ -19,7 +19,7 @@ public class AddEffectApplier : EffectApplier
             RaiseEffectAppliedEvent(target, amount);
         }
 
-        effectBlueprint.Value.InstantiateEffect(whenToTriggerAddedEffect, target);
+        effectBlueprint.Value.InstantiateEffect(whenToTriggerAddedEffect, target, data);
         yield return null;
     }
 
