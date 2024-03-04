@@ -10,12 +10,12 @@ public class BattleStateFactory
         _battleCtx = battleCtx;
     }
 
-    public BaseBattleState SpawnEnemies() 
+    public BaseBattleRoomState SpawnEnemies() 
     {
         return new Battle_EnemySetup(_battleCtx);
     }
 
-    public BaseBattleState DrawHand()
+    public BaseBattleRoomState DrawHand()
     {
         return new Battle_PlayerSetup(_battleCtx);
     }

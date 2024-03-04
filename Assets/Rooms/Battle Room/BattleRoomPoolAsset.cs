@@ -23,7 +23,7 @@ public class BattleRoomPool
         Endfloor = new List<BattleBlueprint>(blueprint.Value.Endfloor);
     }
 
-    public BattleBlueprint GetBattleBlueprintAccordingToIndex(int totalRoomCount, int index)
+    public BattleBlueprint GetBattleBlueprintAccordingToIndex(int index, int totalRoomCount)
     {
         float ratio = (float)index / totalRoomCount;
 

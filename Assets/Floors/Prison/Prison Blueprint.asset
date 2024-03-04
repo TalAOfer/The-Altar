@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff27aa73702b964fb2f310e8635c95a, type: 3}
+  m_Name: Prison Blueprint
+  m_EditorClassIdentifier: 
+  EnemyCodexBlueprint: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+  BattleRoomPool: {fileID: 11400000, guid: d58a157084896d34082a70de04dfaf31, type: 2}
+  Levels:
+  - LeftRoom:
+      Type: 1
+      Reward: 1
+      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 1
+      Reward: 2
+      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      AmountOfOptions: 0
+  - LeftRoom:
+      Type: 1
+      Reward: 0
+      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 1
+      Reward: 0
+      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      AmountOfOptions: 0
+  - LeftRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+  - LeftRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+  - LeftRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+  - LeftRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+  - LeftRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+  - LeftRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 0
+      Reward: 0
+      BattleBlueprint: {fileID: 0}
+      AmountOfOptions: 0

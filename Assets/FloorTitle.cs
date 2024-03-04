@@ -7,11 +7,11 @@ public class FloorTitle : MonoBehaviour
 {
     [SerializeField] List<SpriteRenderer> sprites;
     [SerializeField] private RoomBlueprint blueprint;
-    private NewFloorManager _floor;
+    private FloorManager _floor;
 
     private void Awake()
     {
-        _floor = GetComponentInParent<NewFloorManager>();
+        _floor = GetComponentInParent<FloorManager>();
         Sequence fadeSequence = DOTween.Sequence();
 
         foreach (var sprite in sprites)

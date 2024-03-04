@@ -13,7 +13,6 @@ public class FloorData : ScriptableObject, IResetOnPlaymodeExit
     {
         currentRoomIndex = 0;
         enemyCodex = new Codex(enemyCodexBlueprint);
-        playerManager = Locator.PlayerManager;
     }
 
     public void PlaymodeExitReset()

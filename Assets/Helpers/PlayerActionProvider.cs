@@ -5,10 +5,6 @@ using UnityEngine;
 public class PlayerActionProvider : MonoBehaviour
 {
     private PlayerCardManager playerManager;
-    private void Awake()
-    {
-        playerManager = Locator.PlayerManager;
-    }
 
     public void DrawCardToHand()
     {

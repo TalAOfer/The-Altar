@@ -1,33 +1,40 @@
+using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
+[Serializable]
 public class Floor
 {
-    public Room FirstRoom { get; private set; }
-    public List<FloorLevel> Levels { get; private set; }
-    public Room FinalRoom;
-
+    [TableList(ShowIndexLabels = true)]
+    public List<FloorLevel> Levels;
     public BattleRoomPool BattlePool { get; private set; }
 
-    public Floor(BattleRoomPoolAsset poolBlueprint)
+    public Floor(FloorBlueprint floorBlueprint)
     {
-        BattlePool = new(poolBlueprint);
+        BattlePool = new(floorBlueprint.BattleRoomPool);
+
+        Levels = new List<FloorLevel>(floorBlueprint.Levels);
+
+        for (int i = 0; i < Levels.Count; i++)
+        {
+            Levels[i].InitializeRooms(i, Levels.Count, BattlePool);
+        }
     }
+
 }
 
-public class Room
-{
-    public Room(RoomBlueprint blueprint, BattleRoomPool pool)
-    {
-        
-    }
-
-    public BattleBlueprint BattleBlueprint { get; private set; }
-    public Room LeftDoor { get; private set; }
-    public Room RightDoor { get; private set; }
-}
-
+[Serializable]
 public class FloorLevel
 {
-    public Room LeftRoom { get; private set; }
-    public Room RightRoom { get; private set; }
+    public void InitializeRooms(int totalRoomNumber, int index, BattleRoomPool battlePool)
+    {
+        LeftRoom.InitializeRoom(totalRoomNumber, index, battlePool);
+        RightRoom.InitializeRoom(totalRoomNumber, index, battlePool);
+    }
+
+    public Room LeftRoom;
+    public Room RightRoom;
 }
+
+

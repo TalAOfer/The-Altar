@@ -3,58 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BattleStateMachine : RoomManager
+public class BattleStateMachine : RoomStateMachine
 {
-    public bool IsSwitchingStates {  get; private set; }
-
-    private BaseBattleState _currentBattleState;
     public BattleStateFactory States { get; private set; }
-    public NewFloorManager FloorCtx { get; private set; }
     public BattleBlueprint BattleBlueprint { get; private set; }
     public PlayerCardManager PlayerCardManager { get; private set; }
     public EnemyCardManager EnemyCardManager { get; private set; }
     public BattleRoomDataProvider DataProvider { get; private set; }
 
-    public override void Initialize(NewFloorManager floorCtx, Room room)
+    public override void Initialize(FloorManager floorCtx, Room room)
     {
+        base.Initialize(floorCtx, room);
         States = new BattleStateFactory(this);
         DataProvider = new BattleRoomDataProvider(this);
 
-        FloorCtx = floorCtx;
-
         BattleBlueprint = room.BattleBlueprint;
 
+        PlayerCardManager = GetComponentInChildren<PlayerCardManager>();
         PlayerCardManager.Init(this);
+
+        EnemyCardManager = GetComponentInChildren<EnemyCardManager>();
         EnemyCardManager.Init(this);
+    }
 
+    public override void InitializeStateMachine()
+    {
         SwitchState(States.SpawnEnemies());
-    }
-
-
-    public override void OnRoomReady()
-    {
-        SwitchState(States.DrawHand());
-    }
-
-    public void SwitchState(BaseBattleState newState)
-    {
-        StartCoroutine(SwitchStateRoutine(newState));
-    }
-
-    public IEnumerator SwitchStateRoutine(BaseBattleState newState)
-    {
-        IsSwitchingStates = true;
-
-        if (_currentBattleState != null)
-        {
-            yield return StartCoroutine(_currentBattleState.ExitState());
-        }
-
-        _currentBattleState = newState;
-
-        yield return StartCoroutine(_currentBattleState.EnterState());
-
-        IsSwitchingStates = false;
     }
 
     public IEnumerator HandleAllShapeshiftsUntilStable()
@@ -90,6 +64,7 @@ public class BattleStateMachine : RoomManager
         // All shapeshifts are done and no more changes, proceed with the next operation
         // ...
     }
+
 }
 
 [System.Serializable]

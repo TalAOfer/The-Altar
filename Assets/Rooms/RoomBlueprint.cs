@@ -13,6 +13,8 @@ public class RoomBlueprint
     [GUIColor("GetColorForRoomType")]
     public RoomType RoomType;
 
+    public RewardType RewardType;
+
     #region Battle
     [FoldoutGroup("Room Data")]
     [ShowIf("roomType", RoomType.Battle)]
@@ -72,8 +74,12 @@ public class RoomBlueprint
 
 public enum RoomType
 {
-    First,
+    Nothing,
     Battle,
+    Elite,
+    Shop,
+    Treasure,
+    First,
     Boss,
 }
 
@@ -82,4 +88,5 @@ public enum RewardType
     Nothing,
     Cards,
     Money,
+    Relics
 }

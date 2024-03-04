@@ -3,8 +3,8 @@ using System.Collections;
 
 public abstract class BaseFloorState
 {
-    public NewFloorManager _ctx;
-    public BaseFloorState(NewFloorManager stateMachine)
+    public FloorManager _ctx;
+    public BaseFloorState(FloorManager stateMachine)
     {
         _ctx = stateMachine;
     }

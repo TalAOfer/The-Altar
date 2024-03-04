@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class Battle_EnemySetup : BaseBattleState
+public class Battle_EnemySetup : BaseBattleRoomState
 {
     public Battle_EnemySetup(BattleStateMachine ctx) : base(ctx)
     {
@@ -9,7 +9,7 @@ public class Battle_EnemySetup : BaseBattleState
 
     public override IEnumerator EnterState()
     {
-        SpawnEnemies();
+        //SpawnEnemies();
         yield return null;
     }
 

@@ -16,8 +16,6 @@ public class Locator : MonoBehaviour
 
     [SerializeField] private FloorData _floorData;
     public static FloorData FloorData { get; private set; }
-
-    public static PlayerCardManager PlayerManager { get; private set; }
     public static PlayerActionProvider PlayerActionProvider { get; private set; }
 
 
@@ -28,7 +26,6 @@ public class Locator : MonoBehaviour
         FloorData = _floorData;
         Prefabs = _prefabs;
 
-        PlayerManager = FindComponent<PlayerCardManager>();
         PlayerActionProvider = FindComponent<PlayerActionProvider>();
     }
 

@@ -22,6 +22,22 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   Value:
-    Earlyfloor: []
-    Midfloor: []
+    Earlyfloor:
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    Midfloor:
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
     Endfloor: []

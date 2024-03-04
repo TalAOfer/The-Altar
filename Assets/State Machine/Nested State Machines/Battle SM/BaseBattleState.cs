@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 
-public abstract class BaseBattleState
+public abstract class BaseRoomState<TContext> : IRoomState where TContext : RoomStateMachine
 {
-    protected BattleStateMachine _ctx;
-    protected NewFloorManager FloorCtx => _ctx.FloorCtx;
+    protected TContext _ctx;
+    protected FloorManager FloorCtx => _ctx.FloorCtx;
 
-    public BaseBattleState(BattleStateMachine ctx) 
+    public BaseRoomState(TContext ctx)
     {
         _ctx = ctx;
     }
@@ -20,3 +20,13 @@ public abstract class BaseBattleState
         yield break;
     }
 }
+
+public interface IRoomState
+{
+    // Method to be called when entering the state
+    IEnumerator EnterState();
+
+    // Method to be called when exiting the state
+    IEnumerator ExitState();
+}
+

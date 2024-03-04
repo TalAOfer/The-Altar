@@ -1,17 +1,17 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private EventRegistry events;
-    //private FloorManager floorManager;
+    private FloorManager _floorManager;
+    private Room _leadsTo;
 
     [Title("Gate")]
     public GameObject gateGO;
-    [SerializeField] private CustomAnimator gateAnimator;
 
     [Title("Opening")]
     [SerializeField] private Color defaultColor;
@@ -19,30 +19,27 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private BoxCollider2D coll;
 
-    private bool didFinishAnimation;
+
+    //private bool didFinishAnimation;
     private bool didClickDoor;
 
-    //public void Initialize(FloorManager floorManager)
-    //{
-    //    this.floorManager = floorManager;
-    //}
-
-    public void OpenDoor()
+    public void Initialize(FloorManager floorManager, Room leadsTo)
     {
-        coll.enabled = true;
-        gateAnimator.PlayAnimation("Open");
-        Tools.PlaySound("Door_Open", transform);
-        float animationDuration = gateAnimator.GetAnimationDuration("Open");
-        StartCoroutine(WaitForAnimationEnd(animationDuration));
+        _floorManager = floorManager;
+        _leadsTo = leadsTo;
     }
 
-    public IEnumerator WaitForAnimationEnd(float animationDuration)
+    public IEnumerator OpenDoorRoutine()
     {
-        yield return Tools.GetWait(animationDuration + 0.1f);
-        gateGO.SetActive(false);
+        Tools.PlaySound("Door_Open", transform);
+
+        yield return gateGO.transform.DOLocalMoveY(2, 0.5f).SetEase(Ease.InExpo).WaitForCompletion();
+        gateGO.gameObject.SetActive(false);
+
+        coll.enabled = true;
         events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
-        didFinishAnimation = true;
-        //if (didClickDoor) floorManager.NextRoom();
+
+        if (didClickDoor) _floorManager.NextRoom(_leadsTo);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -50,7 +47,7 @@ public class Door : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
         if (!didClickDoor)
         {
             didClickDoor = true;
-            //if (didFinishAnimation) floorManager.NextRoom();
+            _floorManager.NextRoom(_leadsTo);
         }
     }
 
