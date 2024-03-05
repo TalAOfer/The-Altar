@@ -2233,7 +2233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1141221189
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2777,9 +2777,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: First Prison Room Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 4753181132387451872, guid: d06e19edb7cc1f34f85e766f088c8aba, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4753181132387451874, guid: d06e19edb7cc1f34f85e766f088c8aba, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4753181132387451874, guid: d06e19edb7cc1f34f85e766f088c8aba, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3259,7 +3263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1506711301
 RectTransform:
   m_ObjectHideFlags: 0

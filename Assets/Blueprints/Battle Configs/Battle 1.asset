@@ -15,55 +15,14 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: cardGrid
-      Entry: 7
-      Data: 0|CardBlueprint[,], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 9
-    - Name: ranks
-      Entry: 1
-      Data: 3|3
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
-  card: {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
-  placement: 4
+  cards:
+  - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+  - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+  - {fileID: 11400000, guid: b0eb1b4d9a703164eb3fa438ed30e0fc, type: 2}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,11 +11,12 @@ public interface IInteractable
     public bool CanBeTarget { get; set; }
     public bool CanBeAgent { get; set; }
 
+    [Flags]
     public enum InteractableType
     {
-        PlayerCard,
-        EnemyCard,
-        Ability
+        PlayerCard = 1,
+        EnemyCard = 2,
+        Ability = 4,
     }
 
 }
@@ -28,23 +30,32 @@ public interface IActor
     }
 }
 
-public class Interaction
+public class Interaction : ScriptableObject
 {
-    public List<Interactable> targets;
-    public int maxAmountOfTargets;
-    public int minAmountOfTargets;
-    public bool shouldWaitForConfirm;
+    public InteractableType TargetTypes;
+    
+    public int MinAmountOfTargets;
+    public int MaxAmountOfTargets;
+    public bool ShouldWaitForConfirm;
+}
+
+public class InteractionHandler : MonoBehaviour
+{
+    public Interaction interaction;
+    protected List<Interactable> _targetsSelected;
 
     public void AddInteractable(Interactable interactable)
     {
-        if (targets.Count >= maxAmountOfTargets)
+        if (_targetsSelected.Count >= interaction.MaxAmountOfTargets)
         {
-            targets.Remove(targets[^1]);
+            _targetsSelected.Remove(_targetsSelected[^1]);
         }
 
-        targets.Add(interactable);
+        _targetsSelected.Add(interactable);
+
+        if (!interaction.ShouldWaitForConfirm) Interact();
     }
-    public void Interact()
+    public  void Interact()
     {
 
     }

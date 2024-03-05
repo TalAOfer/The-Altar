@@ -9,47 +9,25 @@ public class Battle_EnemySetup : BaseBattleRoomState
 
     public override IEnumerator EnterState()
     {
-        //SpawnEnemies();
-        yield return null;
+        yield return _ctx.StartCoroutine(SpawnEnemies());
+        _ctx.SwitchState(_ctx.States.DrawHand());
     }
 
-    public void SpawnEnemies()
+    public IEnumerator SpawnEnemies()
     {
-        List<EnemySpawn> enemies = GetEnemies();
+        List<CardBlueprint> enemies = _ctx.BattleBlueprint.cards;
 
         for (int i = 0; i < enemies.Count; i++)
         {
-            CardBlueprint cardBlueprint = enemies[i].Blueprint;
-            int gridIndex = (int)enemies[i].Placement;
-
-            Card enemy = _ctx.EnemyCardManager.SpawnEnemyInIndexByBlueprint(gridIndex, cardBlueprint);
-            _ctx.EnemyCardManager.ActiveEnemies.Add(enemy);
+            CardBlueprint cardBlueprint = enemies[i];
+            Card enemy = _ctx.EnemyCardManager.SpawnCard(cardBlueprint, _ctx.transform);
+            _ctx.EnemyCardManager.AddEnemyToManager(enemy);
         }
-    }
-    private List<EnemySpawn> GetEnemies()
-    {
-        List<EnemySpawn> enemies = new();
 
-
-        for (int row = 0; row < _ctx.BattleBlueprint.cardGrid.GetLength(0); row++)
+        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies) 
         {
-            for (int col = 0; col < _ctx.BattleBlueprint.cardGrid.GetLength(1); col++)
-            {
-                if (_ctx.BattleBlueprint.cardGrid[row, col] != null)
-                {
-                    GridPlacement_3 placement = GetGridPlacementFromIndices(row, col);
-                    enemies.Add(new EnemySpawn(_ctx.BattleBlueprint.cardGrid[row, col], placement));
-                }
-            }
+            card.transform.position = card.movement.placeHolder.position;
+            yield return Tools.GetWait(0.25f);
         }
-
-        return enemies;
     }
-    private GridPlacement_3 GetGridPlacementFromIndices(int row, int col)
-    {
-        // Assuming 3x3 grid, adjust if your grid size is different
-        return (GridPlacement_3)(row * 3 + col);
-    }
-
-
 }

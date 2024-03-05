@@ -11,10 +11,8 @@ public class BattleBlueprint : SerializedScriptableObject
 {
     public CodexBlueprint codex;
 
-    [TableMatrix(HorizontalTitle = "Enemy Grid", DrawElementMethod = "DrawCardName", Transpose = true)]
-    [ShowInInspector]
-    [ReadOnly]
-    public CardBlueprint[,] cardGrid = new CardBlueprint[3, 3];
+    [ValueDropdown("AvailableCards")]
+    public List<CardBlueprint> cards = new();
     private static CardBlueprint DrawCardName(Rect rect, CardBlueprint value)
     {
         // Start by allowing object selection and assignment
@@ -37,10 +35,6 @@ public class BattleBlueprint : SerializedScriptableObject
         return value;
     }
 
-    [ValueDropdown("AvailableCards")]
-    [BoxGroup()]
-    public CardBlueprint card;
-
     private IEnumerable<CardBlueprint> AvailableCards
     {
         get
@@ -53,58 +47,4 @@ public class BattleBlueprint : SerializedScriptableObject
             return new List<CardBlueprint>();
         }
     }
-
-    [BoxGroup()]
-    public GridPlacement_3 placement;
-
-    [OnInspectorGUI]
-    private void ValidateSpawns()
-    {
-        if (IsOccupied())
-        {
-            Sirenix.Utilities.Editor.SirenixEditorGUI.ErrorMessageBox("Slot is occupied.");
-        }
-    }
-
-    private bool IsOccupied()
-    {
-        var (row, col) = GetGridSlotIndices();
-        return cardGrid[row, col] != null;
-    }
-
-    private (int row, int col) GetGridSlotIndices()
-    {
-        int row = (int)placement / 3;
-        int col = (int)placement % 3;
-        return (row, col);
-    }
-
-    [BoxGroup()]
-    [Button("Add")]
-    public void AddToEnemies()
-    {
-        if (!IsOccupied())
-        {
-            var (row, col) = GetGridSlotIndices();
-            //Debug.Log($"Adding - Row: {row}, Col: {col}");
-            cardGrid[row, col] = card;
-        }
-    }
-
-    [BoxGroup()]
-    [Button("Remove")]
-    public void RemoveFromGrid()
-    {
-        if (IsOccupied())
-        {
-            var (row, col) = GetGridSlotIndices();
-            cardGrid[row, col] = null;
-        }
-    }
-}
-public enum GridPlacement_3
-{
-    TopLeft, TopMiddle, TopRight,
-    CenterLeft, CenterMiddle, CenterRight,
-    BottomLeft, BottomMiddle, BottomRight,
 }

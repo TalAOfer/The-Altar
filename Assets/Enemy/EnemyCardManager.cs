@@ -7,6 +7,8 @@ public class EnemyCardManager : MonoBehaviour
     private BattleStateMachine _ctx;
     private FloorData _floorData;
     private GameObject _cardPrefab;
+    private Vector3 _outsideScreenPosition = new(0, 30, 0);
+    [SerializeField] CardData _cardData;
     private Codex Codex => _floorData.enemyCodex;
     [SerializeField] private EnemyFormationRegistry _formations;
     public List<Card> ActiveEnemies { get; private set; } = new();
@@ -20,11 +22,11 @@ public class EnemyCardManager : MonoBehaviour
 
         ActiveEnemies.Clear();
     }
-
+    #region Formation
     [Button]
-    public void ReorderPlaceholders(int amount)
+    public void ReorderPlaceholders()
     {
-        int enemyCount = amount;
+        int enemyCount = ActiveEnemies.Count;
         if (enemyCount == 0) return;
 
         int formationIndex = Mathf.Clamp(enemyCount - 1, 0, _formations.Formations.Count - 1);
@@ -37,22 +39,34 @@ public class EnemyCardManager : MonoBehaviour
         int enemiesPerRow = enemyCount / rowCount;
         int remainingEnemies = enemyCount % rowCount; // For the last row if it has fewer enemies
 
-        for (int i = 0, currentEnemy = 0; i < rowCount; i++)
+        int currentEnemyIndex = 0; // Track the current index of ActiveEnemies list
+
+        for (int i = 0; i < rowCount; i++)
         {
             // Calculate the number of enemies in the current row
             int enemiesInThisRow = enemiesPerRow + (remainingEnemies > 0 && i == rowCount - 1 ? remainingEnemies : 0);
             // Calculate the starting X position to center the enemies in the current row
             float startXPosition = -(enemiesInThisRow - 1) * columnSpacing / 2;
 
-            for (int j = 0; j < enemiesInThisRow; j++, currentEnemy++)
+            for (int j = 0; j < enemiesInThisRow; j++)
             {
+                // Calculate the position for the current placeholder
                 float xPosition = startXPosition + (j * columnSpacing);
-                // Adjust Y position based on the row, -1 for back row, 1 for front row, and multiply by rowSpacing
                 float yPosition = (rowCount <= 1) ? 0 : (i - (rowCount / 2.0f) + 0.5f) * rowSpacing;
 
                 // Position the placeholder
-                _enemyPlaceholders[currentEnemy].localPosition = new Vector3(xPosition, yPosition, 0);
-                _enemyPlaceholders[currentEnemy].gameObject.SetActive(true);
+                _enemyPlaceholders[currentEnemyIndex].localPosition = new Vector3(xPosition, yPosition, 0);
+                _enemyPlaceholders[currentEnemyIndex].gameObject.SetActive(true);
+
+                // Assign placeholder to the corresponding card in ActiveEnemies
+                if (currentEnemyIndex < ActiveEnemies.Count)
+                {
+                    // Access the card and assign its movement placeholder
+                    Card card = ActiveEnemies[currentEnemyIndex];
+                    card.movement.placeHolder = _enemyPlaceholders[currentEnemyIndex];
+                }
+
+                currentEnemyIndex++; // Move to the next card in ActiveEnemies list
             }
         }
 
@@ -63,9 +77,20 @@ public class EnemyCardManager : MonoBehaviour
         }
     }
 
+    public void ResetCardsToPlaceholders()
+    {
+        foreach (var card in ActiveEnemies)
+        {
+            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(_cardData.ReorderSpeed, _cardData.ReorderCurve));
+        }
+    }
+
+    #endregion
+
     public void AddEnemyToManager(Card card)
     {
         ActiveEnemies.Add(card);
+        ReorderPlaceholders();
     }
 
     public void RemoveEnemyFromManager(Card card)
@@ -73,23 +98,12 @@ public class EnemyCardManager : MonoBehaviour
         ActiveEnemies.Remove(card);
     }
 
-    private Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName, Transform parent)
+    public Card SpawnCard(CardBlueprint cardBlueprint, Transform parent)
     {
-        GameObject cardGO = Instantiate(_cardPrefab, transform.position, Quaternion.identity, parent);
+        GameObject cardGO = Instantiate(_cardPrefab, _outsideScreenPosition, Quaternion.identity, parent);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
-        card.Init(Codex, cardBlueprint, sortingLayerName, CardInteractionType.Playable, _ctx.DataProvider);
-
-        return card;
-    }
-
-    public Card SpawnEnemyInIndexByBlueprint(int containerIndex, CardBlueprint cardBlueprint)
-    {
-        Card card = SpawnCard(cardBlueprint, GameConstants.ENEMY_CARD_LAYER, transform);
-        card.transform.localPosition = Vector3.zero;
-        card.index = containerIndex;
-
-        //StartCoroutine(room.grid[containerIndex].SetSlotState(MapSlotState.Enemy));
+        card.Init(Codex, cardBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable, _ctx.DataProvider);
 
         return card;
     }

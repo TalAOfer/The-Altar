@@ -66,16 +66,3 @@ public class BattleStateMachine : RoomStateMachine
     }
 
 }
-
-[System.Serializable]
-public class EnemySpawn
-{
-    public CardBlueprint Blueprint;
-    public GridPlacement_3 Placement;
-
-    public EnemySpawn(CardBlueprint blueprint, GridPlacement_3 placement)
-    {
-        Blueprint = blueprint;
-        Placement = placement;
-    }
-}

@@ -552,7 +552,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4753181132387451874}
   - component: {fileID: 3075126112184477985}
-  - component: {fileID: 1544455287979059970}
   m_Layer: 0
   m_Name: Battle Room Prefab
   m_TagString: Untagged
@@ -597,27 +596,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftDoor: {fileID: 8499695004152153697}
   rightDoor: {fileID: 2014044513494268645}
---- !u!114 &1544455287979059970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4753181132387451872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03ae83365d95bf42becb21ac61cee1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 4753181132387451874}
-  StartOnEnable: 0
-  animNameOnEnable: 
-  lerpColor: 0
-  colorTarget: 0
-  sr: {fileID: 0}
-  image: {fileID: 0}
-  text: {fileID: 0}
-  animations: {fileID: 11400000, guid: 7b616d09c1b15674dad01ed811a1e4dd, type: 2}
 --- !u!1 &5055245482427167075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,6 +1671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28293bd119beb0149bcbe732c90151f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardData: {fileID: 11400000, guid: a0e0f4fafc2ffbe4ba6840fe3ba7ebbf, type: 2}
   _formations: {fileID: 11400000, guid: 373c24b2c00f6d845aa0e0fb934142c3, type: 2}
   _enemyPlaceholders:
   - {fileID: 6095715045467020176}
@@ -2092,6 +2071,10 @@ PrefabInstance:
     - target: {fileID: 1425100075346634075, guid: 0eab86548ab29f64795e813318fc4d08, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425100075395447381, guid: 0eab86548ab29f64795e813318fc4d08, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 1425100075729889960, guid: 0eab86548ab29f64795e813318fc4d08, type: 3}
       propertyPath: m_RootOrder
