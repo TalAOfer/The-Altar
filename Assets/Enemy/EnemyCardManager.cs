@@ -5,23 +5,23 @@ using UnityEngine;
 public class EnemyCardManager : MonoBehaviour
 {
     private BattleStateMachine _ctx;
-    private FloorData _floorData;
     private GameObject _cardPrefab;
     private Vector3 _outsideScreenPosition = new(0, 30, 0);
     [SerializeField] CardData _cardData;
-    private Codex Codex => _floorData.enemyCodex;
-    [SerializeField] private EnemyFormationRegistry _formations;
+    private Codex Codex => _ctx.FloorCtx.EnemyCodex;
     public List<Card> ActiveEnemies { get; private set; } = new();
     [SerializeField] private List<Transform> _enemyPlaceholders = new();
+    [SerializeField] private Transform _container;
+    [SerializeField] private Vector2 _enemySpacing = new(2.25f, 3f);
 
-    public void Init(BattleStateMachine ctx)
+    public void Initialize(BattleStateMachine ctx)
     {
         _ctx = ctx;
-        _floorData = Locator.FloorData;
         _cardPrefab = Locator.Prefabs.Card;
 
         ActiveEnemies.Clear();
     }
+
     #region Formation
     [Button]
     public void ReorderPlaceholders()
@@ -29,12 +29,7 @@ public class EnemyCardManager : MonoBehaviour
         int enemyCount = ActiveEnemies.Count;
         if (enemyCount == 0) return;
 
-        int formationIndex = Mathf.Clamp(enemyCount - 1, 0, _formations.Formations.Count - 1);
-        EnemyFormation selectedFormation = _formations.Formations[formationIndex];
-
-        int rowCount = selectedFormation.RowAmount;
-        float rowSpacing = selectedFormation.RowSpacing;
-        float columnSpacing = selectedFormation.ColumnSpacing;
+        int rowCount = enemyCount > 3 ? 2 : 1;
 
         int enemiesPerRow = enemyCount / rowCount;
         int remainingEnemies = enemyCount % rowCount; // For the last row if it has fewer enemies
@@ -46,13 +41,13 @@ public class EnemyCardManager : MonoBehaviour
             // Calculate the number of enemies in the current row
             int enemiesInThisRow = enemiesPerRow + (remainingEnemies > 0 && i == rowCount - 1 ? remainingEnemies : 0);
             // Calculate the starting X position to center the enemies in the current row
-            float startXPosition = -(enemiesInThisRow - 1) * columnSpacing / 2;
+            float startXPosition = -(enemiesInThisRow - 1) * _enemySpacing.y / 2;
 
             for (int j = 0; j < enemiesInThisRow; j++)
             {
                 // Calculate the position for the current placeholder
-                float xPosition = startXPosition + (j * columnSpacing);
-                float yPosition = (rowCount <= 1) ? 0 : (i - (rowCount / 2.0f) + 0.5f) * rowSpacing;
+                float xPosition = startXPosition + (j * _enemySpacing.y);
+                float yPosition = (rowCount <= 1) ? 0 : (i - (rowCount / 2.0f) + 0.5f) * _enemySpacing.x;
 
                 // Position the placeholder
                 _enemyPlaceholders[currentEnemyIndex].localPosition = new Vector3(xPosition, yPosition, 0);
@@ -98,9 +93,9 @@ public class EnemyCardManager : MonoBehaviour
         ActiveEnemies.Remove(card);
     }
 
-    public Card SpawnCard(CardBlueprint cardBlueprint, Transform parent)
+    public Card SpawnCard(CardBlueprint cardBlueprint)
     {
-        GameObject cardGO = Instantiate(_cardPrefab, _outsideScreenPosition, Quaternion.identity, parent);
+        GameObject cardGO = Instantiate(_cardPrefab, _outsideScreenPosition, Quaternion.identity, _container);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
         card.Init(Codex, cardBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable, _ctx.DataProvider);

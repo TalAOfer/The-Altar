@@ -38,11 +38,3 @@ public class Interactable : MonoBehaviour
 {
     public InteractableType Type;
 }
-
-public enum InteractableType
-{
-    PlayerCard,
-    EnemyCard,
-    CodexCard,
-    Skill,
-}

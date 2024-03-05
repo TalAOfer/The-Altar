@@ -15,93 +15,15 @@ MonoBehaviour:
   DefaultDrawabilityMinMax: {x: 1, y: 3}
   playerCodexRecipe: {fileID: 11400000, guid: b4deaad8fc286364bb6294fc88f2abcc, type: 2}
   playerPoolRecipe: {fileID: 11400000, guid: 56056c9c7e42a0a448d8a386cddaae61, type: 2}
+  events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   isInitialized: 0
   playerDeck:
-    cards:
-    - points: 1
-      color: 0
-    - points: 3
-      color: 1
-    - points: 2
-      color: 0
-    - points: 2
-      color: 1
-    - points: 3
-      color: 0
-    - points: 1
-      color: 1
-    min: 1
-    max: 3
+    cards: []
+    min: 0
+    max: 0
   playerCodex:
-    defaultCodex: {fileID: 11400000, guid: b4deaad8fc286364bb6294fc88f2abcc, type: 2}
-    black:
-    - {fileID: 11400000, guid: b589a0b7db1785f41817a86f92516afb, type: 2}
-    - {fileID: 11400000, guid: fb1c33f081e8a0f46afda86154ff6a57, type: 2}
-    - {fileID: 11400000, guid: e10e674f7974c6b4db16cdaa3b1c23d6, type: 2}
-    - {fileID: 11400000, guid: c77fb97379eb93641808325e0d9da501, type: 2}
-    - {fileID: 11400000, guid: 276e5b11ddf0680488d91a09aeafa9c0, type: 2}
-    - {fileID: 11400000, guid: c0d63a2e9baa8dd429adb49dac41ac4b, type: 2}
-    - {fileID: 11400000, guid: 81275f2696600144397b0c0ae737ed05, type: 2}
-    - {fileID: 11400000, guid: a8b9d4af38efe6045b98704326d3149b, type: 2}
-    - {fileID: 11400000, guid: 13aa334c43c34ef448a42cf4efc38c28, type: 2}
-    - {fileID: 11400000, guid: b18933d26c0a82141844a77b0b4c470d, type: 2}
-    - {fileID: 11400000, guid: 4d21a3f261877264fba692acfd8f1b29, type: 2}
-    red:
-    - {fileID: 11400000, guid: b589a0b7db1785f41817a86f92516afb, type: 2}
-    - {fileID: 11400000, guid: faae4a4a8a78b3346b91bbe0ca0364f8, type: 2}
-    - {fileID: 11400000, guid: a141e4078e11ece438a7722af6fc8ca0, type: 2}
-    - {fileID: 11400000, guid: d1343fca4192fb64db058994f0ef3112, type: 2}
-    - {fileID: 11400000, guid: e095466f565bdda4cb69efe9da1c69d3, type: 2}
-    - {fileID: 11400000, guid: 9fca836370a109f409d1d7765e341efd, type: 2}
-    - {fileID: 11400000, guid: 8bd0cbfbb70dfd94880d8f17ae2e610f, type: 2}
-    - {fileID: 11400000, guid: d4bf4e227aed4c34e965b03af8b5c2c0, type: 2}
-    - {fileID: 11400000, guid: 75581dc785bb86f4297ed827d03eaedb, type: 2}
-    - {fileID: 11400000, guid: e500bd4c35c842c43afcb70836c01996, type: 2}
-    - {fileID: 11400000, guid: 7172fe484f22dae459164eda194cf4c7, type: 2}
+    defaultCodex: {fileID: 0}
+    black: []
+    red: []
   playerPool:
-    pools:
-    - black:
-      - {fileID: 11400000, guid: b589a0b7db1785f41817a86f92516afb, type: 2}
-      red: []
-    - black:
-      - {fileID: 11400000, guid: c8dc5da94d8e203429b4114c83b11078, type: 2}
-      red:
-      - {fileID: 11400000, guid: 3c1e82394196570499ea78cbd4a42466, type: 2}
-    - black:
-      - {fileID: 11400000, guid: 52009d27a29626b4eb0619acafb8b5f0, type: 2}
-      red:
-      - {fileID: 11400000, guid: 40187e0cbd0b3a545a8a69454fb03472, type: 2}
-    - black:
-      - {fileID: 11400000, guid: 3dc9e63bfd731c348b0a1ad8f504a91e, type: 2}
-      red:
-      - {fileID: 11400000, guid: a799ea15030a4b04291fb3947817ab2b, type: 2}
-    - black:
-      - {fileID: 11400000, guid: 142ec27216e85924c978c2940d97caa0, type: 2}
-      - {fileID: 11400000, guid: 5dafb36dc2582d34089b22707e0553d1, type: 2}
-      red:
-      - {fileID: 11400000, guid: 654aebc5ab86746479e61cc1dba8ad1a, type: 2}
-      - {fileID: 11400000, guid: 185970afd98f6f844a5e77342200a0f9, type: 2}
-    - black:
-      - {fileID: 11400000, guid: c9eb792a9ffdb2d4888f22525dcebcaa, type: 2}
-      red:
-      - {fileID: 11400000, guid: 51dde3117f7437b43bcc5cc50561fa0e, type: 2}
-    - black:
-      - {fileID: 11400000, guid: ac3b6fd27bb74124d9b5d3be3d585426, type: 2}
-      red:
-      - {fileID: 11400000, guid: 39082cdc40539cb41b2f06375da1bb1c, type: 2}
-    - black:
-      - {fileID: 11400000, guid: a36b3c90b1ed09948911a9da751f1017, type: 2}
-      red:
-      - {fileID: 11400000, guid: 92f6b66f8e4e8ae4888f95e3b6679761, type: 2}
-    - black:
-      - {fileID: 11400000, guid: 9100582b5f8bfbc429a8e27902df8696, type: 2}
-      red:
-      - {fileID: 11400000, guid: 751784a754b25094dbd456567d41a24a, type: 2}
-    - black:
-      - {fileID: 11400000, guid: 4e2e07b9ca1c03b43bfc8feddf86e9ec, type: 2}
-      red:
-      - {fileID: 11400000, guid: e947ab3ab689fa041b67c13c2304cc73, type: 2}
-    - black:
-      - {fileID: 11400000, guid: 136295f475bc0c54cb4c74479df274bf, type: 2}
-      red:
-      - {fileID: 11400000, guid: 6bf09854ffbbe844889c036161edb6aa, type: 2}
+    pools: []

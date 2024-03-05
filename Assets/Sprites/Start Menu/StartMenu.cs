@@ -6,7 +6,6 @@ using UnityEngine;
 public class StartMenu : MonoBehaviour
 {
     [SerializeField] private Tweener backgroundTweener;
-    [SerializeField] private TweenBlueprint scaleTween;
     [SerializeField] private SpriteRenderer maskSr;
     [SerializeField] private RunData runData;
     private void Awake()
@@ -21,7 +20,7 @@ public class StartMenu : MonoBehaviour
         maskSr.DOFade(1, 0.25f).SetEase(Ease.OutQuad).OnComplete(() =>
         {
             Tools.PlaySound("Scene_Transition", transform);
-            backgroundTweener.TriggerTween(scaleTween).OnComplete(() =>
+            backgroundTweener.transform.DOScale(8, 1).OnComplete(() =>
             {
                 Locator.Events.LoadScene.Raise(this, 1);
             });

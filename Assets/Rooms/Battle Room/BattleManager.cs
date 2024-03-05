@@ -22,6 +22,7 @@ public class BattleManager : MonoBehaviour
     public void Initialize(BattleStateMachine ctx)
     {
         _ctx = ctx;
+        data = _ctx.DataProvider;
     }
 
     public void OnAttack(Component sender, object data)
@@ -38,8 +39,6 @@ public class BattleManager : MonoBehaviour
 
     protected virtual IEnumerator BattleRoutine()
     {
-        events.SetGameState.Raise(this, GameState.Battle);
-
         playerCard.movement.SnapCardToVisual();
 
         yield return StartCoroutine(StartOfBattleRoutine());
@@ -68,7 +67,9 @@ public class BattleManager : MonoBehaviour
         yield return StartCoroutine(DeathRoutine());
 
         if (DidEnemyCardDie)
+        {
             _ctx.EnemyCardManager.RemoveEnemyFromManager(enemyCard);
+        }
 
         if (DidPlayerCardDie) 
             _ctx.PlayerCardManager.RemoveCardFromManager(playerCard);
@@ -245,8 +246,7 @@ public class BattleManager : MonoBehaviour
         if (playerCardDied)
         {
             ApplyPlayerDeathShapeshift = StartCoroutine(playerCard.Shapeshift());
-            _ctx.PlayerCardManager.ActiveCards.Remove(playerCard);
-            _ctx.PlayerCardManager.Hand.RemoveCardFromHand(playerCard);
+            _ctx.PlayerCardManager.RemoveCardFromManager(playerCard);
         }
 
         if (enemyCardDied) ApplyEnemyDeathShapeshift = StartCoroutine(enemyCard.Shapeshift());
