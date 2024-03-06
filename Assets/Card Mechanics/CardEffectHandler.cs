@@ -14,31 +14,31 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     private List<Effect> GetListByEnum(TriggerType type) => _effectsDict[_triggers.GetTriggerByEnum(type)];
 
-
     public void Init(CardBlueprint blueprint)
     {
-        InstantiateEffects(blueprint);
+        InstantiateDefaultCardEffects(blueprint);
     }
 
-    public void InstantiateEffects(CardBlueprint blueprint)
+    public void InstantiateDefaultCardEffects(CardBlueprint blueprint)
     {
         foreach (var trigger in _triggers.triggers)
         {
-            var effectsForTrigger = blueprint.GetEffectsForTrigger(trigger);
-            foreach (var effectBlueprint in effectsForTrigger)
+            var effectsInTrigger = blueprint.GetEffectsInTrigger(trigger);
+            foreach (var effectBlueprint in effectsInTrigger)
             {
-                effectBlueprint.Value.InstantiateEffect(trigger, _card, _card.DataProvider); // Ensure SpawnEffect is adapted to use EffectTriggerSO
+                Effect effect = effectBlueprint.Value.InstantiateEffect(trigger, _card, _card.DataProvider);
+                AddEffectToDictionary(effect);
             }
         }
     }
 
-    public void AddEffectToDictionary(EffectTrigger trigger, Effect effect)
+    public void AddEffectToDictionary(Effect effect)
     {
-        if (!_effectsDict.ContainsKey(trigger))
+        if (!_effectsDict.ContainsKey(effect.trigger))
         {
-            _effectsDict[trigger] = new List<Effect>();
+            _effectsDict[effect.trigger] = new List<Effect>();
         }
-        _effectsDict[trigger].Add(effect);
+        _effectsDict[effect.trigger].Add(effect);
     }
 
     public IEnumerator RemoveCurrentEffects()
@@ -60,14 +60,12 @@ public class CardEffectHandler : SerializedMonoBehaviour
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
             effects.Remove(effect);
-            Destroy(effect.gameObject);
         }
 
         if (effects.Count == 0)
         {
             _effectsDict.Remove(trigger);
         }
-
     }
 
     public IEnumerator ApplyEffects(TriggerType type)

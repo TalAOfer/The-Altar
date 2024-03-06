@@ -16,6 +16,53 @@ public class BattleRoomDataProvider
 
     #region Target Providers
 
+    public List<Card> GetTargets(Card parentCard, EffectTarget targetType, int amountOfTargets)
+    {
+        List<Card> targets = new();
+
+        switch (targetType)
+        {
+            case EffectTarget.InitiatingCard:
+                targets.Add(parentCard);
+                break;
+            case EffectTarget.Oppnent:
+                targets.Add(GetOpponent(parentCard));
+                break;
+            case EffectTarget.AllPlayerCards:
+                targets = GetAllActivePlayerCards();
+                break;
+            case EffectTarget.AllEnemyCards:
+                targets = GetAllActiveEnemies();
+                break;
+            case EffectTarget.AllCardsOnMap:
+                targets = GetAllActiveEnemiesOnMap();
+                break;
+            case EffectTarget.AllCardsInHand:
+                targets = GetAllCardsInHand();
+                break;
+            case EffectTarget.RandomCardOnMap:
+                List<Card> randomEnemyCards = GetRandomEnemyCards(amountOfTargets, parentCard);
+                if (randomEnemyCards != null) targets = randomEnemyCards;
+                break;
+            case EffectTarget.RandomCardFromHand:
+                List<Card> randomPlayerCards = GetRandomPlayerCards(amountOfTargets, parentCard);
+                if (randomPlayerCards != null) targets = randomPlayerCards;
+                break;
+            case EffectTarget.PlayerCardBattling:
+                targets.Add(BattlingPlayerCard);
+                break;
+            case EffectTarget.EnemyCardBattling:
+                targets.Add(BattlingEnemyCard);
+                break;
+            case EffectTarget.LowestPlayerCard:
+                Card lowestPlayerCard = GetLowestPlayerCard(parentCard);
+                if (lowestPlayerCard != null) targets.Add(lowestPlayerCard);
+                break;
+        }
+
+        return targets;
+    }
+
     public Card GetOpponent(Card card)
     {
         return card.Affinity == Affinity.Player ? BattlingEnemyCard : BattlingPlayerCard;
@@ -126,7 +173,30 @@ public class BattleRoomDataProvider
     #endregion
 
     #region Amount Providers
+    public int GetAmount(Card parentCard, GetAmountStrategy amountStrategy)
+    {
+        int amount = 0;
 
+        switch (amountStrategy)
+        {
+            case GetAmountStrategy.EnemiesOnMap:
+                amount = GetAmountOfEnemies();
+                break;
+            case GetAmountStrategy.CardsInHand:
+                amount = GetAmountOfPlayerCards();
+                break;
+            case GetAmountStrategy.RoomCount:
+                amount = GetRoomIndex();
+                break;
+            case GetAmountStrategy.NotImplementedDeadEnemiesOnMap:
+                break;
+            case GetAmountStrategy.LowestValueEnemyCard:
+                amount = GetLowestEnemyCardValue(parentCard);
+                break;
+        }
+
+        return amount;
+    }
     public int GetAmountOfPlayerCards()
     {
         return _ctx.PlayerCardManager.ActiveCards.Count;

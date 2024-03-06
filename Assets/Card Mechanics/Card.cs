@@ -202,14 +202,12 @@ public class Card : MonoBehaviour
         StartCoroutine(HandleShapeshift());
     }
 
-    public IEnumerator GainPoints(int pointsToGain)
+    public void GainPoints(int pointsToGain)
     {
         points += pointsToGain;
         if (points < 0) points = 0;
         else if (points > 10) points = 10;
         visualHandler.SetNumberSprites();
-        yield return null;
-        //yield return StartCoroutine(effects.ApplyOnGainPointsEffects());
     }
 
     public bool ShouldShapeshift()
@@ -245,7 +243,7 @@ public class Card : MonoBehaviour
         higherBeing.isLocked = newMask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing);
         yield return StartCoroutine(effects.RemoveCurrentEffects());
         ResetPointAlterations();
-        effects.InstantiateEffects(newMask);
+        effects.InstantiateDefaultCardEffects(newMask);
         yield return visualHandler.ToggleSpritesVanish(false);
 
     }

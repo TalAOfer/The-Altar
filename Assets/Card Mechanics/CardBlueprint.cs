@@ -18,7 +18,7 @@ public class CardBlueprint : SerializedScriptableObject
     public SpecialEffects SpecialEffects;
 
     public Dictionary<EffectTrigger, List<EffectBlueprintReference>> Effects = new();
-    public List<EffectBlueprintReference> GetEffectsForTrigger(EffectTrigger trigger)
+    public List<EffectBlueprintReference> GetEffectsInTrigger(EffectTrigger trigger)
     {
         if (Effects.TryGetValue(trigger, out List<EffectBlueprintReference> effectBlueprints))
         {

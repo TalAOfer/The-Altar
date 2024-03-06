@@ -58,12 +58,6 @@ MonoBehaviour:
     - Name: ManualValue
       Entry: 7
       Data: 4|EffectBlueprint, Assembly-CSharp
-    - Name: prototype
-      Entry: 3
-      Data: 0
-    - Name: events
-      Entry: 6
-      Data: 
     - Name: target
       Entry: 3
       Data: 0
@@ -79,7 +73,7 @@ MonoBehaviour:
     - Name: applicationType
       Entry: 3
       Data: 0
-    - Name: applierType
+    - Name: EffectType
       Entry: 3
       Data: 1
     - Name: amountStrategy

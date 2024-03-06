@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c82c26bab9638742a1e8235f7591c13, type: 3}
+  m_Name: New Effect Blueprint Asset
+  m_EditorClassIdentifier: 
+  blueprint:
+    prototype: 0
+    events: {fileID: 0}
+    target: 0
+    amountOfTargets: 1
+    predelay: 0
+    postdelay: 0
+    applicationType: 0
+    applierType: 1
+    amountStrategy: 0
+    amount: 1
+    battlePointType: 1
+    modifierType: 0
+    color: 0
+    cardArchetype:
+      points: 0
+      color: 0
+    guardianType: 0
+    guardianApplicationType: 0
+    effectBlueprint:
+      UseAsset: 0
+      ManualValue:
+        prototype: 0
+        events: {fileID: 0}
+        target: 0
+        amountOfTargets: 1
+        predelay: 0
+        postdelay: 0
+        applicationType: 0
+        applierType: 0
+        amountStrategy: 0
+        amount: 1
+        battlePointType: 0
+        modifierType: 0
+        color: 0
+        cardArchetype:
+          points: 0
+          color: 0
+        guardianType: 0
+        guardianApplicationType: 0
+        effectBlueprint:
+          UseAsset: 0
+          ManualValue:
+            prototype: 0
+            events: {fileID: 0}
+            target: 0
+            amountOfTargets: 1
+            predelay: 0
+            postdelay: 0
+            applicationType: 0
+            applierType: 0
+            amountStrategy: 0
+            amount: 1
+            battlePointType: 0
+            modifierType: 0
+            color: 0
+            cardArchetype:
+              points: 0
+              color: 0
+            guardianType: 0
+            guardianApplicationType: 0
+            effectBlueprint:
+              UseAsset: 0
+              ManualValue:
+                prototype: 0
+                events: {fileID: 0}
+                target: 0
+                amountOfTargets: 1
+                predelay: 0
+                postdelay: 0
+                applicationType: 0
+                applierType: 0
+                amountStrategy: 0
+                amount: 1
+                battlePointType: 0
+                modifierType: 0
+                color: 0
+                cardArchetype:
+                  points: 0
+                  color: 0
+                guardianType: 0
+                guardianApplicationType: 0
+                effectBlueprint:
+                  UseAsset: 0
+                  ManualValue:
+                    prototype: 0
+                    events: {fileID: 0}
+                    target: 0
+                    amountOfTargets: 1
+                    predelay: 0
+                    postdelay: 0
+                    applicationType: 0
+                    applierType: 0
+                    amountStrategy: 0
+                    amount: 1
+                    battlePointType: 0
+                    modifierType: 0
+                    color: 0
+                    cardArchetype:
+                      points: 0
+                      color: 0
+                    guardianType: 0
+                    guardianApplicationType: 0
+                    effectBlueprint:
+                      UseAsset: 0
+                      ManualValue:
+                        prototype: 0
+                        target: 0
+                        amountOfTargets: 1
+                        predelay: 0
+                        postdelay: 0
+                        applicationType: 0
+                        applierType: 0
+                        amountStrategy: 0
+                        amount: 1
+                        battlePointType: 0
+                        modifierType: 0
+                        color: 0
+                        guardianType: 0
+                        guardianApplicationType: 0
+                        isConditional: 0
+                      Asset: {fileID: 0}
+                    whenToTriggerAddedEffect: {fileID: 0}
+                    isConditional: 0
+                    decision:
+                      decisionType: 0
+                      compare: 0
+                      comparison: 0
+                      compareTo: 0
+                      amount: 0
+                      color: 0
+                  Asset: {fileID: 0}
+                whenToTriggerAddedEffect: {fileID: 0}
+                isConditional: 0
+                decision:
+                  decisionType: 0
+                  compare: 0
+                  comparison: 0
+                  compareTo: 0
+                  amount: 0
+                  color: 0
+              Asset: {fileID: 0}
+            whenToTriggerAddedEffect: {fileID: 0}
+            isConditional: 0
+            decision:
+              decisionType: 0
+              compare: 0
+              comparison: 0
+              compareTo: 0
+              amount: 0
+              color: 0
+          Asset: {fileID: 0}
+        whenToTriggerAddedEffect: {fileID: 0}
+        isConditional: 0
+        decision:
+          decisionType: 0
+          compare: 0
+          comparison: 0
+          compareTo: 0
+          amount: 0
+          color: 0
+      Asset: {fileID: 0}
+    whenToTriggerAddedEffect: {fileID: 0}
+    isConditional: 1
+    decision:
+      decisionType: 1
+      compare: 0
+      comparison: 0
+      compareTo: 0
+      amount: 0
+      color: 0

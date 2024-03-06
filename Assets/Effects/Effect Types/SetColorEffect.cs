@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SetColorApplier : EffectApplier
+public class SetColorEffect : Effect
 {
     public CardColor color;
 
-    public void Initialize(CardColor color)
+    public SetColorEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, CardColor color) : base(blueprint, data, trigger, parentCard)
     {
         this.color = color;
     }
 
-    public override IEnumerator ApplyEffect(Card target, int amount)
+    public override void ApplyEffect(Card target, int amount)
     {
         target.cardColor = color;
         RaiseEffectAppliedEvent(target, amount);
-        yield return null;
     }
 
     public override string GetEffectIndicationString(Card target, int amount)

@@ -5,12 +5,6 @@ using UnityEngine;
 [Serializable]
 public class EffectBlueprint
 {
-    [Title("Protoype")]
-    public EffectPrototype prototype;
-    [ShowIf("prototype", EffectPrototype.Select)]
-    public EventRegistry events;
-
-    [ShowIf("prototype", EffectPrototype.Normal)]
     public EffectTarget target;
 
     [ShowIf("@ShouldShowAmountOfTargets()")]
@@ -19,9 +13,8 @@ public class EffectBlueprint
     public float predelay = 0f;
     public float postdelay = 0f;
 
-    [Title("Applier")]
     public EffectApplicationType applicationType;
-    public ApplierType applierType;
+    public EffectType EffectType;
 
     [ShowIf("@ShouldShowAmountStrategy()")]
     public GetAmountStrategy amountStrategy;
@@ -29,124 +22,91 @@ public class EffectBlueprint
     [ShowIf("@ShouldShowAmount()")]
     public int amount = 1;
 
-    [ShowIf("applierType", ApplierType.AlterBattlePoints)]
+    [ShowIf("EffectType", EffectType.AlterBattlePoints)]
     public BattlePointType battlePointType;
 
-    [ShowIf("applierType", ApplierType.AlterBattlePoints)]
+    [ShowIf("EffectType", EffectType.AlterBattlePoints)]
     public ModifierType modifierType;
 
-    [ShowIf("applierType", ApplierType.SetColor)]
+    [ShowIf("EffectType", EffectType.SetColor)]
     public CardColor color;
 
-    [ShowIf("applierType", ApplierType.SpawnCardToHand)]
+    [ShowIf("EffectType", EffectType.SpawnCardToHand)]
     public CardArchetype cardArchetype;
 
-    [ShowIf("applierType", ApplierType.AddGuardian)]
+    [ShowIf("EffectType", EffectType.AddGuardian)]
     public GuardianType guardianType;
 
-    [ShowIf("applierType", ApplierType.AddGuardian)]
+    [ShowIf("EffectType", EffectType.AddGuardian)]
     public EffectApplicationType guardianApplicationType;
 
-    [ShowIf("applierType", ApplierType.AddEffect)]
-    public EffectBlueprintReference effectBlueprint;
+    [ShowIf("EffectType", EffectType.AddEffect)]
+    public EffectBlueprintAsset effectBlueprint;
 
-    [ShowIf("applierType", ApplierType.AddEffect)]
+    [ShowIf("EffectType", EffectType.AddEffect)]
     public EffectTrigger whenToTriggerAddedEffect;
 
     public bool isConditional;
 
     [ShowIf("isConditional")]
     public Decision decision;
-    public void InstantiateEffect(EffectTrigger triggerType, Card parentCard, BattleRoomDataProvider data)
+    public Effect InstantiateEffect(EffectTrigger triggerType, Card parentCard, BattleRoomDataProvider data)
     {
-        GameObject newEffectGO = new(triggerType.name + " : " + applierType.ToString());
-        newEffectGO.transform.SetParent(parentCard.transform, false);
-        newEffectGO.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-
         if (triggerType.TriggerType == TriggerType.StartOfBattle && isConditional) Debug.LogError("Conditional effects need to be in before attacking, not start of battle");
 
-        EffectApplier applier = null;
+        Effect effect = null;
 
-        switch (applierType)
+        switch (EffectType)
         {
-            case ApplierType.DebugEffect:
-                applier = newEffectGO.AddComponent<DebugApplier>();
+            case EffectType.DebugEffect:
+                effect = new DebugEffect(this, data, triggerType, parentCard);
                 break;
-            case ApplierType.AlterBattlePoints:
-                applier = newEffectGO.AddComponent<AlterBattlePointsApplier>();
-                AlterBattlePointsApplier battlePointsApplier = (AlterBattlePointsApplier)applier;
-                battlePointsApplier.Initialize(modifierType, battlePointType);
+            case EffectType.AlterBattlePoints:
+                effect = new AlterBattlePointsEffect(this, data, triggerType, parentCard, modifierType, battlePointType);
                 break;
-            case ApplierType.SetColor:
-                applier = newEffectGO.AddComponent<SetColorApplier>();
-                SetColorApplier setColorApplier = (SetColorApplier)applier;
-                setColorApplier.Initialize(color);
+            case EffectType.SetColor:
+                effect = new SetColorEffect(this, data, triggerType, parentCard, color);
                 break;
-            case ApplierType.ToggleColor:
-                applier = newEffectGO.AddComponent<ToggleColorApplier>();
+            case EffectType.ToggleColor:
+                effect = new ToggleColorEffect(this, data, triggerType, parentCard);
                 break;
-            case ApplierType.GainPoints:
-                applier = newEffectGO.AddComponent<GainPointsApplier>();
+            case EffectType.GainPoints:
+                effect = new GainPointsEffect(this, data, triggerType, parentCard);
                 break;
-            case ApplierType.DrawCard:
-                applier = newEffectGO.AddComponent<DrawCardApplier>();
+            case EffectType.DrawCard:
+                effect = new DrawCardEffect(this, data, triggerType, parentCard);
                 break;
-            case ApplierType.SpawnCardToHand:
-                applier = newEffectGO.AddComponent<SpawnCardToHandApplier>();
-                SpawnCardToHandApplier spawnToHandApplier = (SpawnCardToHandApplier)applier;
-                spawnToHandApplier.Initialize(cardArchetype);
+            case EffectType.SpawnCardToHand:
+                effect = new SpawnCardToHandEffect(this, data, triggerType, parentCard, cardArchetype);
                 break;
-            case ApplierType.AddEffect:
-                applier = newEffectGO.AddComponent<AddEffectApplier>();
-                AddEffectApplier addEffectApplier = (AddEffectApplier)applier;
-                addEffectApplier.Initialize(effectBlueprint, whenToTriggerAddedEffect);
+            case EffectType.AddEffect:
+                effect = new AddEffectEffect(this, data, triggerType, parentCard, effectBlueprint.blueprint, whenToTriggerAddedEffect);
                 break;
-            case ApplierType.AddGuardian:
-                applier = newEffectGO.AddComponent<AddGuardianApplier>();
-                AddGuardianApplier addGuardianApplier = (AddGuardianApplier)applier;
-                addGuardianApplier.Initialize(guardianType, guardianApplicationType);
+            case EffectType.AddGuardian:
+                effect = new AddGuardianEffect(this, data, triggerType, parentCard, guardianType, applicationType);
                 break;
         }
-
-        switch (prototype)
-        {
-            case EffectPrototype.Normal:
-                BaseInitializeEffect<Effect>(newEffectGO, applier, triggerType, parentCard, data);
-                break;
-            case EffectPrototype.Select:
-                BaseInitializeEffect<SelectEffect>(newEffectGO, applier, triggerType, parentCard, data);
-                break;
-        }
-    }
-
-    public T BaseInitializeEffect<T>(GameObject newEffectGO, EffectApplier applier, EffectTrigger triggerType, Card parentCard, BattleRoomDataProvider data) where T : Effect
-    {
-        T effect = newEffectGO.AddComponent<T>();
-        effect.BaseInitialize(data, applier, parentCard, this); // Assuming BaseInitialize is a method in T or its base class
-        applier.BaseInitialize(data, parentCard, triggerType);
-
-        parentCard.effects.AddEffectToDictionary(triggerType, effect);
 
         return effect;
     }
 
     private bool ShouldShowAmount()
     {
-        return (applierType is
-               ApplierType.GainPoints
-            or ApplierType.SpawnCardToHand
-            or ApplierType.DrawCard
-            or ApplierType.AlterBattlePoints)
+        return (EffectType is
+               EffectType.GainPoints
+            or EffectType.SpawnCardToHand
+            or EffectType.DrawCard
+            or EffectType.AlterBattlePoints)
             && amountStrategy is GetAmountStrategy.Value;
     }
 
     private bool ShouldShowAmountStrategy()
     {
-        return applierType is
-               ApplierType.GainPoints
-            or ApplierType.SpawnCardToHand
-            or ApplierType.DrawCard
-            or ApplierType.AlterBattlePoints;
+        return EffectType is
+               EffectType.GainPoints
+            or EffectType.SpawnCardToHand
+            or EffectType.DrawCard
+            or EffectType.AlterBattlePoints;
     }
 
     private bool ShouldShowDecision()
@@ -165,12 +125,6 @@ public enum EffectApplicationType
     Base,
     Persistent,
     //Bond,
-}
-
-public enum EffectPrototype
-{
-    Normal,
-    Select
 }
 
 public enum EffectTarget
@@ -196,7 +150,7 @@ public enum EffectTargetStrategy
     Lowest
 }
 
-public enum ApplierType
+public enum EffectType
 {
     DebugEffect,
     AlterBattlePoints,

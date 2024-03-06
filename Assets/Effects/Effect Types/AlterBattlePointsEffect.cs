@@ -2,25 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlterBattlePointsApplier : EffectApplier
+public class AlterBattlePointsEffect : Effect
 {
     private ModifierType modifierType;
     private BattlePointType battlePointType;
-    public void Initialize(ModifierType modifierType, BattlePointType battlePointType)
+
+    public AlterBattlePointsEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, ModifierType modifierType, BattlePointType battlePointType) : base(blueprint, data, trigger, parentCard)
     {
         this.modifierType = modifierType;
         this.battlePointType = battlePointType;
     }
 
-    public override IEnumerator ApplyEffect(Card targetCard, int amount)
+    public override void ApplyEffect(Card targetCard, int amount)
     {
         List<BattlePointModifier> modifierList = battlePointType is BattlePointType.Attack ?
         targetCard.attackPointsModifiers :
         targetCard.hurtPointsModifiers;
         RaiseEffectAppliedEvent(targetCard, amount);
         modifierList.Add(new BattlePointModifier(modifierType, amount));
-
-        yield return null;
     }
 
     public override string GetEffectIndicationString(Card target, int amount)
