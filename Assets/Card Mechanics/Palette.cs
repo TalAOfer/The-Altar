@@ -9,4 +9,34 @@ public class Palette : ScriptableObject
     public Color darkPurple;
     public Color darkRed;
     public Color lightRed;
+    public Color attackable;
+
+    public Color GetColorByEnum(PaletteColor colorEnum)
+    {
+        switch (colorEnum)
+        {
+            case PaletteColor.white:
+                return white;
+            case PaletteColor.darkPurple:
+                return darkPurple;
+            case PaletteColor.darkRed:
+                return darkRed;
+            case PaletteColor.lightRed:
+                return lightRed;
+            case PaletteColor.attackable:
+                return attackable;
+            default:
+                return Color.green;
+        }
+
+    }
+}
+
+public enum PaletteColor
+{
+    white,
+    darkPurple,
+    darkRed,
+    lightRed,
+    attackable
 }

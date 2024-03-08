@@ -6,9 +6,9 @@ using UnityEngine.EventSystems;
 public abstract class InteractionState
 {
 
-    public CardInteractionStateMachine StateMachine { get; private set; }
+    public CardInteractionHandler StateMachine { get; private set; }
     protected EventRegistry _events;
-    public InteractionState(CardInteractionStateMachine stateMachine, EventRegistry events)
+    public InteractionState(CardInteractionHandler stateMachine, EventRegistry events)
     {
         StateMachine = stateMachine;
         _events = events;

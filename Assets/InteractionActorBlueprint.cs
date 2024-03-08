@@ -9,25 +9,30 @@ public enum InteractableType
 {
     PlayerCard = 1,
     EnemyCard = 2,
-    Ability = 4,
 }
-public enum TargetRestriction
+public enum SingleTargetRestriction
 {
     None,
-    SameColor,
     BiggerThan,
     SmallerThan,
     Black,
     Red,
 }
 
+public enum TargetTotalRestriction
+{
+    SameColor,
+    SumBiggerThan,
+    SumSmallerThan,
+}
 
-public class InteractionBlueprint : ScriptableObject
+
+public class InteractionActorBlueprint : ScriptableObject
 {
     public string Instruction;
     public EffectBlueprintReference EffectBlueprint;
     public InteractableType TargetTypes;
-    public TargetRestriction TargetRestriction;
+    public SingleTargetRestriction TargetRestriction;
     public int MinAmountOfTargets;
     public int MaxAmountOfTargets;
     public bool ShouldWaitForConfirm;
@@ -36,7 +41,7 @@ public class InteractionBlueprint : ScriptableObject
 public class InteractionHandler : MonoBehaviour
 {
     public Effect effect;
-    public InteractionBlueprint interaction;
+    public InteractionActorBlueprint interaction;
     protected List<Interactable> _targetsSelected;
 
     public void Initialize(EffectBlueprintReference effectBlueprint, BattleRoomDataProvider data)
@@ -47,6 +52,11 @@ public class InteractionHandler : MonoBehaviour
     public void ShowTargets()
     {
 
+    }
+
+    public void RemoveInteractable(Interactable interactable)
+    {
+        _targetsSelected.Remove(interactable);
     }
 
     public void AddInteractable(Interactable interactable)

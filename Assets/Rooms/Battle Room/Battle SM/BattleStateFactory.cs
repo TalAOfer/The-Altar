@@ -10,6 +10,7 @@ public class BattleStateFactory
         _battleCtx = battleCtx;
     }
 
+
     public BaseBattleRoomState SpawnEnemies() 
     {
         return new Battle_EnemySetup(_battleCtx);
@@ -23,5 +24,30 @@ public class BattleStateFactory
     public BaseBattleRoomState Idle()
     {
         return new Battle_Idle(_battleCtx);
+    }
+
+    public BaseBattleRoomState CardSelected()
+    {
+        return new Battle_CardSelected(_battleCtx);
+    }
+
+    public BaseBattleRoomState CardSearchTarget()
+    {
+        return new Battle_CardSearchTarget(_battleCtx);
+    }
+
+    public BaseBattleRoomState Battle()
+    {
+        return new Battle_Battle(_battleCtx);
+    }
+
+    public BaseBattleRoomState TakeRoomDamage()
+    {
+        return new Battle_TakeRoomDamage(_battleCtx);
+    }
+
+    public BaseBattleRoomState Lose()
+    {
+        return new Battle_Lost(_battleCtx);
     }
 }

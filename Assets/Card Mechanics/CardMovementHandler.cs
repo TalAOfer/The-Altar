@@ -26,6 +26,7 @@ public class CardMovementHandler : MonoBehaviour
 
     public void Highlight()
     {
+        if (isHighlighted) return;
         if (moveRoutine != null) StopCoroutine(moveRoutine);
 
         isHighlighted = true;

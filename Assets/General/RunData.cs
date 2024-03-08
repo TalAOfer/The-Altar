@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,9 @@ using UnityEngine;
 //[CreateAssetMenu(menuName = "Run Data")]
 public class RunData : ScriptableObject, IResetOnPlaymodeExit
 {
-    public Vector2Int Hp_MaxHp { get; private set; } = new(100, 100);
+    [ShowInInspector]
+    [ReadOnly]
+    public PlayerHealth PlayerHealth { get; private set; } = new(100);
     public Vector2Int DefaultDrawabilityMinMax;
     public CodexBlueprint playerCodexRecipe;
     public MetaPoolRecipe playerPoolRecipe;
@@ -53,16 +56,23 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
         playerPool.Initialize(playerPoolRecipe);
     }
 
-    public void SetMaxHealth(int newMaxHealth)
+    public void TakeGlobalDamage(int damage)
     {
-        int currentHp = Hp_MaxHp.x;
-        Hp_MaxHp.Set(currentHp, newMaxHealth);
+        int newHealth = PlayerHealth.Current - damage;
+        SetHealth(newHealth);
     }
     public void SetHealth(int newHealth)
     {
-        int currentMaxHp = Hp_MaxHp.y;
-        Hp_MaxHp.Set(newHealth, currentMaxHp);
+        PlayerHealth.Current = newHealth;
+        events.UpdateHealth.Raise(null, PlayerHealth);
     }
+
+    public void SetMaxHealth(int newMaxHealth)
+    {
+        PlayerHealth.Max = newMaxHealth;    
+        events.UpdateHealth.Raise(null, PlayerHealth);
+    }
+
 
     private void ResetPlayerHealth()
     {
@@ -77,5 +87,18 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
         playerDeck = null;
         playerCodex = null;
         playerPool = null;
+    }
+}
+
+[Serializable]
+public class PlayerHealth
+{
+    public int Current;
+    public int Max;
+
+    public PlayerHealth(int max)
+    {
+        Current = max;
+        Max = max;
     }
 }

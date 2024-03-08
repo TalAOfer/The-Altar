@@ -12,8 +12,6 @@ public class CardEffectHandler : SerializedMonoBehaviour
     [ShowInInspector]
     private Dictionary<EffectTrigger, List<Effect>> _effectsDict = new();
 
-    private List<Effect> GetListByEnum(TriggerType type) => _effectsDict[_triggers.GetTriggerByEnum(type)];
-
     public void Init(CardBlueprint blueprint)
     {
         InstantiateDefaultCardEffects(blueprint);
@@ -38,10 +36,11 @@ public class CardEffectHandler : SerializedMonoBehaviour
         {
             _effectsDict[effect.trigger] = new List<Effect>();
         }
+
         _effectsDict[effect.trigger].Add(effect);
     }
 
-    public IEnumerator RemoveCurrentEffects()
+    public IEnumerator RemoveAllEffects()
     {
         foreach (var trigger in _effectsDict.Keys)
         {
@@ -70,7 +69,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     public IEnumerator ApplyEffects(TriggerType type)
     {
-        EffectTrigger triggerType = _triggers.GetTriggerByEnum(type);
+        EffectTrigger triggerType = _triggers.GetTriggerAssetByEnum(type);
 
         /*Debugging
         //Debug.Log("Is there a dict: " + (_effectsDict != null).ToString());
@@ -83,7 +82,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
         {
             foreach (Effect effect in allEffects)
             {
-                yield return StartCoroutine(effect.Trigger());
+                yield return effect.Trigger();
             }
         }
 

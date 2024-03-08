@@ -1,7 +1,5 @@
 using Sirenix.OdinInspector;
 using System;
-using System.ComponentModel;
-using UnityEngine;
 
 [Serializable]
 public class Decision

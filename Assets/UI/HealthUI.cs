@@ -13,16 +13,14 @@ public class HealthUI : MonoBehaviour
 
     public void UpdateUI(Component sender, object data)
     {
-        Vector2Int hp_MaxHp = (Vector2Int)data;
-        UpdateHealthUI(hp_MaxHp);
+        PlayerHealth playerHealth = (PlayerHealth)data;
+        UpdateHealthUI(playerHealth);
     }
 
     [Button]
-    public void UpdateHealthUI(Vector2Int hp_maxHp)
+    public void UpdateHealthUI(PlayerHealth playerHealth)
     {
-        int currentHp = hp_maxHp.x;
-        int currentMaxHp = hp_maxHp.y;
-        _text.text = currentHp.ToString();
-        _fill.fillAmount = (float)currentHp / (float)currentMaxHp;
+        _text.text = playerHealth.Current.ToString();
+        _fill.fillAmount = (float)playerHealth.Current / (float)playerHealth.Max;
     }
 }

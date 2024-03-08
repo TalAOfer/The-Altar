@@ -27,6 +27,8 @@ MonoBehaviour:
   OnEffectApplied: {fileID: 11400000, guid: 462824790672a3b418e64fa7a99cdef1, type: 2}
   WaitForPlayerSelection: {fileID: 11400000, guid: 290c64c7ec3586d4f9c12c20613c04d8, type: 2}
   OnNewRoom: {fileID: 11400000, guid: 68f9ca6b4a3fad44c89f775b2ab5af45, type: 2}
+  OnDraggedCardHoveredOverHandCard: {fileID: 0}
+  UpdateHealth: {fileID: 11400000, guid: a67a9bf18a1f1644282f3c2594d38c7a, type: 2}
   ShowTooltip: {fileID: 11400000, guid: 3f57ab7a3da91534687cbff9eb570801, type: 2}
   HideTooltip: {fileID: 11400000, guid: 1cf37e7275063cd4690e2e1ee133c575, type: 2}
   AddLogEntry: {fileID: 11400000, guid: 7fbe4126d4f0ed3448bef5017807a3a6, type: 2}

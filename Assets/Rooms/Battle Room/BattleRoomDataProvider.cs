@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class BattleRoomDataProvider
 {
-    private BattleStateMachine _ctx;
-
-    public Card BattlingEnemyCard;
-    public Card BattlingPlayerCard;
-
+    private readonly BattleStateMachine _ctx;
     public BattleRoomDataProvider(BattleStateMachine ctx)
     {
         _ctx = ctx;
@@ -49,10 +45,10 @@ public class BattleRoomDataProvider
                 if (randomPlayerCards != null) targets = randomPlayerCards;
                 break;
             case EffectTarget.PlayerCardBattling:
-                targets.Add(BattlingPlayerCard);
+                targets.Add(_ctx.Ctx.BattlingPlayerCard);
                 break;
             case EffectTarget.EnemyCardBattling:
-                targets.Add(BattlingEnemyCard);
+                targets.Add(_ctx.Ctx.BattlingEnemyCard);
                 break;
             case EffectTarget.LowestPlayerCard:
                 Card lowestPlayerCard = GetLowestPlayerCard(parentCard);
@@ -65,7 +61,7 @@ public class BattleRoomDataProvider
 
     public Card GetOpponent(Card card)
     {
-        return card.Affinity == Affinity.Player ? BattlingEnemyCard : BattlingPlayerCard;
+        return card.Affinity == Affinity.Player ? _ctx.Ctx.BattlingEnemyCard : _ctx.Ctx.BattlingPlayerCard;
     }
 
     public List<Card> GetAllActiveEnemies()
@@ -76,7 +72,7 @@ public class BattleRoomDataProvider
     public List<Card> GetAllActiveEnemiesOnMap()
     {
         List<Card> activeEnemies = new(_ctx.EnemyCardManager.ActiveEnemies);
-        if (BattlingEnemyCard != null) activeEnemies.Remove(BattlingEnemyCard);
+        if (_ctx.Ctx.BattlingEnemyCard != null) activeEnemies.Remove(_ctx.Ctx.BattlingEnemyCard);
         return activeEnemies;
     }
 
@@ -88,7 +84,7 @@ public class BattleRoomDataProvider
     public List<Card> GetAllCardsInHand()
     {
         List<Card> activeEnemies = new(_ctx.PlayerCardManager.ActiveCards);
-        if (BattlingPlayerCard != null) activeEnemies.Remove(BattlingPlayerCard);
+        if (_ctx.Ctx.BattlingPlayerCard != null) activeEnemies.Remove(_ctx.Ctx.BattlingPlayerCard);
         return activeEnemies;
     }
 
@@ -101,7 +97,7 @@ public class BattleRoomDataProvider
             cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
         }
 
-        cardsToPickFrom.Remove(BattlingPlayerCard);
+        cardsToPickFrom.Remove(_ctx.Ctx.BattlingPlayerCard);
 
         // Adjust the number of cards to draw if necessary
         int drawCount = Mathf.Min(numberOfCards, cardsToPickFrom.Count);
@@ -125,7 +121,7 @@ public class BattleRoomDataProvider
             cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
         }
 
-        cardsToPickFrom.Remove(BattlingEnemyCard);
+        cardsToPickFrom.Remove(_ctx.Ctx.BattlingEnemyCard);
 
         // Adjust the number of cards to draw if necessary
         int drawCount = Mathf.Min(numberOfCards, cardsToPickFrom.Count);

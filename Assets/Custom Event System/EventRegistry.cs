@@ -29,7 +29,8 @@ public class EventRegistry : ScriptableObject
 
     [Title("Hand")]
     public GameEvent OnDraggedCardHoveredOverHandCard;
-    
+    public GameEvent UpdateHealth;
+
     [Title("Global Handling")]
     public GameEvent ShowTooltip;
     public GameEvent HideTooltip;

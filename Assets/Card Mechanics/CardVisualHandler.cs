@@ -104,11 +104,15 @@ public class CardVisualHandler : MonoBehaviour
         damageTransform.localPosition = card.Affinity == Affinity.Player ? data.playerDamageVisualizerPosition : data.enemyDamageVisualizerPosition;
     }
 
-    public void ToggleOutline(bool enable)
+    public void EnableOutline(PaletteColor color)
     {
-        int toggle = enable ? 1 : 0;
-        cardMaterial.SetColor("_Outline_Color", palette.white);
-        cardMaterial.SetInt("_Outline_On", toggle);
+        cardMaterial.SetColor("_Outline_Color", palette.GetColorByEnum(color));
+        cardMaterial.SetInt("_Outline_On", 1);
+    }
+
+    public void DisableOutline()
+    {
+        cardMaterial.SetInt("_Outline_On", 0);
     }
 
     #endregion

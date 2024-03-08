@@ -241,7 +241,7 @@ public class Card : MonoBehaviour
         visualHandler.SetNewCardVisual();
         gameObject.name = newMask.name;
         higherBeing.isLocked = newMask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing);
-        yield return StartCoroutine(effects.RemoveCurrentEffects());
+        yield return StartCoroutine(effects.RemoveAllEffects());
         ResetPointAlterations();
         effects.InstantiateDefaultCardEffects(newMask);
         yield return visualHandler.ToggleSpritesVanish(false);

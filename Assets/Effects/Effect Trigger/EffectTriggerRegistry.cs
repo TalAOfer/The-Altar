@@ -36,7 +36,7 @@ public class EffectTriggerRegistry : ScriptableObject
         AssetDatabase.SaveAssets();
     }
 #endif
-    public EffectTrigger GetTriggerByEnum(TriggerType type)
+    public EffectTrigger GetTriggerAssetByEnum(TriggerType type)
     {
         foreach (EffectTrigger trigger in triggers)
         {

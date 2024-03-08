@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BattleStateMachine : RoomStateMachine
 {
@@ -11,7 +12,8 @@ public class BattleStateMachine : RoomStateMachine
     public EnemyCardManager EnemyCardManager { get; private set; }
     public BattleRoomDataProvider DataProvider { get; private set; }
     public BattleManager BattleManager { get; private set; }
-    public BattleInteractionHandler InteractionHandler { get; private set; }
+    public LoseManager LoseManager { get; private set; }
+    public BattleContext Ctx { get; private set; } = new();
 
     public override void Initialize(FloorManager floorCtx, Room room)
     {
@@ -31,7 +33,7 @@ public class BattleStateMachine : RoomStateMachine
         EnemyCardManager = GetComponentInChildren<EnemyCardManager>();
         EnemyCardManager.Initialize(this);
 
-        InteractionHandler = GetComponentInChildren<BattleInteractionHandler>();
+        LoseManager = GetComponentInChildren<LoseManager>();
     }
 
     public override void InitializeStateMachine()
@@ -48,7 +50,7 @@ public class BattleStateMachine : RoomStateMachine
         do
         {
             changesOccurred = false;
-            List<Coroutine> shapeshiftCoroutines = new List<Coroutine>();
+            List<Coroutine> shapeshiftCoroutines = new();
 
             foreach (Card card in allCards)
             {
@@ -60,17 +62,92 @@ public class BattleStateMachine : RoomStateMachine
                 }
             }
 
-            // Wait for all shapeshift coroutines to finish
             foreach (Coroutine coroutine in shapeshiftCoroutines)
             {
                 yield return coroutine;
             }
 
-            // If changesOccurred is true, the loop will continue
         } while (changesOccurred);
-
-        // All shapeshifts are done and no more changes, proceed with the next operation
-        // ...
     }
 
+    public void SelectCard(Card card)
+    {
+        card.ChangeCardState(CardState.Selected);
+        card.movement.Highlight();
+        card.visualHandler.EnableOutline(PaletteColor.white);
+        Ctx.CurrentActorCard = card;
+    }
+
+    public void DeselectCurrentCard()
+    {
+        Ctx.CurrentActorCard.visualHandler.DisableOutline();
+        Ctx.CurrentActorCard.ChangeCardState(CardState.Default);
+        Ctx.CurrentActorCard.movement.Dehighlight();
+        Ctx.CurrentActorCard = null;
+    }
+
+    #region Event Handlers
+
+    public void OnPlayerCardClicked(Card card, PointerEventData data)
+    {
+        _currentState?.HandlePlayerCardPointerClick(card, data);
+    }
+
+    public void OnPlayerCardPointerEnter(Card card, PointerEventData data)
+    {
+        _currentState?.HandlePlayerCardPointerEnter(card, data);
+    }
+
+    public void OnPlayerCardPointerExit(Card card, PointerEventData data)
+    {
+        _currentState?.HandlePlayerCardPointerExit(card, data);
+    }
+
+    public void OnEnemyCardClicked(Card card, PointerEventData data)
+    {
+        _currentState?.HandleEnemyCardPointerClick(card, data);
+    }
+
+    public void OnEnemyCardPointerEnter(Card card, PointerEventData data)
+    {
+        _currentState?.HandleEnemyCardPointerEnter(card, data);
+    }
+
+    public void OnEnemyCardPointerExit(Card card, PointerEventData data)
+    {
+        _currentState?.HandleEnemyCardPointerExit(card, data);
+    }
+
+    public void OnPlayerCardBeginDrag(Card card, PointerEventData data)
+    {
+        _currentState?.HandlePlayerCardBeginDrag(card, data);
+    }
+
+    public void OnPlayerCardEndDrag(Card card, PointerEventData data)
+    {
+        _currentState?.HandlePlayerCardEndDrag(card, data);
+    }
+
+
+    public void OnHandColliderPointerEnter(HandCollisionDetector HandCollisionManager, PointerEventData data)
+    {
+        _currentState?.OnHandColliderPointerEnter(HandCollisionManager, data);
+    }
+
+    public void OnHandColliderPointerExit(HandCollisionDetector HandCollisionManager, PointerEventData data)
+    {
+        _currentState?.OnHandColliderPointerExit(HandCollisionManager, data);
+    }
+
+    #endregion
+}
+
+public class BattleContext
+{
+    public Card BattlingPlayerCard;
+    public Card BattlingEnemyCard;
+
+    public Card CardClicked;
+    public Card CurrentActorCard;
+    public List<Card> CurrentCardsSelected = new();
 }

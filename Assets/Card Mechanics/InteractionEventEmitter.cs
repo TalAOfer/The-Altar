@@ -13,41 +13,44 @@ public class InteractionEventEmitter : MonoBehaviour, IPointerEnterHandler, IPoi
     [FoldoutGroup("Components")]
     public Collider2D coll;
 
+    private EventRegistry _events;
+    private bool isDragging;
+
+    private void Awake()
+    {
+        _events = Locator.Events;
+    }
+
     public void SetInteractability(bool enable)
     {
         coll.enabled = enable;
     }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Locator.Events.OnCardPointerEnter.Raise(card, eventData);
-        //Debug.Log("Pointer Enter");
+        _events.OnCardPointerEnter.Raise(card, eventData);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Locator.Events.OnCardPointerExit.Raise(card, eventData);
-        //Debug.Log("Pointer Exit");
+        _events.OnCardPointerExit.Raise(card, eventData);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Locator.Events.OnCardBeginDrag.Raise(card, eventData);
-        //Debug.Log("Begin Drag");
+        _events.OnCardBeginDrag.Raise(card, eventData);
     }
 
     public void OnDrag(PointerEventData eventData) { }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Locator.Events.OnCardEndDrag.Raise(card, eventData);
+        _events.OnCardEndDrag.Raise(card, eventData);
         //Debug.Log("End Drag");
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Locator.Events.OnCardClicked.Raise(card, eventData);
+        _events.OnCardClicked.Raise(card, eventData);
         //Debug.Log("Click");
     }
-
 }

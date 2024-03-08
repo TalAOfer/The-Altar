@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class RoomStateMachine : MonoBehaviour
 {
-    private IRoomState _currentState;
+    protected IRoomState _currentState;
     
     [ShowInInspector, ReadOnly]
     private string _currentStateName => _currentState?.GetType().Name ?? "None";
@@ -13,9 +13,11 @@ public abstract class RoomStateMachine : MonoBehaviour
     [SerializeField] protected Door leftDoor;
     [SerializeField] protected Door rightDoor;
     public FloorManager FloorCtx { get; private set; }
+    public EventRegistry Events { get; private set; }
     public virtual void Initialize(FloorManager floorCtx, Room room)
     {
         FloorCtx = floorCtx;
+        Events = Locator.Events;
         FloorLevel nextLevel = floorCtx.Floor.Levels[floorCtx.CurrentRoomIndex + 1];
         leftDoor.Initialize(floorCtx, nextLevel.LeftRoom);
         rightDoor.Initialize(floorCtx, nextLevel.RightRoom);
@@ -42,6 +44,10 @@ public abstract class RoomStateMachine : MonoBehaviour
         yield return StartCoroutine(_currentState.EnterState());
 
         IsSwitchingStates = false;
+
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
     }
 
     public IEnumerator OpenDoors()
