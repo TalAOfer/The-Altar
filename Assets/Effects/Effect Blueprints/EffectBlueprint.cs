@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -31,7 +32,7 @@ public class EffectBlueprint
     [ShowIf("EffectType", EffectType.SetColor)]
     public CardColor color;
 
-    [ShowIf("EffectType", EffectType.SpawnCardToHand)]
+    [ShowIf("@ShouldShowCardArchetype()")]
     public CardArchetype cardArchetype;
 
     [ShowIf("EffectType", EffectType.AddGuardian)]
@@ -85,6 +86,9 @@ public class EffectBlueprint
             case EffectType.AddGuardian:
                 effect = new AddGuardianEffect(this, data, triggerType, parentCard, guardianType, applicationType);
                 break;
+            case EffectType.SpawnEnemy:
+                effect = new SpawnEnemiesEffect(this, data, triggerType, parentCard, cardArchetype);
+                break;
         }
 
         return effect;
@@ -96,17 +100,23 @@ public class EffectBlueprint
                EffectType.GainPoints
             or EffectType.SpawnCardToHand
             or EffectType.DrawCard
-            or EffectType.AlterBattlePoints)
+            or EffectType.AlterBattlePoints 
+            or EffectType.SpawnEnemy)
             && amountStrategy is GetAmountStrategy.Value;
     }
 
+    private bool ShouldShowCardArchetype()
+    {
+        return EffectType is EffectType.SpawnCardToHand or EffectType.SpawnEnemy; 
+    }
     private bool ShouldShowAmountStrategy()
     {
         return EffectType is
                EffectType.GainPoints
             or EffectType.SpawnCardToHand
             or EffectType.DrawCard
-            or EffectType.AlterBattlePoints;
+            or EffectType.AlterBattlePoints
+            or EffectType.SpawnEnemy;
     }
 
     private bool ShouldShowDecision()
@@ -161,6 +171,7 @@ public enum EffectType
     SpawnCardToHand,
     AddEffect,
     AddGuardian,
+    SpawnEnemy,
 }
 
 public enum GetAmountStrategy

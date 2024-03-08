@@ -72,7 +72,7 @@ public class BattleManager : MonoBehaviour
         {
             EnemyCard.gameObject.SetActive(false);
             _ctx.EnemyCardManager.ReorderPlaceholders();
-            _ctx.EnemyCardManager.ResetCardsToPlaceholders();
+            StartCoroutine(_ctx.EnemyCardManager.ResetCardsToPlaceholders());
         }
 
         if (DidPlayerCardDie) 
@@ -299,7 +299,7 @@ public class BattleManager : MonoBehaviour
         Vector3 targetPos = PlayerCard.transform.position;
         targetPos.y -= cardData.readyingDistance;
         Tools.PlaySound("Card_Attack_Prepare", PlayerCard.transform);
-        Coroutine playerCardReadying = StartCoroutine(PlayerCard.movement.TransformCardUniformly(PlayerCard.transform, targetPos, Vector3.one, null, cardData.readyingSpeed, cardData.readyingCurve));
+        Coroutine playerCardReadying = StartCoroutine(PlayerCard.movement.MoveCard(PlayerCard.transform, targetPos, Vector3.one, null, cardData.readyingSpeed, cardData.readyingCurve));
 
         yield return playerCardReadying;
 
@@ -307,7 +307,7 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(RemoveCardFromHand());
 
         Vector2 enemyCardClosestCollPos = EnemyCard.movement.GetClosestCollPosToOtherCard(PlayerCard.transform.position);
-        Coroutine playerCardHeadbutt = StartCoroutine(PlayerCard.movement.TransformCardUniformly(PlayerCard.transform, enemyCardClosestCollPos, Vector3.one, null, cardData.headbuttSpeed, cardData.headbuttCurve));
+        Coroutine playerCardHeadbutt = StartCoroutine(PlayerCard.movement.MoveCard(PlayerCard.transform, enemyCardClosestCollPos, Vector3.one, null, cardData.headbuttSpeed, cardData.headbuttCurve));
 
         yield return playerCardHeadbutt;
     }

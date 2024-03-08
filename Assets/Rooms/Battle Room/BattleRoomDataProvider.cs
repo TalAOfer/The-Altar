@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,25 @@ public class BattleRoomDataProvider
     {
         _ctx = ctx;
     }
+
+    #region Action Providers
+
+    public void DrawCardsToHand(int amount)
+    {
+        CoroutineRunner.Instance.StartCoroutine(_ctx.PlayerCardManager.DrawCardsToHand(amount));
+    }
+
+    public void SpawnCardToHandByArchetype(CardArchetype archetype)
+    {
+        _ctx.PlayerCardManager.SpawnCardToHandByArchetype(archetype);
+    }
+
+    public IEnumerator SpawnEnemiesByArchetype(CardArchetype archetype, int amount)
+    {
+        yield return _ctx.EnemyCardManager.SpawnEnemiesByArchetype(archetype, amount);
+    }
+
+    #endregion
 
     #region Target Providers
 

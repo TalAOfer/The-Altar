@@ -42,7 +42,9 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     public IEnumerator RemoveAllEffects()
     {
-        foreach (var trigger in _effectsDict.Keys)
+        List<EffectTrigger> keys = new(_effectsDict.Keys);
+
+        foreach (var trigger in keys)
         {
             RemoveEffects(trigger);
         }
@@ -54,7 +56,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
     {
         List<Effect> effects = _effectsDict[trigger];
 
-        List<Effect> toRemove = new List<Effect>(effects);
+        List<Effect> toRemove = new(effects);
         foreach (Effect effect in toRemove)
         {
             if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;

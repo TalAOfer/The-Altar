@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ public class CardMovementHandler : MonoBehaviour
     public bool isHighlighted;
 
     public Coroutine moveRoutine;
+    private Sequence _activeSequence;
 
     #region Movement Routines
 
@@ -56,7 +58,7 @@ public class CardMovementHandler : MonoBehaviour
         card.transform.position = visualPos;
         card.transform.rotation = visualRot;
         card.transform.localScale = visualScale;
-        
+
         card.visualHandler.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         card.visualHandler.transform.localScale = Vector3.one;
     }
@@ -66,69 +68,63 @@ public class CardMovementHandler : MonoBehaviour
         return coll.ClosestPoint(otherCardPos);
     }
 
-    public IEnumerator TransformCardUniformlyToPlaceholder(float speed, AnimationCurve curve)
+    public IEnumerator TransformCardUniformlyToPlaceholder(float speed, Ease ease)
     {
-        yield return StartCoroutine(TransformCardUniformly(card.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, speed, curve));
         card.cardState = CardState.Default;
+        yield return MoveCard(card.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, speed, ease);
     }
 
-    public IEnumerator TransformCardUniformlyToHoveredPlaceholder(float speed, AnimationCurve curve)
+    public IEnumerator TransformCardUniformlyToHoveredPlaceholder(float speed, Ease ease)
     {
         Vector3 temp = placeHolder.position;
         temp.y += highlightHeightBoostAmount;
 
-        yield return StartCoroutine(TransformCardUniformly(card.transform, temp, Vector3.one * 1.2f, Vector3.zero, speed, curve));
+        yield return MoveCard(card.transform, temp, Vector3.one * 1.2f, Vector3.zero, speed, ease);
     }
 
-    public IEnumerator TransformVisualUniformlyToPlaceholder(float speed, AnimationCurve curve)
+    public IEnumerator TransformVisualUniformlyToPlaceholder(float speed, Ease ease)
     {
-        yield return StartCoroutine(TransformCardUniformly(card.visualHandler.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, speed, curve));
+        yield return MoveCard(card.visualHandler.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, speed, ease);
     }
 
-    public IEnumerator TransformCardUniformly(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float speed, AnimationCurve curve)
+    public IEnumerator MoveCard(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float speed, Ease ease)
     {
-        if (moveRoutine != null) StopCoroutine(moveRoutine);
-
-        moveRoutine = StartCoroutine(TransformCardUniformlyRoutine(targetTransform, targetPosition, targetScale, targetEulerAngles, speed, curve));
-        yield return moveRoutine;
-    }
-
-    private IEnumerator TransformCardUniformlyRoutine(Transform targetTransform, Vector3? targetPosition, Vector3? targetScale, Vector3? targetEulerAngles, float speed, AnimationCurve curve)
-    {
-        Vector3 startPosition = targetTransform.position;
-        Vector3 startScale = targetTransform.localScale;
-        Quaternion startRotation = targetTransform.rotation;
-
-        Vector3 endPosition = targetPosition ?? startPosition;
-        Vector3 endScale = targetScale ?? startScale;
-        Quaternion endRotation = targetEulerAngles.HasValue ? Quaternion.Euler(targetEulerAngles.Value) : startRotation;
-
-        // Calculate positional distance
-        float positionDistance = targetPosition.HasValue ? Vector3.Distance(startPosition, endPosition) : 0;
-
-        // Calculate duration based on positional distance and speed
-        float duration = positionDistance / speed; // Duration is derived from position change speed
-
-        float elapsed = 0;
-
-        while (elapsed < duration)
+        if (_activeSequence != null && _activeSequence.IsActive())
         {
-            float progress = curve.Evaluate(elapsed / duration);
-
-            // Apply the same progress to all transformations
-            targetTransform.position = Vector3.Lerp(startPosition, endPosition, progress);
-            targetTransform.localScale = Vector3.Lerp(startScale, endScale, progress);
-            targetTransform.rotation = Quaternion.Lerp(startRotation, endRotation, progress);
-
-            elapsed += Time.deltaTime;
-            yield return null;
+            _activeSequence.Kill();
         }
 
-        // Ensure final values are set accurately
-        if (targetPosition.HasValue) targetTransform.position = endPosition;
-        if (targetScale.HasValue) targetTransform.localScale = endScale;
-        if (targetEulerAngles.HasValue) targetTransform.rotation = endRotation;
+        _activeSequence = DOTween.Sequence();
+
+        Vector3 startPos = targetTransform.position;
+        Vector3 endPos = (Vector3)targetPosition;
+        float distance = Vector3.Distance(startPos, endPos);
+        float duration = distance / speed;
+
+        if (targetPosition != null)
+        {
+            Tween tween = targetTransform.DOMove((Vector3)targetPosition, duration).SetEase(ease);
+            _activeSequence.Join(tween);
+        }
+
+        if (targetScale != null)
+        {
+            Tween tween = targetTransform.DOScale((Vector3)targetScale, duration).SetEase(ease);
+            _activeSequence.Join(tween);
+        }
+
+        if (targetEulerAngles != null)
+        {
+            Tween tween = targetTransform.DORotate((Vector3)targetEulerAngles, duration).SetEase(ease);
+            _activeSequence.Join(tween);
+        }
+
+        _activeSequence.OnComplete(() => Debug.Log("Sequence completed"));
+        yield return _activeSequence.WaitForCompletion();
+        Debug.Log("Coroutine awaiting sequence completion is now continuing");
+
     }
+
 
     #endregion
 }

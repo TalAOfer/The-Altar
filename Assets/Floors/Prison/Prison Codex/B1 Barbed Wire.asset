@@ -136,7 +136,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  cardSprite: {fileID: 0}
+  cardSprite: {fileID: 21300000, guid: 5df35662e6608e1408602c53813b2766, type: 3}
   isDefault: 0
   cardName: Barbed Wire
   Archetype:

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,12 +31,12 @@ public class CardData : ScriptableObject
     [FoldoutGroup("Movement")]
     public float readyingDistance = 0.5f;
     [FoldoutGroup("Movement")]
-    public AnimationCurve readyingCurve;
+    public Ease readyingCurve;
     [FoldoutGroup("Movement")]
     [Title("Headbutt")]
     public float headbuttSpeed = 0.5f;
     [FoldoutGroup("Movement")]
-    public AnimationCurve headbuttCurve;
+    public Ease headbuttCurve;
     [FoldoutGroup("Movement")]
     [Title("Impact")]
     public float impactFreezeDuration = 0.15f;
@@ -43,22 +44,28 @@ public class CardData : ScriptableObject
     [Title("BackOff")]
     public float backOffSpeed = 0.5f;
     [FoldoutGroup("Movement")]
-    public AnimationCurve backoffCurve;
+    public Ease backoffCurve;
     [FoldoutGroup("Movement")]
     [Title("Dehighlight")]
     public float DehiglightSpeed = 1f;
     [FoldoutGroup("Movement")]
-    public AnimationCurve DehighlightCurve;
+    public Ease DehighlightCurve;
     [FoldoutGroup("Movement")]
     [Title("Hand")]
     public float ReorderSpeed = 1f;
     [FoldoutGroup("Movement")]
-    public AnimationCurve ReorderCurve;
+    public Ease ReorderCurve;
     [Title("Hand")]
     public float BattleDrawbackSpeed = 5f;
     [FoldoutGroup("Movement")]
-    public AnimationCurve BattleDrawbackCurve;
+    public Ease BattleDrawbackCurve;
     [Title("Draw")]
     public float drawCardSpeed = 10;
-    public AnimationCurve drawCardCurve;
+    public Ease drawCardCurve;
 }
+
+public class CardTween
+{
+    public float speed;
+    public Ease ease;
+} 

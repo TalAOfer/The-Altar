@@ -1,7 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Blueprints/Card")]
@@ -14,6 +13,7 @@ public class CardBlueprint : SerializedScriptableObject
     public string cardName;
     public CardArchetype Archetype;
     public Affinity Affinity;
+    [TextArea()]
     public string Description;
     public SpecialEffects SpecialEffects;
 

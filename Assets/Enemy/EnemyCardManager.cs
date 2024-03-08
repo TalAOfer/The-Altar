@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class EnemyCardManager : MonoBehaviour
     public List<Card> ActiveEnemies { get; private set; } = new();
     [SerializeField] private List<Transform> _enemyPlaceholders = new();
     [SerializeField] private Transform _container;
-    [SerializeField] private Vector2 _enemySpacing = new(2.25f, 3f);
+    [SerializeField] private Vector2 _enemySpacing = new(2.25f, 4f);
 
     public void Initialize(BattleStateMachine ctx)
     {
@@ -41,13 +42,13 @@ public class EnemyCardManager : MonoBehaviour
             // Calculate the number of enemies in the current row
             int enemiesInThisRow = enemiesPerRow + (remainingEnemies > 0 && i == rowCount - 1 ? remainingEnemies : 0);
             // Calculate the starting X position to center the enemies in the current row
-            float startXPosition = -(enemiesInThisRow - 1) * _enemySpacing.y / 2;
+            float startXPosition = -(enemiesInThisRow - 1) * _enemySpacing.x / 2;
 
             for (int j = 0; j < enemiesInThisRow; j++)
             {
                 // Calculate the position for the current placeholder
-                float xPosition = startXPosition + (j * _enemySpacing.y);
-                float yPosition = (rowCount <= 1) ? 0 : (i - (rowCount / 2.0f) + 0.5f) * _enemySpacing.x;
+                float xPosition = startXPosition + (j * _enemySpacing.x);
+                float yPosition = (rowCount <= 1) ? 0 : (i - (rowCount / 2.0f) + 0.5f) * -_enemySpacing.y;
 
                 // Position the placeholder
                 _enemyPlaceholders[currentEnemyIndex].localPosition = new Vector3(xPosition, yPosition, 0);
@@ -72,12 +73,18 @@ public class EnemyCardManager : MonoBehaviour
         }
     }
 
-    public void ResetCardsToPlaceholders()
+    public IEnumerator ResetCardsToPlaceholders()
     {
+        List<Coroutine> orderCoroutines = new();
         foreach (var card in ActiveEnemies)
         {
-            StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(_cardData.ReorderSpeed, _cardData.ReorderCurve));
+            if (card.cardState is CardState.Default)
+            {
+                yield return (card.movement.TransformCardUniformlyToPlaceholder(_cardData.ReorderSpeed, _cardData.ReorderCurve));
+            }
         }
+
+        yield break;
     }
 
     #endregion
@@ -99,7 +106,54 @@ public class EnemyCardManager : MonoBehaviour
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
         card.Init(Codex, cardBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable, _ctx.DataProvider);
+        AddEnemyToManager(card);
+        card.ChangeCardState(CardState.Draw);
 
         return card;
     }
+
+    public IEnumerator SpawnEnemiesByArchetype(CardArchetype archetype, int amount)
+    {
+        List<CardBlueprint> cardBlueprintsToSpawn = new();
+        CardBlueprint cardBlueprint = Codex.GetCardOverride(archetype);
+        for (int i = 0; i < amount; i++)
+        {
+            cardBlueprintsToSpawn.Add(cardBlueprint);
+        }
+
+        yield return SpawnEnemies(cardBlueprintsToSpawn);
+    }
+
+    public IEnumerator SpawnEnemies(CardBlueprint enemyBlueprint)
+    {
+        Card cardSpawned = SpawnCard(enemyBlueprint);
+        yield return ResetCardsToPlaceholders();
+        yield return Tools.GetWait(1);
+        cardSpawned.transform.position = cardSpawned.movement.placeHolder.position;
+        cardSpawned.ChangeCardState(CardState.Default);
+    }
+
+    public IEnumerator SpawnEnemies(List<CardBlueprint> enemyBlueprints)
+    {
+        List<Card> cardsSpawned = new();
+
+        for (int i = 0; i < enemyBlueprints.Count; i++)
+        {
+            CardBlueprint cardBlueprint = enemyBlueprints[i];
+            Card cardSpawned = SpawnCard(cardBlueprint);
+            cardsSpawned.Add(cardSpawned);
+        }
+
+        yield return ResetCardsToPlaceholders();
+        yield return new WaitForSeconds(0.50f);
+
+        foreach (Card cardSpawned in cardsSpawned)
+        {
+            cardSpawned.transform.position = cardSpawned.movement.placeHolder.position;
+            cardSpawned.ChangeCardState(CardState.Default);
+            yield return Tools.GetWait(0.25f);
+        }
+    }
+
+
 }

@@ -8,10 +8,11 @@ public class GainPointsEffect : Effect
     {
     }
 
-    public override void ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
         RaiseEffectAppliedEvent(target, amount);
         target.GainPoints(amount);
+        yield break;
     }
 
     public override string GetEffectIndicationString(Card target, int amount)

@@ -13,7 +13,7 @@ public class AddEffectEffect : Effect
         _whenToTriggerAddedEffect = whenToTriggerAddedEffect;
     }
 
-    public override void ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target, int amount)
     {
         if (trigger.TriggerType is TriggerType.Meditate)
         {
@@ -21,6 +21,7 @@ public class AddEffectEffect : Effect
         }
 
         _effectBlueprint.InstantiateEffect(_whenToTriggerAddedEffect, target, data);
+        yield break;
     }
 
     public override string GetEffectIndicationString(Card target, int amount)

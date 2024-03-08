@@ -40,7 +40,7 @@ public abstract class Effect
     {
         yield return Tools.GetWait(predelay);
 
-        yield return parentCard.StartCoroutine(Apply());
+        yield return Apply();
 
         yield return Tools.GetWait(postdelay);
     }
@@ -81,17 +81,12 @@ public abstract class Effect
             //Like: if card needs the higest value of a card on map but he is the only card on map
             if (amount == -10) continue;
 
-            Apply(targetCard, amount);
+            yield return ApplyEffect(targetCard, amount);
+            targetCard.visualHandler.Animate("FlashOut");
         }
     }
 
-    public void Apply(Card target, int amount)
-    {
-        ApplyEffect(target, amount);
-        target.visualHandler.Animate("FlashOut");
-    }
-
-    public abstract void ApplyEffect(Card target, int amount);
+    public abstract IEnumerator ApplyEffect(Card target, int amount);
 
     public void RaiseEffectAppliedEvent(Card target, int amount)
     {

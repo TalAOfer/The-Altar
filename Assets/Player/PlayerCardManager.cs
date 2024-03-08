@@ -75,8 +75,6 @@ public class PlayerCardManager : MonoBehaviour
     {
         if (amount <= 0) yield break;
 
-        yield return Tools.GetWait(0.35f);
-
         for (int i = 0; i < amount; i++)
         {
             DrawCardToHand();
