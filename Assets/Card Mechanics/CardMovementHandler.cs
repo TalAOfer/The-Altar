@@ -21,7 +21,6 @@ public class CardMovementHandler : MonoBehaviour
     [SerializeField] private float highlightHeightBoostAmount;
     public bool isHighlighted;
 
-    public Coroutine moveRoutine;
     private Sequence _activeSequence;
 
     #region Movement Routines
@@ -29,7 +28,6 @@ public class CardMovementHandler : MonoBehaviour
     public void Highlight()
     {
         if (isHighlighted) return;
-        if (moveRoutine != null) StopCoroutine(moveRoutine);
 
         isHighlighted = true;
         card.visualHandler.SetSortingLayer(GameConstants.TOP_PLAYER_CARD_LAYER);
@@ -43,7 +41,6 @@ public class CardMovementHandler : MonoBehaviour
     public void Dehighlight()
     {
         card.movement.isHighlighted = false;
-
         card.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
         StartCoroutine(card.movement.TransformVisualUniformlyToPlaceholder(cardData.DehiglightSpeed, cardData.DehighlightCurve));
     }
@@ -119,10 +116,7 @@ public class CardMovementHandler : MonoBehaviour
             _activeSequence.Join(tween);
         }
 
-        _activeSequence.OnComplete(() => Debug.Log("Sequence completed"));
         yield return _activeSequence.WaitForCompletion();
-        Debug.Log("Coroutine awaiting sequence completion is now continuing");
-
     }
 
 

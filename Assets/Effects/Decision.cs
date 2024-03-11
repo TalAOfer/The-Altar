@@ -42,6 +42,8 @@ public class Decision
     public bool Decide(Card targetCard, Card opponentCard)
     {
         bool isTrue = false;
+        if (opponentCard == null && (compare is Compare.Target || compareTo is CompareTo.Opponent)) return false;
+
         if (decisionType is DecisionType.PointComparison) isTrue = DecideByPointComparison(targetCard, opponentCard);
         if (decisionType is DecisionType.Color) isTrue = DecideByColor(targetCard, opponentCard);
         return isTrue;
@@ -53,6 +55,7 @@ public class Decision
         int targetValue = targetCard.points;
         int opponentValue = 0;
         if (opponentCard != null) opponentValue = opponentCard.points;
+
 
         if (compareTo == CompareTo.Amount)
         {
@@ -77,6 +80,7 @@ public class Decision
                     break;
             }
         }
+
         else if (compareTo == CompareTo.Opponent)
         {
             switch (comparison)

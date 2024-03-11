@@ -6,12 +6,12 @@ public class ToggleColorEffect : Effect
     {
     }
 
-    public override IEnumerator ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target)
     {
         CardColor currentColor = target.cardColor;
         CardColor newColor = currentColor is CardColor.Black ? CardColor.Red : CardColor.Black;
         target.cardColor = newColor;
-        RaiseEffectAppliedEvent(target, amount);
+        RaiseEffectAppliedEvent(target, 0);
         yield break;
     }
 

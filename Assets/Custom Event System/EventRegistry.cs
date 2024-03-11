@@ -4,7 +4,7 @@ using UnityEngine;
 //[CreateAssetMenu(menuName ="AllEvents")]
 public class EventRegistry : ScriptableObject
 {
-    [Title("Card Interaction")]
+    [Title("Interaction")]
     public GameEvent OnCardPointerEnter;
     public GameEvent OnCardPointerExit;
     public GameEvent OnCardBeginDrag;
@@ -13,6 +13,7 @@ public class EventRegistry : ScriptableObject
     public GameEvent OnCardClicked;
     public GameEvent OnCursorEnterHand;
     public GameEvent OnCursorExitHand;
+    public GameEvent OnAbilityClicked;
 
     [Title("Battle")]
     public GameEvent Attack;
@@ -29,6 +30,8 @@ public class EventRegistry : ScriptableObject
 
     [Title("Hand")]
     public GameEvent OnDraggedCardHoveredOverHandCard;
+
+    [Title("Health")]
     public GameEvent UpdateHealth;
 
     [Title("Global Handling")]

@@ -191,7 +191,7 @@ public class BattleRoomDataProvider
     #region Amount Providers
     public int GetAmount(Card parentCard, GetAmountStrategy amountStrategy)
     {
-        int amount = 0;
+        int amount = -10;
 
         switch (amountStrategy)
         {

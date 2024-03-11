@@ -11,12 +11,13 @@ public class SpawnCardToHandEffect : Effect
         _archetype = archetype;
     }
 
-    public override IEnumerator ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target)
     {
+        int amount = GetAmount(target);
         RaiseEffectAppliedEvent(target, amount);
         for (int i = 0; i < amount; i++)
         {
-            data.SpawnCardToHandByArchetype(_archetype);
+            _data.SpawnCardToHandByArchetype(_archetype);
             yield return Tools.GetWait(0.1f);
         }
 

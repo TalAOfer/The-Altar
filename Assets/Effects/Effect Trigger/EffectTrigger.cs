@@ -19,4 +19,5 @@ public enum TriggerType
     OnSurvive,
     Bloodthirst,
     Meditate,
+    OnChange,
 }

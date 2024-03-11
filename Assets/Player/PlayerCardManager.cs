@@ -46,7 +46,7 @@ public class PlayerCardManager : MonoBehaviour
         card.ChangeCardState(CardState.Draw);
         ActiveCards.Add(card);
         Hand.AddCardToHand(card);
-        Hand.ResetCardsToPlaceholders();
+        StartCoroutine(Hand.ResetCardsToPlaceholders());
         Tools.PlaySound("Card_Draw", card.transform);
     }
 

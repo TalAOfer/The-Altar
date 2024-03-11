@@ -43,18 +43,17 @@ public class Card : MonoBehaviour
     public BattlePoint attackPoints;
 
     [FoldoutGroup("Battle Points")]
-    public BattlePoint hurtPoints;
+    public List<BattleAmountModifier> attackPointsModifiers = new();
 
     [FoldoutGroup("Battle Points")]
-    public List<BattlePointModifier> attackPointsModifiers = new();
-
-    [FoldoutGroup("Battle Points")]
-    public List<BattlePointModifier> hurtPointsModifiers = new();
+    public List<BattleAmountModifier> hurtPointsModifiers = new();
 
     [FoldoutGroup("Battle Points")]
     public List<Guardian> guardians = new();
 
     private HigherBeing higherBeing = new(false, 0);
+
+    public int Armor { get; private set; } = 0;
 
     public bool IsDead
     {
@@ -75,12 +74,12 @@ public class Card : MonoBehaviour
         higherBeing = new HigherBeing(blueprint.SpecialEffects.HasFlag(SpecialEffects.HigherBeing), 0);
 
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
-        hurtPoints = new BattlePoint(0, BattlePointType.Hurt);
 
         effects.Init(blueprint);
 
         visualHandler.Init(blueprint, startingSortingLayer);
 
+        StartCoroutine(effects.ApplyEffects(TriggerType.OnChange));
     }
 
     public CardBlueprint GetCurrentMask()
@@ -95,17 +94,11 @@ public class Card : MonoBehaviour
         cardColor = newColor;
     }
 
-    public IEnumerator CalcAttackPoints()
-    {
-        attackPoints.value = points;
-        yield return StartCoroutine(CalcPoints(attackPoints, points));
-    }
-
     public void ToggleDamageVisual(bool enable)
     {
         if (enable)
         {
-            visualHandler.EnableDamageVisual(attackPoints.value);
+            visualHandler.EnableDamageVisual();
         }
 
         else
@@ -115,83 +108,91 @@ public class Card : MonoBehaviour
 
     }
 
-    public IEnumerator CalcHurtPoints(int damagePoints)
+    public void CalculateDamage(Card target = null)
     {
-        hurtPoints.value = 0;
-        yield return StartCoroutine(CalcPoints(hurtPoints, damagePoints));
-    }
+        int calcValue = points;
 
-    public IEnumerator CalcPoints(BattlePoint battlePoint, int startingValue)
-    {
-        int calcValue = startingValue;
+        List<BattleAmountModifier> modifierList = new();
 
-        List<BattlePointModifier> modifierList = battlePoint.type == BattlePointType.Attack ? attackPointsModifiers : hurtPointsModifiers;
+        modifierList = new List<BattleAmountModifier>(attackPointsModifiers);
 
-        modifierList.Sort((a, b) => a.modifierType.CompareTo(b.modifierType));
-
-        //string listName = battlePoint.type == BattlePointType.Attack ? "attackPointsModifiers" : "hurtPointsModifiers";
-        //Debug.Log(gameObject.name + " has " + modifierList.Count.ToString() + " in " + listName);
-
-        string log = Mask.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
-        Locator.Events.AddLogEntry.Raise(this, log);
-
-        foreach (BattlePointModifier modifier in modifierList)
+        if (target != null)
         {
-            calcValue = modifier.Apply(calcValue);
-            log = Mask.cardName + "'s " + battlePoint.type.ToString().ToLower() + "points are " + calcValue.ToString();
+            modifierList.AddRange(target.hurtPointsModifiers);
         }
 
-        battlePoint.value = calcValue;
-        yield return null;
+        modifierList.Sort((a, b) => a.ModifierType.CompareTo(b.ModifierType));
+
+        foreach (BattleAmountModifier modifier in modifierList)
+        {
+            Card opponent = modifier.PointType is BattlePointType.Attack ? target : this;
+
+            calcValue = modifier.Apply(calcValue, opponent);
+        }
+
+        attackPoints.value = calcValue;
     }
 
 
-    public void TakeDamage(Component sender)
+
+    public void TakeDamage(int incomingDamage)
     {
+        int damage = incomingDamage;
 
-        if (guardians.Count == 0)
-        {
-            points -= hurtPoints.value;
-            visualHandler.SpawnFallingDamage(hurtPoints.value);
-            if (points < 0)
-            {
-                points = 0;
-            }
-        }
+        damage = MitigateWithArmor(damage);
 
-        else
+        damage = DealWithGuardians(damage);
+
+        points -= damage;
+        visualHandler.SpawnFallingDamage(damage);
+        if (points < 0)
         {
-            DealWithGuardians();
+            points = 0;
         }
 
         visualHandler.InitiateParticleSplash();
         visualHandler.SetNumberSprites();
     }
 
-    private void DealWithGuardians()
+    public void GainArmor(int amount)
     {
+        Armor += amount;
+
+        visualHandler.HandleArmorVisual();
+    }
+
+    private int MitigateWithArmor(int damage)
+    {
+        int damageLeft;
+        damageLeft = Mathf.Max(damage - Armor, 0);
+        Armor = Mathf.Max(Armor - damage, 0);
+        visualHandler.HandleArmorVisual();
+        return damageLeft;
+    }
+
+    private int DealWithGuardians(int damage)
+    {
+        if (guardians.Count == 0) return damage;
+
         guardians.Sort((a, b) => a.guardianType.CompareTo(b.guardianType));
 
         List<Guardian> guardiansToRemove = new();
 
-        int damageLeft = hurtPoints.value;
-
         foreach (var guardian in guardians)
         {
-            damageLeft = (guardian.ApplyAndGetRestOfDamage(hurtPoints.value, points));
+            damage = (guardian.ApplyAndGetRestOfDamage(damage, points));
             if (guardian.applicationType != EffectApplicationType.Persistent)
             {
                 guardiansToRemove.Add(guardian);
             }
         }
 
-        points -= damageLeft;
-        visualHandler.SpawnFallingDamage(damageLeft);
-
         foreach (var guardian in guardiansToRemove)
         {
             guardians.Remove(guardian);
         }
+
+        return damage;
     }
 
     public void TakeDirectDamage(int damage)
@@ -245,6 +246,8 @@ public class Card : MonoBehaviour
         ResetPointAlterations();
         effects.InstantiateDefaultCardEffects(newMask);
         yield return visualHandler.ToggleSpritesVanish(false);
+
+        yield return effects.ApplyEffects(TriggerType.OnChange);
 
     }
 

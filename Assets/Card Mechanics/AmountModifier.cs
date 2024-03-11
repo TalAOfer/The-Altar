@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class BattlePointModifier
+public class AmountModifier
 {
     public ModifierType modifierType;
 
     public int amount;
 
-    public BattlePointModifier(ModifierType modifierType, int amount)
+    public AmountModifier(ModifierType modifierType, int amount)
     {
         this.modifierType = modifierType; 
         this.amount = amount;
@@ -45,9 +45,9 @@ public class BattlePointModifier
 
 public enum ModifierType
 {
-    Addition,
-    Subtraction,
     Mult,
     Division,
+    Addition,
+    Subtraction,
     Replace
 }

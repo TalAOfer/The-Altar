@@ -10,9 +10,10 @@ public class SpawnEnemiesEffect : Effect
         _enemyArchetype = enemyArchetype;
     }
 
-    public override IEnumerator ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target)
     {
-        yield return data.SpawnEnemiesByArchetype(_enemyArchetype, amount);
+        int amount = GetAmount(target);
+        yield return _data.SpawnEnemiesByArchetype(_enemyArchetype, amount);
     }
 
     public override string GetEffectIndicationString(Card target, int amount)

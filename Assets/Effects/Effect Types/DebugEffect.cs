@@ -8,9 +8,9 @@ public class DebugEffect : Effect
     {
     }
 
-    public override IEnumerator ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target)
     {
-        RaiseEffectAppliedEvent(target, amount);
+        RaiseEffectAppliedEvent(target, 0);
         yield break;
     }
 

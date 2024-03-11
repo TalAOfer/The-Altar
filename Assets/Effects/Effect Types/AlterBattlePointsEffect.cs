@@ -4,23 +4,35 @@ using UnityEngine;
 
 public class AlterBattlePointsEffect : Effect
 {
-    private ModifierType modifierType;
-    private BattlePointType battlePointType;
+    private readonly ModifierType _modifierType;
+    private readonly BattlePointType _battlePointType;
+    private BattleAmountModifier _modifierInstance;
 
     public AlterBattlePointsEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, ModifierType modifierType, BattlePointType battlePointType) : base(blueprint, data, trigger, parentCard)
     {
-        this.modifierType = modifierType;
-        this.battlePointType = battlePointType;
+        _modifierType = modifierType;
+        _battlePointType = battlePointType;
     }
 
-    public override IEnumerator ApplyEffect(Card targetCard, int amount)
+    public override IEnumerator ApplyEffect(Card targetCard)
     {
-        List<BattlePointModifier> modifierList = battlePointType is BattlePointType.Attack ?
+        List<BattleAmountModifier> modifierList = _battlePointType is BattlePointType.Attack ?
         targetCard.attackPointsModifiers :
         targetCard.hurtPointsModifiers;
-        RaiseEffectAppliedEvent(targetCard, amount);
-        modifierList.Add(new BattlePointModifier(modifierType, amount));
+        //Make sure that there isn't a hidden decision in inspector
+        if (!_isConditional) _decision = null;
+        _modifierInstance = new BattleAmountModifier(_modifierType, _parentCard, _battlePointType, _defaultAmount, _amountStrategy, _data, _decision);
+        modifierList.Add(_modifierInstance);
         yield break;
+    }
+
+    public override void OnRemoveEffect(Card targetCard)
+    {
+        List<BattleAmountModifier> modifierList = _battlePointType is BattlePointType.Attack ?
+        targetCard.attackPointsModifiers :
+        targetCard.hurtPointsModifiers;
+
+        modifierList.Remove(_modifierInstance);
     }
 
     public override string GetEffectIndicationString(Card target, int amount)
@@ -33,7 +45,7 @@ public class AlterBattlePointsEffect : Effect
     {
         string sign = "";
 
-        switch (modifierType)
+        switch (_modifierType)
         {
             case ModifierType.Addition:
                 sign = "+";

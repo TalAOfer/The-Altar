@@ -61,5 +61,9 @@ public class RoomInteractionHandler : CardInteractionHandler
         _ctx.OnHandColliderPointerExit(HandCollider, eventData);
     }
 
+    public void OnAbilityClicked(Component sender, object data)
+    {
+        _ctx.OnAbilityClicked(sender as AbilityManager, data as Ability);
+    }
 
 }

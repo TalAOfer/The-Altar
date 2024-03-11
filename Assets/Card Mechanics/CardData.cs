@@ -7,6 +7,10 @@ using UnityEngine;
 //[CreateAssetMenu(menuName ="Card Visual Data")]
 public class CardData : ScriptableObject
 {
+    [FoldoutGroup("Abilities")]
+    public Vector3 leftCardPosition = new(-4 , -2);
+    public Vector3 rightCardPosition = new(4 , -2);
+
     [FoldoutGroup("Visuals")]
     [Title("Card Change Shader")]
     public float overallFadeDuration = 2f;
@@ -16,10 +20,6 @@ public class CardData : ScriptableObject
     public float spritesFadeDuration = 1.25f;
     [FoldoutGroup("Visuals")]
     public AnimationCurve spritesFadeCurve;
-    [FoldoutGroup("Visuals")]
-    public Vector3 playerDamageVisualizerPosition;
-    [FoldoutGroup("Visuals")]
-    public Vector3 enemyDamageVisualizerPosition;
 
     [FoldoutGroup("Movement")]
     [Title("Battle")]

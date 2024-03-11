@@ -5,27 +5,6 @@ using System.Collections.Specialized;
 using UnityEngine;
 
 
-public enum InteractableType
-{
-    PlayerCard = 1,
-    EnemyCard = 2,
-}
-public enum SingleTargetRestriction
-{
-    None,
-    BiggerThan,
-    SmallerThan,
-    Black,
-    Red,
-}
-
-public enum TargetTotalRestriction
-{
-    SameColor,
-    SumBiggerThan,
-    SumSmallerThan,
-}
-
 
 public class InteractionActorBlueprint : ScriptableObject
 {

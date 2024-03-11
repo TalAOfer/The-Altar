@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +15,7 @@ public class BattleStateMachine : RoomStateMachine
     public BattleRoomDataProvider DataProvider { get; private set; }
     public BattleManager BattleManager { get; private set; }
     public LoseManager LoseManager { get; private set; }
+    [ShowInInspector]
     public BattleContext Ctx { get; private set; } = new();
 
     public override void Initialize(FloorManager floorCtx, Room room)
@@ -81,8 +84,8 @@ public class BattleStateMachine : RoomStateMachine
     public void DeselectCurrentCard()
     {
         Ctx.CurrentActorCard.visualHandler.DisableOutline();
-        Ctx.CurrentActorCard.ChangeCardState(CardState.Default);
         Ctx.CurrentActorCard.movement.Dehighlight();
+        Ctx.CurrentActorCard.ChangeCardState(CardState.Default);
         Ctx.CurrentActorCard = null;
     }
 
@@ -139,15 +142,26 @@ public class BattleStateMachine : RoomStateMachine
         _currentState?.OnHandColliderPointerExit(HandCollisionManager, data);
     }
 
+    public void OnAbilityClicked(AbilityManager abilityManager, Ability ability)
+    {
+        _currentState?.OnAbilityClicked(abilityManager, ability);
+    }
+
     #endregion
 }
 
+[Serializable]
 public class BattleContext
 {
     public Card BattlingPlayerCard;
     public Card BattlingEnemyCard;
 
     public Card CardClicked;
+
     public Card CurrentActorCard;
+    public Card CurrentTargetCard;
+
     public List<Card> CurrentCardsSelected = new();
+
+    public Ability CurrentAbilitySelected;
 }

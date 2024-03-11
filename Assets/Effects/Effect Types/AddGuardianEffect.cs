@@ -13,9 +13,9 @@ public class AddGuardianEffect : Effect
         _applicationType = applicationType;
     }
 
-    public override IEnumerator ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target)
     {
-        target.guardians.Add(new Guardian(_guardianType, parentCard, _applicationType));
+        target.guardians.Add(new Guardian(_guardianType, _parentCard, _applicationType));
         yield break;
     }
 

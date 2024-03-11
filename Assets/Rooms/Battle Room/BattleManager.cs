@@ -35,11 +35,8 @@ public class BattleManager : MonoBehaviour
         //events.AddLogEntry.Raise(this, "Before Attacking");
         yield return BeforeAttackingRoutine();
 
-        //events.AddLogEntry.Raise(this, "Calculating Battle Points");
-        yield return CalculateBattlePointsRoutine();
-
-        PlayerCard.ToggleDamageVisual(true);
-        EnemyCard.ToggleDamageVisual(true);
+        //PlayerCard.ToggleDamageVisual(true);
+        //EnemyCard.ToggleDamageVisual(true);
 
         yield return AnimateReadyAndHeadbutt();
 
@@ -174,21 +171,6 @@ public class BattleManager : MonoBehaviour
             if (card == EnemyCard) continue;
             yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Support));
         }
-    }
-
-    private IEnumerator CalculateBattlePointsRoutine()
-    {
-        Coroutine calcEnemyCardAttackPoints = StartCoroutine(EnemyCard.CalcAttackPoints());
-        Coroutine calcPlayerCardAtackPoints = StartCoroutine(PlayerCard.CalcAttackPoints());
-
-        yield return calcEnemyCardAttackPoints;
-        yield return calcPlayerCardAtackPoints;
-
-        Coroutine calcPlayerCardHurtPoints = StartCoroutine(PlayerCard.CalcHurtPoints(EnemyCard.attackPoints.value));
-        Coroutine calcEnemyCardHurtPoints = StartCoroutine(EnemyCard.CalcHurtPoints(PlayerCard.attackPoints.value));
-
-        yield return calcPlayerCardHurtPoints;
-        yield return calcEnemyCardHurtPoints;
     }
 
     protected virtual IEnumerator DeathRoutine()
@@ -334,8 +316,8 @@ public class BattleManager : MonoBehaviour
 
     private void ApplyDamage()
     {
-        EnemyCard.TakeDamage(this);
-        PlayerCard.TakeDamage(this);
+        EnemyCard.TakeDamage(PlayerCard.attackPoints.value);
+        PlayerCard.TakeDamage(EnemyCard.attackPoints.value);
     }
 
     private bool DidEnemyCardDie => EnemyCard.IsDead;

@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: e4cedc5b121c94046a8a323a538b8cd3, type: 2}
+    - {fileID: 11400000, guid: 2f41cac1d4f97d34eb55e176befa1f7e, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -64,12 +64,9 @@ MonoBehaviour:
     - Name: amountOfTargets
       Entry: 3
       Data: 1
-    - Name: predelay
-      Entry: 4
-      Data: 0
-    - Name: postdelay
-      Entry: 4
-      Data: 0
+    - Name: shouldAnimate
+      Entry: 5
+      Data: false
     - Name: applicationType
       Entry: 3
       Data: 0

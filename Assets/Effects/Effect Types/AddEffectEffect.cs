@@ -13,14 +13,16 @@ public class AddEffectEffect : Effect
         _whenToTriggerAddedEffect = whenToTriggerAddedEffect;
     }
 
-    public override IEnumerator ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target)
     {
-        if (trigger.TriggerType is TriggerType.Meditate)
+        int amount = GetAmount(target);
+
+        if (EffectTrigger.TriggerType is TriggerType.Meditate)
         {
             RaiseEffectAppliedEvent(target, amount);
         }
 
-        _effectBlueprint.InstantiateEffect(_whenToTriggerAddedEffect, target, data);
+        _effectBlueprint.InstantiateEffect(_whenToTriggerAddedEffect, target, _data);
         yield break;
     }
 

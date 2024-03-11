@@ -10,6 +10,7 @@ public class Palette : ScriptableObject
     public Color darkRed;
     public Color lightRed;
     public Color attackable;
+    public Color strong;
 
     public Color GetColorByEnum(PaletteColor colorEnum)
     {
@@ -25,6 +26,8 @@ public class Palette : ScriptableObject
                 return lightRed;
             case PaletteColor.attackable:
                 return attackable;
+            case PaletteColor.strong:
+                return strong;
             default:
                 return Color.green;
         }
@@ -38,5 +41,6 @@ public enum PaletteColor
     darkPurple,
     darkRed,
     lightRed,
-    attackable
+    attackable,
+    strong
 }

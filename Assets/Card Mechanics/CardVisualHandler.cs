@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,9 +34,14 @@ public class CardVisualHandler : MonoBehaviour
     [FoldoutGroup("Damage Visualizer")]
     [SerializeField] Transform damageTransform;
     [FoldoutGroup("Damage Visualizer")]
-    [SerializeField] private TextMeshProUGUI damageDigit;
+    [SerializeField] private GameObject damageVisualizer;
     [FoldoutGroup("Damage Visualizer")]
-    [SerializeField] private Image damageSymbol;
+    [SerializeField] private TextMeshProUGUI damageAmount;
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private GameObject armorVisualizer;
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private TextMeshProUGUI armorAmount;
+    private bool isArmorActive;
     [FoldoutGroup("Damage Visualizer")]
     [SerializeField] private List<Sprite> slashAnimationSprites;
     [FoldoutGroup("Damage Visualizer")]
@@ -71,7 +77,6 @@ public class CardVisualHandler : MonoBehaviour
     }
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
     {
-        InitializeDamageVisualizerPosition();
         SetNewCardVisual();
         SetSortingLayer(startingSortingLayer);
     }
@@ -99,11 +104,6 @@ public class CardVisualHandler : MonoBehaviour
         ornamentMaterial.SetColor("_Color", Color.white);
     }
 
-    private void InitializeDamageVisualizerPosition()
-    {
-        damageTransform.localPosition = card.Affinity == Affinity.Player ? data.playerDamageVisualizerPosition : data.enemyDamageVisualizerPosition;
-    }
-
     public void EnableOutline(PaletteColor color)
     {
         cardMaterial.SetColor("_Outline_Color", palette.GetColorByEnum(color));
@@ -113,6 +113,16 @@ public class CardVisualHandler : MonoBehaviour
     public void DisableOutline()
     {
         cardMaterial.SetInt("_Outline_On", 0);
+    }
+
+    public void ToggleDarkOverlay(bool enable)
+    {
+        Color transparent = Color.white;
+        transparent.a = 0;
+        Color dark = Color.black;
+        dark.a = 0.8f;
+
+        overlaySr.color = enable ? dark : transparent; 
     }
 
     #endregion
@@ -174,9 +184,9 @@ public class CardVisualHandler : MonoBehaviour
         iconSr.sortingOrder = calcIndex + 1;
         numberSr.sortingOrder = calcIndex + 2;
         symbolSr.sortingOrder = calcIndex + 3;
-        ornamentSr.sortingOrder= calcIndex + 4;
+        ornamentSr.sortingOrder = calcIndex + 4;
         overlaySr.sortingOrder = calcIndex + 5;
-        slashSr.sortingOrder= calcIndex + 6;
+        slashSr.sortingOrder = calcIndex + 6;
     }
 
     public void SetSortingLayer(string sortingLayerName)
@@ -261,22 +271,41 @@ public class CardVisualHandler : MonoBehaviour
         fallingDamage.Initialize(damage);
     }
 
-    public void EnableDamageVisual(int amount)
+    public void EnableDamageVisual()
     {
-        damageDigit.gameObject.SetActive(true);
-        damageSymbol.gameObject.SetActive(true);
-
-        bool isDamage = amount >= 0;
-        int absAmount = Mathf.Abs(amount);
-
-        damageDigit.text = absAmount.ToString();
-        damageSymbol.sprite = isDamage ? sprites.damageIcon : sprites.regenIcon;
+        damageVisualizer.SetActive(true);
+        damageAmount.text = card.attackPoints.value.ToString();
+        //if (card.attackPoints.value == card.points)
+        //{
+        //    damageAmount.outlineColor = palette.darkPurple;
+        //}
+        
+        //else
+        //{
+        //    if (card.attackPoints.value > card.points) damageAmount.outlineColor = palette.lightRed;
+        //    else damageAmount.outlineColor = palette.lightRed;
+        //}
     }
 
     public void DisableDamageVisual()
     {
-        damageSymbol.gameObject.SetActive(false);
-        damageDigit.gameObject.SetActive(false);
+        damageVisualizer.SetActive(false);
+    }
+
+    public void HandleArmorVisual()
+    {
+        armorAmount.text = card.Armor.ToString();
+
+        if (!isArmorActive && card.Armor > 0)
+        {
+            isArmorActive = true;
+            armorVisualizer.SetActive(true);
+        }
+        else if (isArmorActive && card.Armor == 0)
+        {
+            isArmorActive = false;
+            armorVisualizer.SetActive(false);
+        }
     }
 
     public void InitiateParticleSplash()

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EffectTriggersRegistry
   m_EditorClassIdentifier: 
   triggers:
+  - {fileID: 11400000, guid: 2f41cac1d4f97d34eb55e176befa1f7e, type: 2}
   - {fileID: 11400000, guid: e4cedc5b121c94046a8a323a538b8cd3, type: 2}
   - {fileID: 11400000, guid: 2a3bda6e1fbee6648b5f8203185cf4f4, type: 2}
   - {fileID: 11400000, guid: 89714a7093c247e45b5352ed20c8495c, type: 2}

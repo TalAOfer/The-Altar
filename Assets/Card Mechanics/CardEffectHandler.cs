@@ -32,12 +32,12 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     public void AddEffectToDictionary(Effect effect)
     {
-        if (!_effectsDict.ContainsKey(effect.trigger))
+        if (!_effectsDict.ContainsKey(effect.EffectTrigger))
         {
-            _effectsDict[effect.trigger] = new List<Effect>();
+            _effectsDict[effect.EffectTrigger] = new List<Effect>();
         }
 
-        _effectsDict[effect.trigger].Add(effect);
+        _effectsDict[effect.EffectTrigger].Add(effect);
     }
 
     public IEnumerator RemoveAllEffects()
@@ -59,7 +59,8 @@ public class CardEffectHandler : SerializedMonoBehaviour
         List<Effect> toRemove = new(effects);
         foreach (Effect effect in toRemove)
         {
-            if (effect.effectApplicationType == EffectApplicationType.Persistent) continue;
+            if (effect.EffectApplicationType == EffectApplicationType.Persistent) continue;
+            effect.OnRemoveEffect(_card);
             effects.Remove(effect);
         }
 

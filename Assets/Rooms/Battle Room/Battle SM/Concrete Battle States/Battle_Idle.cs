@@ -57,6 +57,11 @@ public class Battle_Idle : BaseBattleRoomState
         _ctx.SwitchState(_ctx.States.CardSelected());
     }
 
+    public override void OnAbilityClicked(AbilityManager abilityManager, Ability ability)
+    {
+        _ctx.Ctx.CurrentAbilitySelected = ability;
+        _ctx.SwitchState(_ctx.States.AbilitySelected());
+    }
 
     #endregion
 }

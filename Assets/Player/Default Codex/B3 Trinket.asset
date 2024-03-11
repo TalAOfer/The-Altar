@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 2f41cac1d4f97d34eb55e176befa1f7e, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -34,7 +35,119 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
       Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[EffectBlueprintReference, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 3|EffectBlueprintReference, Assembly-CSharp
+    - Name: UseAsset
+      Entry: 5
+      Data: false
+    - Name: ManualValue
+      Entry: 7
+      Data: 4|EffectBlueprint, Assembly-CSharp
+    - Name: target
+      Entry: 3
+      Data: 0
+    - Name: amountOfTargets
+      Entry: 3
+      Data: 1
+    - Name: shouldAnimate
+      Entry: 5
+      Data: true
+    - Name: applicationType
+      Entry: 3
+      Data: 0
+    - Name: EffectType
+      Entry: 3
+      Data: 1
+    - Name: amountStrategy
+      Entry: 3
+      Data: 0
+    - Name: amount
+      Entry: 3
+      Data: 1
+    - Name: battlePointType
+      Entry: 3
+      Data: 0
+    - Name: modifierType
+      Entry: 3
+      Data: 2
+    - Name: color
+      Entry: 3
+      Data: 0
+    - Name: cardArchetype
+      Entry: 6
+      Data: 
+    - Name: guardianType
+      Entry: 3
+      Data: 0
+    - Name: guardianApplicationType
+      Entry: 3
+      Data: 0
+    - Name: effectBlueprint
+      Entry: 6
+      Data: 
+    - Name: whenToTriggerAddedEffect
+      Entry: 6
+      Data: 
+    - Name: isConditional
+      Entry: 5
+      Data: true
+    - Name: decision
+      Entry: 7
+      Data: 5|Decision, Assembly-CSharp
+    - Name: decisionType
+      Entry: 3
+      Data: 1
+    - Name: compare
+      Entry: 3
+      Data: 1
+    - Name: comparison
+      Entry: 3
+      Data: 0
+    - Name: compareTo
+      Entry: 3
+      Data: 0
+    - Name: amount
+      Entry: 3
+      Data: 0
+    - Name: color
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Asset
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

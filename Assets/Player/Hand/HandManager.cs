@@ -1,8 +1,10 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class HandManager : MonoBehaviour
@@ -152,29 +154,41 @@ public class HandManager : MonoBehaviour
                 }
             }
 
-            if (shouldMoveCards) ResetCardsToPlaceholders();
+            if (shouldMoveCards) StartCoroutine(ResetCardsToPlaceholders());
         }
     }
 
-    public void ResetCardsToPlaceholders()
+    public IEnumerator ResetCardsToPlaceholders()
     {
+        List<Coroutine> movementRoutines = new();
+
         foreach (var card in cardsInHand)
         {
             if (card == null || card.cardState is CardState.Battle) continue;
             card.visualHandler.SetSortingOrder(card.index);
+
+            float speed = 0;
+            Ease ease = Ease.Linear;
+
             switch (card.cardState)
             {
-                case CardState.Battle:
-                    break;
-                case CardState.Selected:
-                    break;
                 case CardState.Default:
-                    StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(cardData.ReorderSpeed, cardData.ReorderCurve));
+                    speed = cardData.ReorderSpeed;
+                    ease = cardData.ReorderCurve;
                     break;
                 case CardState.Draw:
-                    StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(cardData.drawCardSpeed, cardData.drawCardCurve));
+                    speed = cardData.drawCardSpeed;
+                    ease = cardData.drawCardCurve;
                     break;
             }
+
+            Coroutine moveRoutine = StartCoroutine(card.movement.TransformCardUniformlyToPlaceholder(speed, ease));
+            movementRoutines.Add(moveRoutine);
+        }
+
+        foreach (var routine in movementRoutines)
+        {
+            yield return routine;
         }
     }
 

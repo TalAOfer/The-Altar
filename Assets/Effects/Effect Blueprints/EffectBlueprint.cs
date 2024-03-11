@@ -11,8 +11,7 @@ public class EffectBlueprint
     [ShowIf("@ShouldShowAmountOfTargets()")]
     public int amountOfTargets = 1;
 
-    public float predelay = 0f;
-    public float postdelay = 0f;
+    public bool shouldAnimate = true;
 
     public EffectApplicationType applicationType;
     public EffectType EffectType;
@@ -53,45 +52,34 @@ public class EffectBlueprint
     public Decision decision;
     public Effect InstantiateEffect(EffectTrigger triggerType, Card parentCard, BattleRoomDataProvider data)
     {
-        if (triggerType.TriggerType == TriggerType.StartOfBattle && isConditional) Debug.LogError("Conditional effects need to be in before attacking, not start of battle");
-
-        Effect effect = null;
-
         switch (EffectType)
         {
             case EffectType.DebugEffect:
-                effect = new DebugEffect(this, data, triggerType, parentCard);
-                break;
+                return new DebugEffect(this, data, triggerType, parentCard);
             case EffectType.AlterBattlePoints:
-                effect = new AlterBattlePointsEffect(this, data, triggerType, parentCard, modifierType, battlePointType);
-                break;
+                return new AlterBattlePointsEffect(this, data, triggerType, parentCard, modifierType, battlePointType);
             case EffectType.SetColor:
-                effect = new SetColorEffect(this, data, triggerType, parentCard, color);
-                break;
+                return new SetColorEffect(this, data, triggerType, parentCard, color);
             case EffectType.ToggleColor:
-                effect = new ToggleColorEffect(this, data, triggerType, parentCard);
-                break;
+                return new ToggleColorEffect(this, data, triggerType, parentCard);
             case EffectType.GainPoints:
-                effect = new GainPointsEffect(this, data, triggerType, parentCard);
-                break;
+                return new GainPointsEffect(this, data, triggerType, parentCard);
             case EffectType.DrawCard:
-                effect = new DrawCardEffect(this, data, triggerType, parentCard);
-                break;
+                return new DrawCardEffect(this, data, triggerType, parentCard);
             case EffectType.SpawnCardToHand:
-                effect = new SpawnCardToHandEffect(this, data, triggerType, parentCard, cardArchetype);
-                break;
+                return new SpawnCardToHandEffect(this, data, triggerType, parentCard, cardArchetype);
             case EffectType.AddEffect:
-                effect = new AddEffectEffect(this, data, triggerType, parentCard, effectBlueprint.blueprint, whenToTriggerAddedEffect);
-                break;
+                return new AddEffectEffect(this, data, triggerType, parentCard, effectBlueprint.blueprint, whenToTriggerAddedEffect);
             case EffectType.AddGuardian:
-                effect = new AddGuardianEffect(this, data, triggerType, parentCard, guardianType, applicationType);
-                break;
+                return new AddGuardianEffect(this, data, triggerType, parentCard, guardianType, applicationType);
             case EffectType.SpawnEnemy:
-                effect = new SpawnEnemiesEffect(this, data, triggerType, parentCard, cardArchetype);
-                break;
+                return new SpawnEnemiesEffect(this, data, triggerType, parentCard, cardArchetype);
+            case EffectType.GainArmor:
+                return new GainArmorEffect(this, data, triggerType, parentCard);
+            default:
+                Debug.LogError("Effect wasn't found");
+                return null;
         }
-
-        return effect;
     }
 
     private bool ShouldShowAmount()
@@ -101,7 +89,8 @@ public class EffectBlueprint
             or EffectType.SpawnCardToHand
             or EffectType.DrawCard
             or EffectType.AlterBattlePoints 
-            or EffectType.SpawnEnemy)
+            or EffectType.SpawnEnemy
+            or EffectType.GainArmor)
             && amountStrategy is GetAmountStrategy.Value;
     }
 
@@ -116,7 +105,8 @@ public class EffectBlueprint
             or EffectType.SpawnCardToHand
             or EffectType.DrawCard
             or EffectType.AlterBattlePoints
-            or EffectType.SpawnEnemy;
+            or EffectType.SpawnEnemy
+            or EffectType.GainArmor;
     }
 
     private bool ShouldShowDecision()
@@ -150,6 +140,7 @@ public enum EffectTarget
     RandomCardOnMap,
     RandomCardFromHand,
     LowestPlayerCard,
+    SelectedCards
 }
 
 public enum EffectTargetStrategy
@@ -172,6 +163,7 @@ public enum EffectType
     AddEffect,
     AddGuardian,
     SpawnEnemy,
+    GainArmor
 }
 
 public enum GetAmountStrategy

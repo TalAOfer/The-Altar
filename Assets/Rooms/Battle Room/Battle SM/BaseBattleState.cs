@@ -49,6 +49,8 @@ public abstract class BaseRoomState<TContext> : IRoomState where TContext : Room
     public virtual void OnHandColliderPointerEnter(HandCollisionDetector HandCollisionManager, PointerEventData data) { }
 
     public virtual void OnHandColliderPointerExit(HandCollisionDetector HandCollisionManager, PointerEventData data) { }
+
+    public virtual void OnAbilityClicked(AbilityManager abilityManager, Ability ability) {}
 }
 
 public interface IRoomState
@@ -75,5 +77,7 @@ public interface IRoomState
 
     void OnHandColliderPointerEnter(HandCollisionDetector HandCollisionManager, PointerEventData data);
     void OnHandColliderPointerExit(HandCollisionDetector HandCollisionManager, PointerEventData data);
+    void OnAbilityClicked(AbilityManager abilityManager, Ability ability);
+
 }
 

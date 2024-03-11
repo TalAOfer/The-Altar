@@ -50,4 +50,25 @@ public class BattleStateFactory
     {
         return new Battle_Lost(_battleCtx);
     }
+
+    public BaseBattleRoomState AbilitySelected()
+    {
+        return new Battle_AbilitySelected(_battleCtx);
+    }
+
+    public BaseBattleRoomState ApplyAbilityEffect()
+    {
+        return new Battle_ApplyAbilityEffect(_battleCtx);
+    }
+
+    public BaseBattleRoomState ApplySplitAbility()
+    {
+        return new Battle_ApplySplitAbility(_battleCtx);
+    }
+
+    public BaseBattleRoomState ApplyMergeAbility()
+    {
+        return new Battle_ApplyMergeAbility(_battleCtx);
 }
+}
+

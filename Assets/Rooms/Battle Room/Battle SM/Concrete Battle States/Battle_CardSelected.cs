@@ -13,9 +13,10 @@ public class Battle_CardSelected : BaseBattleRoomState
     public override IEnumerator EnterState()
     {
         Card currentlySelectedCard = _ctx.Ctx.CurrentActorCard;
+        bool isACardCurrentlySelected = currentlySelectedCard != null;
         Card cardClicked = _ctx.Ctx.CardClicked;
 
-        if (currentlySelectedCard != null)
+        if (isACardCurrentlySelected)
         {
             _ctx.DeselectCurrentCard();
         }

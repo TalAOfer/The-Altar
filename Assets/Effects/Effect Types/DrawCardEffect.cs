@@ -8,10 +8,11 @@ public class DrawCardEffect : Effect
     {
     }
 
-    public override IEnumerator ApplyEffect(Card target, int amount)
+    public override IEnumerator ApplyEffect(Card target)
     {
+        int amount = GetAmount(target);
         RaiseEffectAppliedEvent(target, amount);
-        data.DrawCardsToHand(amount);
+        _data.DrawCardsToHand(amount);
         yield break; 
     }
 

@@ -16,7 +16,8 @@ public class Battle_PlayerSetup : BaseBattleRoomState
     public override IEnumerator EnterState()
     {
         InitializeDeck();
-        yield return _ctx.StartCoroutine(_ctx.PlayerCardManager.DrawCardsToHand(3));
+        yield return _ctx.PlayerCardManager.DrawCardsToHand(3);
+        yield return Tools.GetWait(0.5f);
         _ctx.SwitchState(_ctx.States.Idle());
         yield break;
     }
