@@ -18,7 +18,7 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
             card.visualHandler.EnableOutline(PaletteColor.attackable);
         }
 
-        _ctx.Events.EnableBezierArrow.Raise(_ctx, _ctx.Ctx.CurrentActorCard);
+        _ctx.Events.EnableBezierArrow.Raise(_ctx, TargetSeekingCard);
 
         TargetSeekingCard.CalculateDamage(TargetCard);
         TargetSeekingCard.visualHandler.EnableDamageVisual();
@@ -107,7 +107,6 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
         {
             _ctx.Ctx.BattlingPlayerCard = _ctx.Ctx.CurrentActorCard;
             _ctx.Ctx.CurrentActorCard.visualHandler.DisableOutline();
-            _ctx.Ctx.CurrentActorCard = null;
 
             _ctx.Ctx.BattlingEnemyCard = droppedCard;
 

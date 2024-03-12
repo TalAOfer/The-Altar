@@ -13,6 +13,11 @@ public class BattleRoomDataProvider
 
     #region Action Providers
 
+    public void RemovePlayerCard(Card card)
+    {
+        _ctx.PlayerCardManager.RemoveCardFromManager(card);
+    }
+
     public void DrawCardsToHand(int amount)
     {
         CoroutineRunner.Instance.StartCoroutine(_ctx.PlayerCardManager.DrawCardsToHand(amount));
@@ -73,6 +78,10 @@ public class BattleRoomDataProvider
             case EffectTarget.LowestPlayerCard:
                 Card lowestPlayerCard = GetLowestPlayerCard(parentCard);
                 if (lowestPlayerCard != null) targets.Add(lowestPlayerCard);
+                break;
+            case EffectTarget.HighestPlayerCard:
+                Card highestPlayerCard = GetHighestPlayerCard(parentCard);
+                if (highestPlayerCard != null) targets.Add(highestPlayerCard);
                 break;
         }
 
@@ -182,6 +191,35 @@ public class BattleRoomDataProvider
 
         int rand = Random.Range(0, lowestCards.Count);
         Card chosenCard = lowestCards[rand];
+
+        return chosenCard;
+    }
+
+    public Card GetHighestPlayerCard(Card excludeThis)
+    {
+        List<Card> availableCards = new(_ctx.PlayerCardManager.ActiveCards);
+        availableCards.Remove(excludeThis);
+        if (availableCards.Count == 0) return null;
+
+        int max = -1; // Start with a value lower than any card's points.
+        List<Card> highestCards = new();
+
+        foreach (Card card in availableCards)
+        {
+            if (card.points > max)
+            {
+                max = card.points;
+                highestCards.Clear();
+                highestCards.Add(card);
+            }
+            else if (card.points == max)
+            {
+                highestCards.Add(card);
+            }
+        }
+
+        int rand = Random.Range(0, highestCards.Count);
+        Card chosenCard = highestCards[rand];
 
         return chosenCard;
     }

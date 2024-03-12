@@ -15,8 +15,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: e1ca4fb698bc9f944b877960098eb3de, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -35,122 +34,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
       Data: 0
-    - Name: $v
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[EffectBlueprintReference, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 3|EffectBlueprintReference, Assembly-CSharp
-    - Name: UseAsset
-      Entry: 5
-      Data: false
-    - Name: ManualValue
-      Entry: 7
-      Data: 4|EffectBlueprint, Assembly-CSharp
-    - Name: target
-      Entry: 3
-      Data: 0
-    - Name: amountOfTargets
-      Entry: 3
-      Data: 1
-    - Name: predelay
-      Entry: 4
-      Data: 0
-    - Name: postdelay
-      Entry: 4
-      Data: 0
-    - Name: applicationType
-      Entry: 3
-      Data: 0
-    - Name: EffectType
-      Entry: 3
-      Data: 3
-    - Name: amountStrategy
-      Entry: 3
-      Data: 0
-    - Name: amount
-      Entry: 3
-      Data: 1
-    - Name: battlePointType
-      Entry: 3
-      Data: 0
-    - Name: modifierType
-      Entry: 3
-      Data: 0
-    - Name: color
-      Entry: 3
-      Data: 0
-    - Name: cardArchetype
-      Entry: 6
-      Data: 
-    - Name: guardianType
-      Entry: 3
-      Data: 0
-    - Name: guardianApplicationType
-      Entry: 3
-      Data: 0
-    - Name: effectBlueprint
-      Entry: 6
-      Data: 
-    - Name: whenToTriggerAddedEffect
-      Entry: 6
-      Data: 
-    - Name: isConditional
-      Entry: 5
-      Data: false
-    - Name: decision
-      Entry: 7
-      Data: 5|Decision, Assembly-CSharp
-    - Name: decisionType
-      Entry: 3
-      Data: 1
-    - Name: compare
-      Entry: 3
-      Data: 1
-    - Name: comparison
-      Entry: 3
-      Data: 0
-    - Name: compareTo
-      Entry: 3
-      Data: 0
-    - Name: amount
-      Entry: 3
-      Data: 0
-    - Name: color
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Asset
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -164,5 +48,5 @@ MonoBehaviour:
     points: 7
     color: 0
   Affinity: 1
-  Description: On survive, swap color.
+  Description: 
   SpecialEffects: 0

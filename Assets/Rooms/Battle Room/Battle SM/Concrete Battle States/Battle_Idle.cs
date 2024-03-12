@@ -12,9 +12,9 @@ public class Battle_Idle : BaseBattleRoomState
 
     public override IEnumerator EnterState()
     {
-        if (_ctx.Ctx.CurrentActorCard != null)
+        if (_ctx.Ctx.CurrentActorCard != null && _ctx.Ctx.CurrentActorCard.isActiveAndEnabled)
         {
-            _ctx.DeselectCurrentCard();
+            _ctx.DemarkCardAsSelected(_ctx.Ctx.CurrentActorCard);
         }
 
         return base.EnterState();

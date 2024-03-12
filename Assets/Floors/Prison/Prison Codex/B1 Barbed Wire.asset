@@ -84,7 +84,7 @@ MonoBehaviour:
       Data: 0
     - Name: modifierType
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: color
       Entry: 3
       Data: 0
@@ -105,9 +105,30 @@ MonoBehaviour:
       Data: 
     - Name: isConditional
       Entry: 5
-      Data: false
+      Data: true
     - Name: decision
-      Entry: 6
+      Entry: 7
+      Data: 5|Decision, Assembly-CSharp
+    - Name: decisionType
+      Entry: 3
+      Data: 1
+    - Name: compare
+      Entry: 3
+      Data: 1
+    - Name: comparison
+      Entry: 3
+      Data: 0
+    - Name: compareTo
+      Entry: 3
+      Data: 0
+    - Name: amount
+      Entry: 3
+      Data: 0
+    - Name: color
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 8

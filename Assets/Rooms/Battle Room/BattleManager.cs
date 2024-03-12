@@ -67,15 +67,11 @@ public class BattleManager : MonoBehaviour
 
         if (DidEnemyCardDie)
         {
-            EnemyCard.gameObject.SetActive(false);
             _ctx.EnemyCardManager.ReorderPlaceholders();
             StartCoroutine(_ctx.EnemyCardManager.ResetCardsToPlaceholders());
         }
 
-        if (DidPlayerCardDie) 
-            PlayerCard.gameObject.SetActive(false);
-
-        else yield return AnimateBackoff();
+        if (!DidPlayerCardDie) yield return AnimateBackoff();
 
         //events.AddLogEntry.Raise(this, "On Action");
         yield return BloodthirstEffectsRoutine();

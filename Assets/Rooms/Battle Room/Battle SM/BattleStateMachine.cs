@@ -73,20 +73,17 @@ public class BattleStateMachine : RoomStateMachine
         } while (changesOccurred);
     }
 
-    public void SelectCard(Card card)
+    public void MarkCardAsSelected(Card card)
     {
-        card.ChangeCardState(CardState.Selected);
         card.movement.Highlight();
         card.visualHandler.EnableOutline(PaletteColor.white);
-        Ctx.CurrentActorCard = card;
+
     }
 
-    public void DeselectCurrentCard()
+    public void DemarkCardAsSelected(Card card)
     {
-        Ctx.CurrentActorCard.visualHandler.DisableOutline();
-        Ctx.CurrentActorCard.movement.Dehighlight();
-        Ctx.CurrentActorCard.ChangeCardState(CardState.Default);
-        Ctx.CurrentActorCard = null;
+        card.visualHandler.DisableOutline();
+        card.movement.Dehighlight();
     }
 
     #region Event Handlers

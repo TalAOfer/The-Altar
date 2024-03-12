@@ -41,9 +41,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  cardSprite: {fileID: 0}
-  isDefault: 0
-  cardName: 
+  cardSprite: {fileID: 21300000, guid: ada76f8d5b4d202438a7ae787b5cb29a, type: 3}
+  isDefault: 1
+  cardName: Guillotine
   Archetype:
     points: 8
     color: 0

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -154,6 +155,14 @@ public class Card : MonoBehaviour
         visualHandler.SetNumberSprites();
     }
 
+
+    public void TakeDirectDamage(int damage)
+    {
+        points -= damage;
+        if (points < 0) points = 0;
+        visualHandler.SetNumberSprites();
+    }
+
     public void GainArmor(int amount)
     {
         Armor += amount;
@@ -195,13 +204,6 @@ public class Card : MonoBehaviour
         return damage;
     }
 
-    public void TakeDirectDamage(int damage)
-    {
-        points -= damage;
-        if (points < 0) points = 0;
-        visualHandler.SetNumberSprites();
-        StartCoroutine(HandleShapeshift());
-    }
 
     public void GainPoints(int pointsToGain)
     {
@@ -227,6 +229,7 @@ public class Card : MonoBehaviour
         if (IsDead)
         {
             yield return StartCoroutine(visualHandler.ToggleOverallVanish(true));
+            StartCoroutine(DestroySelf());
             yield break;
         }
 
@@ -249,6 +252,14 @@ public class Card : MonoBehaviour
 
         yield return effects.ApplyEffects(TriggerType.OnChange);
 
+    }
+
+    private IEnumerator DestroySelf()
+    {
+        DataProvider.RemovePlayerCard(this);
+        DOTween.Kill(transform);
+        yield return Tools.GetWait(0.25f);
+        gameObject.SetActive(false);
     }
 
     private void ResetPointAlterations()

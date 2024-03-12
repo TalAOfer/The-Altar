@@ -6,6 +6,8 @@ public class Battle_ApplyAbilityEffect : BaseBattleRoomState
 {
     Ability Ability => _ctx.Ctx.CurrentAbilitySelected;
     List<Card> CardsSelected => _ctx.Ctx.CurrentCardsSelected;
+    List<Card> PlayerCards => _ctx.PlayerCardManager.ActiveCards;
+    List<Card> EnemyCards => _ctx.EnemyCardManager.ActiveEnemies;
 
     public Battle_ApplyAbilityEffect(BattleStateMachine ctx) : base(ctx)
     {
@@ -13,6 +15,16 @@ public class Battle_ApplyAbilityEffect : BaseBattleRoomState
 
     public override IEnumerator EnterState()
     {
+        foreach (Card card in PlayerCards)
+        {
+            card.visualHandler.ToggleDarkOverlay(false);
+        }
+
+        foreach (Card card in EnemyCards)
+        {
+            card.visualHandler.ToggleDarkOverlay(false);
+        }
+
         foreach (var card in CardsSelected)
         {
             yield return Ability.Effect.ApplyEffect(card);

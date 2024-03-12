@@ -16,8 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: e1ca4fb698bc9f944b877960098eb3de, type: 2}
-    - {fileID: 11400000, guid: 2f41cac1d4f97d34eb55e176befa1f7e, type: 2}
+    - {fileID: 11400000, guid: 89714a7093c247e45b5352ed20c8495c, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -36,7 +35,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
       Data: 
@@ -67,7 +66,7 @@ MonoBehaviour:
       Data: 1
     - Name: shouldAnimate
       Entry: 5
-      Data: false
+      Data: true
     - Name: applicationType
       Entry: 3
       Data: 0
@@ -138,118 +137,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 1
-    - Name: $v
-      Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[EffectBlueprintReference, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 7|EffectBlueprintReference, Assembly-CSharp
-    - Name: UseAsset
-      Entry: 5
-      Data: false
-    - Name: ManualValue
-      Entry: 7
-      Data: 8|EffectBlueprint, Assembly-CSharp
-    - Name: target
-      Entry: 3
-      Data: 0
-    - Name: amountOfTargets
-      Entry: 3
-      Data: 1
-    - Name: shouldAnimate
-      Entry: 5
-      Data: true
-    - Name: applicationType
-      Entry: 3
-      Data: 0
-    - Name: EffectType
-      Entry: 3
-      Data: 1
-    - Name: amountStrategy
-      Entry: 3
-      Data: 2
-    - Name: amount
-      Entry: 3
-      Data: 2
-    - Name: battlePointType
-      Entry: 3
-      Data: 1
-    - Name: modifierType
-      Entry: 3
-      Data: 0
-    - Name: color
-      Entry: 3
-      Data: 0
-    - Name: cardArchetype
-      Entry: 6
-      Data: 
-    - Name: guardianType
-      Entry: 3
-      Data: 0
-    - Name: guardianApplicationType
-      Entry: 3
-      Data: 0
-    - Name: effectBlueprint
-      Entry: 6
-      Data: 
-    - Name: whenToTriggerAddedEffect
-      Entry: 6
-      Data: 
-    - Name: isConditional
-      Entry: 5
-      Data: true
-    - Name: decision
-      Entry: 7
-      Data: 9|Decision, Assembly-CSharp
-    - Name: decisionType
-      Entry: 3
-      Data: 1
-    - Name: compare
-      Entry: 3
-      Data: 1
-    - Name: comparison
-      Entry: 3
-      Data: 0
-    - Name: compareTo
-      Entry: 3
-      Data: 0
-    - Name: amount
-      Entry: 3
-      Data: 0
-    - Name: color
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Asset
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -263,4 +150,4 @@ MonoBehaviour:
     color: 1
   Affinity: 1
   Description: On survive, summon 2 Two of Diamonds.
-  SpecialEffects: 0
+  SpecialEffects: 2

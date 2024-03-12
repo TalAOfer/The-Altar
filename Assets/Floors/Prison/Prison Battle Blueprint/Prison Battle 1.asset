@@ -24,5 +24,5 @@ MonoBehaviour:
   codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
   cards:
   - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
-  - {fileID: 11400000, guid: f3ca3e1d821ec5d4abe282032dbfc037, type: 2}
-  - {fileID: 11400000, guid: 206a070410c718c4d917bee8a60b9b5f, type: 2}
+  - {fileID: 11400000, guid: 08e2a45ed4a386d4587a63d8c1eec62a, type: 2}
+  - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}

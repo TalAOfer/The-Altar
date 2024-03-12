@@ -76,6 +76,8 @@ public class EffectBlueprint
                 return new SpawnEnemiesEffect(this, data, triggerType, parentCard, cardArchetype);
             case EffectType.GainArmor:
                 return new GainArmorEffect(this, data, triggerType, parentCard);
+            case EffectType.TakeDamage:
+                return new TakeDamageEffect(this, data, triggerType, parentCard);
             default:
                 Debug.LogError("Effect wasn't found");
                 return null;
@@ -88,15 +90,16 @@ public class EffectBlueprint
                EffectType.GainPoints
             or EffectType.SpawnCardToHand
             or EffectType.DrawCard
-            or EffectType.AlterBattlePoints 
+            or EffectType.AlterBattlePoints
             or EffectType.SpawnEnemy
-            or EffectType.GainArmor)
+            or EffectType.GainArmor
+            or EffectType.TakeDamage)
             && amountStrategy is GetAmountStrategy.Value;
     }
 
     private bool ShouldShowCardArchetype()
     {
-        return EffectType is EffectType.SpawnCardToHand or EffectType.SpawnEnemy; 
+        return EffectType is EffectType.SpawnCardToHand or EffectType.SpawnEnemy;
     }
     private bool ShouldShowAmountStrategy()
     {
@@ -106,7 +109,8 @@ public class EffectBlueprint
             or EffectType.DrawCard
             or EffectType.AlterBattlePoints
             or EffectType.SpawnEnemy
-            or EffectType.GainArmor;
+            or EffectType.GainArmor
+            or EffectType.TakeDamage;
     }
 
     private bool ShouldShowDecision()
@@ -140,7 +144,8 @@ public enum EffectTarget
     RandomCardOnMap,
     RandomCardFromHand,
     LowestPlayerCard,
-    SelectedCards
+    SelectedCards,
+    HighestPlayerCard,
 }
 
 public enum EffectTargetStrategy
@@ -163,7 +168,8 @@ public enum EffectType
     AddEffect,
     AddGuardian,
     SpawnEnemy,
-    GainArmor
+    GainArmor,
+    TakeDamage
 }
 
 public enum GetAmountStrategy
