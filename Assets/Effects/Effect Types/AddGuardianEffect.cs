@@ -15,7 +15,7 @@ public class AddGuardianEffect : Effect
 
     public override IEnumerator ApplyEffect(Card target)
     {
-        target.guardians.Add(new Guardian(_guardianType, _parentCard, _applicationType));
+        target.guardians.Add(new Guardian(_guardianType, ParentCard, _applicationType));
         yield break;
     }
 

@@ -8,7 +8,7 @@ public class BattleManager : MonoBehaviour
 {
     protected BattleRoomDataProvider data;
     private BattleStateMachine _ctx;
-
+    private DFSManager _dfs;
     protected Card EnemyCard => _ctx.Ctx.BattlingEnemyCard;
     protected Card PlayerCard => _ctx.Ctx.BattlingPlayerCard;
 
@@ -20,6 +20,7 @@ public class BattleManager : MonoBehaviour
     public void Initialize(BattleStateMachine ctx)
     {
         _ctx = ctx;
+        _dfs = GetComponent<DFSManager>();
         data = _ctx.DataProvider;
     }
 
@@ -27,13 +28,8 @@ public class BattleManager : MonoBehaviour
     {
         PlayerCard.movement.SnapCardToVisual();
 
-        yield return StartOfBattleRoutine();
-
-        //events.AddLogEntry.Raise(this, "Support");
-        yield return SupportEffectsRoutine();
-
         //events.AddLogEntry.Raise(this, "Before Attacking");
-        yield return BeforeAttackingRoutine();
+        yield return RallyRoutine();
 
         //PlayerCard.ToggleDamageVisual(true);
         //EnemyCard.ToggleDamageVisual(true);
@@ -41,48 +37,20 @@ public class BattleManager : MonoBehaviour
         yield return AnimateReadyAndHeadbutt();
 
         //Impact
-        ApplyDamage();
-        PlayerCard.ToggleDamageVisual(false);
-        EnemyCard.ToggleDamageVisual(false);
+        int enemyDamageTaken = EnemyCard.TakeDamage(PlayerCard.attackPoints.value);
+        int playerDamageTaken = PlayerCard.TakeDamage(EnemyCard.attackPoints.value);
         Tools.PlaySound("Card_Attack_Impact", PlayerCard.transform);
         events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
 
-        yield return DeathRoutine();
+        yield return AnimateBackoff();
 
-        if (DidEnemyCardDie)
-        {
-            _ctx.EnemyCardManager.RemoveEnemyFromManager(EnemyCard);
-        }
-
-        if (DidPlayerCardDie) 
-            _ctx.PlayerCardManager.RemoveCardFromManager(PlayerCard);
-
-        //events.AddLogEntry.Raise(this, "Global Death");
-        yield return GlobalDeathRoutine();
-
-        yield return SurviveRoutine();
-
-        //events.AddLogEntry.Raise(this, "Aftermath Shapeshifts");
-        yield return _ctx.HandleAllShapeshiftsUntilStable();
-
-        if (DidEnemyCardDie)
-        {
-            _ctx.EnemyCardManager.ReorderPlaceholders();
-            StartCoroutine(_ctx.EnemyCardManager.ResetCardsToPlaceholders());
-        }
-
-        if (!DidPlayerCardDie) yield return AnimateBackoff();
+        InitialDamageEffect enemyDamageEffect = new(null, null, null, EnemyCard);
+        yield return _dfs.StartDFS(enemyDamageEffect);
 
         //events.AddLogEntry.Raise(this, "On Action");
         yield return BloodthirstEffectsRoutine();
 
         //events.AddLogEntry.Raise(this, "After On Action Shapeshift");
-        yield return _ctx.HandleAllShapeshiftsUntilStable();
-
-        //events.AddLogEntry.Raise(this, "End Of Turn");
-        yield return MeditateEffectsRoutine();
-
-        //events.AddLogEntry.Raise(this, "After End Of Turn Shapeshift");
         yield return _ctx.HandleAllShapeshiftsUntilStable();
 
         if (!PlayerCard.IsDead)
@@ -95,89 +63,24 @@ public class BattleManager : MonoBehaviour
 
 
 
-    private IEnumerator StartOfBattleRoutine()
+    private IEnumerator RallyRoutine()
     {
-        //events.AddLogEntry.Raise(this, "Start Of Battle");
-
-        #region Loop Count Debugger
-        //int amountOfOccurances = 1;
-        #endregion
-
-        Coroutine ApplyPlayerCardStartOfBattleEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.StartOfBattle));
-        Coroutine ApplyEnemyCardStartOfBattleEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.StartOfBattle));
-
-        yield return ApplyPlayerCardStartOfBattleEffects;
-        yield return ApplyEnemyCardStartOfBattleEffects;
-
-        bool battleStartEnded = false;
-
-        while (!battleStartEnded)
-        {
-
-            #region Loop Count Debugger
-            //if (amountOfOccurances > 1)
-            //{
-            //    string eventName = "Start Of Battle " + amountOfOccurances.ToString(); 
-            //    events.AddLogEntry.Raise(this, eventName);
-            //}
-            //amountOfOccurances++;
-
-            #endregion
-
-            bool didPlayerShapeshift = PlayerCard.ShouldShapeshift();
-            bool didEnemyShapeshift = EnemyCard.ShouldShapeshift();
-            battleStartEnded = (!didPlayerShapeshift && !didEnemyShapeshift);
-
-            if (!battleStartEnded)
-            {
-                yield return (_ctx.HandleAllShapeshiftsUntilStable());
-            }
-
-            Coroutine ReapplyPlayerCardStartOfBattleEffects = null;
-            Coroutine ReapplyEnemyCardStartOfBattleEffects = null;
-
-            if (didPlayerShapeshift) ReapplyPlayerCardStartOfBattleEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.StartOfBattle));
-            if (didEnemyShapeshift) ReapplyEnemyCardStartOfBattleEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.StartOfBattle));
-
-            if (ReapplyPlayerCardStartOfBattleEffects != null) yield return ReapplyPlayerCardStartOfBattleEffects;
-            if (ReapplyEnemyCardStartOfBattleEffects != null) yield return ReapplyEnemyCardStartOfBattleEffects;
-
-            yield return null;
-        }
-    }
-
-    private IEnumerator BeforeAttackingRoutine()
-    {
-        Coroutine ApplyPlayerCardBeforeAttackingEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.BeforeAttacking));
-        Coroutine ApplyEnemyCardBeforeAttackingEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.BeforeAttacking));
+        Coroutine ApplyPlayerCardBeforeAttackingEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.Rally));
+        Coroutine ApplyEnemyCardBeforeAttackingEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.Rally));
 
         yield return ApplyPlayerCardBeforeAttackingEffects;
         yield return ApplyEnemyCardBeforeAttackingEffects;
     }
 
-    private IEnumerator SupportEffectsRoutine()
-    {
-        foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
-        {
-            yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Support));
-        }
-
-        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
-        {
-            if (card == EnemyCard) continue;
-            yield return StartCoroutine(card.effects.ApplyEffects(TriggerType.Support));
-        }
-    }
-
-    protected virtual IEnumerator DeathRoutine()
+    protected virtual IEnumerator LastBreathRoutine()
     {
         Coroutine ApplyPlayerCardOnDeathEffects = null;
         Coroutine ApplyEnemyCardOnDeathEffects = null;
         bool playerCardDied = PlayerCard.IsDead;
         bool enemyCardDied = EnemyCard.IsDead;
 
-        if (playerCardDied) ApplyPlayerCardOnDeathEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.OnDeath));
-        if (enemyCardDied) ApplyEnemyCardOnDeathEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.OnDeath));
+        if (playerCardDied) ApplyPlayerCardOnDeathEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.LastBreath));
+        if (enemyCardDied) ApplyEnemyCardOnDeathEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.LastBreath));
 
         if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
         if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
@@ -201,40 +104,6 @@ public class BattleManager : MonoBehaviour
 
     }
 
-    private IEnumerator GlobalDeathRoutine()
-    {
-        if (EnemyCard.IsDead || PlayerCard.IsDead)
-        {
-            foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
-            {
-                if (!card.IsDead)
-                {
-                    yield return card.effects.ApplyEffects(TriggerType.OnGlobalDeath);
-                }
-            }
-
-            foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
-            {
-                if (!card.IsDead)
-                {
-                    yield return card.effects.ApplyEffects(TriggerType.OnGlobalDeath);
-                }
-            }
-        }
-    }
-
-    private IEnumerator SurviveRoutine()
-    {
-        Coroutine ApplyPlayerCardOnSurviveEffects = null;
-        Coroutine ApplyEnemyCardOnSurviveEffects = null;
-
-        if (!PlayerCard.IsDead) ApplyPlayerCardOnSurviveEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.OnSurvive));
-        if (!EnemyCard.IsDead) ApplyEnemyCardOnSurviveEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.OnSurvive));
-
-        if (ApplyPlayerCardOnSurviveEffects != null) yield return ApplyPlayerCardOnSurviveEffects;
-        if (ApplyEnemyCardOnSurviveEffects != null) yield return ApplyEnemyCardOnSurviveEffects;
-    }
-
     private IEnumerator BloodthirstEffectsRoutine()
     {
         //Debug.Log("Starting player on action effects application");
@@ -249,22 +118,6 @@ public class BattleManager : MonoBehaviour
         {
             //Debug.Log("Applying " + card.name + "'s effects");
             yield return card.effects.ApplyEffects(TriggerType.Bloodthirst);
-        }
-    }
-
-    private IEnumerator MeditateEffectsRoutine()
-    {
-        //Debug.Log("Starting player end of turn effects application");
-        foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
-        {
-            //Debug.Log("Applying " + card.name + "'s effects");
-            yield return card.effects.ApplyEffects(TriggerType.Meditate);
-        }
-
-        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
-        {
-            //Debug.Log("Applying " + card.name + "'s effects");
-            yield return card.effects.ApplyEffects(TriggerType.Meditate);
         }
     }
 
@@ -309,12 +162,6 @@ public class BattleManager : MonoBehaviour
 
 
     #region Helpers
-
-    private void ApplyDamage()
-    {
-        EnemyCard.TakeDamage(PlayerCard.attackPoints.value);
-        PlayerCard.TakeDamage(EnemyCard.attackPoints.value);
-    }
 
     private bool DidEnemyCardDie => EnemyCard.IsDead;
     private bool DidPlayerCardDie => PlayerCard.IsDead;

@@ -7,6 +7,7 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     private Codex codex;
+    public int SpawnIndex {  get; private set; }
     public BattleRoomDataProvider DataProvider {  get; private set; }
     public CardBase cardBase {  get; private set; }
 
@@ -80,7 +81,7 @@ public class Card : MonoBehaviour
 
         visualHandler.Init(blueprint, startingSortingLayer);
 
-        StartCoroutine(effects.ApplyEffects(TriggerType.OnChange));
+        //StartCoroutine(effects.ApplyEffects(TriggerType.OnChange));
     }
 
     public CardBlueprint GetCurrentMask()
@@ -136,7 +137,7 @@ public class Card : MonoBehaviour
 
 
 
-    public void TakeDamage(int incomingDamage)
+    public int TakeDamage(int incomingDamage)
     {
         int damage = incomingDamage;
 
@@ -146,6 +147,7 @@ public class Card : MonoBehaviour
 
         points -= damage;
         visualHandler.SpawnFallingDamage(damage);
+
         if (points < 0)
         {
             points = 0;
@@ -153,6 +155,8 @@ public class Card : MonoBehaviour
 
         visualHandler.InitiateParticleSplash();
         visualHandler.SetNumberSprites();
+
+        return damage;
     }
 
 
@@ -250,7 +254,7 @@ public class Card : MonoBehaviour
         effects.InstantiateDefaultCardEffects(newMask);
         yield return visualHandler.ToggleSpritesVanish(false);
 
-        yield return effects.ApplyEffects(TriggerType.OnChange);
+        //yield return effects.ApplyEffects(TriggerType.OnChange);
 
     }
 

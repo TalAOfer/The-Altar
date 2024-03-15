@@ -2,19 +2,22 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class CardEffectHandler : SerializedMonoBehaviour
 {
     [SerializeField] private Card _card;
     [SerializeField] private EffectTriggerRegistry _triggers;
+    private EventRegistry _events;
 
     [ShowInInspector]
-    private Dictionary<EffectTrigger, List<Effect>> _effectsDict = new();
+    public Dictionary<EffectTrigger, List<Effect>>  EffectsDict { get; private set; } = new();
 
     public void Init(CardBlueprint blueprint)
     {
         InstantiateDefaultCardEffects(blueprint);
+        _events = Locator.Events;
     }
 
     public void InstantiateDefaultCardEffects(CardBlueprint blueprint)
@@ -32,17 +35,17 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     public void AddEffectToDictionary(Effect effect)
     {
-        if (!_effectsDict.ContainsKey(effect.EffectTrigger))
+        if (!EffectsDict.ContainsKey(effect.EffectTrigger))
         {
-            _effectsDict[effect.EffectTrigger] = new List<Effect>();
+            EffectsDict[effect.EffectTrigger] = new List<Effect>();
         }
 
-        _effectsDict[effect.EffectTrigger].Add(effect);
+        EffectsDict[effect.EffectTrigger].Add(effect);
     }
 
     public IEnumerator RemoveAllEffects()
     {
-        List<EffectTrigger> keys = new(_effectsDict.Keys);
+        List<EffectTrigger> keys = new(EffectsDict.Keys);
 
         foreach (var trigger in keys)
         {
@@ -54,7 +57,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     private void RemoveEffects(EffectTrigger trigger)
     {
-        List<Effect> effects = _effectsDict[trigger];
+        List<Effect> effects = EffectsDict[trigger];
 
         List<Effect> toRemove = new(effects);
         foreach (Effect effect in toRemove)
@@ -66,7 +69,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
         if (effects.Count == 0)
         {
-            _effectsDict.Remove(trigger);
+            EffectsDict.Remove(trigger);
         }
     }
 
@@ -79,9 +82,9 @@ public class CardEffectHandler : SerializedMonoBehaviour
         //Debug.Log("Is there a key: " + (triggerType != null).ToString());
         */
 
-        if (!_effectsDict.ContainsKey(triggerType)) yield break;
+        if (!EffectsDict.ContainsKey(triggerType)) yield break;
 
-        if (_effectsDict.TryGetValue(triggerType, out List<Effect> allEffects))
+        if (EffectsDict.TryGetValue(triggerType, out List<Effect> allEffects))
         {
             foreach (Effect effect in allEffects)
             {
@@ -89,12 +92,21 @@ public class CardEffectHandler : SerializedMonoBehaviour
             }
         }
 
-        if (type is TriggerType.Meditate)
-        {
-            RemoveEffects(triggerType);
-        }
-
         yield return null;
     }
 
+    public void TriggerEffects(TriggerType type)
+    {
+        EffectTrigger triggerType = _triggers.GetTriggerAssetByEnum(type);
+
+        if (!EffectsDict.ContainsKey(triggerType)) return;
+
+        if (EffectsDict.TryGetValue(triggerType, out List<Effect> allEffects))
+        {
+            foreach (Effect effect in allEffects)
+            {
+                _events.OnEffectTriggered.Raise(this, effect);
+            }
+        }
+    }
 }

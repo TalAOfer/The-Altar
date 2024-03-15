@@ -4,6 +4,10 @@ using UnityEngine;
 //[CreateAssetMenu(menuName ="AllEvents")]
 public class EventRegistry : ScriptableObject
 {
+    [Title("DFS")]
+    public GameEvent OnDamageEffect;
+    public GameEvent OnEffectTriggered;
+
     [Title("Interaction")]
     public GameEvent OnCardPointerEnter;
     public GameEvent OnCardPointerExit;

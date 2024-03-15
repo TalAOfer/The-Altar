@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c349d0e846e13fc4fafea2b18eec61d3, type: 3}
   m_Name: Event Registry
   m_EditorClassIdentifier: 
+  OnDamageEffect: {fileID: 11400000, guid: 20f097cc4bc078640ac7a795d95600e3, type: 2}
+  OnEffectTriggered: {fileID: 11400000, guid: afce47e60834e0d44919eee143d3f8d7, type: 2}
   OnCardPointerEnter: {fileID: 11400000, guid: caf8a6a8221723b4d8ad022a34aed9bf, type: 2}
   OnCardPointerExit: {fileID: 11400000, guid: a61b258734fe84b4da0d24d0f31b57de, type: 2}
   OnCardBeginDrag: {fileID: 11400000, guid: d69277c21c05bed4faa1c06970925d58, type: 2}

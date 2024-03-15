@@ -17,10 +17,8 @@ public class AddEffectEffect : Effect
     {
         int amount = GetAmount(target);
 
-        if (EffectTrigger.TriggerType is TriggerType.Meditate)
-        {
-            RaiseEffectAppliedEvent(target, amount);
-        }
+        RaiseEffectAppliedEvent(target, amount);
+        
 
         _effectBlueprint.InstantiateEffect(_whenToTriggerAddedEffect, target, _data);
         yield break;

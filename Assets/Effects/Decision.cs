@@ -1,114 +1,158 @@
 using Sirenix.OdinInspector;
 using System;
+using UnityEngine;
 
 [Serializable]
 public class Decision
 {
-    public enum DecisionType
+    public Compare _compare;
+    private CompareTo _compareTo;
+
+    private Comparison _comparison;
+    private DecisionType decisionType;
+    private int _predefinedAmount;
+    private CardColor _predefinedColor;
+    private Parity _parity;
+    private AffinityComparison _affinityComparison;
+
+
+    public Decision(Compare compare, CompareTo compareTo)
     {
-        PointComparison,
-        Color,
-        Existence
+        _compare = compare;
+        _compareTo = compareTo;
     }
 
-    public enum Compare
+    public bool Decide(Card baseCard, Card comparisonCard = null, int amount = 0)
     {
-        Target,
-        Opponent
-    }
-    public enum Comparison
-    {
-        BiggerThan, Equals, SmallerThan, BiggerOrEquals, SmallerOrEquals
-    }
+        if (_compareTo is CompareTo.AnotherObject && comparisonCard == null) return false;
 
-    public enum CompareTo
-    {
-        Opponent, Amount
-    }
-
-    public DecisionType decisionType;
-    public Compare compare;
-    [ShowIf("decisionType", DecisionType.PointComparison)]
-    public Comparison comparison;
-    [ShowIf("decisionType", DecisionType.PointComparison)]
-    public CompareTo compareTo;
-
-    [ShowIf("compareTo", CompareTo.Amount)]
-    public int amount;
-
-    [ShowIf("decisionType", DecisionType.Color)]
-    public CardColor color;
-
-    public bool Decide(Card targetCard, Card opponentCard)
-    {
-        bool isTrue = false;
-        if (opponentCard == null && (compare is Compare.Target || compareTo is CompareTo.Opponent)) return false;
-
-        if (decisionType is DecisionType.PointComparison) isTrue = DecideByPointComparison(targetCard, opponentCard);
-        if (decisionType is DecisionType.Color) isTrue = DecideByColor(targetCard, opponentCard);
-        return isTrue;
-    }
-
-    public bool DecideByPointComparison(Card targetCard, Card opponentCard)
-    {
-        bool isTrue = false;
-        int targetValue = targetCard.points;
-        int opponentValue = 0;
-        if (opponentCard != null) opponentValue = opponentCard.points;
-
-
-        if (compareTo == CompareTo.Amount)
+        switch (decisionType)
         {
-            int comparedValue = (compare == Compare.Target) ? targetValue : opponentValue;
+            case DecisionType.PointComparison:
+                if (_compareTo == CompareTo.AnotherObject && comparisonCard == null) return false;
 
-            switch (comparison)
-            {
-                case Comparison.BiggerThan:
-                    isTrue = comparedValue > amount;
-                    break;
-                case Comparison.Equals:
-                    isTrue = comparedValue == amount;
-                    break;
-                case Comparison.SmallerThan:
-                    isTrue = comparedValue < amount;
-                    break;
-                case Comparison.BiggerOrEquals:
-                    isTrue = comparedValue >= amount;
-                    break;
-                case Comparison.SmallerOrEquals:
-                    isTrue = comparedValue <= amount;
-                    break;
-            }
+                int baseAmount = (_compare == Compare.Object) ? baseCard.points : amount;
+                int comparisonAmount = (_compareTo == CompareTo.AnotherObject) ? comparisonCard.points : this._predefinedAmount;
+
+                return DecideByPointComparison(baseAmount, comparisonAmount);
+
+            case DecisionType.Parity:
+                int parityCheckAmount = 0;
+                switch (_compare)
+                {
+                    case Compare.Object:
+                        parityCheckAmount = baseCard.points;
+                        break;
+                    case Compare.Value:
+                        parityCheckAmount = amount;
+                        break;
+                }
+                return DecideByParity(parityCheckAmount);
+
+            case DecisionType.Color:
+                if (_compare is Compare.Value)
+                {
+                    Debug.Log("Value doesn't have a color. Change _compare to Object");
+                    return false;
+                }
+
+                CardColor baseColor = baseCard.cardColor;
+                CardColor comparisonColor = _compareTo is CompareTo.AnotherObject ? comparisonCard.cardColor : _predefinedColor;
+
+                return DecideByColor(baseColor, comparisonColor);
+
+            case DecisionType.Affinity:
+                if (_compare is Compare.Value)
+                {
+                    Debug.Log("Value doesn't have an affinity. Change Compare to Object");
+                    return false;
+                }
+
+                if (_compareTo is CompareTo.Value)
+                {
+                    Debug.Log("Affinity can only be compared with another card. Change CompareTo to Object");
+                    return false;
+                }
+
+                return DecideByAffinity(baseCard.Affinity, comparisonCard.Affinity);
+
+            default:
+                return false;
         }
 
-        else if (compareTo == CompareTo.Opponent)
-        {
-            switch (comparison)
-            {
-                case Comparison.BiggerThan:
-                    isTrue = targetValue > opponentValue;
-                    break;
-                case Comparison.Equals:
-                    isTrue = targetValue == opponentValue;
-                    break;
-                case Comparison.SmallerThan:
-                    isTrue = targetValue < opponentValue;
-                    break;
-                case Comparison.BiggerOrEquals:
-                    isTrue = targetValue >= opponentValue;
-                    break;
-                case Comparison.SmallerOrEquals:
-                    isTrue = targetValue <= opponentValue;
-                    break;
-            }
-        }
-
-        return isTrue;
     }
 
-    public bool DecideByColor(Card targetCard, Card opponentCard)
+    public bool DecideByPointComparison(int baseValue, int comparisonValue = 0)
     {
-        Card card = compare is Compare.Target ? targetCard : opponentCard;
-        return card.cardColor == color;
+        switch (_comparison)
+        {
+            case Comparison.BiggerThan:
+                return baseValue > comparisonValue;
+            case Comparison.Equals:
+                return baseValue == comparisonValue;
+            case Comparison.SmallerThan:
+                return baseValue < comparisonValue;
+            case Comparison.BiggerOrEquals:
+                return baseValue >= comparisonValue;
+            case Comparison.SmallerOrEquals:
+                return baseValue <= comparisonValue;
+
+            default:
+                return false;
+        }
     }
+
+    public bool DecideByColor(CardColor color, CardColor comparisonColor)
+    {
+        return color == comparisonColor;
+    }
+
+    private bool DecideByParity(int value)
+    {
+        Parity ValueParity;
+
+        if (value % 2 == 0) ValueParity = Parity.Even;
+        else ValueParity = Parity.Odd;
+
+        return ValueParity == _parity;
+    }
+    private bool DecideByAffinity(Affinity affinity, Affinity comparedAffinity)
+    {
+        bool isFriendly = affinity == comparedAffinity;
+        if (_affinityComparison is AffinityComparison.Friendly) return isFriendly;
+        else return !isFriendly;
+    }
+}
+public enum DecisionType
+{
+    PointComparison,
+    Parity,
+    Color,
+    Affinity,
+}
+
+public enum AffinityComparison
+{
+    Friendly,
+    Enemy
+}
+
+public enum Parity
+{
+    Even,
+    Odd
+}
+
+public enum Comparison
+{
+    BiggerThan, Equals, SmallerThan, BiggerOrEquals, SmallerOrEquals
+}
+
+public enum Compare
+{
+    Object, Value
+}
+public enum CompareTo
+{
+    AnotherObject, Value
 }

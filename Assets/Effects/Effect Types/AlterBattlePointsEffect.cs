@@ -21,7 +21,7 @@ public class AlterBattlePointsEffect : Effect
         targetCard.hurtPointsModifiers;
         //Make sure that there isn't a hidden decision in inspector
         if (!_isConditional) _decision = null;
-        _modifierInstance = new BattleAmountModifier(_modifierType, _parentCard, _battlePointType, _defaultAmount, _amountStrategy, _data, _decision);
+        _modifierInstance = new BattleAmountModifier(_modifierType, ParentCard, _battlePointType, _defaultAmount, _amountStrategy, _data, _decision);
         modifierList.Add(_modifierInstance);
         yield break;
     }

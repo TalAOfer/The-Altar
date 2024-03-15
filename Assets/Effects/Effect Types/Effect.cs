@@ -1,18 +1,17 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+
 
 public abstract class Effect
 {
-    public EffectApplicationType EffectApplicationType {  get; private set; }
-    public EffectTarget TargetStrategy {  get; private set; }
-    public int AmountOfTargets {  get; private set; }
+    public EffectApplicationType EffectApplicationType { get; private set; }
+    public EffectTarget TargetStrategy { get; private set; }
+    public int AmountOfTargets { get; private set; }
     public EffectTrigger EffectTrigger { get; private set; }
+    public Card ParentCard { get; private set; }
 
     protected EventRegistry _events;
     protected BattleRoomDataProvider _data;
-    protected Card _parentCard;
     protected bool _isConditional;
     protected Decision _decision;
     protected GetAmountStrategy _amountStrategy;
@@ -23,28 +22,31 @@ public abstract class Effect
         _events = Locator.Events;
 
         _data = data;
-        _parentCard = parentCard;
+        ParentCard = parentCard;
         EffectTrigger = trigger;
 
-        EffectApplicationType = blueprint.applicationType;
-        TargetStrategy = blueprint.target;
-        AmountOfTargets = blueprint.amountOfTargets;
+        if (blueprint != null)
+        {
+            EffectApplicationType = blueprint.applicationType;
+            TargetStrategy = blueprint.target;
+            AmountOfTargets = blueprint.amountOfTargets;
 
-        _amountStrategy = blueprint.amountStrategy;
-        _defaultAmount = blueprint.amount;
-        _isConditional = blueprint.isConditional;
-        _decision = blueprint.decision;
+            _amountStrategy = blueprint.amountStrategy;
+            _defaultAmount = blueprint.amount;
+            _isConditional = blueprint.isConditional;
+            _decision = blueprint.decision;
+        }
     }
 
     public virtual IEnumerator Trigger()
     {
-        List<Card> targetCardsBeforeDecisions = _data.GetTargets(_parentCard, TargetStrategy, AmountOfTargets);
+        List<Card> targetCardsBeforeDecisions = _data.GetTargets(ParentCard, TargetStrategy, AmountOfTargets);
 
         List<Card> validTargetCards = GetTargetsThatMeetConditions(targetCardsBeforeDecisions);
 
         if (validTargetCards.Count > 0)
         {
-            _parentCard.visualHandler.Animate("Jiggle");
+            ParentCard.visualHandler.Animate("Jiggle");
             yield return Tools.GetWait(1f);
         }
 
@@ -71,7 +73,7 @@ public abstract class Effect
         }
 
         return validTargetCards;
-    } 
+    }
 
     private IEnumerator ApplyEffectOnTargets(List<Card> targetCards)
     {
@@ -80,7 +82,7 @@ public abstract class Effect
             //Keep cards from applying support effects on themselves
             if (TargetStrategy is not EffectTarget.InitiatingCard)
             {
-                if (_parentCard == targetCard) continue;
+                if (ParentCard == targetCard) continue;
                 if (targetCard.IsDead) continue;
             }
 
@@ -100,8 +102,11 @@ public abstract class Effect
 
     public void RaiseEffectAppliedEvent(Card target, int amount)
     {
-        _events.OnEffectApplied.Raise(_parentCard, new EffectIndication(GetEffectIndicationString(target, amount), target));
+        _events.OnEffectApplied.Raise(ParentCard, new EffectIndication(GetEffectIndicationString(target, amount), target));
     }
 
-    public abstract string GetEffectIndicationString(Card target, int amount);
+    public virtual string GetEffectIndicationString(Card target, int amount)
+    {
+        return "";
+    }
 }

@@ -111,10 +111,7 @@ MonoBehaviour:
       Data: 5|Decision, Assembly-CSharp
     - Name: decisionType
       Entry: 3
-      Data: 1
-    - Name: compare
-      Entry: 3
-      Data: 1
+      Data: 0
     - Name: comparison
       Entry: 3
       Data: 0
@@ -127,6 +124,15 @@ MonoBehaviour:
     - Name: color
       Entry: 3
       Data: 1
+    - Name: parity
+      Entry: 3
+      Data: 0
+    - Name: affinity
+      Entry: 3
+      Data: 0
+    - Name: affinityComparison
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

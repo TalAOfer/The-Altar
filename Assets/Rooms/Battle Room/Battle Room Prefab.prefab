@@ -186,6 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7639874775374825600}
   - component: {fileID: 3589446058437800455}
+  - component: {fileID: 8924278905680280699}
   m_Layer: 0
   m_Name: Battle Manager
   m_TagString: Untagged
@@ -223,6 +224,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
   cardData: {fileID: 11400000, guid: a0e0f4fafc2ffbe4ba6840fe3ba7ebbf, type: 2}
+--- !u!114 &8924278905680280699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556229616522998395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b12f3123187a5146bfcf300f740492c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1643951569668677374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,13 +1214,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2087eb1c8d9093c47bb0f04a270fa87a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameEvent: {fileID: 11400000, guid: af13426617dc49244b5a4e0140e8062e, type: 2}
+  gameEvent: {fileID: 11400000, guid: afce47e60834e0d44919eee143d3f8d7, type: 2}
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3589446058437800455}
-        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
-        m_MethodName: OnAttack
+      - m_Target: {fileID: 8924278905680280699}
+        m_TargetAssemblyTypeName: DFSManager, Assembly-CSharp
+        m_MethodName: OnEffectTriggered
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

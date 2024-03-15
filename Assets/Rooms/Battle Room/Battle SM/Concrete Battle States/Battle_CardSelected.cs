@@ -20,22 +20,28 @@ public class Battle_CardSelected : BaseBattleRoomState
         if (isACardCurrentlySelected)
         {
             _ctx.DemarkCardAsSelected(CurrentlySelectedCard);
-            
+
             bool isClickedCardIsCurrentlySelected = CardClicked == CurrentlySelectedCard;
-            _ctx.Ctx.CurrentActorCard = null;
 
             if (isClickedCardIsCurrentlySelected)
             {
-                _ctx.Ctx.CardClicked = null;
+                _ctx.Ctx.CurrentActorCard = null;
                 _ctx.SwitchState(_ctx.States.Idle());
+            } 
+            
+            else
+            {
+                _ctx.Ctx.CurrentActorCard = CardClicked;
             }
-        } 
-        
+        }
+
         else
         {
             _ctx.MarkCardAsSelected(CardClicked);
-            _ctx.Ctx.CardClicked = null;
+            _ctx.Ctx.CurrentActorCard = CardClicked;
         }
+
+        _ctx.Ctx.CardClicked = null;
 
         return base.EnterState();
     }
