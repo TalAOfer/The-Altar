@@ -12,22 +12,22 @@ public class BattleAmountModifier
     private readonly int _defaultAmount;
     private readonly BattleRoomDataProvider _data;
     private readonly GetAmountStrategy _amountStrategy;
-    private readonly Decision _decision;
-    public BattleAmountModifier(ModifierType modifierType, Card parentCard, BattlePointType pointType, int defaultAmount, GetAmountStrategy amountStrategy, BattleRoomDataProvider data, Decision decision = null)
+    private readonly BattleModifierFilter _filter;
+    public BattleAmountModifier(ModifierType modifierType, Card parentCard, BattlePointType pointType, int defaultAmount, GetAmountStrategy amountStrategy, BattleRoomDataProvider data, BattleModifierFilter filter = null)
     {
         ModifierType = modifierType;
         PointType = pointType;
         _parentCard = parentCard;
         _defaultAmount = defaultAmount;
         _amountStrategy = amountStrategy;
-        _decision = decision;
+        _filter = filter;
         _data = data;
     }
     public int Apply(int currentPoints, Card opponent = null)
     {
-        if (_decision != null)
+        if (_filter != null)
         {
-            if (_decision.Decide(_parentCard, opponent) == false)
+            if (_filter.Decide(_parentCard, opponent) == false)
             {
                 return currentPoints;
             }

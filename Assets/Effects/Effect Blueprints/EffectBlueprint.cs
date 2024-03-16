@@ -1,11 +1,12 @@
 using Sirenix.OdinInspector;
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
 public class EffectBlueprint
 {
+    public EffectType EffectType;
+
     public EffectTarget target;
 
     [ShowIf("@ShouldShowAmountOfTargets()")]
@@ -14,7 +15,6 @@ public class EffectBlueprint
     public bool shouldAnimate = true;
 
     public EffectApplicationType applicationType;
-    public EffectType EffectType;
 
     [ShowIf("@ShouldShowAmountStrategy()")]
     public GetAmountStrategy amountStrategy;
@@ -22,17 +22,33 @@ public class EffectBlueprint
     [ShowIf("@ShouldShowAmount()")]
     public int amount = 1;
 
+    [ShowIf("@ShouldShowCardArchetype()")]
+    public CardArchetype cardArchetype;
+
+    #region Battle Modifier
+
     [ShowIf("EffectType", EffectType.AlterBattlePoints)]
     public BattlePointType battlePointType;
 
     [ShowIf("EffectType", EffectType.AlterBattlePoints)]
     public ModifierType modifierType;
 
+    [ShowIf("EffectType", EffectType.AlterBattlePoints)]
+    public bool filterBattleModifier;
+
+    [ShowIf("EffectType", EffectType.AlterBattlePoints)]
+    public BattleModifierFilterBlueprint battleModifierfilter;
+
+    #endregion
+
+    #region Set Color
+
     [ShowIf("EffectType", EffectType.SetColor)]
     public CardColor color;
 
-    [ShowIf("@ShouldShowCardArchetype()")]
-    public CardArchetype cardArchetype;
+    #endregion
+
+    #region Guardians
 
     [ShowIf("EffectType", EffectType.AddGuardian)]
     public GuardianType guardianType;
@@ -40,16 +56,19 @@ public class EffectBlueprint
     [ShowIf("EffectType", EffectType.AddGuardian)]
     public EffectApplicationType guardianApplicationType;
 
+    #endregion
+
+    #region Add Effect
+
     [ShowIf("EffectType", EffectType.AddEffect)]
     public EffectBlueprintAsset effectBlueprint;
 
     [ShowIf("EffectType", EffectType.AddEffect)]
     public EffectTrigger whenToTriggerAddedEffect;
+    
+    #endregion
 
-    public bool isConditional;
 
-    [ShowIf("isConditional")]
-    public Decision decision;
     public Effect InstantiateEffect(EffectTrigger triggerType, Card parentCard, BattleRoomDataProvider data)
     {
         switch (EffectType)
@@ -57,7 +76,7 @@ public class EffectBlueprint
             case EffectType.DebugEffect:
                 return new DebugEffect(this, data, triggerType, parentCard);
             case EffectType.AlterBattlePoints:
-                return new AlterBattlePointsEffect(this, data, triggerType, parentCard, modifierType, battlePointType);
+                return new AlterBattlePointsEffect(this, data, triggerType, parentCard, modifierType, battlePointType, battleModifierfilter);
             case EffectType.SetColor:
                 return new SetColorEffect(this, data, triggerType, parentCard, color);
             case EffectType.ToggleColor:
@@ -83,6 +102,7 @@ public class EffectBlueprint
                 return null;
         }
     }
+
 
     private bool ShouldShowAmount()
     {
@@ -111,11 +131,6 @@ public class EffectBlueprint
             or EffectType.SpawnEnemy
             or EffectType.GainArmor
             or EffectType.TakeDamage;
-    }
-
-    private bool ShouldShowDecision()
-    {
-        return isConditional;
     }
 
     private bool ShouldShowAmountOfTargets()

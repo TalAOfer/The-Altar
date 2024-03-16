@@ -7,11 +7,13 @@ public class AlterBattlePointsEffect : Effect
     private readonly ModifierType _modifierType;
     private readonly BattlePointType _battlePointType;
     private BattleAmountModifier _modifierInstance;
+    private BattleModifierFilter _modifierFilter;
 
-    public AlterBattlePointsEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, ModifierType modifierType, BattlePointType battlePointType) : base(blueprint, data, trigger, parentCard)
+    public AlterBattlePointsEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, ModifierType modifierType, BattlePointType battlePointType, BattleModifierFilterBlueprint modifierFilterBlueprint) : base(blueprint, data, trigger, parentCard)
     {
         _modifierType = modifierType;
         _battlePointType = battlePointType;
+        _modifierFilter = new(modifierFilterBlueprint);
     }
 
     public override IEnumerator ApplyEffect(Card targetCard)
@@ -19,9 +21,8 @@ public class AlterBattlePointsEffect : Effect
         List<BattleAmountModifier> modifierList = _battlePointType is BattlePointType.Attack ?
         targetCard.attackPointsModifiers :
         targetCard.hurtPointsModifiers;
-        //Make sure that there isn't a hidden decision in inspector
-        if (!_isConditional) _decision = null;
-        _modifierInstance = new BattleAmountModifier(_modifierType, ParentCard, _battlePointType, _defaultAmount, _amountStrategy, _data, _decision);
+        if (!_isConditional) _modifierFilter = null;
+        _modifierInstance = new BattleAmountModifier(_modifierType, ParentCard, _battlePointType, _defaultAmount, _amountStrategy, _data, _modifierFilter);
         modifierList.Add(_modifierInstance);
         yield break;
     }

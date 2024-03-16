@@ -13,7 +13,7 @@ public abstract class Effect
     protected EventRegistry _events;
     protected BattleRoomDataProvider _data;
     protected bool _isConditional;
-    protected Decision _decision;
+    //protected Decision _decision;
     protected GetAmountStrategy _amountStrategy;
     protected int _defaultAmount;
 
@@ -33,8 +33,8 @@ public abstract class Effect
 
             _amountStrategy = blueprint.amountStrategy;
             _defaultAmount = blueprint.amount;
-            _isConditional = blueprint.isConditional;
-            _decision = blueprint.decision;
+            //_isConditional = blueprint.isConditional;
+            //_decision = blueprint.decision;
         }
     }
 
@@ -66,10 +66,10 @@ public abstract class Effect
         //Remove cards that don't fulfill the conditions of the effect
         foreach (Card targetCard in targetCards)
         {
-            if (_isConditional && !_decision.Decide(targetCard, _data.GetOpponent(targetCard)))
-            {
-                validTargetCards.Remove(targetCard);
-            }
+            //if (_isConditional && !_decision.Decide(targetCard, _data.GetOpponent(targetCard)))
+            //{
+            //    validTargetCards.Remove(targetCard);
+            //}
         }
 
         return validTargetCards;
