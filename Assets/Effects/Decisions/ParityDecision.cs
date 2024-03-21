@@ -18,7 +18,7 @@ public class ParityDecision : Decision
 
         switch (_compare)
         {
-            case Compare.Object:
+            case Compare.Card:
                 parityCheckAmount = baseCard.points;
                 break;
             case Compare.Value:

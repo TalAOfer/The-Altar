@@ -7,8 +7,8 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     protected BattleRoomDataProvider data;
-    private BattleStateMachine _ctx;
-    private DFSManager _dfs;
+    private BattleRoomStateMachine _ctx;
+    private EffectApplier _effectApplier;
     protected Card EnemyCard => _ctx.Ctx.BattlingEnemyCard;
     protected Card PlayerCard => _ctx.Ctx.BattlingPlayerCard;
 
@@ -17,10 +17,10 @@ public class BattleManager : MonoBehaviour
     [FoldoutGroup("Dependencies")]
     [SerializeField] protected CardData cardData;
 
-    public void Initialize(BattleStateMachine ctx)
+    public void Initialize(BattleRoomStateMachine ctx)
     {
         _ctx = ctx;
-        _dfs = GetComponent<DFSManager>();
+        _effectApplier = GetComponent<EffectApplier>();
         data = _ctx.DataProvider;
     }
 
@@ -28,24 +28,11 @@ public class BattleManager : MonoBehaviour
     {
         PlayerCard.movement.SnapCardToVisual();
 
-        //events.AddLogEntry.Raise(this, "Before Attacking");
         yield return RallyRoutine();
 
-        //PlayerCard.ToggleDamageVisual(true);
-        //EnemyCard.ToggleDamageVisual(true);
+        InitialDamageEffect headbutt = new(null, null, PlayerCard);
 
-        yield return AnimateReadyAndHeadbutt();
-
-        //Impact
-        int enemyDamageTaken = EnemyCard.TakeDamage(PlayerCard.attackPoints.value);
-        int playerDamageTaken = PlayerCard.TakeDamage(EnemyCard.attackPoints.value);
-        Tools.PlaySound("Card_Attack_Impact", PlayerCard.transform);
-        events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
-
-        yield return AnimateBackoff();
-
-        InitialDamageEffect enemyDamageEffect = new(null, null, null, EnemyCard);
-        yield return _dfs.StartDFS(enemyDamageEffect);
+        yield return _effectApplier.InitializeEffectSequence(headbutt, EnemyCard);
 
         //events.AddLogEntry.Raise(this, "On Action");
         yield return BloodthirstEffectsRoutine();
@@ -59,14 +46,15 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+
     #region Effect Routines
 
 
 
     private IEnumerator RallyRoutine()
     {
-        Coroutine ApplyPlayerCardBeforeAttackingEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.Rally));
-        Coroutine ApplyEnemyCardBeforeAttackingEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.Rally));
+        Coroutine ApplyPlayerCardBeforeAttackingEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.Rally, null));
+        Coroutine ApplyEnemyCardBeforeAttackingEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.Rally, null));
 
         yield return ApplyPlayerCardBeforeAttackingEffects;
         yield return ApplyEnemyCardBeforeAttackingEffects;
@@ -79,8 +67,8 @@ public class BattleManager : MonoBehaviour
         bool playerCardDied = PlayerCard.IsDead;
         bool enemyCardDied = EnemyCard.IsDead;
 
-        if (playerCardDied) ApplyPlayerCardOnDeathEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.LastBreath));
-        if (enemyCardDied) ApplyEnemyCardOnDeathEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.LastBreath));
+        if (playerCardDied) ApplyPlayerCardOnDeathEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.LastBreath, null));
+        if (enemyCardDied) ApplyEnemyCardOnDeathEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.LastBreath, null));
 
         if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
         if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
@@ -110,14 +98,14 @@ public class BattleManager : MonoBehaviour
         foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
         {
             //Debug.Log("Applying " + card.name + "'s effects");
-            yield return card.effects.ApplyEffects(TriggerType.Bloodthirst);
+            yield return card.effects.ApplyEffects(TriggerType.Bloodthirst, null);
         }
 
         //Debug.Log("Starting enemy on action effects application");
         foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
         {
             //Debug.Log("Applying " + card.name + "'s effects");
-            yield return card.effects.ApplyEffects(TriggerType.Bloodthirst);
+            yield return card.effects.ApplyEffects(TriggerType.Bloodthirst, null);
         }
     }
 

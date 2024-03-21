@@ -1,166 +1,350 @@
 using Sirenix.OdinInspector;
 using System;
-using UnityEngine;
 
 [Serializable]
 public class EffectBlueprint
 {
-    public EffectType EffectType;
+    [BoxGroup("Trigger")]
+    public EffectTrigger Trigger;
 
-    public EffectTarget target;
+    [BoxGroup("Trigger")]
+    [ShowIf("@Trigger?.TriggerArchetype == TriggerArchetype.GlobalAmountEvents")]
+    public AmountEventFilterBlueprint AmountEventsFilter;
 
+    [BoxGroup("Trigger")]
+    [ShowIf("@Trigger?.TriggerArchetype == TriggerArchetype.GlobalNormalEvents")]
+    public NormalEventFilterBlueprint NormalEventsFilter;
+
+    [BoxGroup("Base")]
+    public EffectTypeAsset EffectTypeAsset;
+
+    [BoxGroup("Description")]
+    [ShowInInspector]
+    [MultiLineProperty(3)]
+    public string Descrtiption => GetDescription();
+
+    [BoxGroup("Description")]
+    public bool replacePlaceholders = true;
+    //public bool shouldAnimate = true;
+
+    [FoldoutGroup("Target Acquiring")]
+    [ShowIf("@EffectTypeAsset?.TypeArchetype == EffectTypeArchetype.Grantable")]
+    public EffectTargetPool TargetPool;
+    [FoldoutGroup("Target Acquiring")]
+    [ShowIf("@ShouldShowTargetStrategy()")]
+    public EffectTargetStrategy TargetStrategy;
+    [FoldoutGroup("Target Acquiring")]
     [ShowIf("@ShouldShowAmountOfTargets()")]
-    public int amountOfTargets = 1;
+    public int AmountOfTargets = 1;
 
-    public bool shouldAnimate = true;
-
-    public EffectApplicationType applicationType;
+    [FoldoutGroup("Effect")]
+    public bool IsPersistent;
 
     [ShowIf("@ShouldShowAmountStrategy()")]
+    [FoldoutGroup("Effect")]
     public GetAmountStrategy amountStrategy;
 
     [ShowIf("@ShouldShowAmount()")]
+    [FoldoutGroup("Effect")]
     public int amount = 1;
-
+    
+    [FoldoutGroup("Effect")]
     [ShowIf("@ShouldShowCardArchetype()")]
     public CardArchetype cardArchetype;
 
     #region Battle Modifier
 
-    [ShowIf("EffectType", EffectType.AlterBattlePoints)]
+    [ShowIf("@GetCurrentEffectType()", EffectType.AddBattlePointModifier)]
+    [FoldoutGroup("Effect")]
     public BattlePointType battlePointType;
 
-    [ShowIf("EffectType", EffectType.AlterBattlePoints)]
+    [ShowIf("@GetCurrentEffectType()", EffectType.AddBattlePointModifier)]
+    [FoldoutGroup("Effect")]
     public ModifierType modifierType;
 
-    [ShowIf("EffectType", EffectType.AlterBattlePoints)]
+    [ShowIf("@GetCurrentEffectType()", EffectType.AddBattlePointModifier)]
+    [FoldoutGroup("Effect")]
     public bool filterBattleModifier;
 
-    [ShowIf("EffectType", EffectType.AlterBattlePoints)]
+    [ShowIf("@ShouldShowBattleModifierFilter()")]
+    [FoldoutGroup("Effect")]
     public BattleModifierFilterBlueprint battleModifierfilter;
 
     #endregion
 
     #region Set Color
 
-    [ShowIf("EffectType", EffectType.SetColor)]
+    [ShowIf("@GetCurrentEffectType()", EffectType.SetColor)]
+    [FoldoutGroup("Effect")]
     public CardColor color;
 
     #endregion
 
     #region Guardians
 
-    [ShowIf("EffectType", EffectType.AddGuardian)]
+    [ShowIf("@GetCurrentEffectType()", EffectType.AddGuardian)]
+    [FoldoutGroup("Effect")]
     public GuardianType guardianType;
 
-    [ShowIf("EffectType", EffectType.AddGuardian)]
-    public EffectApplicationType guardianApplicationType;
+    [ShowIf("@GetCurrentEffectType()", EffectType.AddGuardian)]
+    [FoldoutGroup("Effect")]
+    public bool guardianIsPresistent;
+
+    #endregion
+
+    #region Buff
+
+    [ShowIf("@GetCurrentEffectType()", EffectType.GainBuff)]
+    [FoldoutGroup("Effect")]
+    public BuffType BuffType;
 
     #endregion
 
     #region Add Effect
 
-    [ShowIf("EffectType", EffectType.AddEffect)]
+    [ShowIf("@GetCurrentEffectType()", EffectType.AddEffect)]
+    [FoldoutGroup("Effect")]
     public EffectBlueprintAsset effectBlueprint;
 
-    [ShowIf("EffectType", EffectType.AddEffect)]
-    public EffectTrigger whenToTriggerAddedEffect;
-    
     #endregion
 
 
-    public Effect InstantiateEffect(EffectTrigger triggerType, Card parentCard, BattleRoomDataProvider data)
+    public Effect InstantiateEffect(Card parentCard, BattleRoomDataProvider data)
     {
-        switch (EffectType)
-        {
-            case EffectType.DebugEffect:
-                return new DebugEffect(this, data, triggerType, parentCard);
-            case EffectType.AlterBattlePoints:
-                return new AlterBattlePointsEffect(this, data, triggerType, parentCard, modifierType, battlePointType, battleModifierfilter);
-            case EffectType.SetColor:
-                return new SetColorEffect(this, data, triggerType, parentCard, color);
-            case EffectType.ToggleColor:
-                return new ToggleColorEffect(this, data, triggerType, parentCard);
-            case EffectType.GainPoints:
-                return new GainPointsEffect(this, data, triggerType, parentCard);
-            case EffectType.DrawCard:
-                return new DrawCardEffect(this, data, triggerType, parentCard);
-            case EffectType.SpawnCardToHand:
-                return new SpawnCardToHandEffect(this, data, triggerType, parentCard, cardArchetype);
-            case EffectType.AddEffect:
-                return new AddEffectEffect(this, data, triggerType, parentCard, effectBlueprint.blueprint, whenToTriggerAddedEffect);
-            case EffectType.AddGuardian:
-                return new AddGuardianEffect(this, data, triggerType, parentCard, guardianType, applicationType);
-            case EffectType.SpawnEnemy:
-                return new SpawnEnemiesEffect(this, data, triggerType, parentCard, cardArchetype);
-            case EffectType.GainArmor:
-                return new GainArmorEffect(this, data, triggerType, parentCard);
-            case EffectType.TakeDamage:
-                return new TakeDamageEffect(this, data, triggerType, parentCard);
-            default:
-                Debug.LogError("Effect wasn't found");
-                return null;
-        }
+        return EffectTypeAsset.InstantiateEffect(this, parentCard, data);
     }
 
+    #region Inspector Helpers
 
+    private EffectType GetCurrentEffectType()
+    {
+        if (EffectTypeAsset == null)
+        {
+            return 0;
+        }
+        else
+        {
+            return EffectTypeAsset.Type;
+        }
+    }
     private bool ShouldShowAmount()
     {
-        return (EffectType is
-               EffectType.GainPoints
-            or EffectType.SpawnCardToHand
-            or EffectType.DrawCard
-            or EffectType.AlterBattlePoints
-            or EffectType.SpawnEnemy
-            or EffectType.GainArmor
-            or EffectType.TakeDamage)
-            && amountStrategy is GetAmountStrategy.Value;
+        if (EffectTypeAsset != null)
+        {
+            return EffectTypeAsset.NeedsAmount
+                && amountStrategy is GetAmountStrategy.Value;
+        }
+        else return false;
     }
 
     private bool ShouldShowCardArchetype()
     {
-        return EffectType is EffectType.SpawnCardToHand or EffectType.SpawnEnemy;
+        if (EffectTypeAsset != null) return EffectTypeAsset.NeedsArchetype;
+        else return false;
     }
     private bool ShouldShowAmountStrategy()
     {
-        return EffectType is
-               EffectType.GainPoints
-            or EffectType.SpawnCardToHand
-            or EffectType.DrawCard
-            or EffectType.AlterBattlePoints
-            or EffectType.SpawnEnemy
-            or EffectType.GainArmor
-            or EffectType.TakeDamage;
+        if (EffectTypeAsset != null) return EffectTypeAsset.NeedsAmount;
+        else return false;
     }
-
     private bool ShouldShowAmountOfTargets()
     {
-        return target is EffectTarget.RandomCardOnMap or EffectTarget.RandomCardFromHand;
+        return (TargetStrategy is EffectTargetStrategy.Random or EffectTargetStrategy.Highest or EffectTargetStrategy.Lowest)
+            && ShouldShowTargetStrategy();
+        ;
     }
+    private bool ShouldShowTargetStrategy()
+    {
+        return (EffectTypeAsset.TypeArchetype == EffectTypeArchetype.Grantable) && 
+            (TargetPool is EffectTargetPool.PlayerCards or EffectTargetPool.EnemyCards or EffectTargetPool.AllCards);
+    }
+    private bool ShouldShowBattleModifierFilter()
+    {
+        return GetCurrentEffectType() is EffectType.AddBattlePointModifier && filterBattleModifier;
+    }
+
+    #endregion
+
+    #region Description Builder
+    public string GetDescription()
+    {
+        //Trigger
+        if (Trigger == null || EffectTypeAsset == null) return "";
+
+        string triggerText = Trigger.IsRigid ? Trigger.TriggerName : Trigger.TriggerBaseText;
+        if (Trigger.IsRigid) triggerText += ": ";
+
+
+        //Effect
+        string effectText = EffectTypeAsset.BaseEffectText;
+
+        if (EffectTypeAsset.Type is EffectType.AddBattlePointModifier && filterBattleModifier)
+        {
+            effectText += " ";
+            effectText += battleModifierfilter.GetDescription();
+        }
+
+        //Target
+
+        string target = GetTargetString();
+
+        string description = triggerText + ", " + effectText + " " + target;
+
+        if (replacePlaceholders)
+        {
+            description = description.Replace("{amount}", GetAmountString());
+            description = description.Replace("{normalCardFilter}", NormalEventsFilter.GetCardFilterDescription());
+            description = description.Replace("{amountCardFilter}", AmountEventsFilter.GetCardFilterDescription());
+            description = description.Replace("{amountFilter}", AmountEventsFilter.GetAmountFilterDescription());
+            description = description.Replace("{targetVerb}", GetTargetVerb());
+            description = description.Replace("{buffType}", BuffType.ToString());
+            description.Trim();
+        }
+
+        return description;
+    }
+
+    private string GetAmountString()
+    {
+        string amountString = "";
+
+        if (amountStrategy is GetAmountStrategy.Value)
+        {
+            amountString = amount.ToString();
+        }
+
+        else
+        {
+            amountString = 1.ToString();
+        }
+
+        return amountString;
+    }
+    private string GetAmountStrategyString()
+    {
+        string amountString = "";
+
+        switch (amountStrategy)
+        {
+            case GetAmountStrategy.Value:
+                amountString = amount.ToString();
+                break;
+            case GetAmountStrategy.EmptySpacesOnMap:
+                break;
+            case GetAmountStrategy.EnemiesOnMap:
+                amountString = "for each enemy on map";
+                break;
+            case GetAmountStrategy.NotImplementedDeadEnemiesOnMap:
+                break;
+            case GetAmountStrategy.CardsInHand:
+                amountString = "for each card in your hand";
+                break;
+            case GetAmountStrategy.RoomCount:
+                amountString = "for each room you encountered this floor";
+                break;
+            case GetAmountStrategy.LowestValueEnemyCard:
+                amountString = "times the value of the lowest enemy card on map";
+                break;
+        }
+
+        return amountString;
+    }
+
+    private string GetTargetString()
+    {
+        string strategy = "";
+
+        if (EffectTypeAsset.TypeArchetype != EffectTypeArchetype.Grantable)
+        {
+            return "";
+        }
+
+        switch (TargetStrategy)
+        {
+            case EffectTargetStrategy.All:
+                break; // No strategy text for "All" as it's implied
+            case EffectTargetStrategy.Random:
+                strategy = "random ";
+                break;
+            case EffectTargetStrategy.Highest:
+                strategy = "highest ";
+                break;
+            case EffectTargetStrategy.Lowest:
+                strategy = "lowest ";
+                break;
+        }
+
+        string pool = "";
+
+        switch (TargetPool)
+        {
+            case EffectTargetPool.InitiatingCard:
+                return ""; // If it's the initiating card, we assume no additional text is needed.
+            case EffectTargetPool.Oppnent:
+            case EffectTargetPool.SelectedCards:
+                break; // No additional text for these cases in your original method
+            case EffectTargetPool.AllCards:
+                pool = "card";
+                break;
+            case EffectTargetPool.PlayerCards:
+                pool = "player card";
+                break;
+            case EffectTargetPool.EnemyCards:
+                pool = "enemy card";
+                break;
+        }
+
+        string amountText = AmountOfTargets == 1 ? "" : AmountOfTargets.ToString() + " ";
+        string theText = AmountOfTargets == 1 ? "the " : "";
+
+        // Assemble the parts into the final string
+        string targetString = "to ";
+
+
+        // We use "the" only when there's a strategy and it's singular, e.g., "the highest"
+        if (!string.IsNullOrEmpty(theText) && !string.IsNullOrEmpty(pool))
+        {
+            targetString += theText + strategy + pool;
+        }
+        else
+        {
+            // If AmountOfTargets is greater than one or pool is empty, we don't use "the"
+            targetString += amountText + strategy + (AmountOfTargets > 1 ? pool + "s" : pool);
+        }
+
+        return targetString.Trim();
+    }
+
+    private string GetTargetVerb()
+    {
+        string targetVerb = "";
+
+        if (EffectTypeAsset.TypeArchetype is EffectTypeArchetype.Grantable)
+        {
+            if (TargetPool is EffectTargetPool.InitiatingCard)
+            {
+                targetVerb = EffectTypeAsset.GainVerb;
+            }
+            else
+            {
+                targetVerb = EffectTypeAsset.GrantVerb;
+            }
+        }
+
+        return targetVerb;
+    }
+    #endregion
+
 }
 
-public enum EffectApplicationType
-{
-    Base,
-    Persistent,
-    //Bond,
-}
-
-public enum EffectTarget
+public enum EffectTargetPool
 {
     InitiatingCard,
     Oppnent,
-    PlayerCardBattling,
-    EnemyCardBattling,
-    AllPlayerCards,
-    AllEnemyCards,
-    AllCardsOnMap,
-    AllCardsInHand,
-    RandomCardOnMap,
-    RandomCardFromHand,
-    LowestPlayerCard,
     SelectedCards,
-    HighestPlayerCard,
+    AllCards,
+    PlayerCards,
+    EnemyCards
 }
 
 public enum EffectTargetStrategy
@@ -174,7 +358,7 @@ public enum EffectTargetStrategy
 public enum EffectType
 {
     DebugEffect,
-    AlterBattlePoints,
+    AddBattlePointModifier,
     SetColor,
     ToggleColor,
     GainPoints,
@@ -183,8 +367,8 @@ public enum EffectType
     AddEffect,
     AddGuardian,
     SpawnEnemy,
-    GainArmor,
-    TakeDamage
+    GainBuff,
+    TakeDamage,
 }
 
 public enum GetAmountStrategy

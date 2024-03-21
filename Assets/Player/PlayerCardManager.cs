@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCardManager : MonoBehaviour
 {
-    private BattleStateMachine _ctx;
+    private BattleRoomStateMachine _ctx;
     [field: SerializeField] public List<Card> ActiveCards { get; private set; } = new();
     private GameObject _cardPrefab;
     public HandManager Hand { get; private set; }
@@ -20,7 +20,7 @@ public class PlayerCardManager : MonoBehaviour
         _cardPrefab = Locator.Prefabs.Card;
     }
 
-    public void Initialize(BattleStateMachine ctx)
+    public void Initialize(BattleRoomStateMachine ctx)
     {
         _ctx = ctx;
     }

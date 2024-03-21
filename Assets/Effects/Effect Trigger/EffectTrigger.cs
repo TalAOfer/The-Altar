@@ -5,51 +5,67 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEffectTrigger", menuName = "Effects/Effect Trigger")]
 public class EffectTrigger : ScriptableObject
 {
-    public bool isModifiable;
     public TriggerType TriggerType;
+    public TriggerArchetype TriggerArchetype;
+    public bool IsRigid;
+    //[ShowIf("IsRigid")]
+    public string TriggerName;
+    public bool IsModifiable;
+    //[HideIf("IsRigid")]
+    public string TriggerText;
+    //[HideIf("IsRigid")]
+    public string TriggerVerb;
+
+    //[HideIf("IsRigid")]
+    [ShowInInspector]
+    public string TriggerBaseText => GetTriggerBaseText();
+
+    public string GetTriggerBaseText()
+    {
+        string triggerBasetext = "";
+        switch (TriggerArchetype)
+        {
+            case TriggerArchetype.LocalAmountEvents:
+                triggerBasetext = "Whenever this card " + TriggerVerb + " " + TriggerText;
+                break;
+            case TriggerArchetype.GlobalAmountEvents:
+                triggerBasetext = "Whenever a {amountCardFilter} card " + TriggerVerb + " {amountFilter} " + TriggerText;
+                break;
+            case TriggerArchetype.LocalNormalEvents:
+                triggerBasetext = "Whenever this card " + TriggerVerb + " " + TriggerText;
+                break;
+            case TriggerArchetype.GlobalNormalEvents:
+                triggerBasetext = "Whenever a {normalCardFilter} card " + TriggerVerb + " " + TriggerText;
+                break;
+        }
+        return triggerBasetext;
+    }
 }
 
 public enum TriggerType
 {
-    Rally,
-    LastBreath,
-    Bloodthirst,
-    Siphon,
+    Rally = 0,
+    LastBreath = 1,
+    Bloodthirst = 2,
+    Retaliate = 3,
+    Siphon = 4,
+    OnChange = 5,
 
-    Damage,
-    LethalDamage,
-    NonlethalDamage,
-    Death,
-    Change,
-    Summon,
-    Heal
+    SelfDamage = 6,
+    SelfHeal = 7,
+    
+    GlobalDamage = 8,
+    GlobalDeath = 9,
+    GlobalHeal = 11,
+
+    GlobalSummon = 10,
 }
 
-[Serializable]
-public class EffectTriggerModifiers
+public enum TriggerArchetype
 {
-    [SerializeField] private bool _isConditionalByAffinity;
-    [ShowIf("_isConditionalByAffinity")]
-    [SerializeField] private Affinity _affinityModifier;
-
-    [SerializeField] private bool _isConditionalByColor;
-    [ShowIf("_isConditionalByColor")]
-    [SerializeField] private CardColor _colorModifier;
-
-    [SerializeField] private bool _isConditionalByPointsAmount;
-    [SerializeField] private Comparison _comparison;
-    [SerializeField] private int amount;
-
-    [SerializeField] private bool _isConditionalByPointsNature;
-
-    public bool Decide(Card triggerInitiatingCard)
-    {
-        if (!_isConditionalByAffinity && !_isConditionalByColor) return true;
-
-        bool doesAffinityMatch = !_isConditionalByAffinity || triggerInitiatingCard.Affinity == _affinityModifier;
-
-        bool doesColorMatch = !_isConditionalByColor || triggerInitiatingCard.cardColor == _colorModifier;
-
-        return doesColorMatch && doesAffinityMatch;
-    }
+    LocalNormalEvents = 0,
+    GlobalNormalEvents = 1,
+    LocalAmountEvents = 2,
+    GlobalAmountEvents = 3,
 }
+

@@ -1,8 +1,6 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class CardEffectHandler : SerializedMonoBehaviour
@@ -12,7 +10,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
     private EventRegistry _events;
 
     [ShowInInspector]
-    public Dictionary<EffectTrigger, List<Effect>>  EffectsDict { get; private set; } = new();
+    public Dictionary<EffectTrigger, List<Effect>> EffectsDict { get; private set; } = new();
 
     public void Init(CardBlueprint blueprint)
     {
@@ -22,14 +20,10 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     public void InstantiateDefaultCardEffects(CardBlueprint blueprint)
     {
-        foreach (var trigger in _triggers.triggers)
+        foreach (var effectBlueprintRef in blueprint.Effects)
         {
-            var effectsInTrigger = blueprint.GetEffectsInTrigger(trigger);
-            foreach (var effectBlueprint in effectsInTrigger)
-            {
-                Effect effect = effectBlueprint.Value.InstantiateEffect(trigger, _card, _card.DataProvider);
-                AddEffectToDictionary(effect);
-            }
+            Effect effect = effectBlueprintRef.Value.InstantiateEffect(_card, _card.DataProvider);
+            AddEffectToDictionary(effect);
         }
     }
 
@@ -62,7 +56,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
         List<Effect> toRemove = new(effects);
         foreach (Effect effect in toRemove)
         {
-            if (effect.EffectApplicationType == EffectApplicationType.Persistent) continue;
+            if (effect.IsPersistent) continue;
             effect.OnRemoveEffect(_card);
             effects.Remove(effect);
         }
@@ -73,7 +67,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
         }
     }
 
-    public IEnumerator ApplyEffects(TriggerType type)
+    public IEnumerator ApplyEffects(TriggerType type, IEventData EventData)
     {
         EffectTrigger triggerType = _triggers.GetTriggerAssetByEnum(type);
 
@@ -88,11 +82,14 @@ public class CardEffectHandler : SerializedMonoBehaviour
         {
             foreach (Effect effect in allEffects)
             {
-                yield return effect.Trigger();
+                if (effect.Filter.Decide(_card, EventData))
+                {
+                    yield return effect.Trigger();
+                }
             }
         }
 
-        yield return null;
+        yield break;
     }
 
     public void TriggerEffects(TriggerType type)

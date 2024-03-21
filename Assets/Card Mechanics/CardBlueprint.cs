@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Blueprints/Card")]
-public class CardBlueprint : SerializedScriptableObject
+public class CardBlueprint : ScriptableObject
 {
     [PreviewField(150)]
     public Sprite cardSprite;
@@ -17,15 +17,7 @@ public class CardBlueprint : SerializedScriptableObject
     public string Description;
     public SpecialEffects SpecialEffects;
 
-    public Dictionary<EffectTrigger, List<EffectBlueprintReference>> Effects = new();
-    public List<EffectBlueprintReference> GetEffectsInTrigger(EffectTrigger trigger)
-    {
-        if (Effects.TryGetValue(trigger, out List<EffectBlueprintReference> effectBlueprints))
-        {
-            return effectBlueprints;
-        }
-        return new List<EffectBlueprintReference>(); // Return an empty list if no effects are found for the trigger
-    }
+    public List<EffectBlueprintReference> Effects;
 }
 
 public enum CardColor
@@ -61,4 +53,17 @@ public class CardArchetype
     }
 }
 
+//[Serializable]
+//public class CardEffectBlueprint
+//{
+//    [BoxGroup("Trigger")]
+//    public EffectTrigger Trigger;
+//    //[BoxGroup("Trigger")]
+//    //[ShowIf("@Trigger.IsModifiable")]
+//    //public AmountEventFilterBlueprint Filter;
+//    [BoxGroup("Effect")]
+//    public EffectBlueprintReference Effect;
+
+//    //private bool ShouldShowFilter => Trigger.IsModifiable;
+//}
 

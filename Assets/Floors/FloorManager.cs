@@ -33,7 +33,7 @@ public class FloorManager : MonoBehaviour
         currentRoom.Initialize(this, new Room(RoomType.First, RewardType.Nothing));
     }
 
-    public void InitializeFirstRoom()
+    public void InitializeRoomStateMachine()
     {
         currentRoom.InitializeStateMachine();
     }

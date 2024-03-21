@@ -10,10 +10,12 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
     [ShowInInspector]
     [ReadOnly]
     public PlayerHealth PlayerHealth { get; private set; } = new(100);
-    public Vector2Int DefaultDrawabilityMinMax;
+
     public CodexBlueprint playerCodexRecipe;
     public MetaPoolRecipe playerPoolRecipe;
     public EventRegistry events;
+
+    public Vector2Int defaultPlayerDrawMinMax;
 
     [FoldoutGroup("Runtime Data")]
     [ReadOnly]
@@ -33,16 +35,16 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
         if (isInitialized) return;
 
         ResetPlayerHealth();
-        InitializePlayerDeck();
         InitializePlayerCodex();
         InitializePlayerPool();
+        InitializePlayerDeck();
 
         isInitialized = true;
     }
 
     private void InitializePlayerDeck()
     {
-        playerDeck = new Deck(DefaultDrawabilityMinMax.x, DefaultDrawabilityMinMax.y);
+        playerDeck = new Deck(defaultPlayerDrawMinMax.x, defaultPlayerDrawMinMax.y);
     }
 
     private void InitializePlayerCodex()

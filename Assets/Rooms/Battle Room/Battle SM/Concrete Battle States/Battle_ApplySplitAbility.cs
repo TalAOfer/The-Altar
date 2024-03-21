@@ -9,7 +9,7 @@ public class Battle_ApplySplitAbility : BaseBattleRoomState
     List<Card> CardsSelected => _ctx.Ctx.CurrentCardsSelected;
     Card SelectedCard => _ctx.Ctx.CurrentCardsSelected[0];
 
-    public Battle_ApplySplitAbility(BattleStateMachine ctx) : base(ctx)
+    public Battle_ApplySplitAbility(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 

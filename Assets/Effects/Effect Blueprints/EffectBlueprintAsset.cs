@@ -6,5 +6,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Blueprints/Effect")]
 public class EffectBlueprintAsset : ScriptableObject
 {
-    public EffectBlueprint blueprint;
+    public EffectBlueprint Value;
 }

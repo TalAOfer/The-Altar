@@ -5,9 +5,10 @@ using System;
 public class Room
 {
     public RoomType Type;
-    public RewardType Reward;
     [ShowIf("Type", RoomType.Battle)]
     public BattleBlueprint BattleBlueprint;
+
+    public RewardType Reward;
     [ShowIf("Reward", RewardType.Cards)]
     public int AmountOfOptions;
 

@@ -15,8 +15,8 @@ public class AmountComparisonDecision : Decision
 
     public override bool Decide(Card baseCard, Card comparisonCard = null, int amount = 0)
     {
-        int baseValue = _compare is Compare.Object ? baseCard.points : amount;
-        int comparisonValue = _compareTo is CompareTo.AnotherObject ? comparisonCard.points : _predefinedAmount;
+        int baseValue = _compare is Compare.Card ? baseCard.points : amount;
+        int comparisonValue = _compareTo is CompareTo.AnotherCard ? comparisonCard.points : _predefinedAmount;
 
         return _comparison switch
         {

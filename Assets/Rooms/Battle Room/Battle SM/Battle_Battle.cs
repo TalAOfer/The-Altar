@@ -7,7 +7,7 @@ internal class Battle_Battle : BaseBattleRoomState
     private bool IsEnemyOutOfCards => _ctx.EnemyCardManager.ActiveEnemies.Count == 0;
     private bool IsPlayerOutOfCards => _ctx.PlayerCardManager.ActiveCards.Count == 0;
 
-    public Battle_Battle(BattleStateMachine ctx) : base(ctx)
+    public Battle_Battle(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 

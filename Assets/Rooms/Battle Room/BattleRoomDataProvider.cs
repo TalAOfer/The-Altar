@@ -5,83 +5,78 @@ using UnityEngine;
 
 public class BattleRoomDataProvider
 {
-    private readonly BattleStateMachine _ctx;
-    public BattleRoomDataProvider(BattleStateMachine ctx)
+    private readonly BattleRoomStateMachine _sm;
+    public BattleRoomDataProvider(BattleRoomStateMachine SM)
     {
-        _ctx = ctx;
+        _sm = SM;
     }
 
     #region Action Providers
 
     public void RemovePlayerCard(Card card)
     {
-        _ctx.PlayerCardManager.RemoveCardFromManager(card);
+        _sm.PlayerCardManager.RemoveCardFromManager(card);
     }
 
     public void DrawCardsToHand(int amount)
     {
-        CoroutineRunner.Instance.StartCoroutine(_ctx.PlayerCardManager.DrawCardsToHand(amount));
+        CoroutineRunner.Instance.StartCoroutine(_sm.PlayerCardManager.DrawCardsToHand(amount));
     }
 
     public void SpawnCardToHandByArchetype(CardArchetype archetype)
     {
-        _ctx.PlayerCardManager.SpawnCardToHandByArchetype(archetype);
+        _sm.PlayerCardManager.SpawnCardToHandByArchetype(archetype);
     }
 
     public IEnumerator SpawnEnemiesByArchetype(CardArchetype archetype, int amount)
     {
-        yield return _ctx.EnemyCardManager.SpawnEnemiesByArchetype(archetype, amount);
+        yield return _sm.EnemyCardManager.SpawnEnemiesByArchetype(archetype, amount);
     }
 
     #endregion
 
     #region Target Providers
 
-    public List<Card> GetTargets(Card parentCard, EffectTarget targetType, int amountOfTargets)
+    public List<Card> GetTargets(Card parentCard, EffectTargetPool targetType, EffectTargetStrategy targetStrategy, int amountOfTargets)
     {
         List<Card> targets = new();
 
         switch (targetType)
         {
-            case EffectTarget.InitiatingCard:
+            case EffectTargetPool.InitiatingCard:
                 targets.Add(parentCard);
                 break;
-            case EffectTarget.Oppnent:
+            case EffectTargetPool.Oppnent:
                 targets.Add(GetOpponent(parentCard));
                 break;
-            case EffectTarget.AllPlayerCards:
+            case EffectTargetPool.AllCards:
+                targets.AddRange(GetAllActivePlayerCards());
+                targets.AddRange(GetAllActiveEnemyCards());
+                break;
+            case EffectTargetPool.PlayerCards:
                 targets = GetAllActivePlayerCards();
                 break;
-            case EffectTarget.AllEnemyCards:
-                targets = GetAllActiveEnemies();
+            case EffectTargetPool.EnemyCards:
+                targets = GetAllActiveEnemyCards();
                 break;
-            case EffectTarget.AllCardsOnMap:
-                targets = GetAllActiveEnemiesOnMap();
+            case EffectTargetPool.SelectedCards:
                 break;
-            case EffectTarget.AllCardsInHand:
-                targets = GetAllCardsInHand();
-                break;
-            case EffectTarget.RandomCardOnMap:
-                List<Card> randomEnemyCards = GetRandomEnemyCards(amountOfTargets, parentCard);
-                if (randomEnemyCards != null) targets = randomEnemyCards;
-                break;
-            case EffectTarget.RandomCardFromHand:
-                List<Card> randomPlayerCards = GetRandomPlayerCards(amountOfTargets, parentCard);
-                if (randomPlayerCards != null) targets = randomPlayerCards;
-                break;
-            case EffectTarget.PlayerCardBattling:
-                targets.Add(_ctx.Ctx.BattlingPlayerCard);
-                break;
-            case EffectTarget.EnemyCardBattling:
-                targets.Add(_ctx.Ctx.BattlingEnemyCard);
-                break;
-            case EffectTarget.LowestPlayerCard:
-                Card lowestPlayerCard = GetLowestPlayerCard(parentCard);
-                if (lowestPlayerCard != null) targets.Add(lowestPlayerCard);
-                break;
-            case EffectTarget.HighestPlayerCard:
-                Card highestPlayerCard = GetHighestPlayerCard(parentCard);
-                if (highestPlayerCard != null) targets.Add(highestPlayerCard);
+
+        }
+
+        if (targetType is EffectTargetPool.InitiatingCard or EffectTargetPool.Oppnent) return targets;
+
+        switch (targetStrategy)
+        {
+            case EffectTargetStrategy.All:
+                return targets;
+            case EffectTargetStrategy.Random:
+                return GetRandomCards(targets, amountOfTargets);
+            case EffectTargetStrategy.Highest:
+                return GetHighestCards(targets, amountOfTargets);
+            case EffectTargetStrategy.Lowest:
+                return GetLowestCards(targets, amountOfTargets);
+            default:
                 break;
         }
 
@@ -90,140 +85,80 @@ public class BattleRoomDataProvider
 
     public Card GetOpponent(Card card)
     {
-        return card.Affinity == Affinity.Player ? _ctx.Ctx.BattlingEnemyCard : _ctx.Ctx.BattlingPlayerCard;
+        return card.Affinity == Affinity.Player ? _sm.Ctx.BattlingEnemyCard : _sm.Ctx.BattlingPlayerCard;
     }
 
-    public List<Card> GetAllActiveEnemies()
+    public List<Card> GetAllActiveEnemyCards()
     {
-        return new(_ctx.EnemyCardManager.ActiveEnemies);
-    }
-
-    public List<Card> GetAllActiveEnemiesOnMap()
-    {
-        List<Card> activeEnemies = new(_ctx.EnemyCardManager.ActiveEnemies);
-        if (_ctx.Ctx.BattlingEnemyCard != null) activeEnemies.Remove(_ctx.Ctx.BattlingEnemyCard);
-        return activeEnemies;
+        return new(_sm.EnemyCardManager.ActiveEnemies);
     }
 
     public List<Card> GetAllActivePlayerCards()
     {
-        return new(_ctx.PlayerCardManager.ActiveCards);
+        return new(_sm.PlayerCardManager.ActiveCards);
     }
 
-    public List<Card> GetAllCardsInHand()
+    public List<Card> GetRandomCards(List<Card> sourceList, int amount, Card excludeThis = null)
     {
-        List<Card> activeEnemies = new(_ctx.PlayerCardManager.ActiveCards);
-        if (_ctx.Ctx.BattlingPlayerCard != null) activeEnemies.Remove(_ctx.Ctx.BattlingPlayerCard);
-        return activeEnemies;
-    }
+        List<Card> randomCards = new List<Card>();
 
-    public List<Card> GetRandomPlayerCards(int numberOfCards, Card excludeThis)
-    {
-        List<Card> cardsToPickFrom = GetAllActivePlayerCards();
+        if (sourceList == null || sourceList.Count == 0 || amount <= 0)
+        {
+            return randomCards;
+        }
 
+        // Create a copy of the source list to avoid modifying the original
+        List<Card> tempList = new(sourceList);
+
+        // Exclude the specified card if it's not null
         if (excludeThis != null)
         {
-            cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
+            tempList.Remove(excludeThis);
         }
 
-        cardsToPickFrom.Remove(_ctx.Ctx.BattlingPlayerCard);
+        // Adjust the number of cards to draw if necessary, after excluding
+        int drawCount = Mathf.Min(amount, tempList.Count);
 
-        // Adjust the number of cards to draw if necessary
-        int drawCount = Mathf.Min(numberOfCards, cardsToPickFrom.Count);
-
-        if (drawCount == 0)
+        // Randomly pick cards
+        for (int i = 0; i < drawCount; i++)
         {
-            return new List<Card>(); // Return an empty list instead of null
+            int randomIndex = UnityEngine.Random.Range(0, tempList.Count);
+            randomCards.Add(tempList[randomIndex]);
+            tempList.RemoveAt(randomIndex);
         }
-
-        List<int> randomIndices = Tools.GetXUniqueRandoms(drawCount, 0, cardsToPickFrom.Count);
-        List<Card> randomCards = randomIndices.Select(index => cardsToPickFrom[index]).ToList();
-
-        return randomCards;
-    }
-    public List<Card> GetRandomEnemyCards(int numberOfCards, Card excludeThis)
-    {
-        List<Card> cardsToPickFrom = GetAllActiveEnemies();
-
-        if (excludeThis != null)
-        {
-            cardsToPickFrom.RemoveAll(card => card.Equals(excludeThis));
-        }
-
-        cardsToPickFrom.Remove(_ctx.Ctx.BattlingEnemyCard);
-
-        // Adjust the number of cards to draw if necessary
-        int drawCount = Mathf.Min(numberOfCards, cardsToPickFrom.Count);
-
-        if (drawCount == 0)
-        {
-            return new List<Card>(); // Return an empty list instead of null
-        }
-
-        List<int> randomIndices = Tools.GetXUniqueRandoms(drawCount, 0, cardsToPickFrom.Count);
-        List<Card> randomCards = randomIndices.Select(index => cardsToPickFrom[index]).ToList();
 
         return randomCards;
     }
 
-    public Card GetLowestPlayerCard(Card excludeThis)
+    public List<Card> GetLowestCards(List<Card> cardList, int amount, Card excludeThis = null)
     {
-        List<Card> availableCards = new(_ctx.PlayerCardManager.ActiveCards);
-        availableCards.Remove(excludeThis);
-        if (availableCards.Count == 0) return null;
+        if (cardList == null || cardList.Count == 0 || amount <= 0) return new List<Card>();
 
-        int min = 100;
-        List<Card> lowestCards = new();
+        List<Card> filteredList = excludeThis != null
+            ? cardList.Where(card => card != excludeThis).ToList()
+            : new List<Card>(cardList);
 
-        foreach (Card card in availableCards)
-        {
-            if (card.points < min)
-            {
-                min = card.points;
-                lowestCards.Clear();
-                lowestCards.Add(card);
-            }
-            else if (card.points == min)
-            {
-                lowestCards.Add(card);
-            }
-        }
+        // Sort the list by points in ascending order
+        List<Card> sortedList = filteredList.OrderBy(card => card.points).ToList();
 
-        int rand = Random.Range(0, lowestCards.Count);
-        Card chosenCard = lowestCards[rand];
-
-        return chosenCard;
+        // Take the first 'amount' cards from the sorted list
+        return sortedList.Take(amount).ToList();
     }
 
-    public Card GetHighestPlayerCard(Card excludeThis)
+    public List<Card> GetHighestCards(List<Card> cardList, int amount, Card excludeThis = null)
     {
-        List<Card> availableCards = new(_ctx.PlayerCardManager.ActiveCards);
-        availableCards.Remove(excludeThis);
-        if (availableCards.Count == 0) return null;
+        if (cardList == null || cardList.Count == 0 || amount <= 0) return new List<Card>();
 
-        int max = -1; // Start with a value lower than any card's points.
-        List<Card> highestCards = new();
+        List<Card> filteredList = excludeThis != null
+            ? cardList.Where(card => card != excludeThis).ToList()
+            : new List<Card>(cardList);
 
-        foreach (Card card in availableCards)
-        {
-            if (card.points > max)
-            {
-                max = card.points;
-                highestCards.Clear();
-                highestCards.Add(card);
-            }
-            else if (card.points == max)
-            {
-                highestCards.Add(card);
-            }
-        }
+        // Sort the list by points in descending order
+        List<Card> sortedList = filteredList.OrderByDescending(card => card.points).ToList();
 
-        int rand = Random.Range(0, highestCards.Count);
-        Card chosenCard = highestCards[rand];
-
-        return chosenCard;
+        // Take the first 'amount' cards from the sorted list
+        return sortedList.Take(amount).ToList();
     }
-
     #endregion
 
     #region Amount Providers
@@ -253,24 +188,24 @@ public class BattleRoomDataProvider
     }
     public int GetAmountOfPlayerCards()
     {
-        return _ctx.PlayerCardManager.ActiveCards.Count;
+        return _sm.PlayerCardManager.ActiveCards.Count;
     }
 
     public int GetAmountOfEnemies()
     {
-        return _ctx.EnemyCardManager.ActiveEnemies.Count;
+        return _sm.EnemyCardManager.ActiveEnemies.Count;
     }
 
     public int GetRoomIndex()
     {
-        return _ctx.FloorCtx.CurrentRoomIndex;
+        return _sm.FloorCtx.CurrentRoomIndex;
     }
 
     public int GetLowestEnemyCardValue(Card excludeThis)
     {
         int amount = 100;
 
-        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
+        foreach (Card card in _sm.EnemyCardManager.ActiveEnemies)
         {
             if (card == excludeThis) continue;
 

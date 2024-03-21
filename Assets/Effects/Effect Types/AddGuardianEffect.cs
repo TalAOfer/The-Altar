@@ -5,21 +5,21 @@ using UnityEngine;
 public class AddGuardianEffect : Effect
 {
     private GuardianType _guardianType;
-    private EffectApplicationType _applicationType;
+    private bool _isPersistent;
 
-    public AddGuardianEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, GuardianType guardianType, EffectApplicationType applicationType) : base(blueprint, data, trigger, parentCard)
+    public AddGuardianEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, Card parentCard) : base(blueprint, data, parentCard)
     {
-        _guardianType = guardianType;
-        _applicationType = applicationType;
+        _guardianType = blueprint.guardianType;
+        _isPersistent = blueprint.IsPersistent;
     }
 
-    public override IEnumerator ApplyEffect(Card target)
+    protected override IEnumerator ApplyEffect(Card target)
     {
-        target.guardians.Add(new Guardian(_guardianType, ParentCard, _applicationType));
+        target.guardians.Add(new Guardian(_guardianType, ParentCard, _isPersistent));
         yield break;
     }
 
-    public override string GetEffectIndicationString(Card target, int amount)
+    protected override string GetEffectIndicationString(Card target, int amount)
     {
         throw new System.NotImplementedException();
     }

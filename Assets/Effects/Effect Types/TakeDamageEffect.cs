@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class TakeDamageEffect : Effect
 {
-    public TakeDamageEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard) : base(blueprint, data, trigger, parentCard)
+    public TakeDamageEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, Card parentCard) : base(blueprint, data, parentCard)
     {
     }
 
-    public override IEnumerator ApplyEffect(Card target)
+    protected override IEnumerator ApplyEffect(Card target)
     {
-        target.TakeDamage(GetAmount(target));
+        target.TakeDamage(GetAmount(target), ParentCard);
         yield return null;
     }
 
-    public override string GetEffectIndicationString(Card target, int amount)
+    protected override string GetEffectIndicationString(Card target, int amount)
     {
         return "";
     }

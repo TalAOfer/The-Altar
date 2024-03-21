@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Battle_EnemySetup : BaseBattleRoomState
 {
-    public Battle_EnemySetup(BattleStateMachine ctx) : base(ctx)
+    public Battle_EnemySetup(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 

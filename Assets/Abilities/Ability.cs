@@ -22,7 +22,7 @@ public class Ability
 
         if (blueprint.NeedEffect && blueprint.EffectBlueprint != null)
         {
-            Effect = blueprint.EffectBlueprint.InstantiateEffect(null, null, null);
+            Effect = blueprint.EffectBlueprint.InstantiateEffect(null, null);
         }
     }
 }

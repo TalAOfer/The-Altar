@@ -6,12 +6,12 @@ public class SpawnCardToHandEffect : Effect
 {
     private readonly CardArchetype _archetype;
 
-    public SpawnCardToHandEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, CardArchetype archetype) : base(blueprint, data, trigger, parentCard)
+    public SpawnCardToHandEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, Card parentCard) : base(blueprint, data, parentCard)
     {
-        _archetype = archetype;
+        _archetype = blueprint.cardArchetype;
     }
 
-    public override IEnumerator ApplyEffect(Card target)
+    protected override IEnumerator ApplyEffect(Card target)
     {
         int amount = GetAmount(target);
         RaiseEffectAppliedEvent(target, amount);
@@ -24,7 +24,7 @@ public class SpawnCardToHandEffect : Effect
         yield break;
     }
 
-    public override string GetEffectIndicationString(Card target, int amount)
+    protected override string GetEffectIndicationString(Card target, int amount)
     {
         return "Spawn " + amount.ToString() + " " + Tools.GetCardNameByArchetype(_archetype, Affinity.Player);
     }

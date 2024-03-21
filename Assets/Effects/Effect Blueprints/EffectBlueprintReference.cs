@@ -15,6 +15,6 @@ public class EffectBlueprintReference
 
     public EffectBlueprint Value
     {
-        get { return UseAsset ? Asset.blueprint : ManualValue; }
+        get { return UseAsset ? Asset.Value : ManualValue; }
     }
 }

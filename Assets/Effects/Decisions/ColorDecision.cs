@@ -19,7 +19,7 @@ public class ColorDecision : Decision
         }
 
         CardColor baseColor = baseCard.cardColor;
-        CardColor comparisonColor = _compareTo is CompareTo.AnotherObject ? 
+        CardColor comparisonColor = _compareTo is CompareTo.AnotherCard ? 
             comparisonCard.cardColor : 
             _predefinedColor;
 

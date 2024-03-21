@@ -12,35 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: B1 Chicken
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: Effects
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[EffectTrigger, Assembly-CSharp],[System.Collections.Generic.List`1[[EffectBlueprintReference,
-        Assembly-CSharp]], mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[EffectTrigger,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
   cardSprite: {fileID: 21300000, guid: 4127db32e79e5cb46be04778b3f14d46, type: 3}
   isDefault: 0
   cardName: Chicken
@@ -50,3 +21,67 @@ MonoBehaviour:
   Affinity: 0
   Description: 
   SpecialEffects: 0
+  Effects:
+  - UseAsset: 0
+    ManualValue:
+      Trigger: {fileID: 11400000, guid: 4060cd84f04d5a647863ae2d67130166, type: 2}
+      AmountEventsFilter:
+        FilterByReceiver: 0
+        RecieverFilter:
+          DecisionType: 0
+          DecisionComparisonObject: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          ComparisonObject: 0
+          PredefinedAmount: 0
+      NormalEventsFilter:
+        FilterByEmitter: 0
+        EmitterFilter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      EffectTypeAsset: {fileID: 11400000, guid: 79986b3de614aec43a076a4eb30a33b4, type: 2}
+      replacePlaceholders: 1
+      TargetPool: 0
+      TargetStrategy: 0
+      AmountOfTargets: 1
+      IsPersistent: 0
+      amountStrategy: 0
+      amount: 1
+      cardArchetype:
+        points: 2
+        color: 0
+      battlePointType: 0
+      modifierType: 0
+      filterBattleModifier: 0
+      battleModifierfilter:
+        FilterByAttacker: 0
+        AttackerFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByOpponent: 0
+        OpponentFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByComparison: 0
+        ComparisonFilter:
+          comparison: 0
+      color: 0
+      guardianType: 0
+      guardianIsPresistent: 0
+      BuffType: 0
+      effectBlueprint: {fileID: 0}
+    Asset: {fileID: 0}

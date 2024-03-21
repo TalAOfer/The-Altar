@@ -10,12 +10,12 @@ public class Guardian
 
     public Card guardianCard;
 
-    public EffectApplicationType applicationType;
-    public Guardian(GuardianType guardianType, Card guardianCard, EffectApplicationType applicationType)
+    public bool IsPersistent { get; private set; }
+    public Guardian(GuardianType guardianType, Card guardianCard, bool isPersistent)
     {
         this.guardianType = guardianType;
         this.guardianCard = guardianCard;
-        this.applicationType = applicationType;
+        IsPersistent = isPersistent;
     }
 
     public int ApplyAndGetRestOfDamage(int totalDamage, int currentCardPoints)

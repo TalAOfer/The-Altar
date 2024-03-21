@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class DebugEffect : Effect
 {
-    public DebugEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard) : base(blueprint, data, trigger, parentCard)
+    public DebugEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, Card parentCard) : base(blueprint, data, parentCard)
     {
     }
 
-    public override IEnumerator ApplyEffect(Card target)
+    protected override IEnumerator ApplyEffect(Card target)
     {
         RaiseEffectAppliedEvent(target, 0);
         yield break;
     }
 
-    public override string GetEffectIndicationString(Card target, int amount)
+    protected override string GetEffectIndicationString(Card target, int amount)
     {
         return "Happened!";
     }

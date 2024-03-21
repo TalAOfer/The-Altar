@@ -5,18 +5,18 @@ using UnityEngine;
 public class SpawnEnemiesEffect : Effect
 {
     private readonly CardArchetype _enemyArchetype;
-    public SpawnEnemiesEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, CardArchetype enemyArchetype) : base(blueprint, data, trigger, parentCard)
+    public SpawnEnemiesEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, Card parentCard) : base(blueprint, data, parentCard)
     {
-        _enemyArchetype = enemyArchetype;
+        _enemyArchetype = blueprint.cardArchetype;
     }
 
-    public override IEnumerator ApplyEffect(Card target)
+    protected override IEnumerator ApplyEffect(Card target)
     {
         int amount = GetAmount(target);
         yield return _data.SpawnEnemiesByArchetype(_enemyArchetype, amount);
     }
 
-    public override string GetEffectIndicationString(Card target, int amount)
+    protected override string GetEffectIndicationString(Card target, int amount)
     {
         return "";
     }

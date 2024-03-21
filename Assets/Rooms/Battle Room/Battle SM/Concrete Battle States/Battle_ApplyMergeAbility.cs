@@ -10,7 +10,7 @@ public class Battle_ApplyMergeAbility : BaseBattleRoomState
     Card FirstCardSelected => CardsSelected[0];
     Card SecondCardSelected => CardsSelected[1];
 
-    public Battle_ApplyMergeAbility(BattleStateMachine ctx) : base(ctx)
+    public Battle_ApplyMergeAbility(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 

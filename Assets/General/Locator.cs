@@ -13,6 +13,9 @@ public class Locator : MonoBehaviour
 
     [SerializeField] private RunData _runData;
     public static RunData RunData { get; private set; }
+
+    [SerializeField] private CardData _cardData;
+    public static CardData CardData { get; private set; }
     public static PlayerActionProvider PlayerActionProvider { get; private set; }
 
 
@@ -21,6 +24,7 @@ public class Locator : MonoBehaviour
         Events = _events;
         RunData = _runData;
         Prefabs = _prefabs;
+        CardData = _cardData;
 
         PlayerActionProvider = FindComponent<PlayerActionProvider>();
     }

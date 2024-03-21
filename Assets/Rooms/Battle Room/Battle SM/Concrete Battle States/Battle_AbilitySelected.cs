@@ -11,7 +11,7 @@ internal class Battle_AbilitySelected : BaseBattleRoomState
     Ability Ability => _ctx.Ctx.CurrentAbilitySelected;
     List<Card> CardsSelected => _ctx.Ctx.CurrentCardsSelected;
 
-    public Battle_AbilitySelected(BattleStateMachine ctx) : base(ctx)
+    public Battle_AbilitySelected(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 

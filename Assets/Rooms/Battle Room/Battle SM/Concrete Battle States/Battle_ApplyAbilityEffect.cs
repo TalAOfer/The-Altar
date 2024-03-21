@@ -9,7 +9,7 @@ public class Battle_ApplyAbilityEffect : BaseBattleRoomState
     List<Card> PlayerCards => _ctx.PlayerCardManager.ActiveCards;
     List<Card> EnemyCards => _ctx.EnemyCardManager.ActiveEnemies;
 
-    public Battle_ApplyAbilityEffect(BattleStateMachine ctx) : base(ctx)
+    public Battle_ApplyAbilityEffect(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 
@@ -25,13 +25,10 @@ public class Battle_ApplyAbilityEffect : BaseBattleRoomState
             card.visualHandler.ToggleDarkOverlay(false);
         }
 
-        foreach (var card in CardsSelected)
-        {
-            yield return Ability.Effect.ApplyEffect(card);
-        }
+        yield return Ability.Effect.Trigger(CardsSelected);
 
         yield return _ctx.HandleAllShapeshiftsUntilStable();
-        
+
         yield return Tools.GetWait(0.5f);
 
         foreach (var card in CardsSelected)

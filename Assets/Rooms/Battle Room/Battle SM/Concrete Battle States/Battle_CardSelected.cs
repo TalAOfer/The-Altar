@@ -8,7 +8,7 @@ public class Battle_CardSelected : BaseBattleRoomState
 {
     private Card CurrentlySelectedCard => _ctx.Ctx.CurrentActorCard;
     private Card CardClicked => _ctx.Ctx.CardClicked;
-    public Battle_CardSelected(BattleStateMachine ctx) : base(ctx)
+    public Battle_CardSelected(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 

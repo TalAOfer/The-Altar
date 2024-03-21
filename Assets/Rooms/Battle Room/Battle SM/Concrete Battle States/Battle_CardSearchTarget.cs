@@ -7,7 +7,7 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
 {
     private Card TargetSeekingCard => _ctx.Ctx.CurrentActorCard;
     private Card TargetCard => _ctx.Ctx.CurrentTargetCard;
-    public Battle_CardSearchTarget(BattleStateMachine ctx) : base(ctx)
+    public Battle_CardSearchTarget(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 

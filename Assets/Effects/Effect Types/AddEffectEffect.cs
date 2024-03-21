@@ -5,26 +5,24 @@ using UnityEngine;
 public class AddEffectEffect : Effect
 {
     public EffectBlueprint _effectBlueprint;
-    public EffectTrigger _whenToTriggerAddedEffect;
 
-    public AddEffectEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, EffectTrigger trigger, Card parentCard, EffectBlueprint effectBlueprint, EffectTrigger whenToTriggerAddedEffect) : base(blueprint, data, trigger, parentCard)
+    public AddEffectEffect(EffectBlueprint blueprint, BattleRoomDataProvider data, Card parentCard) : base(blueprint, data, parentCard)
     {
-        _effectBlueprint = effectBlueprint;
-        _whenToTriggerAddedEffect = whenToTriggerAddedEffect;
+        _effectBlueprint = blueprint.effectBlueprint.Value;
     }
 
-    public override IEnumerator ApplyEffect(Card target)
+    protected override IEnumerator ApplyEffect(Card target)
     {
         int amount = GetAmount(target);
 
         RaiseEffectAppliedEvent(target, amount);
         
 
-        _effectBlueprint.InstantiateEffect(_whenToTriggerAddedEffect, target, _data);
+        _effectBlueprint.InstantiateEffect(target, _data);
         yield break;
     }
 
-    public override string GetEffectIndicationString(Card target, int amount)
+    protected override string GetEffectIndicationString(Card target, int amount)
     {
         return "Effect is now active";
     }

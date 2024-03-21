@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BattleStateFactory
 {
-    private BattleStateMachine _battleCtx;
-    public BattleStateFactory(BattleStateMachine battleCtx)
+    private BattleRoomStateMachine _battleCtx;
+    public BattleStateFactory(BattleRoomStateMachine battleCtx)
     {
         _battleCtx = battleCtx;
     }

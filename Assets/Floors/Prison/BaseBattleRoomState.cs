@@ -1,8 +1,8 @@
 using UnityEngine.EventSystems;
 
-public abstract class BaseBattleRoomState : BaseRoomState<BattleStateMachine>
+public abstract class BaseBattleRoomState : BaseRoomState<BattleRoomStateMachine>
 {
-    public BaseBattleRoomState(BattleStateMachine ctx) : base(ctx)
+    public BaseBattleRoomState(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Battle_Idle : BaseBattleRoomState
 {
-    public Battle_Idle(BattleStateMachine ctx) : base(ctx) 
+    public Battle_Idle(BattleRoomStateMachine ctx) : base(ctx) 
     {
     }
 

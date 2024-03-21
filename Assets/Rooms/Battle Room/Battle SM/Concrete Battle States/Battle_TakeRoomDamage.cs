@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Battle_TakeRoomDamage : BaseBattleRoomState
 {
-    public Battle_TakeRoomDamage(BattleStateMachine ctx) : base(ctx)
+    public Battle_TakeRoomDamage(BattleRoomStateMachine SM) : base(SM)
     {
     }
 

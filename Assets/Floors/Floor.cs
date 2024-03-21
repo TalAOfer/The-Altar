@@ -1,7 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class Floor
@@ -21,20 +20,6 @@ public class Floor
             Levels[i].InitializeRooms(i, Levels.Count, BattlePool);
         }
     }
-
-}
-
-[Serializable]
-public class FloorLevel
-{
-    public void InitializeRooms(int totalRoomNumber, int index, BattleRoomPool battlePool)
-    {
-        LeftRoom.InitializeRoom(totalRoomNumber, index, battlePool);
-        RightRoom.InitializeRoom(totalRoomNumber, index, battlePool);
-    }
-
-    public Room LeftRoom;
-    public Room RightRoom;
 }
 
 

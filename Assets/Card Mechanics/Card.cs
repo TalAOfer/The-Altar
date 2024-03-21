@@ -2,6 +2,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -9,6 +10,7 @@ public class Card : MonoBehaviour
     private Codex codex;
     public int SpawnIndex {  get; private set; }
     public BattleRoomDataProvider DataProvider {  get; private set; }
+    private EventRegistry _events;
     public CardBase cardBase {  get; private set; }
 
     [FoldoutGroup("Child Components")]
@@ -56,6 +58,7 @@ public class Card : MonoBehaviour
     private HigherBeing higherBeing = new(false, 0);
 
     public int Armor { get; private set; } = 0;
+    public int Might {  get; private set; } = 0;
 
     public bool IsDead
     {
@@ -81,6 +84,7 @@ public class Card : MonoBehaviour
 
         visualHandler.Init(blueprint, startingSortingLayer);
 
+        _events = Locator.Events;
         //StartCoroutine(effects.ApplyEffects(TriggerType.OnChange));
     }
 
@@ -116,7 +120,10 @@ public class Card : MonoBehaviour
 
         List<BattleAmountModifier> modifierList = new();
 
-        modifierList = new List<BattleAmountModifier>(attackPointsModifiers);
+        modifierList = new List<BattleAmountModifier>(attackPointsModifiers)
+        {
+            GetCurrentMight()
+        };
 
         if (target != null)
         {
@@ -137,7 +144,7 @@ public class Card : MonoBehaviour
 
 
 
-    public int TakeDamage(int incomingDamage)
+    public int TakeDamage(int incomingDamage, Card inflictor)
     {
         int damage = incomingDamage;
 
@@ -156,6 +163,8 @@ public class Card : MonoBehaviour
         visualHandler.InitiateParticleSplash();
         visualHandler.SetNumberSprites();
 
+        _events.OnDamageEffect.Raise(this, new AmountEventData(this, inflictor, damage));
+
         return damage;
     }
 
@@ -165,6 +174,15 @@ public class Card : MonoBehaviour
         points -= damage;
         if (points < 0) points = 0;
         visualHandler.SetNumberSprites();
+    }
+
+    public void GainMight(int amount)
+    {
+        Might += amount;
+    }
+    public BattleAmountModifier GetCurrentMight()
+    {
+        return new BattleAmountModifier(ModifierType.Addition, this, BattlePointType.Attack, Might, GetAmountStrategy.Value, null);
     }
 
     public void GainArmor(int amount)
@@ -194,7 +212,7 @@ public class Card : MonoBehaviour
         foreach (var guardian in guardians)
         {
             damage = (guardian.ApplyAndGetRestOfDamage(damage, points));
-            if (guardian.applicationType != EffectApplicationType.Persistent)
+            if (guardian.IsPersistent)
             {
                 guardiansToRemove.Add(guardian);
             }

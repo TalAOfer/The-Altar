@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8786f1a809e444395f54805825d7df, type: 3}
   m_Name: Run Data
   m_EditorClassIdentifier: 
-  DefaultDrawabilityMinMax: {x: 1, y: 3}
   playerCodexRecipe: {fileID: 11400000, guid: b4deaad8fc286364bb6294fc88f2abcc, type: 2}
   playerPoolRecipe: {fileID: 11400000, guid: 56056c9c7e42a0a448d8a386cddaae61, type: 2}
   events: {fileID: 11400000, guid: 7dc846b056c989c4698a6f97789484a8, type: 2}
+  defaultPlayerDrawMinMax: {x: 1, y: 3}
   isInitialized: 0
   playerDeck:
     cards: []

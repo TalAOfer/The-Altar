@@ -15,12 +15,12 @@ MonoBehaviour:
   Value:
     FilterByAttacker: 0
     AttackerFilter:
-      DecisionType: 7
+      DecisionType: 2
       comparison: 0
       PredefinedAmount: 0
       PredefinedColor: 0
       PredefinedParity: 0
-    FilterByOpponent: 1
+    FilterByOpponent: 0
     OpponentFilter:
       DecisionType: 7
       comparison: 0

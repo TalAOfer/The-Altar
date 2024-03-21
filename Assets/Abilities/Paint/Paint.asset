@@ -15,33 +15,69 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 3f311a04c572fe44e9473da2d87cc780, type: 3}
   Type: 2
   TargetSingleRestriction: 0
+  SingleRestrictionAmount: 0
   TargetTotalRestriction: 0
   InteractableType: 1
   TargetAmount: 1
   NeedEffect: 1
   EffectBlueprint:
-    target: 11
-    amountOfTargets: 1
-    shouldAnimate: 1
-    applicationType: 0
-    EffectType: 3
+    Trigger: {fileID: 0}
+    AmountEventsFilter:
+      FilterByReceiver: 0
+      RecieverFilter:
+        DecisionType: 0
+        DecisionComparisonObject: 0
+        comparison: 0
+        PredefinedAmount: 0
+        PredefinedColor: 0
+        AffinityComparison: 0
+        PredefinedParity: 0
+      FilterByAmount: 0
+      AmountFilter:
+        Comparison: 0
+        ComparisonObject: 0
+        PredefinedAmount: 0
+    NormalEventsFilter:
+      FilterByEmitter: 0
+      EmitterFilter:
+        DecisionType: 0
+        PredefinedColor: 0
+        AffinityComparison: 0
+        PredefinedParity: 0
+    EffectTypeAsset: {fileID: 11400000, guid: 24fbeaa75cbd11942a3ae4a8fb53ac50, type: 2}
+    replacePlaceholders: 1
+    TargetPool: 2
+    TargetStrategy: 0
+    AmountOfTargets: 1
+    IsPersistent: 0
     amountStrategy: 0
     amount: 1
-    battlePointType: 0
-    modifierType: 0
-    color: 0
     cardArchetype:
       points: 0
       color: 0
+    battlePointType: 0
+    modifierType: 0
+    filterBattleModifier: 0
+    battleModifierfilter:
+      FilterByAttacker: 0
+      AttackerFilter:
+        DecisionType: 0
+        comparison: 0
+        PredefinedAmount: 0
+        PredefinedColor: 0
+        PredefinedParity: 0
+      FilterByOpponent: 0
+      OpponentFilter:
+        DecisionType: 0
+        comparison: 0
+        PredefinedAmount: 0
+        PredefinedColor: 0
+        PredefinedParity: 0
+      FilterByComparison: 0
+      ComparisonFilter:
+        comparison: 0
+    color: 0
     guardianType: 0
-    guardianApplicationType: 0
+    guardianIsPresistent: 0
+    BuffType: 0
     effectBlueprint: {fileID: 0}
-    whenToTriggerAddedEffect: {fileID: 0}
-    isConditional: 0
-    decision:
-      decisionType: 0
-      compare: 0
-      comparison: 0
-      compareTo: 0
-      amount: 0
-      color: 0

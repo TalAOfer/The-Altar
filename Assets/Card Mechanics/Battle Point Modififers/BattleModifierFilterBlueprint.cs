@@ -25,14 +25,14 @@ public class BattleModifierFilterBlueprint
 
     public string GetDescription()
     {
-        string description = "Against ";
+        string description = "against ";
 
-        if (FilterByComparison)
+        if (FilterByComparison && ComparisonFilter != null)
         {
             description += GetComparisonText(ComparisonFilter.comparison) + " ";
         }
 
-        if (FilterByAttacker)
+        if (FilterByAttacker && AttackerFilter != null)
         {
             if (AttackerFilter.DecisionType.HasFlag(DecisionType.Color))
             {
@@ -47,7 +47,7 @@ public class BattleModifierFilterBlueprint
             }
         }
 
-        if (FilterByOpponent)
+        if (FilterByOpponent && OpponentFilter != null)
         {
             if (OpponentFilter.DecisionType.HasFlag(DecisionType.Color))
             {
@@ -64,14 +64,14 @@ public class BattleModifierFilterBlueprint
 
         description += "cards ";
 
-        if (FilterByAttacker && AttackerFilter.DecisionType.HasFlag(DecisionType.PointComparison))
+        if (FilterByAttacker && AttackerFilter != null && AttackerFilter.DecisionType.HasFlag(DecisionType.PointComparison))
         {
             description += "with " + GetComparisonToValueText(AttackerFilter.comparison) + " ";
 
-            description +=  AttackerFilter.PredefinedAmount.ToString() + " points";
+            description += AttackerFilter.PredefinedAmount.ToString() + " points";
         }
 
-        if (FilterByOpponent && OpponentFilter.DecisionType.HasFlag(DecisionType.PointComparison))
+        if (FilterByOpponent && OpponentFilter != null && OpponentFilter.DecisionType.HasFlag(DecisionType.PointComparison))
         {
             description += "with " + GetComparisonToValueText(OpponentFilter.comparison) + " ";
 

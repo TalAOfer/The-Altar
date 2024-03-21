@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Battle_Lost : BaseBattleRoomState
 {
-    public Battle_Lost(BattleStateMachine ctx) : base(ctx)
+    public Battle_Lost(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 

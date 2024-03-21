@@ -14,19 +14,19 @@ public class BattleModifierFilter
         {
             if (blueprint.AttackerFilter.DecisionType.HasFlag(DecisionType.PointComparison))
             {
-                AmountComparisonDecision amountFilter = new(Compare.Object, CompareTo.Value, blueprint.AttackerFilter.comparison, blueprint.AttackerFilter.PredefinedAmount);
+                AmountComparisonDecision amountFilter = new(Compare.Card, CompareTo.Value, blueprint.AttackerFilter.comparison, blueprint.AttackerFilter.PredefinedAmount);
                 _attackerFilters.Add(amountFilter);
             }
 
             if (blueprint.AttackerFilter.DecisionType.HasFlag(DecisionType.Color))
             {
-                ColorDecision colorFilter = new(Compare.Object, CompareTo.Value, blueprint.AttackerFilter.PredefinedColor);
+                ColorDecision colorFilter = new(Compare.Card, CompareTo.Value, blueprint.AttackerFilter.PredefinedColor);
                 _attackerFilters.Add(colorFilter);
             }
 
             if (blueprint.AttackerFilter.DecisionType.HasFlag(DecisionType.Parity))
             {
-                ParityDecision parityDecision = new(Compare.Object, CompareTo.Value, blueprint.AttackerFilter.PredefinedParity);
+                ParityDecision parityDecision = new(Compare.Card, CompareTo.Value, blueprint.AttackerFilter.PredefinedParity);
                 _attackerFilters.Add(parityDecision);
             }
         }
@@ -35,26 +35,26 @@ public class BattleModifierFilter
         {
             if (blueprint.OpponentFilter.DecisionType.HasFlag(DecisionType.PointComparison))
             {
-                AmountComparisonDecision amountFilter = new(Compare.Object, CompareTo.Value, blueprint.OpponentFilter.comparison, blueprint.OpponentFilter.PredefinedAmount);
+                AmountComparisonDecision amountFilter = new(Compare.Card, CompareTo.Value, blueprint.OpponentFilter.comparison, blueprint.OpponentFilter.PredefinedAmount);
                 _opponentFilters.Add(amountFilter);
             }
 
             if (blueprint.OpponentFilter.DecisionType.HasFlag(DecisionType.Color))
             {
-                ColorDecision colorFilter = new(Compare.Object, CompareTo.Value, blueprint.OpponentFilter.PredefinedColor);
+                ColorDecision colorFilter = new(Compare.Card, CompareTo.Value, blueprint.OpponentFilter.PredefinedColor);
                 _opponentFilters.Add(colorFilter);
             }
 
             if (blueprint.OpponentFilter.DecisionType.HasFlag(DecisionType.Parity))
             {
-                ParityDecision parityDecision = new(Compare.Object, CompareTo.Value, blueprint.OpponentFilter.PredefinedParity);
+                ParityDecision parityDecision = new(Compare.Card, CompareTo.Value, blueprint.OpponentFilter.PredefinedParity);
                 _opponentFilters.Add(parityDecision);
             }
         }
 
         if (blueprint.FilterByComparison)
         {
-            _comparisonFilter = new(Compare.Object, CompareTo.AnotherObject, blueprint.ComparisonFilter.comparison);
+            _comparisonFilter = new(Compare.Card, CompareTo.AnotherCard, blueprint.ComparisonFilter.comparison);
         }
     }
     

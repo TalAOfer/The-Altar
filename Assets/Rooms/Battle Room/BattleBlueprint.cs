@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [CreateAssetMenu(menuName = "Blueprints/Battle")]
-public class BattleBlueprint : SerializedScriptableObject
+public class BattleBlueprint : ScriptableObject
 {
     public CodexBlueprint codex;
 

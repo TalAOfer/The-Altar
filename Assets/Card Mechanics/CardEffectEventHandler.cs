@@ -6,6 +6,7 @@ public class CardEffectEventHandler : MonoBehaviour
 {
     private Card _card;
     private CardEffectHandler _handler;
+    //private CardEffectBlueprint _effect;
 
     private void Awake()
     {
@@ -15,10 +16,20 @@ public class CardEffectEventHandler : MonoBehaviour
 
     public void OnDamageEffect(Component sender, object data)
     {
-        Card damagedCard = (Card)sender;
-        if (_card == damagedCard && !_card.IsDead)
+        AmountEventData damageData = data as AmountEventData;
+
+        //Retaliate
+        if (_card == damageData.Reciever && !_card.IsDead)
         {
-         //   _handler.TriggerEffects(TriggerType.OnSurvive);
+            _handler.TriggerEffects(TriggerType.Retaliate);
         }
+
+        //This card has taken damage
+        else if (_card == damageData.Reciever)
+        {
+            _handler.TriggerEffects(TriggerType.SelfDamage);
+        }
+
+
     }
 }

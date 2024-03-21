@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Battle_PlayerSetup : BaseBattleRoomState
 {
-    public Battle_PlayerSetup(BattleStateMachine ctx) : base(ctx)
+    public Battle_PlayerSetup(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
     private void InitializeDeck()

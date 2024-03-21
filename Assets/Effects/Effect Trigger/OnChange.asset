@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0f1f883b1e86444bb6a7dad186f744, type: 3}
   m_Name: OnChange
   m_EditorClassIdentifier: 
-  TriggerType: 9
+  TriggerType: 5
+  TriggerArchetype: 0
+  IsRigid: 1
+  TriggerName: 
+  IsModifiable: 0
+  TriggerText: 
+  TriggerVerb: 

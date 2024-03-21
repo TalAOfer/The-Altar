@@ -28,10 +28,10 @@ public enum DecisionType
 
 public enum Compare
 {
-    Object, Value
+    Card, Value
 }
 
 public enum CompareTo
 {
-    AnotherObject, Value
+    AnotherCard, Value
 }

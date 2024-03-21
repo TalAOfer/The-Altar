@@ -102,6 +102,34 @@ public static class Tools
         return uniqueRandoms;
     }
 
+    public static List<T> GetRandoms<T>(List<T> sourceList, int amount)
+    {
+        // Create a list to hold the results
+        List<T> randomElements = new List<T>();
+
+        // If the source list is null or empty, or amount is 0, return the empty list
+        if (sourceList == null || sourceList.Count == 0 || amount <= 0)
+        {
+            return randomElements;
+        }
+
+        // Adjust the number of elements to draw if necessary
+        int drawCount = Mathf.Min(amount, sourceList.Count);
+
+        // Create a copy of the source list to avoid modifying the original
+        List<T> tempList = new List<T>(sourceList);
+
+        // Randomly pick elements
+        for (int i = 0; i < drawCount; i++)
+        {
+            int randomIndex = Random.Range(0, tempList.Count);
+            randomElements.Add(tempList[randomIndex]);
+            tempList.RemoveAt(randomIndex);
+        }
+
+        return randomElements;
+    }
+
     public static string GetCardNameByArchetype(CardArchetype archetype, Affinity owner)
     {
         string amountName = "";

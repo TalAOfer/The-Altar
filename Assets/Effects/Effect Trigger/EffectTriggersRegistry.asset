@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: EffectTriggersRegistry
   m_EditorClassIdentifier: 
   triggers:
+  - {fileID: 11400000, guid: 2a3bda6e1fbee6648b5f8203185cf4f4, type: 2}
+  - {fileID: 11400000, guid: 10a999676cba037468a353d9ffdea79e, type: 2}
+  - {fileID: 11400000, guid: b144995d159a0b84a88a31a54aaea576, type: 2}
+  - {fileID: 11400000, guid: 4d510bfd80416e0488f14871d0eede44, type: 2}
+  - {fileID: 11400000, guid: ff21b7f8bc656a946af00fe7d2d82a7e, type: 2}
+  - {fileID: 11400000, guid: 5fd36ce76206e2e43833bb9c1522129d, type: 2}
   - {fileID: 11400000, guid: 2f41cac1d4f97d34eb55e176befa1f7e, type: 2}
   - {fileID: 11400000, guid: e4cedc5b121c94046a8a323a538b8cd3, type: 2}
-  - {fileID: 11400000, guid: 2a3bda6e1fbee6648b5f8203185cf4f4, type: 2}
-  - {fileID: 11400000, guid: 89714a7093c247e45b5352ed20c8495c, type: 2}
-  - {fileID: 11400000, guid: b144995d159a0b84a88a31a54aaea576, type: 2}
-  - {fileID: 11400000, guid: 10a999676cba037468a353d9ffdea79e, type: 2}
-  - {fileID: 11400000, guid: e1ca4fb698bc9f944b877960098eb3de, type: 2}
   - {fileID: 11400000, guid: 6e1dba0c2fc013e4684c19634a0736d6, type: 2}
-  - {fileID: 11400000, guid: 0ff3adf9dbe165c409a45e6e408ec5cf, type: 2}
+  - {fileID: 11400000, guid: 4060cd84f04d5a647863ae2d67130166, type: 2}
+  - {fileID: 11400000, guid: a4df22690e6d7be4688c5e03a20eebe5, type: 2}
+  - {fileID: 11400000, guid: e1ca4fb698bc9f944b877960098eb3de, type: 2}

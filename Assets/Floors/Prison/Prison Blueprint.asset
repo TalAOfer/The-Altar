@@ -17,81 +17,81 @@ MonoBehaviour:
   Levels:
   - LeftRoom:
       Type: 1
+      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
       Reward: 1
-      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
       AmountOfOptions: 0
     RightRoom:
       Type: 1
+      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
       Reward: 2
-      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
       AmountOfOptions: 0
   - LeftRoom:
       Type: 1
-      Reward: 0
       BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      Reward: 0
       AmountOfOptions: 0
     RightRoom:
       Type: 1
-      Reward: 0
       BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      Reward: 0
+      AmountOfOptions: 0
+  - LeftRoom:
+      Type: 1
+      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      Reward: 0
+      AmountOfOptions: 0
+    RightRoom:
+      Type: 1
+      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
     RightRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
     RightRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
     RightRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
     RightRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
+      Reward: 0
       AmountOfOptions: 0
     RightRoom:
       Type: 0
-      Reward: 0
       BattleBlueprint: {fileID: 0}
-      AmountOfOptions: 0
-  - LeftRoom:
-      Type: 0
       Reward: 0
-      BattleBlueprint: {fileID: 0}
-      AmountOfOptions: 0
-    RightRoom:
-      Type: 0
-      Reward: 0
-      BattleBlueprint: {fileID: 0}
       AmountOfOptions: 0
