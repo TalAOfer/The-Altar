@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee5c2eb4f99b2044b854df6f8b75fdb, type: 3}
   m_Name: Card Data
   m_EditorClassIdentifier: 
+  leftCardPosition: {x: -4, y: -2, z: 0}
+  rightCardPosition: {x: 4, y: -2, z: 0}
   overallFadeDuration: 2
   overallFadeCurve:
     serializedVersion: 2
@@ -71,15 +73,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  playerDamageVisualizerPosition: {x: 1.25, y: 0.5, z: 0}
-  enemyDamageVisualizerPosition: {x: 1.25, y: -0.5, z: 0}
   endBattleDelay: 0.5
   readyingSpeed: 2.5
   readyingDistance: 1.5
   readyingCurve: 4
   headbuttSpeed: 40
   headbuttCurve: 2
-  impactFreezeDuration: 0.15
+  impactFreezeDuration: 0
   backOffSpeed: 15
   backoffCurve: 2
   DehiglightSpeed: 15

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,7 +10,7 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "TriggerRegistry", menuName = "Effects/Trigger Registry")]
 public class EffectTriggerRegistry : ScriptableObject
 {
-    public List<EffectTrigger> triggers;
+    public List<EffectTriggerAsset> triggers;
 #if UNITY_EDITOR
 
     [Button]
@@ -17,17 +18,29 @@ public class EffectTriggerRegistry : ScriptableObject
     {
         triggers.Clear(); // Clear the list to prevent duplicates
 
-        string[] guids = AssetDatabase.FindAssets("t:EffectTrigger");
+        string[] guids = AssetDatabase.FindAssets("t:EffectTriggerAsset");
         foreach (string guid in guids)
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-            EffectTrigger trigger = AssetDatabase.LoadAssetAtPath<EffectTrigger>(assetPath);
+            EffectTriggerAsset trigger = AssetDatabase.LoadAssetAtPath<EffectTriggerAsset>(assetPath);
             if (trigger != null)
             {
                 triggers.Add(trigger);
-                if (trigger.name != trigger.TriggerType.ToString())
+
+                // Attempt to parse the asset name into the TriggerType enum
+                if (Enum.TryParse<TriggerType>(trigger.name, out var parsedEnum))
                 {
-                    Debug.Log("Name - enum mismatch in " + trigger.name);
+                    // If successfully parsed and the value is different, update the trigger
+                    if (trigger.TriggerType != parsedEnum)
+                    {
+                        trigger.TriggerType = parsedEnum;
+                        EditorUtility.SetDirty(trigger); // Mark the trigger asset as dirty to ensure the change is saved
+                        Debug.Log($"Updated TriggerType of {trigger.name} to match its name.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Unable to parse name of {trigger.name} into a valid TriggerType enum value.");
                 }
             }
         }
@@ -36,9 +49,9 @@ public class EffectTriggerRegistry : ScriptableObject
         AssetDatabase.SaveAssets();
     }
 #endif
-    public EffectTrigger GetTriggerAssetByEnum(TriggerType type)
+    public EffectTriggerAsset GetTriggerAssetByEnum(TriggerType type)
     {
-        foreach (EffectTrigger trigger in triggers)
+        foreach (EffectTriggerAsset trigger in triggers)
         {
             if (trigger.TriggerType == type)
             {

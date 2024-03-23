@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0f1f883b1e86444bb6a7dad186f744, type: 3}
   m_Name: GlobalDamage
   m_EditorClassIdentifier: 
-  TriggerType: 8
+  TriggerType: 9
   TriggerArchetype: 3
   IsRigid: 0
   TriggerName: 

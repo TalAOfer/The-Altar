@@ -5,11 +5,15 @@ using System;
 public class EffectBlueprint
 {
     [BoxGroup("Trigger")]
-    public EffectTrigger Trigger;
+    public EffectTriggerAsset Trigger;
 
     [BoxGroup("Trigger")]
     [ShowIf("@Trigger?.TriggerArchetype == TriggerArchetype.GlobalAmountEvents")]
-    public AmountEventFilterBlueprint AmountEventsFilter;
+    public GlobalAmountEventFilterBlueprint GlobalAmountEventsFilter;
+
+    [BoxGroup("Trigger")]
+    [ShowIf("@Trigger?.TriggerArchetype == TriggerArchetype.LocalAmountEvents")]
+    public LocalAmountEventFilterBlueprint LocalAmountEventsFilter;
 
     [BoxGroup("Trigger")]
     [ShowIf("@Trigger?.TriggerArchetype == TriggerArchetype.GlobalNormalEvents")]
@@ -36,6 +40,12 @@ public class EffectBlueprint
     [FoldoutGroup("Target Acquiring")]
     [ShowIf("@ShouldShowAmountOfTargets()")]
     public int AmountOfTargets = 1;
+    [FoldoutGroup("Target Acquiring")]
+    [ShowIf("@EffectTypeAsset?.TypeArchetype == EffectTypeArchetype.Grantable")]
+    public bool ShouldTargetFilter;
+    [FoldoutGroup("Target Acquiring")]
+    [ShowIf("@ShouldShowTargetFilter()")]
+    public NormalEventFilterBlueprint TargetFilterBlueprint;
 
     [FoldoutGroup("Effect")]
     public bool IsPersistent;
@@ -47,7 +57,7 @@ public class EffectBlueprint
     [ShowIf("@ShouldShowAmount()")]
     [FoldoutGroup("Effect")]
     public int amount = 1;
-    
+
     [FoldoutGroup("Effect")]
     [ShowIf("@ShouldShowCardArchetype()")]
     public CardArchetype cardArchetype;
@@ -151,12 +161,15 @@ public class EffectBlueprint
     {
         return (TargetStrategy is EffectTargetStrategy.Random or EffectTargetStrategy.Highest or EffectTargetStrategy.Lowest)
             && ShouldShowTargetStrategy();
-        ;
     }
     private bool ShouldShowTargetStrategy()
     {
-        return (EffectTypeAsset.TypeArchetype == EffectTypeArchetype.Grantable) && 
-            (TargetPool is EffectTargetPool.PlayerCards or EffectTargetPool.EnemyCards or EffectTargetPool.AllCards);
+        return EffectTypeAsset.TypeArchetype == EffectTypeArchetype.Grantable && TargetPool is EffectTargetPool.AllCards;
+    }
+
+    private bool ShouldShowTargetFilter()
+    {
+        return ShouldTargetFilter && ShouldShowTargetStrategy();
     }
     private bool ShouldShowBattleModifierFilter()
     {
@@ -194,8 +207,22 @@ public class EffectBlueprint
         {
             description = description.Replace("{amount}", GetAmountString());
             description = description.Replace("{normalCardFilter}", NormalEventsFilter.GetCardFilterDescription());
-            description = description.Replace("{amountCardFilter}", AmountEventsFilter.GetCardFilterDescription());
-            description = description.Replace("{amountFilter}", AmountEventsFilter.GetAmountFilterDescription());
+
+
+            if (Trigger.TriggerArchetype is TriggerArchetype.GlobalAmountEvents or TriggerArchetype.LocalAmountEvents)
+            {
+                string amountFilterText = Trigger.TriggerArchetype is TriggerArchetype.LocalAmountEvents ?
+                    LocalAmountEventsFilter.GetAmountFilterDescription() : GlobalAmountEventsFilter.GetAmountFilterDescription();
+
+                string objectFilterText = Trigger.TriggerArchetype is TriggerArchetype.LocalAmountEvents ?
+                                                LocalAmountEventsFilter.GetCardFilterDescription() : GlobalAmountEventsFilter.GetCardFilterDescription();
+
+                description = description.Replace("{amountCardFilter}", objectFilterText);
+                description = description.Replace("{amountFilter}", amountFilterText);
+            }
+
+
+
             description = description.Replace("{targetVerb}", GetTargetVerb());
             description = description.Replace("{buffType}", BuffType.ToString());
             description.Trim();
@@ -274,6 +301,14 @@ public class EffectBlueprint
                 break;
         }
 
+
+        string filter = "";
+        
+        if (ShouldTargetFilter)
+        {
+            filter = TargetFilterBlueprint.GetCardFilterDescription();
+        }
+
         string pool = "";
 
         switch (TargetPool)
@@ -285,12 +320,6 @@ public class EffectBlueprint
                 break; // No additional text for these cases in your original method
             case EffectTargetPool.AllCards:
                 pool = "card";
-                break;
-            case EffectTargetPool.PlayerCards:
-                pool = "player card";
-                break;
-            case EffectTargetPool.EnemyCards:
-                pool = "enemy card";
                 break;
         }
 
@@ -304,12 +333,12 @@ public class EffectBlueprint
         // We use "the" only when there's a strategy and it's singular, e.g., "the highest"
         if (!string.IsNullOrEmpty(theText) && !string.IsNullOrEmpty(pool))
         {
-            targetString += theText + strategy + pool;
+            targetString += theText + strategy + filter + pool;
         }
         else
         {
             // If AmountOfTargets is greater than one or pool is empty, we don't use "the"
-            targetString += amountText + strategy + (AmountOfTargets > 1 ? pool + "s" : pool);
+            targetString += amountText + strategy + filter + (AmountOfTargets > 1 ? pool + "s" : pool);
         }
 
         return targetString.Trim();
@@ -343,8 +372,6 @@ public enum EffectTargetPool
     Oppnent,
     SelectedCards,
     AllCards,
-    PlayerCards,
-    EnemyCards
 }
 
 public enum EffectTargetStrategy

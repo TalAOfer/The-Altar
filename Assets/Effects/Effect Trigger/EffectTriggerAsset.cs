@@ -3,20 +3,20 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewEffectTrigger", menuName = "Effects/Effect Trigger")]
-public class EffectTrigger : ScriptableObject
+public class EffectTriggerAsset : ScriptableObject
 {
     public TriggerType TriggerType;
     public TriggerArchetype TriggerArchetype;
     public bool IsRigid;
-    //[ShowIf("IsRigid")]
+    [ShowIf("IsRigid")]
     public string TriggerName;
     public bool IsModifiable;
-    //[HideIf("IsRigid")]
+    [HideIf("IsRigid")]
     public string TriggerText;
-    //[HideIf("IsRigid")]
+    [HideIf("IsRigid")]
     public string TriggerVerb;
 
-    //[HideIf("IsRigid")]
+    [HideIf("IsRigid")]
     [ShowInInspector]
     public string TriggerBaseText => GetTriggerBaseText();
 
@@ -44,21 +44,27 @@ public class EffectTrigger : ScriptableObject
 
 public enum TriggerType
 {
-    Rally = 0,
-    LastBreath = 1,
-    Bloodthirst = 2,
-    Retaliate = 3,
-    Siphon = 4,
-    OnChange = 5,
+    Rally,
+    LastBreath,
+    Bloodthirst,
+    Retaliate,
+    Siphon,
+    OnChange,
 
-    SelfDamage = 6,
-    SelfHeal = 7,
+    SelfDamage,
+    SelfNonLethalDamage,
+    SelfLethalDamage,
+    GlobalDamage,
+    GlobalLethalDamage,
+    GlobalNonLethalDamage,
+
+    SelfHeal,
+    GlobalHeal,
     
-    GlobalDamage = 8,
-    GlobalDeath = 9,
-    GlobalHeal = 11,
+    GlobalDeath,
+    
+    GlobalSummon,
 
-    GlobalSummon = 10,
 }
 
 public enum TriggerArchetype

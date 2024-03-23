@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SelfDamage
   m_EditorClassIdentifier: 
   TriggerType: 6
-  TriggerArchetype: 0
+  TriggerArchetype: 2
   IsRigid: 0
   TriggerName: 
   IsModifiable: 0

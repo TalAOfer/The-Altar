@@ -3,7 +3,7 @@ using System;
 using Unity.VisualScripting;
 
 [Serializable]
-public class AmountEventFilterBlueprint
+public class GlobalAmountEventFilterBlueprint
 {
     public bool FilterByReceiver = false;
     [ShowIf("FilterByReceiver")]
@@ -11,7 +11,7 @@ public class AmountEventFilterBlueprint
 
     public bool FilterByAmount = false;
     [ShowIf("FilterByAmount")]
-    public AmountEventAmountFilter AmountFilter;
+    public AmountEventAmountFilterBlueprint AmountFilter;
 
     [ShowInInspector]
     public string Descrtiption => GetDescription();
@@ -51,9 +51,7 @@ public class AmountEventFilterBlueprint
         {
             description += GetComparisonText(AmountFilter.Comparison) + " ";
 
-            description += AmountFilter.ComparisonObject is AmountEventComparisonObject.Value ?
-                AmountFilter.PredefinedAmount.ToString() + " " :
-                "NotImplemented ";
+            description += AmountFilter.PredefinedAmount.ToString();
         }
 
         return description;
@@ -68,7 +66,7 @@ public class AmountEventFilterBlueprint
 
         description += GetAmountFilterDescription();
 
-        description += "damage";
+        description += " {effect}";
 
         return description;
     }
@@ -92,9 +90,6 @@ public class AmountEventObjectFilterBlueprint
 {
     public DecisionType DecisionType;
 
-    [ShowIf("@ShouldShowDamageDecisionComparisonObject()")]
-    public AmountEventComparisonObject DecisionComparisonObject;
-
     [ShowIf("@ShouldShowComparisonType()")]
     public Comparison comparison;
 
@@ -112,8 +107,8 @@ public class AmountEventObjectFilterBlueprint
 
     #region Inspector Helpers
     private bool ShouldShowComparisonType() => DecisionType.HasFlag(DecisionType.PointComparison);
-    private bool ShouldShowDamageDecisionComparisonObject() => DecisionType.HasFlag(DecisionType.PointComparison) && DecisionComparisonObject != AmountEventComparisonObject.Value;
-    private bool ShouldShowAmount() => DecisionType.HasFlag(DecisionType.PointComparison) && DecisionComparisonObject == AmountEventComparisonObject.Value;
+    private bool ShouldShowDamageDecisionComparisonObject() => DecisionType.HasFlag(DecisionType.PointComparison);
+    private bool ShouldShowAmount() => DecisionType.HasFlag(DecisionType.PointComparison);
     private bool ShouldShowColor() => DecisionType.HasFlag(DecisionType.Color);
     private bool ShouldShowAffinityComparison() => DecisionType.HasFlag(DecisionType.Affinity);
     private bool ShouldShowParity() => DecisionType.HasFlag(DecisionType.Parity);
@@ -122,20 +117,9 @@ public class AmountEventObjectFilterBlueprint
 }
 
 [Serializable]
-public class AmountEventAmountFilter
+public class AmountEventAmountFilterBlueprint
 {
     public Comparison Comparison;
 
-    public AmountEventComparisonObject ComparisonObject;
-
-    [ShowIf("ComparisonObject", AmountEventComparisonObject.Value)]
     public int PredefinedAmount;
-}
-
-public enum AmountEventComparisonObject
-{
-    TriggerHolder,
-    Reciever,
-    Inflictor,
-    Value
 }

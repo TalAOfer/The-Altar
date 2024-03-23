@@ -57,6 +57,8 @@ public class Card : MonoBehaviour
 
     private HigherBeing higherBeing = new(false, 0);
 
+    public bool Targetable;
+    public bool Taunt;
     public int Armor { get; private set; } = 0;
     public int Might {  get; private set; } = 0;
 
@@ -250,6 +252,7 @@ public class Card : MonoBehaviour
     {
         if (IsDead)
         {
+            Debug.Log("im dead");
             yield return StartCoroutine(visualHandler.ToggleOverallVanish(true));
             StartCoroutine(DestroySelf());
             yield break;

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 
 [Serializable]
-public class AmountTriggerFilter : IEventTriggerFilter
+public class GlobalAmountTriggerFilter : IEventTriggerFilter
 {
     private readonly List<Decision> _recieverFilters;
     private readonly AmountComparisonDecision _amountFilter;
-    public AmountTriggerFilter(AmountEventFilterBlueprint blueprint)
+    public GlobalAmountTriggerFilter(GlobalAmountEventFilterBlueprint blueprint)
     {
         if (blueprint.FilterByReceiver)
         {
@@ -54,9 +54,4 @@ public class AmountTriggerFilter : IEventTriggerFilter
 
         return true;
     }
-}
-
-public interface IEventTriggerFilter
-{
-    public bool Decide(Card triggerHolder, IEventData EventData);
 }

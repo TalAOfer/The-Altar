@@ -13,17 +13,15 @@ MonoBehaviour:
   m_Name: Event Filter
   m_EditorClassIdentifier: 
   Value:
-    FilterByReceiver: 0
+    FilterByReceiver: 1
     RecieverFilter:
-      DecisionType: 2
-      DecisionComparisonObject: 0
+      DecisionType: 0
       comparison: 0
-      PredefinedAmount: 0
+      PredefinedAmount: 5
       PredefinedColor: 0
       AffinityComparison: 0
       PredefinedParity: 1
-    FilterByAmount: 0
+    FilterByAmount: 1
     AmountFilter:
       Comparison: 0
-      ComparisonObject: 3
       PredefinedAmount: 5

@@ -37,11 +37,11 @@ public class BattleRoomDataProvider
 
     #region Target Providers
 
-    public List<Card> GetTargets(Card parentCard, EffectTargetPool targetType, EffectTargetStrategy targetStrategy, int amountOfTargets)
+    public List<Card> GetTargets(Card parentCard, EffectTargetPool targetPool, NormalEventFilter filter, EffectTargetStrategy targetStrategy, int amountOfTargets)
     {
         List<Card> targets = new();
 
-        switch (targetType)
+        switch (targetPool)
         {
             case EffectTargetPool.InitiatingCard:
                 targets.Add(parentCard);
@@ -53,29 +53,33 @@ public class BattleRoomDataProvider
                 targets.AddRange(GetAllActivePlayerCards());
                 targets.AddRange(GetAllActiveEnemyCards());
                 break;
-            case EffectTargetPool.PlayerCards:
-                targets = GetAllActivePlayerCards();
-                break;
-            case EffectTargetPool.EnemyCards:
-                targets = GetAllActiveEnemyCards();
-                break;
             case EffectTargetPool.SelectedCards:
                 break;
-
         }
 
-        if (targetType is EffectTargetPool.InitiatingCard or EffectTargetPool.Oppnent) return targets;
+        if (targetPool is EffectTargetPool.InitiatingCard or EffectTargetPool.Oppnent) return targets;
+
+        List<Card> validTargets = new(targets);
+
+        if (filter != null)
+        {
+            foreach (Card card in targets)
+            {
+                if (!filter.Decide(parentCard, new NormalEventData(card)))
+                    validTargets.Remove(card);
+            }
+        }
 
         switch (targetStrategy)
         {
             case EffectTargetStrategy.All:
-                return targets;
+                return validTargets;
             case EffectTargetStrategy.Random:
-                return GetRandomCards(targets, amountOfTargets);
+                return GetRandomCards(validTargets, amountOfTargets);
             case EffectTargetStrategy.Highest:
-                return GetHighestCards(targets, amountOfTargets);
+                return GetHighestCards(validTargets, amountOfTargets);
             case EffectTargetStrategy.Lowest:
-                return GetLowestCards(targets, amountOfTargets);
+                return GetLowestCards(validTargets, amountOfTargets);
             default:
                 break;
         }

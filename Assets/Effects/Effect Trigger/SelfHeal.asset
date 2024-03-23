@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0f1f883b1e86444bb6a7dad186f744, type: 3}
   m_Name: SelfHeal
   m_EditorClassIdentifier: 
-  TriggerType: 7
-  TriggerArchetype: 0
+  TriggerType: 12
+  TriggerArchetype: 2
   IsRigid: 0
   TriggerName: 
   IsModifiable: 0

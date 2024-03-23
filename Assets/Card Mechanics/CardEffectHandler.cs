@@ -10,7 +10,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
     private EventRegistry _events;
 
     [ShowInInspector]
-    public Dictionary<EffectTrigger, List<Effect>> EffectsDict { get; private set; } = new();
+    public Dictionary<EffectTriggerAsset, List<Effect>> EffectsDict { get; private set; } = new();
 
     public void Init(CardBlueprint blueprint)
     {
@@ -39,7 +39,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     public IEnumerator RemoveAllEffects()
     {
-        List<EffectTrigger> keys = new(EffectsDict.Keys);
+        List<EffectTriggerAsset> keys = new(EffectsDict.Keys);
 
         foreach (var trigger in keys)
         {
@@ -49,7 +49,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
         yield return new WaitForFixedUpdate();
     }
 
-    private void RemoveEffects(EffectTrigger trigger)
+    private void RemoveEffects(EffectTriggerAsset trigger)
     {
         List<Effect> effects = EffectsDict[trigger];
 
@@ -69,7 +69,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
 
     public IEnumerator ApplyEffects(TriggerType type, IEventData EventData)
     {
-        EffectTrigger triggerType = _triggers.GetTriggerAssetByEnum(type);
+        EffectTriggerAsset triggerType = _triggers.GetTriggerAssetByEnum(type);
 
         /*Debugging
         //Debug.Log("Is there a dict: " + (_effectsDict != null).ToString());
@@ -82,7 +82,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
         {
             foreach (Effect effect in allEffects)
             {
-                if (effect.Filter.Decide(_card, EventData))
+                if (effect.TriggerFilter.Decide(_card, EventData))
                 {
                     yield return effect.Trigger();
                 }
@@ -92,9 +92,9 @@ public class CardEffectHandler : SerializedMonoBehaviour
         yield break;
     }
 
-    public void TriggerEffects(TriggerType type)
+    public void TriggerEffects(TriggerType type, IEventData eventData)
     {
-        EffectTrigger triggerType = _triggers.GetTriggerAssetByEnum(type);
+        EffectTriggerAsset triggerType = _triggers.GetTriggerAssetByEnum(type);
 
         if (!EffectsDict.ContainsKey(triggerType)) return;
 
@@ -102,6 +102,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
         {
             foreach (Effect effect in allEffects)
             {
+                if (effect.TriggerFilter == null || effect.TriggerFilter.Decide(_card, eventData))
                 _events.OnEffectTriggered.Raise(this, effect);
             }
         }

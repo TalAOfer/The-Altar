@@ -30,26 +30,18 @@ public class BattleManager : MonoBehaviour
 
         yield return RallyRoutine();
 
-        InitialDamageEffect headbutt = new(null, null, PlayerCard);
+        HeadbuttEffect headbutt = new(null, null, PlayerCard);
 
         yield return _effectApplier.InitializeEffectSequence(headbutt, EnemyCard);
 
-        //events.AddLogEntry.Raise(this, "On Action");
         yield return BloodthirstEffectsRoutine();
 
-        //events.AddLogEntry.Raise(this, "After On Action Shapeshift");
         yield return _ctx.HandleAllShapeshiftsUntilStable();
 
-        if (!PlayerCard.IsDead)
-        {
-            yield return PlayerCard.movement.TransformCardUniformlyToPlaceholder(cardData.backOffSpeed, cardData.backoffCurve);
-        }
     }
 
 
     #region Effect Routines
-
-
 
     private IEnumerator RallyRoutine()
     {
@@ -113,38 +105,6 @@ public class BattleManager : MonoBehaviour
 
     #region Animation Routines 
 
-    private IEnumerator AnimateReadyAndHeadbutt()
-    {
-        Vector3 targetPos = PlayerCard.transform.position;
-        targetPos.y -= cardData.readyingDistance;
-        Tools.PlaySound("Card_Attack_Prepare", PlayerCard.transform);
-        Coroutine playerCardReadying = StartCoroutine(PlayerCard.movement.MoveCard(PlayerCard.transform, targetPos, Vector3.one, null, cardData.readyingSpeed, cardData.readyingCurve));
-
-        yield return playerCardReadying;
-
-        Tools.PlaySound("Card_Attack_Woosh", PlayerCard.transform);
-        StartCoroutine(RemoveCardFromHand());
-
-        Vector2 enemyCardClosestCollPos = EnemyCard.movement.GetClosestCollPosToOtherCard(PlayerCard.transform.position);
-        Coroutine playerCardHeadbutt = StartCoroutine(PlayerCard.movement.MoveCard(PlayerCard.transform, enemyCardClosestCollPos, Vector3.one, null, cardData.headbuttSpeed, cardData.headbuttCurve));
-
-        yield return playerCardHeadbutt;
-    }
-
-    private IEnumerator RemoveCardFromHand()
-    {
-        yield return Tools.GetWait(0.1f);
-        _ctx.PlayerCardManager.Hand.RemoveCardFromHand(PlayerCard);
-    }
-
-    public virtual IEnumerator AnimateBackoff()
-    {
-        _ctx.PlayerCardManager.Hand.AddCardToHand(PlayerCard);
-        PlayerCard.visualHandler.SetSortingOrder(PlayerCard.index);
-        Tools.PlaySound("Card_Attack_Backoff", transform);
-        yield return StartCoroutine(PlayerCard.movement.TransformCardUniformlyToHoveredPlaceholder(cardData.backOffSpeed, cardData.backoffCurve));
-        PlayerCard.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
-    }
 
     #endregion
 

@@ -3,19 +3,25 @@ using System.Collections.Generic;
 
 public abstract class Effect
 {
+    //Base
+    public Card ParentCard { get; private set; }
     public bool IsPersistent { get; private set; }
-    public EffectTargetPool EffectTargetPool { get; private set; }
 
+    //Trigger
+    public EffectTriggerAsset EffectTrigger { get; private set; }
+    public IEventTriggerFilter TriggerFilter { get; private set; }
+
+    //Target Acquiry 
+    public EffectTargetPool EffectTargetPool { get; private set; }
     public EffectTargetStrategy EffectTargetStrategy { get; private set; }
     public int AmountOfTargets { get; private set; }
-    public EffectTrigger EffectTrigger { get; private set; }
-    public Card ParentCard { get; private set; }
+    public NormalEventFilter TargetFilter { get; private set; }
 
-    public IEventTriggerFilter Filter { get; private set; }
-
+    //Providers
     protected EventRegistry _events;
     protected BattleRoomDataProvider _data;
 
+    //Amount
     protected GetAmountStrategy _amountStrategy;
     protected int _defaultAmount;
 
@@ -25,7 +31,7 @@ public abstract class Effect
 
         _data = data;
         ParentCard = parentCard;
-        
+
         if (blueprint != null)
         {
             EffectTrigger = blueprint.Trigger;
@@ -36,6 +42,11 @@ public abstract class Effect
 
             _amountStrategy = blueprint.amountStrategy;
             _defaultAmount = blueprint.amount;
+            
+            if (blueprint.ShouldTargetFilter)
+            {
+                TargetFilter = new NormalEventFilter(blueprint.TargetFilterBlueprint);
+            }
         }
     }
 
@@ -48,9 +59,7 @@ public abstract class Effect
 
         else
         {
-            List<Card> targetCardsBeforeDecisions = _data.GetTargets(ParentCard, EffectTargetPool, EffectTargetStrategy, AmountOfTargets);
-
-            List<Card> validTargetCards = GetTargetsThatMeetConditions(targetCardsBeforeDecisions);
+            List<Card> validTargetCards = _data.GetTargets(ParentCard, EffectTargetPool, TargetFilter, EffectTargetStrategy, AmountOfTargets);
 
             if (validTargetCards.Count > 0)
             {
@@ -65,23 +74,6 @@ public abstract class Effect
     public virtual void OnRemoveEffect(Card targetCard)
     {
 
-    }
-
-    private List<Card> GetTargetsThatMeetConditions(List<Card> targetCards)
-    {
-        List<Card> validTargetCards = new(targetCards);
-        if (this is AddBattlePointModifier) return validTargetCards;
-
-        //Remove cards that don't fulfill the conditions of the effect
-        foreach (Card targetCard in targetCards)
-        {
-            //if (_isConditional && !_decision.Decide(targetCard, _data.GetOpponent(targetCard)))
-            //{
-            //    validTargetCards.Remove(targetCard);
-            //}
-        }
-
-        return validTargetCards;
     }
 
     private IEnumerator ApplyEffectOnTargets(List<Card> targetCards)

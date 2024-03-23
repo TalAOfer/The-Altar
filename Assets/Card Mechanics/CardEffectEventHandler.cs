@@ -14,22 +14,103 @@ public class CardEffectEventHandler : MonoBehaviour
         _handler = GetComponent<CardEffectHandler>();
     }
 
-    public void OnDamageEffect(Component sender, object data)
+    #region Damage Events
+    public void OnDamage(Component sender, object data)
     {
-        AmountEventData damageData = data as AmountEventData;
-
-        //Retaliate
-        if (_card == damageData.Reciever && !_card.IsDead)
+        if (data is not AmountEventData damageData)
         {
-            _handler.TriggerEffects(TriggerType.Retaliate);
+            Debug.LogError("Got the wrong data type from: " + sender.gameObject.name);
+            return;
         }
 
-        //This card has taken damage
-        else if (_card == damageData.Reciever)
+        if (_card == damageData.Reciever)
         {
-            _handler.TriggerEffects(TriggerType.SelfDamage);
+            HandleSelfDamage(damageData);
         }
-
-
+        else
+        {
+            HandleGlobalDamage(damageData);
+        }
     }
+
+    private void HandleSelfDamage(AmountEventData damageData)
+    {
+        _handler.TriggerEffects(TriggerType.SelfDamage, damageData);
+
+        if (_card.IsDead)
+        {
+            _handler.TriggerEffects(TriggerType.GlobalLethalDamage, damageData);
+        }
+        else
+        {
+            _handler.TriggerEffects(TriggerType.Retaliate, damageData);
+            _handler.TriggerEffects(TriggerType.SelfNonLethalDamage, damageData);
+        }
+    }
+
+    private void HandleGlobalDamage(AmountEventData damageData)
+    {
+        _handler.TriggerEffects(TriggerType.GlobalDamage, damageData);
+
+        if (_card.IsDead)
+        {
+            _handler.TriggerEffects(TriggerType.GlobalLethalDamage, damageData);
+        }
+        else
+        {
+            _handler.TriggerEffects(TriggerType.GlobalNonLethalDamage, damageData);
+        }
+    }
+
+    #endregion
+
+    #region Heal Events
+    public void OnHeal(Component sender, object data)
+    {
+        if (data is not AmountEventData healData)
+        {
+            Debug.LogError("Got the wrong data type from: " + sender.gameObject.name);
+            return;
+        }
+
+        if (_card == healData.Reciever)
+        {
+            _handler.TriggerEffects(TriggerType.SelfHeal, healData);
+        }
+        else
+        {
+            _handler.TriggerEffects(TriggerType.GlobalHeal, healData);
+        }
+    }
+    #endregion
+
+    #region Summon Events
+
+    public void OnSummon(Component sender, object data)
+    {
+        if (data is not NormalEventData spawnData)
+        {
+            Debug.LogError("Got the wrong data type from: " + sender.gameObject.name);
+            return;
+        }
+
+        _handler.TriggerEffects(TriggerType.GlobalSummon, spawnData);
+    }
+
+    #endregion
+
+    #region Death Events
+
+    public void OnDeath(Component sender, object data)
+    {
+        if (data is not NormalEventData deathData)
+        {
+            Debug.LogError("Got the wrong data type from: " + sender.gameObject.name);
+            return;
+        }
+
+        _handler.TriggerEffects(TriggerType.GlobalDeath, deathData);
+    }
+
+    #endregion
 }

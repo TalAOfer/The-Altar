@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a757edc2249a14d8e84c72a2a6afc7, type: 3}
+  m_Name: New Local Amount Event Filter Blueprint Asset
+  m_EditorClassIdentifier: 
+  Value:
+    FilterByInflictor: 1
+    InflictorFilter:
+      DecisionType: 2
+      comparison: 0
+      PredefinedAmount: 0
+      PredefinedColor: 0
+      AffinityComparison: 0
+      PredefinedParity: 0
+    FilterByAmount: 0
+    AmountFilter:
+      Comparison: 0
+      PredefinedAmount: 0
