@@ -13,6 +13,11 @@ public class BattleRoomDataProvider
 
     #region Action Providers
 
+    public void ReorderCards()
+    {
+        _sm.PlayerCardManager.Hand.ReorderPlaceholders(true);
+        _sm.EnemyCardManager.ReorderPlaceholders(true);
+    }
     public void RemoveCard(Card card)
     {
         if (card.Affinity is Affinity.Player) _sm.PlayerCardManager.RemoveCardFromManager(card);

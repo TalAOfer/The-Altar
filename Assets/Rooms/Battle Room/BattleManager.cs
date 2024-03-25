@@ -32,20 +32,24 @@ public class BattleManager : MonoBehaviour
 
         yield return RallyRoutine();
 
+        yield return Tools.GetWait(0.5f);
+
         HeadbuttEffect headbutt = new(null, null, PlayerCard);
         EffectNode headbuttNode = new(headbutt, null, EnemyCard);
 
         yield return _effectApplier.InitializeEffectSequence(headbuttNode);
 
-        Debug.Log("Death phase");
+        yield return Tools.GetWait(0.5f);
+
+        yield return BloodthirstRoutine();
+
+        yield return Tools.GetWait(0.5f);
 
         yield return DeathPhase();
 
-        Debug.Log("Death Phase ended");
+        yield return Tools.GetWait(0.5f);
 
         yield return _ctx.HandleAllShapeshiftsUntilStable();
-
-        Debug.Log("Finished shapeshifts");
     }
 
 
@@ -68,19 +72,17 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    protected virtual IEnumerator DeathPhase()
+    private IEnumerator BloodthirstRoutine()
     {
-        List<Card> pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
-
-        if (pendingDestruction.Count <= 0) yield break;
-
         bool effectsCompleted = false;
 
         _effectApplier.OnEffectsCompleted += () => effectsCompleted = true;
 
-        foreach (Card card in pendingDestruction)
+        List<Card> allCards = data.GetAllActiveCards();
+
+        foreach (Card card in allCards)
         {
-            card.effects.TriggerEffects(TriggerType.LastBreath, null);
+            card.effects.TriggerEffects(TriggerType.Bloodthirst, new NormalEventData(PlayerCard));
         }
 
         yield return Tools.GetWait(0.15f);
@@ -89,32 +91,61 @@ public class BattleManager : MonoBehaviour
         {
             yield return new WaitUntil(() => effectsCompleted);
         }
-
-        foreach (Card card in pendingDestruction)
-        {
-            StartCoroutine(card.DestroySelf());
-        }
     }
 
-    private IEnumerator BloodthirstRoutine()
+
+    protected virtual IEnumerator DeathPhase()
     {
-        bool effectsCompleted = false;
-
-        _effectApplier.OnEffectsCompleted += () => effectsCompleted = true;
-
-        foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
+        bool moreCardsPendingDestruction;
+        do
         {
-            card.effects.TriggerEffects(TriggerType.Bloodthirst, null);
-        }
+            List<Card> pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
 
-        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
-        {
-            card.effects.TriggerEffects(TriggerType.Bloodthirst, null);
-        }
+            if (pendingDestruction.Count <= 0) yield break;
 
-        // Wait for the effect applier to complete processing
-        yield return new WaitUntil(() => effectsCompleted);
+            moreCardsPendingDestruction = false;
+
+            bool effectsCompleted = false;
+
+            void OnEffectsComplete()
+            {
+                effectsCompleted = true;
+                _effectApplier.OnEffectsCompleted -= OnEffectsComplete;
+            }
+
+            _effectApplier.OnEffectsCompleted += OnEffectsComplete;
+
+            foreach (Card card in pendingDestruction)
+            {
+                card.effects.TriggerEffects(TriggerType.LastBreath, null);
+            }
+
+            yield return Tools.GetWait(0.15f);
+
+            if (_effectApplier.RootEffectNode != null)
+            {
+                yield return new WaitUntil(() => effectsCompleted);
+            }
+
+            List<Coroutine> destructionRoutines = new();
+
+            foreach (Card card in pendingDestruction)
+            {
+                destructionRoutines.Add(StartCoroutine(card.DestroySelf()));
+            }
+
+            foreach (Coroutine routine in destructionRoutines)
+            {
+                yield return routine;
+            }
+
+            data.ReorderCards();
+
+            moreCardsPendingDestruction = data.GetAllActiveCards().Any(card => card.PENDING_DESTRUCTION && card.gameObject.activeSelf);
+
+        } while (moreCardsPendingDestruction);
     }
+
 
     #endregion
 

@@ -213,7 +213,6 @@ public class HandManager : MonoBehaviour
     public void RemoveCardFromHand(Card card)
     {
         cardsInHand.Remove(card);
-        ReorderPlaceholders(true);
     }
 
     #endregion

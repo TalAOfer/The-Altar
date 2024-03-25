@@ -273,10 +273,11 @@ public class Card : MonoBehaviour
 
     public IEnumerator DestroySelf()
     {
+        Debug.Log("called");
         yield return visualHandler.ToggleOverallVanish(true);
         DataProvider.RemoveCard(this);
         DOTween.Kill(transform);
-        yield return Tools.GetWait(0.25f);
+        yield return Tools.GetWait(1f);
         gameObject.SetActive(false);
     }
 

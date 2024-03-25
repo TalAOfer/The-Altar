@@ -25,7 +25,7 @@ public class EnemyCardManager : MonoBehaviour
 
     #region Formation
     [Button]
-    public void ReorderPlaceholders()
+    public void ReorderPlaceholders(bool shouldMoveCards)
     {
         int enemyCount = ActiveEnemies.Count;
         if (enemyCount == 0) return;
@@ -71,6 +71,8 @@ public class EnemyCardManager : MonoBehaviour
         {
             _enemyPlaceholders[i].gameObject.SetActive(false);
         }
+
+        if (shouldMoveCards) StartCoroutine(ResetCardsToPlaceholders());
     }
 
     public IEnumerator ResetCardsToPlaceholders()
@@ -91,7 +93,7 @@ public class EnemyCardManager : MonoBehaviour
     public void AddEnemyToManager(Card card)
     {
         ActiveEnemies.Add(card);
-        ReorderPlaceholders();
+        ReorderPlaceholders(false);
     }
 
     public void RemoveEnemyFromManager(Card card)
