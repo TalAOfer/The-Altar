@@ -1,5 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -31,13 +33,19 @@ public class BattleManager : MonoBehaviour
         yield return RallyRoutine();
 
         HeadbuttEffect headbutt = new(null, null, PlayerCard);
+        EffectNode headbuttNode = new(headbutt, null, EnemyCard);
 
-        yield return _effectApplier.InitializeEffectSequence(headbutt, EnemyCard);
+        yield return _effectApplier.InitializeEffectSequence(headbuttNode);
 
-        yield return BloodthirstEffectsRoutine();
+        Debug.Log("Death phase");
+
+        yield return DeathPhase();
+
+        Debug.Log("Death Phase ended");
 
         yield return _ctx.HandleAllShapeshiftsUntilStable();
 
+        Debug.Log("Finished shapeshifts");
     }
 
 
@@ -45,60 +53,67 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator RallyRoutine()
     {
-        Coroutine ApplyPlayerCardBeforeAttackingEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.Rally, null));
-        Coroutine ApplyEnemyCardBeforeAttackingEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.Rally, null));
+        bool effectsCompleted = false;
 
-        yield return ApplyPlayerCardBeforeAttackingEffects;
-        yield return ApplyEnemyCardBeforeAttackingEffects;
+        _effectApplier.OnEffectsCompleted += () => effectsCompleted = true;
+
+        PlayerCard.effects.TriggerEffects(TriggerType.Rally, new NormalEventData(PlayerCard));
+        EnemyCard.effects.TriggerEffects(TriggerType.Rally, new NormalEventData(EnemyCard));
+
+        yield return Tools.GetWait(0.15f);
+
+        if (_effectApplier.RootEffectNode != null)
+        {
+            yield return new WaitUntil(() => effectsCompleted);
+        }
     }
 
-    protected virtual IEnumerator LastBreathRoutine()
+    protected virtual IEnumerator DeathPhase()
     {
-        Coroutine ApplyPlayerCardOnDeathEffects = null;
-        Coroutine ApplyEnemyCardOnDeathEffects = null;
-        bool playerCardDied = PlayerCard.IsDead;
-        bool enemyCardDied = EnemyCard.IsDead;
+        List<Card> pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
 
-        if (playerCardDied) ApplyPlayerCardOnDeathEffects = StartCoroutine(PlayerCard.effects.ApplyEffects(TriggerType.LastBreath, null));
-        if (enemyCardDied) ApplyEnemyCardOnDeathEffects = StartCoroutine(EnemyCard.effects.ApplyEffects(TriggerType.LastBreath, null));
+        if (pendingDestruction.Count <= 0) yield break;
 
-        if (ApplyPlayerCardOnDeathEffects != null) yield return ApplyPlayerCardOnDeathEffects;
-        if (ApplyEnemyCardOnDeathEffects != null) yield return ApplyEnemyCardOnDeathEffects;
+        bool effectsCompleted = false;
 
-        Coroutine ApplyPlayerDeathShapeshift = null;
-        Coroutine ApplyEnemyDeathShapeshift = null;
+        _effectApplier.OnEffectsCompleted += () => effectsCompleted = true;
 
-        yield return Tools.GetWait(cardData.impactFreezeDuration);
-        if (playerCardDied || enemyCardDied) Tools.PlaySound("Card_Death", transform);
-
-        if (playerCardDied)
+        foreach (Card card in pendingDestruction)
         {
-            ApplyPlayerDeathShapeshift = StartCoroutine(PlayerCard.Shapeshift());
-            _ctx.PlayerCardManager.RemoveCardFromManager(PlayerCard);
+            card.effects.TriggerEffects(TriggerType.LastBreath, null);
         }
 
-        if (enemyCardDied) ApplyEnemyDeathShapeshift = StartCoroutine(EnemyCard.Shapeshift());
+        yield return Tools.GetWait(0.15f);
 
-        if (ApplyPlayerDeathShapeshift != null) yield return ApplyPlayerDeathShapeshift;
-        if (ApplyEnemyDeathShapeshift != null) yield return ApplyEnemyDeathShapeshift;
+        if (_effectApplier.RootEffectNode != null)
+        {
+            yield return new WaitUntil(() => effectsCompleted);
+        }
 
+        foreach (Card card in pendingDestruction)
+        {
+            StartCoroutine(card.DestroySelf());
+        }
     }
 
-    private IEnumerator BloodthirstEffectsRoutine()
+    private IEnumerator BloodthirstRoutine()
     {
-        //Debug.Log("Starting player on action effects application");
+        bool effectsCompleted = false;
+
+        _effectApplier.OnEffectsCompleted += () => effectsCompleted = true;
+
         foreach (Card card in _ctx.PlayerCardManager.ActiveCards)
         {
-            //Debug.Log("Applying " + card.name + "'s effects");
-            yield return card.effects.ApplyEffects(TriggerType.Bloodthirst, null);
+            card.effects.TriggerEffects(TriggerType.Bloodthirst, null);
         }
 
-        //Debug.Log("Starting enemy on action effects application");
         foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
         {
-            //Debug.Log("Applying " + card.name + "'s effects");
-            yield return card.effects.ApplyEffects(TriggerType.Bloodthirst, null);
+            card.effects.TriggerEffects(TriggerType.Bloodthirst, null);
         }
+
+        // Wait for the effect applier to complete processing
+        yield return new WaitUntil(() => effectsCompleted);
     }
 
     #endregion
@@ -111,8 +126,8 @@ public class BattleManager : MonoBehaviour
 
     #region Helpers
 
-    private bool DidEnemyCardDie => EnemyCard.IsDead;
-    private bool DidPlayerCardDie => PlayerCard.IsDead;
+    private bool DidEnemyCardDie => EnemyCard.PENDING_DESTRUCTION;
+    private bool DidPlayerCardDie => PlayerCard.PENDING_DESTRUCTION;
     #endregion
 }
 

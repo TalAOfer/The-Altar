@@ -6,6 +6,7 @@ public abstract class Effect
     //Base
     public Card ParentCard { get; private set; }
     public bool IsPersistent { get; private set; }
+    public bool IsFrozenTillEndOfTurn {  get; private set; }
 
     //Trigger
     public EffectTriggerAsset EffectTrigger { get; private set; }
@@ -42,16 +43,37 @@ public abstract class Effect
 
             _amountStrategy = blueprint.amountStrategy;
             _defaultAmount = blueprint.amount;
+
+            if (EffectTrigger != null)
+            {
+                switch (EffectTrigger.TriggerArchetype)
+                {
+                    case TriggerArchetype.LocalNormalEvents:
+                        TriggerFilter = new NormalEventFilter(blueprint.NormalEventsFilter);
+                        break;
+                    case TriggerArchetype.GlobalNormalEvents:
+                        TriggerFilter = new NormalEventFilter(blueprint.NormalEventsFilter);
+                        break;
+                    case TriggerArchetype.LocalAmountEvents:
+                        TriggerFilter = new LocalAmountTriggerFilter(blueprint.LocalAmountEventsFilter);
+                        break;
+                    case TriggerArchetype.GlobalAmountEvents:
+                        TriggerFilter = new GlobalAmountTriggerFilter(blueprint.GlobalAmountEventsFilter);
+                        break;
+                }
+            }
             
-            if (blueprint.ShouldTargetFilter)
+            if (blueprint.ShouldFilterTargets)
             {
                 TargetFilter = new NormalEventFilter(blueprint.TargetFilterBlueprint);
             }
         }
     }
 
-    public virtual IEnumerator Trigger(List<Card> predefinedTargets = null)
+    public virtual IEnumerator Trigger(List<Card> predefinedTargets = null, IEventData eventData = null)
     {
+        if (EffectTrigger != null && EffectTrigger.IsOnePerTurn) this.IsFrozenTillEndOfTurn = true;
+
         if (predefinedTargets != null)
         {
             yield return ApplyEffectOnTargets(predefinedTargets);
@@ -59,7 +81,7 @@ public abstract class Effect
 
         else
         {
-            List<Card> validTargetCards = _data.GetTargets(ParentCard, EffectTargetPool, TargetFilter, EffectTargetStrategy, AmountOfTargets);
+            List<Card> validTargetCards = _data.GetTargets(ParentCard, EffectTargetPool, TargetFilter, EffectTargetStrategy, AmountOfTargets, eventData);
 
             if (validTargetCards.Count > 0)
             {
@@ -108,5 +130,10 @@ public abstract class Effect
     protected virtual string GetEffectIndicationString(Card target, int amount)
     {
         return "";
+    }
+
+    public void UnfreezeEffect()
+    {
+        this.IsFrozenTillEndOfTurn = false;
     }
 }

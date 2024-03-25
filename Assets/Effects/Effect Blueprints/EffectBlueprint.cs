@@ -32,19 +32,19 @@ public class EffectBlueprint
     //public bool shouldAnimate = true;
 
     [FoldoutGroup("Target Acquiring")]
-    [ShowIf("@EffectTypeAsset?.TypeArchetype == EffectTypeArchetype.Grantable")]
+    //[ShowIf("@EffectTypeAsset?.TypeArchetype == EffectTypeArchetype.Grantable")]
     public EffectTargetPool TargetPool;
     [FoldoutGroup("Target Acquiring")]
-    [ShowIf("@ShouldShowTargetStrategy()")]
+    //[ShowIf("@ShouldShowTargetStrategy()")]
     public EffectTargetStrategy TargetStrategy;
     [FoldoutGroup("Target Acquiring")]
-    [ShowIf("@ShouldShowAmountOfTargets()")]
+    //[ShowIf("@ShouldShowAmountOfTargets()")]
     public int AmountOfTargets = 1;
     [FoldoutGroup("Target Acquiring")]
-    [ShowIf("@EffectTypeAsset?.TypeArchetype == EffectTypeArchetype.Grantable")]
-    public bool ShouldTargetFilter;
+    //[ShowIf("@EffectTypeAsset?.TypeArchetype == EffectTypeArchetype.Grantable")]
+    public bool ShouldFilterTargets;
     [FoldoutGroup("Target Acquiring")]
-    [ShowIf("@ShouldShowTargetFilter()")]
+    [ShowIf("ShouldFilterTargets")]
     public NormalEventFilterBlueprint TargetFilterBlueprint;
 
     [FoldoutGroup("Effect")]
@@ -169,7 +169,7 @@ public class EffectBlueprint
 
     private bool ShouldShowTargetFilter()
     {
-        return ShouldTargetFilter && ShouldShowTargetStrategy();
+        return ShouldFilterTargets && ShouldShowTargetStrategy();
     }
     private bool ShouldShowBattleModifierFilter()
     {
@@ -304,7 +304,7 @@ public class EffectBlueprint
 
         string filter = "";
         
-        if (ShouldTargetFilter)
+        if (ShouldFilterTargets)
         {
             filter = TargetFilterBlueprint.GetCardFilterDescription();
         }
@@ -372,6 +372,7 @@ public enum EffectTargetPool
     Oppnent,
     SelectedCards,
     AllCards,
+    TriggerCard,
 }
 
 public enum EffectTargetStrategy

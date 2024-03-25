@@ -8,6 +8,7 @@ public class EffectTriggerAsset : ScriptableObject
     public TriggerType TriggerType;
     public TriggerArchetype TriggerArchetype;
     public bool IsRigid;
+    public bool IsOnePerTurn;
     [ShowIf("IsRigid")]
     public string TriggerName;
     public bool IsModifiable;

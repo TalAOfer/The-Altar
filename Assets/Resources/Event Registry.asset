@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnDamageEffect: {fileID: 11400000, guid: 20f097cc4bc078640ac7a795d95600e3, type: 2}
   OnEffectTriggered: {fileID: 11400000, guid: afce47e60834e0d44919eee143d3f8d7, type: 2}
+  OnTurnEnd: {fileID: 11400000, guid: 5369e3e3899db824db0368f32d9ab7c4, type: 2}
   OnCardPointerEnter: {fileID: 11400000, guid: caf8a6a8221723b4d8ad022a34aed9bf, type: 2}
   OnCardPointerExit: {fileID: 11400000, guid: a61b258734fe84b4da0d24d0f31b57de, type: 2}
   OnCardBeginDrag: {fileID: 11400000, guid: d69277c21c05bed4faa1c06970925d58, type: 2}
@@ -23,7 +24,6 @@ MonoBehaviour:
   OnCursorEnterHand: {fileID: 11400000, guid: d16688ddad1130549b04e1f2ec0b5112, type: 2}
   OnCursorExitHand: {fileID: 11400000, guid: a5e6196b0217da746ae5626dd3c924bc, type: 2}
   OnAbilityClicked: {fileID: 11400000, guid: f5810c6c7a6062b479a50ca44b7aa23a, type: 2}
-  Attack: {fileID: 11400000, guid: af13426617dc49244b5a4e0140e8062e, type: 2}
   EnableBezierArrow: {fileID: 11400000, guid: 9235b363696576642b9b3e17233ec1e4, type: 2}
   DisableBezierArrow: {fileID: 11400000, guid: 5f5f757a8c19fce4ea9801a3650c1fba, type: 2}
   OnFinishedHandFill: {fileID: 11400000, guid: 5f4112befb798c14c896321807103c78, type: 2}

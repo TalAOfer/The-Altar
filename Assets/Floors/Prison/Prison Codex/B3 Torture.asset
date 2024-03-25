@@ -12,148 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: B3 Torture
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: e1ca4fb698bc9f944b877960098eb3de, type: 2}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: Effects
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[EffectTrigger, Assembly-CSharp],[System.Collections.Generic.List`1[[EffectBlueprintReference,
-        Assembly-CSharp]], mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[EffectTrigger,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 0
-    - Name: $v
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[EffectBlueprintReference, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 3|EffectBlueprintReference, Assembly-CSharp
-    - Name: UseAsset
-      Entry: 5
-      Data: false
-    - Name: ManualValue
-      Entry: 7
-      Data: 4|EffectBlueprint, Assembly-CSharp
-    - Name: target
-      Entry: 3
-      Data: 4
-    - Name: amountOfTargets
-      Entry: 3
-      Data: 1
-    - Name: shouldAnimate
-      Entry: 5
-      Data: false
-    - Name: applicationType
-      Entry: 3
-      Data: 0
-    - Name: EffectType
-      Entry: 3
-      Data: 2
-    - Name: amountStrategy
-      Entry: 3
-      Data: 0
-    - Name: amount
-      Entry: 3
-      Data: 1
-    - Name: battlePointType
-      Entry: 3
-      Data: 0
-    - Name: modifierType
-      Entry: 3
-      Data: 0
-    - Name: color
-      Entry: 3
-      Data: 1
-    - Name: cardArchetype
-      Entry: 6
-      Data: 
-    - Name: guardianType
-      Entry: 3
-      Data: 0
-    - Name: guardianApplicationType
-      Entry: 3
-      Data: 0
-    - Name: effectBlueprint
-      Entry: 6
-      Data: 
-    - Name: whenToTriggerAddedEffect
-      Entry: 6
-      Data: 
-    - Name: isConditional
-      Entry: 5
-      Data: true
-    - Name: decision
-      Entry: 7
-      Data: 5|Decision, Assembly-CSharp
-    - Name: decisionType
-      Entry: 3
-      Data: 1
-    - Name: compare
-      Entry: 3
-      Data: 0
-    - Name: comparison
-      Entry: 3
-      Data: 0
-    - Name: compareTo
-      Entry: 3
-      Data: 0
-    - Name: amount
-      Entry: 3
-      Data: 0
-    - Name: color
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Asset
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
   cardSprite: {fileID: 21300000, guid: 54f2dcb97929780479467094837cfb65, type: 3}
   isDefault: 0
   cardName: Torture
@@ -161,5 +19,88 @@ MonoBehaviour:
     points: 3
     color: 0
   Affinity: 1
-  Description: On survive, turn all your cards to red.
+  Description: 'Retaliate: Swap all your cards to red.'
   SpecialEffects: 0
+  Effects:
+  - UseAsset: 0
+    ManualValue:
+      Trigger: {fileID: 11400000, guid: 6e1dba0c2fc013e4684c19634a0736d6, type: 2}
+      GlobalAmountEventsFilter:
+        FilterByReceiver: 0
+        RecieverFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      LocalAmountEventsFilter:
+        FilterByInflictor: 0
+        InflictorFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      NormalEventsFilter:
+        FilterByEmitter: 0
+        EmitterFilter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      EffectTypeAsset: {fileID: 11400000, guid: f479711ca99750746b28865a2fd14c1d, type: 2}
+      replacePlaceholders: 1
+      TargetPool: 3
+      TargetStrategy: 0
+      AmountOfTargets: 1
+      ShouldFilterTargets: 1
+      TargetFilterBlueprint:
+        FilterByEmitter: 1
+        EmitterFilter:
+          DecisionType: 8
+          PredefinedColor: 0
+          AffinityComparison: 1
+          PredefinedParity: 0
+      IsPersistent: 0
+      amountStrategy: 0
+      amount: 1
+      cardArchetype:
+        points: 0
+        color: 0
+      battlePointType: 0
+      modifierType: 0
+      filterBattleModifier: 0
+      battleModifierfilter:
+        FilterByAttacker: 0
+        AttackerFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByOpponent: 0
+        OpponentFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByComparison: 0
+        ComparisonFilter:
+          comparison: 0
+      color: 1
+      guardianType: 0
+      guardianIsPresistent: 0
+      BuffType: 0
+      effectBlueprint: {fileID: 0}
+    Asset: {fileID: 0}

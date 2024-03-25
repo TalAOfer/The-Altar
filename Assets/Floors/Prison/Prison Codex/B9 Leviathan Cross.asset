@@ -12,127 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
   m_Name: B9 Leviathan Cross
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: e1ca4fb698bc9f944b877960098eb3de, type: 2}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: Effects
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[EffectTrigger, Assembly-CSharp],[System.Collections.Generic.List`1[[EffectBlueprintReference,
-        Assembly-CSharp]], mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[EffectTrigger,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 10
-      Data: 0
-    - Name: $v
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[EffectBlueprintReference, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 3|EffectBlueprintReference, Assembly-CSharp
-    - Name: UseAsset
-      Entry: 5
-      Data: false
-    - Name: ManualValue
-      Entry: 7
-      Data: 4|EffectBlueprint, Assembly-CSharp
-    - Name: target
-      Entry: 3
-      Data: 8
-    - Name: amountOfTargets
-      Entry: 3
-      Data: 1
-    - Name: shouldAnimate
-      Entry: 5
-      Data: true
-    - Name: applicationType
-      Entry: 3
-      Data: 0
-    - Name: EffectType
-      Entry: 3
-      Data: 10
-    - Name: amountStrategy
-      Entry: 3
-      Data: 0
-    - Name: amount
-      Entry: 3
-      Data: 1
-    - Name: battlePointType
-      Entry: 3
-      Data: 0
-    - Name: modifierType
-      Entry: 3
-      Data: 0
-    - Name: color
-      Entry: 3
-      Data: 0
-    - Name: cardArchetype
-      Entry: 6
-      Data: 
-    - Name: guardianType
-      Entry: 3
-      Data: 0
-    - Name: guardianApplicationType
-      Entry: 3
-      Data: 0
-    - Name: effectBlueprint
-      Entry: 6
-      Data: 
-    - Name: whenToTriggerAddedEffect
-      Entry: 6
-      Data: 
-    - Name: isConditional
-      Entry: 5
-      Data: false
-    - Name: decision
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Asset
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
   cardSprite: {fileID: 21300000, guid: 84fe0df0e9868e84ebf49d30ea120a6b, type: 3}
   isDefault: 0
   cardName: Leviathan
@@ -140,5 +19,88 @@ MonoBehaviour:
     points: 9
     color: 0
   Affinity: 1
-  Description: Give 1 armor to a random enemy.
+  Description: When a friendly card takes non-lethal damage, grant it with 1 armor.
   SpecialEffects: 1
+  Effects:
+  - UseAsset: 0
+    ManualValue:
+      Trigger: {fileID: 11400000, guid: 044eeb63a4a354e4b9a251ccf51043ab, type: 2}
+      GlobalAmountEventsFilter:
+        FilterByReceiver: 1
+        RecieverFilter:
+          DecisionType: 8
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      LocalAmountEventsFilter:
+        FilterByInflictor: 0
+        InflictorFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      NormalEventsFilter:
+        FilterByEmitter: 0
+        EmitterFilter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      EffectTypeAsset: {fileID: 11400000, guid: b9a4d858087f85e4ca28b7773add48d4, type: 2}
+      replacePlaceholders: 1
+      TargetPool: 4
+      TargetStrategy: 0
+      AmountOfTargets: 1
+      ShouldFilterTargets: 0
+      TargetFilterBlueprint:
+        FilterByEmitter: 0
+        EmitterFilter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      IsPersistent: 0
+      amountStrategy: 0
+      amount: 1
+      cardArchetype:
+        points: 0
+        color: 0
+      battlePointType: 0
+      modifierType: 0
+      filterBattleModifier: 0
+      battleModifierfilter:
+        FilterByAttacker: 0
+        AttackerFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByOpponent: 0
+        OpponentFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByComparison: 0
+        ComparisonFilter:
+          comparison: 0
+      color: 0
+      guardianType: 0
+      guardianIsPresistent: 0
+      BuffType: 1
+      effectBlueprint: {fileID: 0}
+    Asset: {fileID: 0}

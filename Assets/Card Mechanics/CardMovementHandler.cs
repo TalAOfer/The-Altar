@@ -40,6 +40,7 @@ public class CardMovementHandler : MonoBehaviour
 
     public void Dehighlight()
     {
+        if (card.PENDING_DESTRUCTION) return;
         card.movement.isHighlighted = false;
         card.visualHandler.SetSortingLayer(GameConstants.PLAYER_CARD_LAYER);
         StartCoroutine(card.movement.TransformVisualUniformlyToPlaceholder(cardData.DehiglightSpeed, cardData.DehighlightCurve));

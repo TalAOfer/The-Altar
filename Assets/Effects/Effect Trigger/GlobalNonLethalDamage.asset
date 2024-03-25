@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d0f1f883b1e86444bb6a7dad186f744, type: 3}
-  m_Name: Retaliate
+  m_Name: GlobalNonLethalDamage
   m_EditorClassIdentifier: 
-  TriggerType: 3
-  TriggerArchetype: 2
-  IsRigid: 1
-  IsOnePerTurn: 1
-  TriggerName: Retaliate
-  IsModifiable: 0
-  TriggerText: 
-  TriggerVerb: 
+  TriggerType: 11
+  TriggerArchetype: 3
+  IsRigid: 0
+  IsOnePerTurn: 0
+  TriggerName: 
+  IsModifiable: 1
+  TriggerText: damage
+  TriggerVerb: takes

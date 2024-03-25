@@ -4,10 +4,11 @@ using UnityEngine;
 //[CreateAssetMenu(menuName ="AllEvents")]
 public class EventRegistry : ScriptableObject
 {
-    [Title("DFS")]
+    [Title("Effects")]
     public GameEvent OnDamageEffect;
     public GameEvent OnEffectTriggered;
-
+    public GameEvent OnTurnEnd;
+   
     [Title("Interaction")]
     public GameEvent OnCardPointerEnter;
     public GameEvent OnCardPointerExit;
@@ -20,7 +21,6 @@ public class EventRegistry : ScriptableObject
     public GameEvent OnAbilityClicked;
 
     [Title("Battle")]
-    public GameEvent Attack;
     public GameEvent EnableBezierArrow;
     public GameEvent DisableBezierArrow;
     public GameEvent OnFinishedHandFill;

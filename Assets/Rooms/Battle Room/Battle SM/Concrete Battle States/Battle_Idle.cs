@@ -17,6 +17,8 @@ public class Battle_Idle : BaseBattleRoomState
             _ctx.DemarkCardAsSelected(_ctx.Ctx.CurrentActorCard);
         }
 
+        _ctx.Events.OnTurnEnd.Raise();
+
         return base.EnterState();
     }
 

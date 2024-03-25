@@ -441,6 +441,8 @@ MonoBehaviour:
   attackPointsModifiers: []
   hurtPointsModifiers: []
   guardians: []
+  Targetable: 0
+  Taunt: 0
 --- !u!95 &3041129387846409227
 Animator:
   serializedVersion: 4
@@ -629,6 +631,66 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4212199290565839637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6923587269110058528}
+  - component: {fileID: 6716109200400813547}
+  m_Layer: 0
+  m_Name: OnTurnEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6923587269110058528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4212199290565839637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 786849074998012655}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6716109200400813547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4212199290565839637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2087eb1c8d9093c47bb0f04a270fa87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 5369e3e3899db824db0368f32d9ab7c4, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1842295683732825264}
+        m_TargetAssemblyTypeName: CardEffectHandler, Assembly-CSharp
+        m_MethodName: ReenableOnetimeEffects
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4427036840453041652
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +965,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6923587269110058528}
   - {fileID: 6998250156128313531}
   m_Father: {fileID: 7852895720344620219}
   m_RootOrder: 0
@@ -1327,7 +1390,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 786849074998012655}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8661360698287713222
 MonoBehaviour:
@@ -1347,7 +1410,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1817054133972162441}
         m_TargetAssemblyTypeName: CardEffectEventHandler, Assembly-CSharp
-        m_MethodName: OnDamageEffect
+        m_MethodName: OnDamage
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

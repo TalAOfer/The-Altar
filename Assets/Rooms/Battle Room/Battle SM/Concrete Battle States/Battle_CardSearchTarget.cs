@@ -50,6 +50,8 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
         }
 
         TargetSeekingCard.visualHandler.DisableDamageVisual();
+        if (_ctx.Ctx.BattlingEnemyCard != null) 
+            _ctx.Ctx.BattlingEnemyCard.visualHandler.DisableDamageVisual();
 
         _ctx.Events.DisableBezierArrow.Raise();
         return base.ExitState();

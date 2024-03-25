@@ -4,8 +4,8 @@ using System.Collections.Generic;
 [Serializable]
 public class BattleModifierFilter
 {
-    private readonly List<Decision> _attackerFilters;
-    private readonly List<Decision> _opponentFilters;
+    private readonly List<Decision> _attackerFilters = new();
+    private readonly List<Decision> _opponentFilters = new();
     private readonly AmountComparisonDecision _comparisonFilter;
 
     public BattleModifierFilter(BattleModifierFilterBlueprint blueprint)
@@ -76,7 +76,7 @@ public class BattleModifierFilter
             }
         }
 
-        if (_comparisonFilter.Decide(card, opponentCard) == false)
+        if (_comparisonFilter?.Decide(card, opponentCard) == false)
         {
             return false;
         }

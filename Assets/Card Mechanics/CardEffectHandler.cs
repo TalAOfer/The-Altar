@@ -67,7 +67,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
         }
     }
 
-    public IEnumerator ApplyEffects(TriggerType type, IEventData EventData)
+    public IEnumerator ApplyEffects(TriggerType type, IEventData eventData)
     {
         EffectTriggerAsset triggerType = _triggers.GetTriggerAssetByEnum(type);
 
@@ -82,10 +82,12 @@ public class CardEffectHandler : SerializedMonoBehaviour
         {
             foreach (Effect effect in allEffects)
             {
-                if (effect.TriggerFilter.Decide(_card, EventData))
-                {
-                    yield return effect.Trigger();
-                }
+                if (effect.IsFrozenTillEndOfTurn) continue;
+                if (effect.TriggerFilter?.Decide(_card, eventData) == false) continue;
+
+                Debug.Log("applying: " + effect.ToString());
+
+                yield return effect.Trigger(null, eventData);
             }
         }
 
@@ -103,7 +105,21 @@ public class CardEffectHandler : SerializedMonoBehaviour
             foreach (Effect effect in allEffects)
             {
                 if (effect.TriggerFilter == null || effect.TriggerFilter.Decide(_card, eventData))
-                _events.OnEffectTriggered.Raise(this, effect);
+                {
+                    EffectNode effectNode = new(effect, eventData, null);
+                    _events.OnEffectTriggered.Raise(this, effectNode);
+                }
+            }
+        }
+    }
+
+    public void ReenableOnetimeEffects()
+    {
+        foreach (var effectEntry in EffectsDict)
+        {
+            foreach (Effect effect in effectEntry.Value)
+            {
+                effect.UnfreezeEffect();
             }
         }
     }

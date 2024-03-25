@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class LocalAmountTriggerFilter : IEventTriggerFilter
 {
-    private readonly List<Decision> _inflictorFilters;
+    private readonly List<Decision> _inflictorFilters = new();
     private readonly AmountComparisonDecision _amountFilter;
     public LocalAmountTriggerFilter(LocalAmountEventFilterBlueprint blueprint)
     {
@@ -47,7 +47,7 @@ public class LocalAmountTriggerFilter : IEventTriggerFilter
             }
         }
 
-        if (_amountFilter.Decide(null, null, DamageEventData.Amount) == false)
+        if (_amountFilter?.Decide(null, null, DamageEventData.Amount) == false)
         {
             return false;
         }

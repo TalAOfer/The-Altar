@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NormalEventFilter : IEventTriggerFilter
 {
-    private readonly List<Decision> _emitterFilters;
+    private readonly List<Decision> _emitterFilters = new();
     public NormalEventFilter(NormalEventFilterBlueprint blueprint)
     {
         if (blueprint.FilterByEmitter)

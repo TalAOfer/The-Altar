@@ -6,23 +6,27 @@ using UnityEngine;
 
 public class EffectApplier : MonoBehaviour
 {
-    private EffectNode rootEffectNode;
+    public EffectNode RootEffectNode {  get; private set; }
+
+    public delegate void EffectsCompletedHandler();
+    public event EffectsCompletedHandler OnEffectsCompleted;
 
     private readonly Stack<EffectNode> effectNodeStack = new();
 
     // Call this to start the DFS from the root
-    public IEnumerator InitializeEffectSequence(Effect effect, Card target = null)
+    public IEnumerator InitializeEffectSequence(EffectNode effectNode)
     {
         //Create an empty root node
-        rootEffectNode = new EffectNode(null);
-        EffectNode newNode = new(effect, target);
+        RootEffectNode = new EffectNode(null, null);
 
         //Add first child and execute the root node
         //(so that if an event is fired closely, it will be considered a sibling of the first effect and not parent)
+        RootEffectNode.AddChild(effectNode);
 
-        rootEffectNode.AddChild(newNode);
+        yield return ExecuteEffectSequence(RootEffectNode);
 
-        yield return ExecuteEffectSequence(rootEffectNode);
+        OnEffectsCompleted?.Invoke();
+        RootEffectNode = null;
     }
 
     private IEnumerator ExecuteEffectSequence(EffectNode effectNode)
@@ -35,12 +39,12 @@ public class EffectApplier : MonoBehaviour
         {
             if (effectNode.PredefinedTarget != null)
             {
-                yield return effectNode.Effect.Trigger(new List<Card> { effectNode.PredefinedTarget });
+                yield return effectNode.Effect.Trigger(new List<Card> { effectNode.PredefinedTarget }, effectNode.EventData);
             }
 
             else
             {
-                yield return effectNode.Effect.Trigger();
+                yield return effectNode.Effect.Trigger(null, effectNode.EventData);
             }
         }
 
@@ -62,20 +66,17 @@ public class EffectApplier : MonoBehaviour
 
     public void OnEffectTriggered(Component sender, object data)
     {
-        Effect effect = (Effect)data;
-
-        Debug.Log(effect);
+        EffectNode effectNode = (EffectNode)data;
 
         EffectNode currentNode = effectNodeStack.Count > 0 ? effectNodeStack.Peek() : null;
 
         if (currentNode != null)
         {
-            EffectNode newNode = new(effect);
-            currentNode.AddChild(newNode);
+            currentNode.AddChild(effectNode);
         }
         else
         {
-            StartCoroutine(InitializeEffectSequence(effect));
+            StartCoroutine(InitializeEffectSequence(effectNode));
         }
     }
 }

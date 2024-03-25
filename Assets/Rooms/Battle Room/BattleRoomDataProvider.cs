@@ -13,9 +13,10 @@ public class BattleRoomDataProvider
 
     #region Action Providers
 
-    public void RemovePlayerCard(Card card)
+    public void RemoveCard(Card card)
     {
-        _sm.PlayerCardManager.RemoveCardFromManager(card);
+        if (card.Affinity is Affinity.Player) _sm.PlayerCardManager.RemoveCardFromManager(card);
+        else _sm.EnemyCardManager.RemoveEnemyFromManager(card);
     }
 
     public void DrawCardsToHand(int amount)
@@ -37,7 +38,7 @@ public class BattleRoomDataProvider
 
     #region Target Providers
 
-    public List<Card> GetTargets(Card parentCard, EffectTargetPool targetPool, NormalEventFilter filter, EffectTargetStrategy targetStrategy, int amountOfTargets)
+    public List<Card> GetTargets(Card parentCard, EffectTargetPool targetPool, NormalEventFilter filter, EffectTargetStrategy targetStrategy, int amountOfTargets, IEventData eventData)
     {
         List<Card> targets = new();
 
@@ -55,9 +56,22 @@ public class BattleRoomDataProvider
                 break;
             case EffectTargetPool.SelectedCards:
                 break;
+            case EffectTargetPool.TriggerCard:
+                Card triggerCard = null;
+                switch (eventData)
+                {
+                    case AmountEventData amountData:
+                        triggerCard = amountData.Reciever;
+                        break;
+                    case NormalEventData normalData:
+                        triggerCard = normalData.Emitter;
+                        break;
+                }
+                targets.Add(triggerCard);
+                break;
         }
 
-        if (targetPool is EffectTargetPool.InitiatingCard or EffectTargetPool.Oppnent) return targets;
+        if (targetPool is EffectTargetPool.InitiatingCard or EffectTargetPool.Oppnent or EffectTargetPool.TriggerCard) return targets;
 
         List<Card> validTargets = new(targets);
 
@@ -90,6 +104,11 @@ public class BattleRoomDataProvider
     public Card GetOpponent(Card card)
     {
         return card.Affinity == Affinity.Player ? _sm.Ctx.BattlingEnemyCard : _sm.Ctx.BattlingPlayerCard;
+    }
+
+    public List<Card> GetAllActiveCards()
+    {
+        return GetAllActivePlayerCards().Concat(GetAllActiveEnemyCards()).ToList();
     }
 
     public List<Card> GetAllActiveEnemyCards()

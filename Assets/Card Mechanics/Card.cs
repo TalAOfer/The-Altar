@@ -62,7 +62,7 @@ public class Card : MonoBehaviour
     public int Armor { get; private set; } = 0;
     public int Might {  get; private set; } = 0;
 
-    public bool IsDead
+    public bool PENDING_DESTRUCTION
     {
         get { return points <= 0; }
     }
@@ -87,12 +87,12 @@ public class Card : MonoBehaviour
         visualHandler.Init(blueprint, startingSortingLayer);
 
         _events = Locator.Events;
-        //StartCoroutine(effects.ApplyEffects(TriggerType.OnChange));
+        StartCoroutine(effects.ApplyEffects(TriggerType.OnChange, null));
     }
 
     public CardBlueprint GetCurrentMask()
     {
-        if (higherBeing.isLocked && !IsDead) return Mask;
+        if (higherBeing.isLocked && !PENDING_DESTRUCTION) return Mask;
         return codex.GetCardOverride(new CardArchetype(points, cardColor));
     }
 
@@ -239,7 +239,7 @@ public class Card : MonoBehaviour
 
     public bool ShouldShapeshift()
     {
-        return !IsDead && Mask != GetCurrentMask();
+        return !PENDING_DESTRUCTION && Mask != GetCurrentMask();
     }
 
     public IEnumerator HandleShapeshift()
@@ -250,14 +250,6 @@ public class Card : MonoBehaviour
 
     public IEnumerator Shapeshift()
     {
-        if (IsDead)
-        {
-            Debug.Log("im dead");
-            yield return StartCoroutine(visualHandler.ToggleOverallVanish(true));
-            StartCoroutine(DestroySelf());
-            yield break;
-        }
-
         CardBlueprint newMask = GetCurrentMask();
 
         if (Mask != newMask)
@@ -279,9 +271,10 @@ public class Card : MonoBehaviour
 
     }
 
-    private IEnumerator DestroySelf()
+    public IEnumerator DestroySelf()
     {
-        DataProvider.RemovePlayerCard(this);
+        yield return visualHandler.ToggleOverallVanish(true);
+        DataProvider.RemoveCard(this);
         DOTween.Kill(transform);
         yield return Tools.GetWait(0.25f);
         gameObject.SetActive(false);

@@ -12,17 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f57c829acc57c408541f9ac4631434, type: 3}
   m_Name: Prison Battle 1
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
   cards:
   - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
   - {fileID: 11400000, guid: 08e2a45ed4a386d4587a63d8c1eec62a, type: 2}
-  - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+  - {fileID: 11400000, guid: 206a070410c718c4d917bee8a60b9b5f, type: 2}
+  - {fileID: 11400000, guid: a4165805887769a4589f56067dd58364, type: 2}
+  - {fileID: 11400000, guid: 6cbf2e53e6e1da24abbcb5887eed5450, type: 2}

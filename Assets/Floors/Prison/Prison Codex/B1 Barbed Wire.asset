@@ -19,17 +19,16 @@ MonoBehaviour:
     points: 1
     color: 0
   Affinity: 1
-  Description: Deal +1 damage.
+  Description: This card deals +2 damage to black cards.
   SpecialEffects: 0
   Effects:
   - UseAsset: 0
     ManualValue:
-      Trigger: {fileID: 11400000, guid: 4060cd84f04d5a647863ae2d67130166, type: 2}
-      AmountEventsFilter:
+      Trigger: {fileID: 11400000, guid: 2f41cac1d4f97d34eb55e176befa1f7e, type: 2}
+      GlobalAmountEventsFilter:
         FilterByReceiver: 0
         RecieverFilter:
           DecisionType: 0
-          DecisionComparisonObject: 0
           comparison: 0
           PredefinedAmount: 0
           PredefinedColor: 0
@@ -38,7 +37,19 @@ MonoBehaviour:
         FilterByAmount: 0
         AmountFilter:
           Comparison: 0
-          ComparisonObject: 0
+          PredefinedAmount: 0
+      LocalAmountEventsFilter:
+        FilterByInflictor: 0
+        InflictorFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
           PredefinedAmount: 0
       NormalEventsFilter:
         FilterByEmitter: 0
@@ -47,20 +58,28 @@ MonoBehaviour:
           PredefinedColor: 0
           AffinityComparison: 0
           PredefinedParity: 0
-      EffectTypeAsset: {fileID: 11400000, guid: c4aeb230c4de34045a810813b0e4033b, type: 2}
+      EffectTypeAsset: {fileID: 11400000, guid: cbe85e8c6476e7a4f83f1a45dd33382b, type: 2}
       replacePlaceholders: 1
-      TargetPool: 5
-      TargetStrategy: 2
+      TargetPool: 0
+      TargetStrategy: 0
       AmountOfTargets: 1
+      ShouldFilterTargets: 0
+      TargetFilterBlueprint:
+        FilterByEmitter: 0
+        EmitterFilter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
       IsPersistent: 0
       amountStrategy: 0
-      amount: 1
+      amount: 2
       cardArchetype:
         points: 0
         color: 0
       battlePointType: 0
-      modifierType: 0
-      filterBattleModifier: 0
+      modifierType: 2
+      filterBattleModifier: 1
       battleModifierfilter:
         FilterByAttacker: 0
         AttackerFilter:
@@ -69,9 +88,9 @@ MonoBehaviour:
           PredefinedAmount: 0
           PredefinedColor: 0
           PredefinedParity: 0
-        FilterByOpponent: 0
+        FilterByOpponent: 1
         OpponentFilter:
-          DecisionType: 0
+          DecisionType: 4
           comparison: 0
           PredefinedAmount: 0
           PredefinedColor: 0
