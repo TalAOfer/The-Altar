@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: New Effect Blueprint Asset
   m_EditorClassIdentifier: 
   Value:
-    Trigger: {fileID: 11400000, guid: 4060cd84f04d5a647863ae2d67130166, type: 2}
+    Trigger: {fileID: 11400000, guid: 10a999676cba037468a353d9ffdea79e, type: 2}
     GlobalAmountEventsFilter:
-      FilterByReceiver: 0
+      FilterByReceiver: 1
       RecieverFilter:
-        DecisionType: 0
+        DecisionType: 2
         comparison: 0
         PredefinedAmount: 0
         PredefinedColor: 0
@@ -26,13 +26,13 @@ MonoBehaviour:
       FilterByAmount: 0
       AmountFilter:
         Comparison: 0
-        PredefinedAmount: 0
+        PredefinedAmount: 5
     LocalAmountEventsFilter:
-      FilterByInflictor: 0
+      FilterByInflictor: 1
       InflictorFilter:
-        DecisionType: 0
+        DecisionType: 4
         comparison: 0
-        PredefinedAmount: 0
+        PredefinedAmount: 5
         PredefinedColor: 0
         AffinityComparison: 0
         PredefinedParity: 0
@@ -41,25 +41,25 @@ MonoBehaviour:
         Comparison: 0
         PredefinedAmount: 0
     NormalEventsFilter:
-      FilterByEmitter: 1
-      EmitterFilter:
-        DecisionType: 8
+      ShouldFilter: 0
+      Filter:
+        DecisionType: 0
         PredefinedColor: 0
         AffinityComparison: 0
         PredefinedParity: 0
-    EffectTypeAsset: {fileID: 11400000, guid: 330cc67fe82885646aec1b41a3fea009, type: 2}
+    EffectTypeAsset: {fileID: 11400000, guid: b9a4d858087f85e4ca28b7773add48d4, type: 2}
     replacePlaceholders: 1
     TargetPool: 3
     TargetStrategy: 3
-    AmountOfTargets: 1
-    ShouldTargetFilter: 1
+    AmountOfTargets: 2
+    ShouldFilterTargets: 1
     TargetFilterBlueprint:
-      FilterByEmitter: 1
-      EmitterFilter:
-        DecisionType: 12
+      ShouldFilter: 1
+      Filter:
+        DecisionType: 8
         PredefinedColor: 0
-        AffinityComparison: 1
-        PredefinedParity: 0
+        AffinityComparison: 0
+        PredefinedParity: 1
     IsPersistent: 0
     amountStrategy: 0
     amount: 2

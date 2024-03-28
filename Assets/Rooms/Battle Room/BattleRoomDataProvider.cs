@@ -43,7 +43,9 @@ public class BattleRoomDataProvider
 
     #region Target Providers
 
-    public List<Card> GetTargets(Card parentCard, EffectTargetPool targetPool, NormalEventFilter filter, EffectTargetStrategy targetStrategy, int amountOfTargets, IEventData eventData)
+    public List<Card> GetTargets(Card parentCard, EffectTargetPool targetPool,
+                                NormalEventFilter filter, bool shouldFilterMortallyWounded, 
+                                EffectTargetStrategy targetStrategy, int amountOfTargets, IEventData eventData)
     {
         List<Card> targets = new();
 
@@ -78,27 +80,21 @@ public class BattleRoomDataProvider
 
         if (targetPool is EffectTargetPool.InitiatingCard or EffectTargetPool.Oppnent or EffectTargetPool.TriggerCard) return targets;
 
-        List<Card> validTargets = new(targets);
-
-        if (filter != null)
-        {
-            foreach (Card card in targets)
-            {
-                if (!filter.Decide(parentCard, new NormalEventData(card)))
-                    validTargets.Remove(card);
-            }
-        }
+        bool isThereASpecialFilter = filter != null;
+        targets.RemoveAll(card =>
+        (isThereASpecialFilter && !filter.Decide(parentCard, new NormalEventData(card))) ||
+        (shouldFilterMortallyWounded && card.PENDING_DESTRUCTION));
 
         switch (targetStrategy)
         {
             case EffectTargetStrategy.All:
-                return validTargets;
+                return targets;
             case EffectTargetStrategy.Random:
-                return GetRandomCards(validTargets, amountOfTargets);
+                return GetRandomCards(targets, amountOfTargets);
             case EffectTargetStrategy.Highest:
-                return GetHighestCards(validTargets, amountOfTargets);
+                return GetHighestCards(targets, amountOfTargets);
             case EffectTargetStrategy.Lowest:
-                return GetLowestCards(validTargets, amountOfTargets);
+                return GetLowestCards(targets, amountOfTargets);
             default:
                 break;
         }

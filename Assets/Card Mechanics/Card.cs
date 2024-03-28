@@ -267,13 +267,12 @@ public class Card : MonoBehaviour
         effects.InstantiateDefaultCardEffects(newMask);
         yield return visualHandler.ToggleSpritesVanish(false);
 
-        //yield return effects.ApplyEffects(TriggerType.OnChange);
+        yield return effects.ApplyEffects(TriggerType.OnChange, null);
 
     }
 
     public IEnumerator DestroySelf()
     {
-        Debug.Log("called");
         yield return visualHandler.ToggleOverallVanish(true);
         DataProvider.RemoveCard(this);
         DOTween.Kill(transform);
@@ -285,13 +284,6 @@ public class Card : MonoBehaviour
     {
         attackPointsModifiers.Clear();
         hurtPointsModifiers.Clear();
-    }
-
-    public IEnumerator ForceShapeshift(CardBlueprint blueprint)
-    {
-        points = blueprint.Archetype.points;
-        cardColor = blueprint.Archetype.color;
-        yield return Shapeshift();
     }
 
     public void ChangeCardState(CardState newState)

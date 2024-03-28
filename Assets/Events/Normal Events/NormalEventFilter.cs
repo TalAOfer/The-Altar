@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class NormalEventFilter : IEventTriggerFilter
 {
-    private readonly List<Decision> _emitterFilters = new();
+    private readonly List<Decision> _filters = new();
     public NormalEventFilter(NormalEventFilterBlueprint blueprint)
     {
-        if (blueprint.FilterByEmitter)
+        if (blueprint.ShouldFilter)
         {
-            if (blueprint.EmitterFilter.DecisionType.HasFlag(DecisionType.Affinity))
+            if (blueprint.Filter.DecisionType.HasFlag(DecisionType.Affinity))
             {
-                AffinityDecision affinityFilter = new(Compare.Card, CompareTo.AnotherCard, blueprint.EmitterFilter.AffinityComparison);
-                _emitterFilters.Add(affinityFilter);
+                AffinityDecision affinityFilter = new(Compare.Card, CompareTo.AnotherCard, blueprint.Filter.AffinityComparison);
+                _filters.Add(affinityFilter);
             }
 
-            if (blueprint.EmitterFilter.DecisionType.HasFlag(DecisionType.Color))
+            if (blueprint.Filter.DecisionType.HasFlag(DecisionType.Color))
             {
-                ColorDecision colorFilter = new(Compare.Card, CompareTo.Value, blueprint.EmitterFilter.PredefinedColor);
-                _emitterFilters.Add(colorFilter);
+                ColorDecision colorFilter = new(Compare.Card, CompareTo.Value, blueprint.Filter.PredefinedColor);
+                _filters.Add(colorFilter);
             }
 
-            if (blueprint.EmitterFilter.DecisionType.HasFlag(DecisionType.Parity))
+            if (blueprint.Filter.DecisionType.HasFlag(DecisionType.Parity))
             {
-                ParityDecision parityDecision = new(Compare.Card, CompareTo.Value, blueprint.EmitterFilter.PredefinedParity);
-                _emitterFilters.Add(parityDecision);
+                ParityDecision parityDecision = new(Compare.Card, CompareTo.Value, blueprint.Filter.PredefinedParity);
+                _filters.Add(parityDecision);
             }
         }
     }
@@ -33,7 +33,7 @@ public class NormalEventFilter : IEventTriggerFilter
     {
         NormalEventData NormalEventData = (NormalEventData)EventData;
 
-        foreach (Decision decision in _emitterFilters)
+        foreach (Decision decision in _filters)
         {
             if (decision.Decide(NormalEventData.Emitter, triggerHolder) == false)
             {

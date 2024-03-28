@@ -12,33 +12,31 @@ public class LocalAmountEventFilterBlueprint
     [ShowIf("FilterByAmount")]
     public AmountEventAmountFilterBlueprint AmountFilter;
 
-    [ShowInInspector]
     public string Descrtiption => GetDescription();
 
     public string GetCardFilterDescription()
     {
-        string description = "";
+        string description = "from a ";
 
         if (FilterByInflictor)
         {
             if (InflictorFilter.DecisionType.HasFlag(DecisionType.Affinity))
             {
                 description += InflictorFilter.AffinityComparison.ToString().ToLower();
-                description += " ";
             }
 
             if (InflictorFilter.DecisionType.HasFlag(DecisionType.Color))
             {
                 description += InflictorFilter.PredefinedColor.ToString().ToLower();
-                description += " ";
             }
 
             if (InflictorFilter.DecisionType.HasFlag(DecisionType.Parity))
             {
                 description += InflictorFilter.PredefinedParity.ToString().ToLower();
-                description += " ";
             }
         }
+
+        description += " card";
 
         return description;
     }
@@ -57,7 +55,7 @@ public class LocalAmountEventFilterBlueprint
     }
     public string GetDescription()
     {
-        string description = "Whenever this card has taken ";
+        string description = "Whenever this card takes ";
 
         description += GetAmountFilterDescription();
 

@@ -23,7 +23,7 @@ MonoBehaviour:
     lowest enemy card.
 
     Whenever this card takes damage from an even card, grant
-    +2 to the lowest player card.'
+    +1 to the lowest player card.'
   SpecialEffects: 1
   Effects:
   - UseAsset: 0
@@ -56,8 +56,8 @@ MonoBehaviour:
           Comparison: 0
           PredefinedAmount: 0
       NormalEventsFilter:
-        FilterByEmitter: 0
-        EmitterFilter:
+        ShouldFilter: 0
+        Filter:
           DecisionType: 0
           PredefinedColor: 0
           AffinityComparison: 0
@@ -69,8 +69,8 @@ MonoBehaviour:
       AmountOfTargets: 1
       ShouldFilterTargets: 1
       TargetFilterBlueprint:
-        FilterByEmitter: 1
-        EmitterFilter:
+        ShouldFilter: 1
+        Filter:
           DecisionType: 8
           PredefinedColor: 0
           AffinityComparison: 0
@@ -138,8 +138,8 @@ MonoBehaviour:
           Comparison: 0
           PredefinedAmount: 0
       NormalEventsFilter:
-        FilterByEmitter: 0
-        EmitterFilter:
+        ShouldFilter: 0
+        Filter:
           DecisionType: 0
           PredefinedColor: 0
           AffinityComparison: 0
@@ -151,15 +151,15 @@ MonoBehaviour:
       AmountOfTargets: 1
       ShouldFilterTargets: 1
       TargetFilterBlueprint:
-        FilterByEmitter: 1
-        EmitterFilter:
+        ShouldFilter: 1
+        Filter:
           DecisionType: 8
           PredefinedColor: 0
           AffinityComparison: 1
           PredefinedParity: 0
       IsPersistent: 0
       amountStrategy: 0
-      amount: 2
+      amount: 1
       cardArchetype:
         points: 0
         color: 0

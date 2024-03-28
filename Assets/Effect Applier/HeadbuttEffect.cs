@@ -25,8 +25,8 @@ public class HeadbuttEffect : Effect
             (ParentCard.transform, enemyCardClosestCollPos, Vector3.one, null, _cardData.headbuttSpeed, _cardData.headbuttCurve);
 
         //Impact
-        target.TakeDamage(ParentCard.attackPoints.value, target);
-        ParentCard.TakeDamage(target.attackPoints.value, ParentCard);
+        target.TakeDamage(ParentCard.attackPoints.value, ParentCard);
+        ParentCard.TakeDamage(target.attackPoints.value, target);
         Tools.PlaySound("Card_Attack_Impact", ParentCard.transform);
         _events.ShakeScreen.Raise(ParentCard, CameraShakeTypes.Classic);
 

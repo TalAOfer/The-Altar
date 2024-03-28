@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Text.RegularExpressions;
 
 [Serializable]
 public class EffectBlueprint
@@ -187,6 +188,17 @@ public class EffectBlueprint
         string triggerText = Trigger.IsRigid ? Trigger.TriggerName : Trigger.TriggerBaseText;
         if (Trigger.IsRigid) triggerText += ": ";
 
+        string triggerFilterText = "";
+
+        if (Trigger.TriggerArchetype is TriggerArchetype.LocalAmountEvents)
+        {
+            triggerFilterText = LocalAmountEventsFilter.GetCardFilterDescription();
+        }
+
+        if (replacePlaceholders)
+        {
+            triggerText = triggerText.Replace("{triggerFilter}", triggerFilterText);
+        }
 
         //Effect
         string effectText = EffectTypeAsset.BaseEffectText;
@@ -206,7 +218,7 @@ public class EffectBlueprint
         if (replacePlaceholders)
         {
             description = description.Replace("{amount}", GetAmountString());
-            description = description.Replace("{normalCardFilter}", NormalEventsFilter.GetCardFilterDescription());
+            description = description.Replace("{normalCardFilter}", NormalEventsFilter.Description);
 
 
             if (Trigger.TriggerArchetype is TriggerArchetype.GlobalAmountEvents or TriggerArchetype.LocalAmountEvents)
@@ -225,8 +237,11 @@ public class EffectBlueprint
 
             description = description.Replace("{targetVerb}", GetTargetVerb());
             description = description.Replace("{buffType}", BuffType.ToString());
-            description.Trim();
+            description = description.Trim();
+            description = RemoveExtraSpaces(description);
         }
+
+        description += "."; 
 
         return description;
     }
@@ -280,6 +295,7 @@ public class EffectBlueprint
     private string GetTargetString()
     {
         string strategy = "";
+        string prefix = ""; // Prefix to use with strategy (the, a, or nothing)
 
         if (EffectTypeAsset.TypeArchetype != EffectTypeArchetype.Grantable)
         {
@@ -289,59 +305,65 @@ public class EffectBlueprint
         switch (TargetStrategy)
         {
             case EffectTargetStrategy.All:
-                break; // No strategy text for "All" as it's implied
+                strategy = "all "; // 'all' strategy always refers to multiple targets, hence plural
+                                   // No prefix needed for "all"
+                break;
             case EffectTargetStrategy.Random:
                 strategy = "random ";
+                prefix = AmountOfTargets == 1 ? "a " : ""; // 'a' for singular, nothing for plural
                 break;
             case EffectTargetStrategy.Highest:
                 strategy = "highest ";
+                prefix = "the ";
                 break;
             case EffectTargetStrategy.Lowest:
                 strategy = "lowest ";
+                prefix = "the "; 
                 break;
         }
 
-
         string filter = "";
-        
+
         if (ShouldFilterTargets)
         {
-            filter = TargetFilterBlueprint.GetCardFilterDescription();
+            filter = TargetFilterBlueprint.Description; // Assuming Description is the correct property name
         }
 
         string pool = "";
+        bool isPlural = AmountOfTargets != 1 || TargetStrategy == EffectTargetStrategy.All; // Determine plurality
 
         switch (TargetPool)
         {
             case EffectTargetPool.InitiatingCard:
-                return ""; // If it's the initiating card, we assume no additional text is needed.
-            case EffectTargetPool.Oppnent:
+                return "";
             case EffectTargetPool.SelectedCards:
-                break; // No additional text for these cases in your original method
+                break;
             case EffectTargetPool.AllCards:
-                pool = "card";
+                pool = isPlural ? "cards" : "card"; // Plural or singular based on conditions
                 break;
         }
 
-        string amountText = AmountOfTargets == 1 ? "" : AmountOfTargets.ToString() + " ";
-        string theText = AmountOfTargets == 1 ? "the " : "";
+        string amountText = AmountOfTargets == 1? "" : AmountOfTargets.ToString() + " ";
 
-        // Assemble the parts into the final string
         string targetString = "to ";
 
-
-        // We use "the" only when there's a strategy and it's singular, e.g., "the highest"
-        if (!string.IsNullOrEmpty(theText) && !string.IsNullOrEmpty(pool))
+        if (TargetStrategy == EffectTargetStrategy.All)
         {
-            targetString += theText + strategy + filter + pool;
+            // If strategy is all, we ignore amount and prefix and directly use "all cards"
+            targetString += "all cards";
         }
         else
         {
-            // If AmountOfTargets is greater than one or pool is empty, we don't use "the"
-            targetString += amountText + strategy + filter + (AmountOfTargets > 1 ? pool + "s" : pool);
+            // Construct targetString with appropriate prefix, amountText, strategy, and pool
+            targetString += prefix + amountText + strategy + filter + pool;
         }
 
         return targetString.Trim();
+    }
+
+    public string RemoveExtraSpaces(string input)
+    {
+        return Regex.Replace(input, @"\s+", " ");
     }
 
     private string GetTargetVerb()

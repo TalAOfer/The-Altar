@@ -15,6 +15,7 @@ public class Battle_Idle : BaseBattleRoomState
         if (_ctx.Ctx.CurrentActorCard != null && _ctx.Ctx.CurrentActorCard.isActiveAndEnabled)
         {
             _ctx.DemarkCardAsSelected(_ctx.Ctx.CurrentActorCard);
+            _ctx.Ctx.CurrentActorCard = null;
         }
 
         _ctx.Events.OnTurnEnd.Raise();

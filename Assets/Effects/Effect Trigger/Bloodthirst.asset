@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0f1f883b1e86444bb6a7dad186f744, type: 3}
   m_Name: Bloodthirst
   m_EditorClassIdentifier: 
-  IsRigid: 1
-  TriggerName: Bloodthirst
-  IsModifiable: 0
   TriggerType: 2
-  TriggerBaseText: 
+  TriggerArchetype: 0
+  IsRigid: 1
+  IsOnePerTurn: 0
+  TriggerName: Bloodthirst
+  AnimationSpritePrefab: {fileID: 5663048644710313981, guid: 91d42f68348d9fb4db5480b59773aeb9, type: 3}
+  TriggerText: 
+  TriggerVerb: 

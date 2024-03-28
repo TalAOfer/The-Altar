@@ -11,7 +11,9 @@ public class EffectTriggerAsset : ScriptableObject
     public bool IsOnePerTurn;
     [ShowIf("IsRigid")]
     public string TriggerName;
-    public bool IsModifiable;
+    [ShowIf("IsRigid")]
+    public GameObject AnimationSpritePrefab;
+
     [HideIf("IsRigid")]
     public string TriggerText;
     [HideIf("IsRigid")]
@@ -27,7 +29,7 @@ public class EffectTriggerAsset : ScriptableObject
         switch (TriggerArchetype)
         {
             case TriggerArchetype.LocalAmountEvents:
-                triggerBasetext = "Whenever this card " + TriggerVerb + " " + TriggerText;
+                triggerBasetext = "Whenever this card " + TriggerVerb + " " + TriggerText + " {triggerFilter}";
                 break;
             case TriggerArchetype.GlobalAmountEvents:
                 triggerBasetext = "Whenever a {amountCardFilter} card " + TriggerVerb + " {amountFilter} " + TriggerText;

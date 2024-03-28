@@ -4,43 +4,32 @@ using System;
 [Serializable]
 public class NormalEventFilterBlueprint
 {
-    public bool FilterByEmitter = false;
-    [ShowIf("FilterByEmitter")]
-    public NormalEventObjectFilterBlueprint EmitterFilter;
-    [ShowInInspector]
-    public string Descrtiption => GetDescription();
+    public bool ShouldFilter = false;
+    [ShowIf("ShouldFilter")]
+    public NormalEventObjectFilterBlueprint Filter;
+
+    public string Description => GetDescription();
     public string GetDescription()
-    {
-        string description = "Whenever a ";
-
-        description += GetCardFilterDescription();
-
-        description += "card has {verb}";
-
-        return description;
-    }
-
-    public string GetCardFilterDescription()
     {
         string description = "";
 
-        if (FilterByEmitter)
+        if (ShouldFilter)
         {
-            if (EmitterFilter.DecisionType.HasFlag(DecisionType.Affinity))
+            if (Filter.DecisionType.HasFlag(DecisionType.Affinity))
             {
-                description += EmitterFilter.AffinityComparison.ToString().ToLower();
+                description += Filter.AffinityComparison.ToString().ToLower();
                 description += " ";
             }
 
-            if (EmitterFilter.DecisionType.HasFlag(DecisionType.Color))
+            if (Filter.DecisionType.HasFlag(DecisionType.Color))
             {
-                description += EmitterFilter.PredefinedColor.ToString().ToLower();
+                description += Filter.PredefinedColor.ToString().ToLower();
                 description += " ";
             }
 
-            if (EmitterFilter.DecisionType.HasFlag(DecisionType.Parity))
+            if (Filter.DecisionType.HasFlag(DecisionType.Parity))
             {
-                description += EmitterFilter.PredefinedParity.ToString().ToLower();
+                description += Filter.PredefinedParity.ToString().ToLower();
                 description += " ";
             }
         }
@@ -48,6 +37,7 @@ public class NormalEventFilterBlueprint
         return description;
     }
 }
+
 
 [Serializable]
 public class NormalEventObjectFilterBlueprint

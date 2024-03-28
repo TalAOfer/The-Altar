@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 11
   NeedsTarget: 1
+  TargetOnlyAliveCards: 1
   NeedsAmount: 1
   NeedsArchetype: 0
   BaseEffectText: '{targetVerb} {amount} damage'

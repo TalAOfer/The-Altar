@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: New Normal Event Filter Blueprint Asset
   m_EditorClassIdentifier: 
   Value:
-    FilterByEmitter: 1
-    EmitterFilter:
-      DecisionType: 8
+    ShouldFilter: 0
+    Filter:
+      DecisionType: 0
       PredefinedColor: 0
       AffinityComparison: 0
-      PredefinedParity: 1
+      PredefinedParity: 0

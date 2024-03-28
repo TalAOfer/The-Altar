@@ -12,7 +12,6 @@ public class CardVisualHandler : MonoBehaviour
     [SerializeField] CardData data;
     private Material cardMaterial;
     private Material spritesMaterial;
-    private Material ornamentMaterial;
 
     [FoldoutGroup("Components")]
     [SerializeField] private Card card;
@@ -58,8 +57,6 @@ public class CardVisualHandler : MonoBehaviour
     [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer symbolSr;
     [FoldoutGroup("Card Renderers")]
-    [SerializeField] private SpriteRenderer ornamentSr;
-    [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer overlaySr;
     [FoldoutGroup("Card Renderers")]
     [SerializeField] private SpriteRenderer slashSr;
@@ -72,7 +69,6 @@ public class CardVisualHandler : MonoBehaviour
     {
         InitializeCardMaterial();
         InitializeSpritesMaterial();
-        InitializeOrnamentMaterial();
         SetSpritesColor();
     }
     public void Init(CardBlueprint blueprint, string startingSortingLayer)
@@ -95,13 +91,6 @@ public class CardVisualHandler : MonoBehaviour
         symbolSr.material = spritesMaterial;
         iconSr.material = spritesMaterial;
         numberSr.material = spritesMaterial;
-    }
-
-    private void InitializeOrnamentMaterial()
-    {
-        ornamentMaterial = new Material(shaderMaterial);
-        ornamentSr.material = ornamentMaterial;
-        ornamentMaterial.SetColor("_Color", Color.white);
     }
 
     public void EnableOutline(PaletteColor color)
@@ -135,15 +124,9 @@ public class CardVisualHandler : MonoBehaviour
     public void SetNewCardVisual()
     {
         SetSpritesColor();
-        SetOrnament();
         SetCardIcon();
         SetCardSymbol();
         SetNumberSprites();
-    }
-
-    public void SetOrnament()
-    {
-        ornamentSr.gameObject.SetActive(!card.Mask.isDefault);
     }
 
     private void SetCardIcon()
@@ -184,9 +167,8 @@ public class CardVisualHandler : MonoBehaviour
         iconSr.sortingOrder = calcIndex + 1;
         numberSr.sortingOrder = calcIndex + 2;
         symbolSr.sortingOrder = calcIndex + 3;
-        ornamentSr.sortingOrder = calcIndex + 4;
-        overlaySr.sortingOrder = calcIndex + 5;
-        slashSr.sortingOrder = calcIndex + 6;
+        overlaySr.sortingOrder = calcIndex + 4;
+        slashSr.sortingOrder = calcIndex + 5;
     }
 
     public void SetSortingLayer(string sortingLayerName)
@@ -196,7 +178,6 @@ public class CardVisualHandler : MonoBehaviour
         symbolSr.sortingLayerName = sortingLayerName;
         iconSr.sortingLayerName = sortingLayerName;
         overlaySr.sortingLayerName = sortingLayerName;
-        ornamentSr.sortingLayerName = sortingLayerName;
         slashSr.sortingLayerName = sortingLayerName;
     }
 
@@ -223,11 +204,9 @@ public class CardVisualHandler : MonoBehaviour
     {
         Coroutine cardVanish = StartCoroutine(LerpVanish(cardMaterial, toBlank, data.overallFadeDuration, data.overallFadeCurve));
         Coroutine spritesVanish = StartCoroutine(LerpVanish(spritesMaterial, toBlank, data.overallFadeDuration, data.overallFadeCurve));
-        Coroutine ornamentVanish = StartCoroutine(LerpVanish(ornamentMaterial, toBlank, data.overallFadeDuration, data.overallFadeCurve));
 
         yield return cardVanish;
         yield return spritesVanish;
-        yield return ornamentVanish;
     }
 
     public IEnumerator ToggleSpritesVanish(bool toBlank)

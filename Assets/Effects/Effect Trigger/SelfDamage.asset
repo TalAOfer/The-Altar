@@ -15,7 +15,7 @@ MonoBehaviour:
   TriggerType: 6
   TriggerArchetype: 2
   IsRigid: 0
+  IsOnePerTurn: 0
   TriggerName: 
-  IsModifiable: 0
   TriggerText: damage
   TriggerVerb: takes

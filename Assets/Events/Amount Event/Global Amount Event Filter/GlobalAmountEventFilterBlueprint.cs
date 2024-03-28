@@ -13,7 +13,6 @@ public class GlobalAmountEventFilterBlueprint
     [ShowIf("FilterByAmount")]
     public AmountEventAmountFilterBlueprint AmountFilter;
 
-    [ShowInInspector]
     public string Descrtiption => GetDescription();
 
     public string GetCardFilterDescription()

@@ -19,9 +19,7 @@ MonoBehaviour:
     points: 2
     color: 1
   Affinity: 1
-  Description: 'Deal 1 damage to your lowest card.
-
-    It it''s black deal 1 more.'
+  Description: 'Bloodthirst: deal 1 damage to the lowest red card'
   SpecialEffects: 0
   Effects:
   - UseAsset: 0

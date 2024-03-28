@@ -25,7 +25,7 @@ public abstract class RoomStateMachine : MonoBehaviour
 
     public abstract void InitializeStateMachine();
 
-    public void SwitchState(IRoomState newState)
+    public virtual void SwitchState(IRoomState newState)
     {
         StartCoroutine(SwitchStateRoutine(newState));
     }

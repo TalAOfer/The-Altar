@@ -12,6 +12,8 @@ public class EffectTypeAsset : ScriptableObject
 {
     public EffectType Type;
     public bool NeedsTarget;
+    [ShowIf("NeedsTarget")]
+    public bool TargetOnlyAliveCards;
     public bool NeedsAmount;
     public bool NeedsArchetype;
     public string BaseEffectText;

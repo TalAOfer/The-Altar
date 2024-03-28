@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class Effect
 {
     //Base
     public Card ParentCard { get; private set; }
+    public EffectTypeAsset EffectTypeAsset { get; private set; }
     public bool IsPersistent { get; private set; }
-    public bool IsFrozenTillEndOfTurn {  get; private set; }
+    public bool IsFrozenTillEndOfTurn { get; private set; }
 
     //Trigger
     public EffectTriggerAsset EffectTrigger { get; private set; }
@@ -35,11 +37,13 @@ public abstract class Effect
 
         if (blueprint != null)
         {
+            EffectTypeAsset = blueprint.EffectTypeAsset;
             EffectTrigger = blueprint.Trigger;
             IsPersistent = blueprint.IsPersistent;
             EffectTargetPool = blueprint.TargetPool;
             EffectTargetStrategy = blueprint.TargetStrategy;
             AmountOfTargets = blueprint.AmountOfTargets;
+
 
             _amountStrategy = blueprint.amountStrategy;
             _defaultAmount = blueprint.amount;
@@ -62,7 +66,7 @@ public abstract class Effect
                         break;
                 }
             }
-            
+
             if (blueprint.ShouldFilterTargets)
             {
                 TargetFilter = new NormalEventFilter(blueprint.TargetFilterBlueprint);
@@ -81,11 +85,17 @@ public abstract class Effect
 
         else
         {
-            List<Card> validTargetCards = _data.GetTargets(ParentCard, EffectTargetPool, TargetFilter, EffectTargetStrategy, AmountOfTargets, eventData);
+            List<Card> validTargetCards = _data.GetTargets(ParentCard, EffectTargetPool, TargetFilter,
+                EffectTypeAsset.TargetOnlyAliveCards, EffectTargetStrategy, AmountOfTargets, eventData);
 
             if (validTargetCards.Count > 0)
             {
-                ParentCard.visualHandler.Animate("Jiggle");
+                if (EffectTrigger.AnimationSpritePrefab != null)
+                {
+                    Pooler.Spawn(EffectTrigger.AnimationSpritePrefab, ParentCard.transform.position, Quaternion.identity);
+                    ParentCard.visualHandler.Animate("Jiggle");
+                    ParentCard.visualHandler.Animate("FlashOut");
+                }
                 yield return Tools.GetWait(1f);
             }
 
@@ -103,13 +113,13 @@ public abstract class Effect
         foreach (var targetCard in targetCards)
         {
             //Keep cards from applying support effects on themselves
-            if (EffectTargetPool is not EffectTargetPool.InitiatingCard)
-            {
-                if (ParentCard == targetCard) continue;
-            }
+            //if (EffectTargetPool is not EffectTargetPool.InitiatingCard)
+            //{
+            //    if (ParentCard == targetCard) continue;
+            //}
 
             yield return ApplyEffect(targetCard);
-            targetCard.visualHandler.Animate("FlashOut");
+            //targetCard.visualHandler.Animate("FlashOut");
         }
     }
 
