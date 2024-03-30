@@ -11,12 +11,12 @@ public class HeadbuttEffect : Effect
 
     private IEnumerator Headbutt(Card target)
     {
-        //Prepare
-        Tools.PlaySound("Card_Attack_Prepare", ParentCard.transform);
-        Vector3 targetPos = ParentCard.transform.position;
-        targetPos.y -= _cardData.readyingDistance;
-        yield return ParentCard.movement.MoveCard
-            (ParentCard.transform, targetPos, Vector3.one, null, _cardData.readyingSpeed, _cardData.readyingCurve);
+        ////Prepare
+        //Tools.PlaySound("Card_Attack_Prepare", ParentCard.transform);
+        //Vector3 targetPos = ParentCard.transform.position;
+        //targetPos.y -= _cardData.readyingDistance;
+        //yield return ParentCard.movement.MoveCard
+        //    (ParentCard.transform, targetPos, Vector3.one, null, _cardData.readyingSpeed, _cardData.readyingCurve);
 
         //Pounce
         Tools.PlaySound("Card_Attack_Woosh", ParentCard.transform);

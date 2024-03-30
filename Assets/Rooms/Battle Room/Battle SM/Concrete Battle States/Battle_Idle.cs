@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Battle_Idle : BaseBattleRoomState
 {
-    public Battle_Idle(BattleRoomStateMachine ctx) : base(ctx) 
+    public Battle_Idle(BattleRoomStateMachine ctx) : base(ctx)
     {
     }
 
@@ -14,13 +14,18 @@ public class Battle_Idle : BaseBattleRoomState
     {
         if (_ctx.Ctx.CurrentActorCard != null && _ctx.Ctx.CurrentActorCard.isActiveAndEnabled)
         {
-            _ctx.DemarkCardAsSelected(_ctx.Ctx.CurrentActorCard);
+            yield return Tools.GetWait(0.1f);
+            if (!_ctx.Ctx.CurrentActorCard.interactionHandler.IsCursorOn)
+            {
+                _ctx.DemarkCardAsSelected(_ctx.Ctx.CurrentActorCard);
+            }
+
             _ctx.Ctx.CurrentActorCard = null;
         }
 
         _ctx.Events.OnTurnEnd.Raise();
 
-        return base.EnterState();
+        yield return base.EnterState();
     }
 
     public override void HandlePlayerCardPointerEnter(Card card, PointerEventData eventData)
@@ -51,12 +56,14 @@ public class Battle_Idle : BaseBattleRoomState
     public override void HandlePlayerCardPointerClick(Card cardClicked, PointerEventData eventData)
     {
         _ctx.Ctx.CardClicked = cardClicked;
+        _ctx.Ctx.CardClicked.movement.Highlight();
         _ctx.SwitchState(_ctx.States.CardSelected());
     }
 
     public override void HandlePlayerCardBeginDrag(Card cardDragged, PointerEventData eventData)
     {
         _ctx.Ctx.CardClicked = cardDragged;
+        _ctx.Ctx.CardClicked.movement.Highlight();
         _ctx.SwitchState(_ctx.States.CardSelected());
     }
 

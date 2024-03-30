@@ -15,7 +15,8 @@ MonoBehaviour:
   TriggerType: 1
   TriggerArchetype: 0
   IsRigid: 1
+  IsOnePerTurn: 0
   TriggerName: Last Breath
-  IsModifiable: 0
+  AnimationSpritePrefab: {fileID: 5663048644710313981, guid: bb9daa577b060394e8b1c6db2cba6d14, type: 3}
   TriggerText: 
   TriggerVerb: 

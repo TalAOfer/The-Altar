@@ -85,8 +85,6 @@ public class CardEffectHandler : SerializedMonoBehaviour
                 if (effect.IsFrozenTillEndOfTurn) continue;
                 if (effect.TriggerFilter?.Decide(_card, eventData) == false) continue;
 
-                Debug.Log("applying: " + effect.ToString());
-
                 yield return effect.Trigger(null, eventData);
             }
         }

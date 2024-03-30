@@ -25,6 +25,7 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private SpriteRenderer sr;
     private Collider2D coll;
     private Tweener tweener;
+    [SerializeField] private bool disableAfterOneClick = true;
 
 
     private void Awake()
@@ -40,7 +41,10 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SetInteractability(false);
+        if (disableAfterOneClick)
+        {
+            SetInteractability(false);
+        }
         response.Invoke(null, null);
         React(_ClickReaction);
     }

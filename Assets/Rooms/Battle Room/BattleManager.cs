@@ -39,15 +39,9 @@ public class BattleManager : MonoBehaviour
 
         yield return _effectApplier.InitializeEffectSequence(headbuttNode);
 
-        yield return Tools.GetWait(0.5f);
-
         yield return BloodthirstRoutine();
 
-        yield return Tools.GetWait(0.5f);
-
         yield return DeathPhase();
-
-        yield return Tools.GetWait(0.5f);
 
         yield return _ctx.HandleAllShapeshiftsUntilStable();
     }
@@ -120,7 +114,7 @@ public class BattleManager : MonoBehaviour
                 card.effects.TriggerEffects(TriggerType.LastBreath, null);
             }
 
-            yield return Tools.GetWait(0.15f);
+            yield return Tools.GetWait(0.05f);
 
             if (_effectApplier.RootEffectNode != null)
             {
@@ -134,10 +128,10 @@ public class BattleManager : MonoBehaviour
                 destructionRoutines.Add(StartCoroutine(card.DestroySelf()));
             }
 
-            foreach (Coroutine routine in destructionRoutines)
-            {
-                yield return routine;
-            }
+            //foreach (Coroutine routine in destructionRoutines)
+            //{
+            //    yield return routine;
+            //}
 
             data.ReorderCards();
 

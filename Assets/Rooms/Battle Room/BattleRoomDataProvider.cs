@@ -44,7 +44,7 @@ public class BattleRoomDataProvider
     #region Target Providers
 
     public List<Card> GetTargets(Card parentCard, EffectTargetPool targetPool,
-                                NormalEventFilter filter, bool shouldFilterMortallyWounded, 
+                                NormalEventFilter filter, bool filterSelfFromTargets, bool shouldFilterMortallyWounded, 
                                 EffectTargetStrategy targetStrategy, int amountOfTargets, IEventData eventData)
     {
         List<Card> targets = new();
@@ -82,6 +82,7 @@ public class BattleRoomDataProvider
 
         bool isThereASpecialFilter = filter != null;
         targets.RemoveAll(card =>
+        (filterSelfFromTargets && card == parentCard) ||
         (isThereASpecialFilter && !filter.Decide(parentCard, new NormalEventData(card))) ||
         (shouldFilterMortallyWounded && card.PENDING_DESTRUCTION));
 

@@ -16,7 +16,7 @@ public class BattleRoomStateMachine : RoomStateMachine
     public BattleManager BattleManager { get; private set; }
     public LoseManager LoseManager { get; private set; }
     [ShowInInspector]
-    public BattleContext Ctx { get; private set; } = new();
+    public SMContext Ctx { get; private set; } = new();
 
     public override void Initialize(FloorManager floorCtx, Room room)
     {
@@ -28,13 +28,13 @@ public class BattleRoomStateMachine : RoomStateMachine
         BattleBlueprint = room.BattleBlueprint;
 
         BattleManager = GetComponentInChildren<BattleManager>();
-        BattleManager.Initialize(this);
+        if (BattleManager != null) BattleManager.Initialize(this);
 
         PlayerCardManager = GetComponentInChildren<PlayerCardManager>();
-        PlayerCardManager.Initialize(this);
+        if (PlayerCardManager != null) PlayerCardManager.Initialize(this);
 
         EnemyCardManager = GetComponentInChildren<EnemyCardManager>();
-        EnemyCardManager.Initialize(this);
+        if (EnemyCardManager != null) EnemyCardManager.Initialize(this);
 
         LoseManager = GetComponentInChildren<LoseManager>();
     }
@@ -148,7 +148,7 @@ public class BattleRoomStateMachine : RoomStateMachine
 }
 
 [Serializable]
-public class BattleContext
+public class SMContext
 {
     public Card BattlingPlayerCard;
     public Card BattlingEnemyCard;

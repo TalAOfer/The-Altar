@@ -8,10 +8,10 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     private Codex codex;
-    public int SpawnIndex {  get; private set; }
-    public BattleRoomDataProvider DataProvider {  get; private set; }
+    public int SpawnIndex { get; private set; }
+    public BattleRoomDataProvider DataProvider { get; private set; }
     private EventRegistry _events;
-    public CardBase cardBase {  get; private set; }
+    public CardBase cardBase { get; private set; }
 
     [FoldoutGroup("Child Components")]
     public CardEffectHandler effects;
@@ -60,7 +60,7 @@ public class Card : MonoBehaviour
     public bool Targetable;
     public bool Taunt;
     public int Armor { get; private set; } = 0;
-    public int Might {  get; private set; } = 0;
+    public int Might { get; private set; } = 0;
 
     public bool PENDING_DESTRUCTION
     {
@@ -78,7 +78,10 @@ public class Card : MonoBehaviour
         Affinity = blueprint.Affinity;
         points = blueprint.Archetype.points;
 
+        Targetable = true;
+
         higherBeing = new HigherBeing(blueprint.SpecialEffects.HasFlag(SpecialEffects.HigherBeing), 0);
+        Taunt = blueprint.SpecialEffects.HasFlag(SpecialEffects.Taunt);
 
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
 
@@ -87,7 +90,10 @@ public class Card : MonoBehaviour
         visualHandler.Init(blueprint, startingSortingLayer);
 
         _events = Locator.Events;
-        StartCoroutine(effects.ApplyEffects(TriggerType.OnChange, null));
+        if (cardInteractionType is CardInteractionType.Playable)
+        {
+            StartCoroutine(effects.ApplyEffects(TriggerType.OnChange, null));
+        }
     }
 
     public CardBlueprint GetCurrentMask()
@@ -273,6 +279,7 @@ public class Card : MonoBehaviour
 
     public IEnumerator DestroySelf()
     {
+        visualHandler.SetSortingOrder(-1);
         yield return visualHandler.ToggleOverallVanish(true);
         DataProvider.RemoveCard(this);
         DOTween.Kill(transform);
@@ -304,7 +311,7 @@ public class Card : MonoBehaviour
 public enum CardState
 {
     Default,
-    Selected, 
+    Selected,
     Battle,
     Draw,
 }

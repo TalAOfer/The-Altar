@@ -10,6 +10,8 @@ public class Tweener : MonoBehaviour
     private Vector3 originalPosition;
     private Tween activeTween;
     [SerializeField] private bool test;
+    [SerializeField] private bool resetScale = true;
+    [SerializeField] private bool resetPosition = true;
     [ShowIf("test")][SerializeField] private TweenBlueprint testBlueprint;
     private void Start()
     {
@@ -38,8 +40,10 @@ public class Tweener : MonoBehaviour
 
     private void ResetToOriginalTransform()
     {
-        transform.localScale = originalScale;
-        transform.localPosition = originalPosition;
+        if (resetScale)
+            transform.localScale = originalScale;
+        if (resetPosition)
+            transform.localPosition = originalPosition;
     }
 
     public Tween TriggerTween(TweenBlueprint blueprint)

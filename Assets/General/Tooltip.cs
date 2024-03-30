@@ -17,11 +17,10 @@ public class Tooltip : MonoBehaviour
 
     [SerializeField] private GameObject _higherBeingWindow;
     [SerializeField] private GameObject _bloodthirstWindow;
-    [SerializeField] private GameObject _meditateWindow;
+    [SerializeField] private GameObject _tauntWindow;
 
     private bool IsHigherBeing(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing);
-    private bool IsBloodthirst(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.Bloodthirst);
-    private bool IsMeditate(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.Meditate);
+    private bool IsTaunt(Card card) => card.Mask.SpecialEffects.HasFlag(SpecialEffects.Taunt);
 
     public void InitializeTooltip(Card card)
     {
@@ -38,8 +37,7 @@ public class Tooltip : MonoBehaviour
     {
         string description = "";
         if (IsHigherBeing(card)) description += "<b>Higher-Being.</b>\n";
-        if (IsMeditate(card)) description += "<b>Meditate.</b>\n";
-        if (IsBloodthirst(card)) description += "<b>Bloodthirst.</b>\n";
+        if (IsTaunt(card)) description += "<b>Taunt.</b>\n";
         description += card.Mask.Description;
         return description;
     }
@@ -47,9 +45,8 @@ public class Tooltip : MonoBehaviour
     private void InitializeSpecialEffectWindows(Card card)
     {
         _higherBeingWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing));
-        _bloodthirstWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Bloodthirst));
-        _meditateWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Meditate));
-        
+        _tauntWindow.SetActive(card.Mask.SpecialEffects.HasFlag(SpecialEffects.Taunt));
+        _bloodthirstWindow.SetActive(false);
     }
 
     private string GetSymbolName(Card card)

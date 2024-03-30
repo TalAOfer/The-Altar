@@ -18,7 +18,7 @@ public class First_ShowTitle : FirstRoomState
         //Fade title
         yield return _ctx.Title.DOFade(0, 2).SetEase(Ease.InExpo).WaitForCompletion();
 
-        _ctx.SwitchState(new Base_OpenDoors(_ctx));
+        _ctx.SwitchState(new Base_SpawnTreasure(_ctx));
     }
 
 

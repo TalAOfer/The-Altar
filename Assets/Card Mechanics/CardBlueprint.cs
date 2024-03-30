@@ -35,8 +35,7 @@ public enum Affinity
 public enum SpecialEffects
 {
     HigherBeing = 1,
-    Meditate = 2,
-    Bloodthirst = 4,
+    Taunt = 2,
 }
 
 
@@ -52,18 +51,3 @@ public class CardArchetype
         this.color = color;
     }
 }
-
-//[Serializable]
-//public class CardEffectBlueprint
-//{
-//    [BoxGroup("Trigger")]
-//    public EffectTrigger Trigger;
-//    //[BoxGroup("Trigger")]
-//    //[ShowIf("@Trigger.IsModifiable")]
-//    //public AmountEventFilterBlueprint Filter;
-//    [BoxGroup("Effect")]
-//    public EffectBlueprintReference Effect;
-
-//    //private bool ShouldShowFilter => Trigger.IsModifiable;
-//}
-

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftCardPosition: {x: -4, y: -2, z: 0}
   rightCardPosition: {x: 4, y: -2, z: 0}
-  overallFadeDuration: 2
+  overallFadeDuration: 0.5
   overallFadeCurve:
     serializedVersion: 2
     m_Curve:

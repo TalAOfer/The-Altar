@@ -12,8 +12,8 @@ public class AllCards : ScriptableObject
 {
     public List<CardBlueprint> allCards;
 
-    public MetaPoolRecipe enemyPool;
     public MetaPoolRecipe playerPool;
+
 #if UNITY_EDITOR
 
     [Button]
@@ -21,19 +21,16 @@ public class AllCards : ScriptableObject
     {
         LoadAllCardBlueprints();
 
-        enemyPool.ResetPools();
         playerPool.ResetPools();
 
         foreach (var card in allCards)
         {
-            if (card.isDefault) continue;
-            MetaPoolRecipe metaPool = card.Affinity is Affinity.Player ? playerPool : enemyPool;
-            BlueprintPoolInstance pointPool = metaPool.pools[card.Archetype.points];
+            if (card.isDefault || card.Affinity is Affinity.Enemy) continue;
+            BlueprintPoolInstance pointPool = playerPool.pools[card.Archetype.points];
             List<CardBlueprint> correctPool = card.Archetype.color is CardColor.Black ? pointPool.black : pointPool.red;
             correctPool.Add(card);
         }
 
-        EditorUtility.SetDirty(enemyPool);
         EditorUtility.SetDirty(playerPool);
         AssetDatabase.SaveAssets();
     }

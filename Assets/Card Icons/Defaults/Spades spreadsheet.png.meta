@@ -329,6 +329,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Spades spreadsheet_9
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85647c8e0f4891b4e9395867f6ec7a12
+      internalID: 876009361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -349,6 +370,7 @@ TextureImporter:
       Spades spreadsheet_7: 247138329
       Spades spreadsheet_8: -603030930
       Spades spreadsheet_1: -1009735188
+      Spades spreadsheet_9: 876009361
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

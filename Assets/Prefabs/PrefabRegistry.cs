@@ -12,4 +12,10 @@ public class PrefabRegistry : ScriptableObject
     public GameObject BattleRoom;
     #endregion
 
+    #region Treasure
+
+    public GameObject TreasureChest;
+    public GameObject BoosterPack;
+
+    #endregion
 }

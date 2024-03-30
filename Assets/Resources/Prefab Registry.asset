@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Card: {fileID: 3041129387846409231, guid: 884c9d632f9c7c94d96d191e6983b8c9, type: 3}
   BattleRoom: {fileID: 4753181132387451872, guid: a937ae84303bf044286a26837ab2a30b, type: 3}
+  TreasureChest: {fileID: 3366969727177792577, guid: b34b176df6422564984962adab9e2c1f, type: 3}
+  BoosterPack: {fileID: 2939016573031674490, guid: 39490a87d23f7c04f99aa50b3e7cd318, type: 3}

@@ -17,6 +17,7 @@ public abstract class Effect
     //Target Acquiry 
     public EffectTargetPool EffectTargetPool { get; private set; }
     public EffectTargetStrategy EffectTargetStrategy { get; private set; }
+    public bool FilterSelfFromTargets {  get; private set; }
     public int AmountOfTargets { get; private set; }
     public NormalEventFilter TargetFilter { get; private set; }
 
@@ -43,7 +44,7 @@ public abstract class Effect
             EffectTargetPool = blueprint.TargetPool;
             EffectTargetStrategy = blueprint.TargetStrategy;
             AmountOfTargets = blueprint.AmountOfTargets;
-
+            FilterSelfFromTargets = blueprint.FilterSelfFromTargets;
 
             _amountStrategy = blueprint.amountStrategy;
             _defaultAmount = blueprint.amount;
@@ -85,7 +86,7 @@ public abstract class Effect
 
         else
         {
-            List<Card> validTargetCards = _data.GetTargets(ParentCard, EffectTargetPool, TargetFilter,
+            List<Card> validTargetCards = _data.GetTargets(ParentCard, EffectTargetPool, TargetFilter, FilterSelfFromTargets,
                 EffectTypeAsset.TargetOnlyAliveCards, EffectTargetStrategy, AmountOfTargets, eventData);
 
             if (validTargetCards.Count > 0)
@@ -112,14 +113,7 @@ public abstract class Effect
     {
         foreach (var targetCard in targetCards)
         {
-            //Keep cards from applying support effects on themselves
-            //if (EffectTargetPool is not EffectTargetPool.InitiatingCard)
-            //{
-            //    if (ParentCard == targetCard) continue;
-            //}
-
             yield return ApplyEffect(targetCard);
-            //targetCard.visualHandler.Animate("FlashOut");
         }
     }
 

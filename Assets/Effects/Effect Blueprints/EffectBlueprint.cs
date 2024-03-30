@@ -39,6 +39,8 @@ public class EffectBlueprint
     //[ShowIf("@ShouldShowTargetStrategy()")]
     public EffectTargetStrategy TargetStrategy;
     [FoldoutGroup("Target Acquiring")]
+    public bool FilterSelfFromTargets;
+    [FoldoutGroup("Target Acquiring")]
     //[ShowIf("@ShouldShowAmountOfTargets()")]
     public int AmountOfTargets = 1;
     [FoldoutGroup("Target Acquiring")]
@@ -187,6 +189,7 @@ public class EffectBlueprint
 
         string triggerText = Trigger.IsRigid ? Trigger.TriggerName : Trigger.TriggerBaseText;
         if (Trigger.IsRigid) triggerText += ": ";
+        else triggerText += ", ";
 
         string triggerFilterText = "";
 
@@ -213,7 +216,7 @@ public class EffectBlueprint
 
         string target = GetTargetString();
 
-        string description = triggerText + ", " + effectText + " " + target;
+        string description = triggerText + effectText + " " + target;
 
         if (replacePlaceholders)
         {
@@ -349,8 +352,9 @@ public class EffectBlueprint
 
         if (TargetStrategy == EffectTargetStrategy.All)
         {
-            // If strategy is all, we ignore amount and prefix and directly use "all cards"
-            targetString += "all cards";
+            targetString += "all ";
+            if (FilterSelfFromTargets) targetString += "other ";
+            targetString += " cards";
         }
         else
         {

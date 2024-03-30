@@ -23,21 +23,32 @@ public class CardMovementHandler : MonoBehaviour
 
     private Sequence _activeSequence;
 
+    private void KillActiveSequence()
+    {
+        if (_activeSequence != null && _activeSequence.IsActive())
+        {
+            _activeSequence.Kill();
+            _activeSequence = null; 
+        }
+    }
+
     #region Movement Routines
 
     public void Highlight()
     {
         if (isHighlighted) return;
 
+        KillActiveSequence();
+
         isHighlighted = true;
         card.visualHandler.SetSortingLayer(GameConstants.TOP_PLAYER_CARD_LAYER);
 
-        Vector3 temp = transform.position;
+        Vector3 temp = placeHolder.position;
         temp.y += highlightHeightBoostAmount;
         card.visualHandler.transform.SetPositionAndRotation(temp, Quaternion.Euler(Vector3.zero));
         card.visualHandler.transform.localScale = Vector3.one * 1.2f;
     }
-
+    
     public void Dehighlight()
     {
         if (card.PENDING_DESTRUCTION) return;
@@ -53,8 +64,7 @@ public class CardMovementHandler : MonoBehaviour
         Quaternion visualRot = card.visualHandler.transform.rotation;
         Vector3 visualScale = card.visualHandler.transform.localScale;
 
-        card.transform.position = visualPos;
-        card.transform.rotation = visualRot;
+        card.transform.SetPositionAndRotation(visualPos, visualRot);
         card.transform.localScale = visualScale;
 
         card.visualHandler.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -70,14 +80,6 @@ public class CardMovementHandler : MonoBehaviour
     {
         card.cardState = CardState.Default;
         yield return MoveCard(card.transform, placeHolder.position, placeHolder.localScale, placeHolder.eulerAngles, speed, ease);
-    }
-
-    public IEnumerator TransformCardUniformlyToHoveredPlaceholder(float speed, Ease ease)
-    {
-        Vector3 temp = placeHolder.position;
-        temp.y += highlightHeightBoostAmount;
-
-        yield return MoveCard(card.transform, temp, Vector3.one * 1.2f, Vector3.zero, speed, ease);
     }
 
     public IEnumerator TransformVisualUniformlyToPlaceholder(float speed, Ease ease)

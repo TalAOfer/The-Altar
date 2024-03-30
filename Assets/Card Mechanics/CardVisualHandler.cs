@@ -254,16 +254,6 @@ public class CardVisualHandler : MonoBehaviour
     {
         damageVisualizer.SetActive(true);
         damageAmount.text = card.attackPoints.value.ToString();
-        //if (card.attackPoints.value == card.points)
-        //{
-        //    damageAmount.outlineColor = palette.darkPurple;
-        //}
-        
-        //else
-        //{
-        //    if (card.attackPoints.value > card.points) damageAmount.outlineColor = palette.lightRed;
-        //    else damageAmount.outlineColor = palette.lightRed;
-        //}
     }
 
     public void DisableDamageVisual()

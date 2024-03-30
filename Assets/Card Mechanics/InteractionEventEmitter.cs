@@ -14,7 +14,7 @@ public class InteractionEventEmitter : MonoBehaviour, IPointerEnterHandler, IPoi
     public Collider2D coll;
 
     private EventRegistry _events;
-    private bool isDragging;
+    public bool IsCursorOn {  get; private set; }
 
     private void Awake()
     {
@@ -28,11 +28,13 @@ public class InteractionEventEmitter : MonoBehaviour, IPointerEnterHandler, IPoi
     public void OnPointerEnter(PointerEventData eventData)
     {
         _events.OnCardPointerEnter.Raise(card, eventData);
+        IsCursorOn = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         _events.OnCardPointerExit.Raise(card, eventData);
+        IsCursorOn = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)

@@ -9,7 +9,7 @@ public class MetaPoolInstance
     [ListDrawerSettings(ShowIndexLabels = true)]
     public List<BlueprintPoolInstance> pools;
 
-    public CardBlueprint GetRandomCardByPoints(int minPoints, int maxPoints)
+    public CardBlueprint GetRandomCardByPoints(int minPoints, int maxPoints, CardColor? poolColor = null)
     {
         int attempts = 0;
         const int maxAttempts = 100; // Prevent infinite loops
@@ -22,8 +22,12 @@ public class MetaPoolInstance
             if (currentPoints >= 0 && currentPoints < pools.Count)
             {
                 BlueprintPoolInstance pointPool = pools[currentPoints];
-                CardColor poolColor = (CardColor)UnityEngine.Random.Range(0, 2);
-                List<CardBlueprint> pool = poolColor == CardColor.Black ? pointPool.black : pointPool.red;
+
+                CardColor chosenPoolColor = poolColor.HasValue
+                    ? poolColor.Value
+                    : (CardColor)UnityEngine.Random.Range(0, 2);
+                
+                List<CardBlueprint> pool = chosenPoolColor == CardColor.Black ? pointPool.black : pointPool.red;
 
                 if (pool.Count > 0)
                 {

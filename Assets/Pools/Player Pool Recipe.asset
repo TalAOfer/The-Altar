@@ -13,47 +13,26 @@ MonoBehaviour:
   m_Name: Player Pool Recipe
   m_EditorClassIdentifier: 
   pools:
-  - black:
-    - {fileID: 11400000, guid: b589a0b7db1785f41817a86f92516afb, type: 2}
+  - black: []
     red: []
   - black:
-    - {fileID: 11400000, guid: cf6e55fcca8864740aab58acc9122eb7, type: 2}
+    - {fileID: 11400000, guid: a6e2ada6e35163c43b8fe720d0f4e35d, type: 2}
     red:
-    - {fileID: 11400000, guid: 874bacb6a9060264890aeb50d128908b, type: 2}
-    - {fileID: 11400000, guid: 3c1e82394196570499ea78cbd4a42466, type: 2}
-  - black:
-    - {fileID: 11400000, guid: 52009d27a29626b4eb0619acafb8b5f0, type: 2}
-    red:
-    - {fileID: 11400000, guid: 40187e0cbd0b3a545a8a69454fb03472, type: 2}
-    - {fileID: 11400000, guid: d87a70b18d391994999aec99738e0a80, type: 2}
-    - {fileID: 11400000, guid: 92f6b66f8e4e8ae4888f95e3b6679761, type: 2}
-  - black:
-    - {fileID: 11400000, guid: 3dc9e63bfd731c348b0a1ad8f504a91e, type: 2}
-    red:
-    - {fileID: 11400000, guid: f07ed45eb471349489f2372419d600df, type: 2}
-    - {fileID: 11400000, guid: a799ea15030a4b04291fb3947817ab2b, type: 2}
-  - black:
-    - {fileID: 11400000, guid: 48a9ea465052cab40b3a1a88a4ba397d, type: 2}
-    - {fileID: 11400000, guid: d87a7e6130f2d7142aef941be149e204, type: 2}
-    - {fileID: 11400000, guid: 5dafb36dc2582d34089b22707e0553d1, type: 2}
-    red:
-    - {fileID: 11400000, guid: 654aebc5ab86746479e61cc1dba8ad1a, type: 2}
-    - {fileID: 11400000, guid: 185970afd98f6f844a5e77342200a0f9, type: 2}
-  - black:
-    - {fileID: 11400000, guid: c9eb792a9ffdb2d4888f22525dcebcaa, type: 2}
-    red:
-    - {fileID: 11400000, guid: 4053463bcd7095549925cd2d4befb21a, type: 2}
-    - {fileID: 11400000, guid: 51dde3117f7437b43bcc5cc50561fa0e, type: 2}
-    - {fileID: 11400000, guid: 442ca823dd3c2a44f95f0866375006fc, type: 2}
-  - black:
-    - {fileID: 11400000, guid: 4ed85e406b91a344e9695410f2bf867d, type: 2}
-    red:
-    - {fileID: 11400000, guid: 39082cdc40539cb41b2f06375da1bb1c, type: 2}
-  - black:
-    - {fileID: 11400000, guid: a36b3c90b1ed09948911a9da751f1017, type: 2}
+    - {fileID: 11400000, guid: 91302de18e7ca2c40a1963c7ced62a04, type: 2}
+  - black: []
     red: []
   - black:
-    - {fileID: 11400000, guid: 9100582b5f8bfbc429a8e27902df8696, type: 2}
+    - {fileID: 11400000, guid: 17e7c9cc746f0aa4fbd3501d94b87bc1, type: 2}
+    red: []
+  - black: []
+    red: []
+  - black: []
+    red: []
+  - black: []
+    red: []
+  - black: []
+    red: []
+  - black: []
     red: []
   - black: []
     red: []

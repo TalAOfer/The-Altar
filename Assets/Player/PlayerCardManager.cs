@@ -31,18 +31,11 @@ public class PlayerCardManager : MonoBehaviour
         return drawnBlueprint;
     }
 
-    private Card SpawnCard(CardBlueprint cardBlueprint, string sortingLayerName)
-    {
-        GameObject cardGO = Instantiate(_cardPrefab, _cardSpawnPosition.position, Quaternion.identity, transform);
-        cardGO.name = cardBlueprint.name;
-        Card card = cardGO.GetComponent<Card>();
-        card.Init(Codex, cardBlueprint, sortingLayerName, CardInteractionType.Playable, _ctx.DataProvider);
-
-        return card;
-    }
     private void SpawnCardToHandByBlueprint(CardBlueprint blueprint)
     {
-        Card card = SpawnCard(blueprint, GameConstants.PLAYER_CARD_LAYER);
+        Card card = CardSpawner.Instance.SpawnCard(blueprint, _cardSpawnPosition.position, GameConstants.PLAYER_CARD_LAYER,
+            CardInteractionType.Playable, Codex, _ctx.DataProvider);
+
         card.ChangeCardState(CardState.Draw);
         ActiveCards.Add(card);
         Hand.AddCardToHand(card);
