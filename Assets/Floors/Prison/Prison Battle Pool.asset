@@ -21,11 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  Value:
-    Earlyfloor:
-    - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
-    - {fileID: 11400000, guid: f02f1bb35be4c554bbf3f0ab1ffdef97, type: 2}
-    - {fileID: 11400000, guid: 791875dadd0491a4ba97fbb4078e8498, type: 2}
-    - {fileID: 11400000, guid: 04d80895e315ba74eb7a1214b105f1a6, type: 2}
-    Midfloor: []
-    Endfloor: []
+  Blueprints:
+  - {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+  - {fileID: 11400000, guid: ac210596a963b7049bf9f5919921c0fd, type: 2}
+  - {fileID: 11400000, guid: 9e92bbcf42270fe4bbe86807c29dc49d, type: 2}
+  - {fileID: 11400000, guid: 411867a04ea62db4ead2bea3d36e9d98, type: 2}

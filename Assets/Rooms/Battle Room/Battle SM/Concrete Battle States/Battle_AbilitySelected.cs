@@ -1,20 +1,20 @@
-﻿using Sirenix.OdinInspector;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
-using UnityEngine;
 
-internal class Battle_AbilitySelected : BaseBattleRoomState
+internal class Battle_AbilitySelected : BaseRoomState
 {
-    List<Card> PlayerCards => _ctx.PlayerCardManager.ActiveCards;
-    List<Card> EnemyCards => _ctx.EnemyCardManager.ActiveEnemies;
-    List<Card> AllCards => _ctx.DataProvider.GetAllActiveCards();
-    Ability CurrentAbility => _ctx.Ctx.CurrentAbilitySelected;
-    List<Card> CardsSelected => _ctx.Ctx.CurrentCardsSelected;
-
-    public Battle_AbilitySelected(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_AbilitySelected(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
+
+    List<Card> PlayerCards => _sm.PlayerCardManager.ActiveCards;
+    List<Card> EnemyCards => _sm.EnemyCardManager.ActiveEnemies;
+    List<Card> AllCards => _sm.DataProvider.GetAllActiveCards();
+    Ability CurrentAbility => _ctx.CurrentAbilitySelected;
+    List<Card> CardsSelected => _ctx.CurrentCardsSelected;
+
+
 
     public override IEnumerator EnterState()
     {
@@ -41,13 +41,13 @@ internal class Battle_AbilitySelected : BaseBattleRoomState
                 card.visualHandler.ToggleDarkOverlay(false);
             }
 
-            _ctx.SwitchState(_ctx.States.Idle());
+            SwitchTo(States.Idle());
         } 
         
         else
         {
-            _ctx.Ctx.CurrentAbilitySelected = ability;
-            _ctx.SwitchState(_ctx.States.AbilitySelected());
+            _ctx.CurrentAbilitySelected = ability;
+            SwitchTo(States.AbilitySelected());
         }
     }
 
@@ -107,14 +107,14 @@ internal class Battle_AbilitySelected : BaseBattleRoomState
             DeselectCard(card);
         }
 
-        _ctx.SwitchState(_ctx.States.AbilitySelected());
+        SwitchTo(States.AbilitySelected());
     }
 
     public override void HandlePlayerCardPointerEnter(Card card, PointerEventData eventData)
     {
         if (!IsCardSelectable(card)) return;
 
-        _ctx.Events.ShowTooltip.Raise(_ctx, card);
+        Events.ShowTooltip.Raise(_sm, card);
 
         bool isThisCardAPlayerCard = card.Affinity == Affinity.Player;
 
@@ -129,7 +129,7 @@ internal class Battle_AbilitySelected : BaseBattleRoomState
     {
         if (!IsCardSelectable(card)) return;
 
-        _ctx.Events.HideTooltip.Raise(_ctx, card);
+        Events.HideTooltip.Raise(_sm, card);
 
         bool isThisCardSelected = CardsSelected.Contains(card);
         if (isThisCardSelected) return;
@@ -153,18 +153,18 @@ internal class Battle_AbilitySelected : BaseBattleRoomState
 
     public void MoveToAbilityState()
     {
-        _ctx.Events.HideTooltip.Raise();
+        Events.HideTooltip.Raise();
 
         switch (CurrentAbility.Type)
         {
             case AbilityType.Split:
-                _ctx.SwitchState(_ctx.States.ApplySplitAbility());
+                SwitchTo(States.ApplySplitAbility());
                 break;
             case AbilityType.Merge:
-                _ctx.SwitchState(_ctx.States.ApplyMergeAbility());
+                SwitchTo(States.ApplyMergeAbility());
                 break;
             case AbilityType.Paint:
-                _ctx.SwitchState(_ctx.States.ApplyAbilityEffect());
+                SwitchTo(States.ApplyAbilityEffect());
                 break;
         }
     }

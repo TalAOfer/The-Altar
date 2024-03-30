@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCardManager : MonoBehaviour
 {
-    private BattleRoomStateMachine _ctx;
+    private RoomStateMachine _ctx;
     [field: SerializeField] public List<Card> ActiveCards { get; private set; } = new();
     private GameObject _cardPrefab;
     public HandManager Hand { get; private set; }
@@ -20,7 +20,7 @@ public class PlayerCardManager : MonoBehaviour
         _cardPrefab = Locator.Prefabs.Card;
     }
 
-    public void Initialize(BattleRoomStateMachine ctx)
+    public void Initialize(RoomStateMachine ctx)
     {
         _ctx = ctx;
     }
@@ -33,7 +33,7 @@ public class PlayerCardManager : MonoBehaviour
 
     private void SpawnCardToHandByBlueprint(CardBlueprint blueprint)
     {
-        Card card = CardSpawner.Instance.SpawnCard(blueprint, _cardSpawnPosition.position, GameConstants.PLAYER_CARD_LAYER,
+        Card card = CardSpawner.Instance.SpawnCard(blueprint, _cardSpawnPosition.position, transform, GameConstants.PLAYER_CARD_LAYER,
             CardInteractionType.Playable, Codex, _ctx.DataProvider);
 
         card.ChangeCardState(CardState.Draw);

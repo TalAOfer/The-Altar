@@ -1,23 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class Battle_EnemySetup : BaseBattleRoomState
+public class Battle_EnemySetup : BaseRoomState
 {
-    public Battle_EnemySetup(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_EnemySetup(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
 
     public override IEnumerator EnterState()
     {
         yield return SpawnEnemies();
-        _ctx.SwitchState(_ctx.States.DrawHand());
+        SwitchTo(States.DrawHand());
     }
 
     public IEnumerator SpawnEnemies()
     {
-        List<CardBlueprint> enemies = _ctx.BattleBlueprint.cards;
+        List<CardBlueprint> enemies = _sm.BattleBlueprint.cards;
 
-        yield return _ctx.EnemyCardManager.SpawnEnemies(enemies);
+        yield return _sm.EnemyCardManager.SpawnEnemies(enemies);
     }
 
 }

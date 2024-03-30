@@ -5,8 +5,11 @@ using System;
 public class Room
 {
     public RoomType Type;
-    [ShowIf("Type", RoomType.Battle)]
+    [ReadOnly]
     public BattleBlueprint BattleBlueprint;
+    [ShowIf("Type", RoomType.Battle)]
+    public int Difficulty;
+
 
     public RewardType Reward;
     [ShowIf("Reward", RewardType.Cards)]
@@ -17,14 +20,14 @@ public class Room
         Type = type;
         Reward = reward;
     }
-    public void InitializeRoom(int index, int total, BattleRoomPool battlePool = null)
+    public void InitializeRoom(BattleRoomPool battlePool = null)
     {
         switch (Type)
         {
             case RoomType.Nothing:
                 break;
             case RoomType.Battle:
-                BattleBlueprint = battlePool.GetBattleBlueprintAccordingToIndex(index, total);
+                BattleBlueprint = battlePool.GetBattleBlueprintAccordingToIndex(Difficulty);
                 break;
             case RoomType.Elite:
                 break;

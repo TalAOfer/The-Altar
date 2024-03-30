@@ -62,10 +62,16 @@ public class Card : MonoBehaviour
     public int Armor { get; private set; } = 0;
     public int Might { get; private set; } = 0;
 
-    public bool PENDING_DESTRUCTION
+    public bool FATALLY_WOUNDED
     {
         get { return points <= 0; }
     }
+    public bool PENDING_DESTRUCTION
+    {
+        get { return FATALLY_WOUNDED && !DESTROYING; }
+    }
+
+    public bool DESTROYING { get; private set; } = false;
 
     public void Init(Codex codex, CardBlueprint blueprint, string startingSortingLayer, CardInteractionType cardInteractionType, BattleRoomDataProvider dataProvider)
     {
@@ -98,7 +104,7 @@ public class Card : MonoBehaviour
 
     public CardBlueprint GetCurrentMask()
     {
-        if (higherBeing.isLocked && !PENDING_DESTRUCTION) return Mask;
+        if (higherBeing.isLocked && !FATALLY_WOUNDED) return Mask;
         return codex.GetCardOverride(new CardArchetype(points, cardColor));
     }
 
@@ -171,7 +177,7 @@ public class Card : MonoBehaviour
         visualHandler.InitiateParticleSplash();
         visualHandler.SetNumberSprites();
 
-        _events.OnDamageEffect.Raise(this, new AmountEventData(this, inflictor, damage));
+        _events.OnDamage.Raise(this, new AmountEventData(this, inflictor, damage));
 
         return damage;
     }
@@ -245,7 +251,7 @@ public class Card : MonoBehaviour
 
     public bool ShouldShapeshift()
     {
-        return !PENDING_DESTRUCTION && Mask != GetCurrentMask();
+        return !FATALLY_WOUNDED && Mask != GetCurrentMask();
     }
 
     public IEnumerator HandleShapeshift()
@@ -279,9 +285,11 @@ public class Card : MonoBehaviour
 
     public IEnumerator DestroySelf()
     {
+        DESTROYING = true;
         visualHandler.SetSortingOrder(-1);
         yield return visualHandler.ToggleOverallVanish(true);
-        DataProvider.RemoveCard(this);
+        _events.OnDeath.Raise(this, new NormalEventData(this));
+        DataProvider?.RemoveCard(this);
         DOTween.Kill(transform);
         yield return Tools.GetWait(1f);
         gameObject.SetActive(false);

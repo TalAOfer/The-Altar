@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Battle_ApplyMergeAbility : BaseBattleRoomState
+public class Battle_ApplyMergeAbility : BaseRoomState
 {
-    List<Card> PlayerCards => _ctx.PlayerCardManager.ActiveCards;
-    List<Card> EnemyCards => _ctx.EnemyCardManager.ActiveEnemies;
-    List<Card> CardsSelected => _ctx.Ctx.CurrentCardsSelected;
-    Card FirstCardSelected => CardsSelected[0];
-    Card SecondCardSelected => CardsSelected[1];
-
-    public Battle_ApplyMergeAbility(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_ApplyMergeAbility(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
+
+    List<Card> PlayerCards => _sm.PlayerCardManager.ActiveCards;
+    List<Card> EnemyCards => _sm.EnemyCardManager.ActiveEnemies;
+    List<Card> CardsSelected => _ctx.CurrentCardsSelected;
+    Card FirstCardSelected => CardsSelected[0];
+    Card SecondCardSelected => CardsSelected[1];
 
     public override IEnumerator EnterState()
     {
@@ -34,14 +34,14 @@ public class Battle_ApplyMergeAbility : BaseBattleRoomState
         FirstCardSelected.gameObject.SetActive(false);
         SecondCardSelected.gameObject.SetActive(false);
 
-        _ctx.PlayerCardManager.RemoveCardFromManager(FirstCardSelected);
-        _ctx.PlayerCardManager.RemoveCardFromManager(SecondCardSelected);
+        _sm.PlayerCardManager.RemoveCardFromManager(FirstCardSelected);
+        _sm.PlayerCardManager.RemoveCardFromManager(SecondCardSelected);
 
-        _ctx.DataProvider.SpawnCardToHandByArchetype(mergeArchetype);
+        _sm.DataProvider.SpawnCardToHandByArchetype(mergeArchetype);
 
         CardsSelected.Clear();
 
-        _ctx.SwitchState(_ctx.States.Idle());
+        SwitchTo(States.Idle());
 
         yield break;
     }

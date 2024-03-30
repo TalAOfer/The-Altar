@@ -4,18 +4,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Battle_CardSearchTarget : BaseBattleRoomState
+public class Battle_CardSearchTarget : BaseRoomState
 {
-    private Card TargetSeekingCard => _ctx.Ctx.CurrentActorCard;
-
-    public Battle_CardSearchTarget(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_CardSearchTarget(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
+
+    private Card TargetSeekingCard => _ctx.CurrentActorCard;
+
 
     public override IEnumerator EnterState()
     {
         HighlightAttackableTargets();
-        _ctx.Events.EnableBezierArrow.Raise(_ctx, TargetSeekingCard);
+        Events.EnableBezierArrow.Raise(_sm, TargetSeekingCard);
         TargetSeekingCard.visualHandler.EnableDamageVisual();
         return base.EnterState();
     }
@@ -23,16 +24,16 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
     public override IEnumerator ExitState()
     {
         ClearTargetSelection();
-        _ctx.Events.DisableBezierArrow.Raise();
+        Events.DisableBezierArrow.Raise();
         return base.ExitState();
     }
 
     private void HighlightAttackableTargets()
     {
-        var tauntCards = _ctx.EnemyCardManager.ActiveEnemies.Where(card => card.Taunt).ToList();
+        var tauntCards = _sm.EnemyCardManager.ActiveEnemies.Where(card => card.Taunt).ToList();
         bool isThereATauntOnMap = tauntCards.Any();
 
-        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
+        foreach (Card card in _sm.EnemyCardManager.ActiveEnemies)
         {
             if (!isThereATauntOnMap || card.Taunt)
             {
@@ -48,7 +49,7 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
 
     private void ClearTargetSelection()
     {
-        foreach (Card card in _ctx.EnemyCardManager.ActiveEnemies)
+        foreach (Card card in _sm.EnemyCardManager.ActiveEnemies)
         {
             card.visualHandler.DisableOutline();
             card.visualHandler.ToggleDarkOverlay(false);
@@ -59,30 +60,30 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
         TargetSeekingCard.visualHandler.DisableOutline();
         TargetSeekingCard.visualHandler.DisableDamageVisual();
 
-        if (_ctx.Ctx.BattlingEnemyCard != null)
+        if (_ctx.BattlingEnemyCard != null)
         {
-            _ctx.Ctx.BattlingEnemyCard.visualHandler.DisableDamageVisual();
+            _ctx.BattlingEnemyCard.visualHandler.DisableDamageVisual();
         }
     }
 
     public void UpdateTargetVisuals(Card newTarget)
     {
-        if (_ctx.Ctx.CurrentTargetCard != null)
+        if (_ctx.CurrentTargetCard != null)
         {
-            _ctx.Ctx.CurrentTargetCard.visualHandler.DisableOutline();
-            _ctx.Ctx.CurrentTargetCard.visualHandler.DisableDamageVisual();
+            _ctx.CurrentTargetCard.visualHandler.DisableOutline();
+            _ctx.CurrentTargetCard.visualHandler.DisableDamageVisual();
         }
 
-        _ctx.Ctx.CurrentTargetCard = newTarget;
+        _ctx.CurrentTargetCard = newTarget;
 
         if (newTarget != null)
         {
             newTarget.visualHandler.EnableOutline(PaletteColor.attackable);
-            TargetSeekingCard.CalculateDamage(newTarget);
+            newTarget.CalculateDamage(TargetSeekingCard);
             newTarget.visualHandler.EnableDamageVisual();
         }
 
-        TargetSeekingCard.CalculateDamage(null);
+        TargetSeekingCard.CalculateDamage(newTarget);
 
     }
 
@@ -105,15 +106,15 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
     //Back to idle
     public override void OnHandColliderPointerEnter(HandCollisionDetector HandCollisionManager, PointerEventData data)
     {
-        _ctx.SwitchState(_ctx.States.Idle());
+        SwitchTo(States.Idle());
     }
 
     //Fight
     public override void HandleEnemyCardPointerClick(Card cardClicked, PointerEventData eventData)
     {
-        _ctx.Ctx.BattlingPlayerCard = _ctx.Ctx.CurrentActorCard;
-        _ctx.Ctx.BattlingEnemyCard = cardClicked;
-        _ctx.SwitchState(_ctx.States.Battle());
+        _ctx.BattlingPlayerCard = _ctx.CurrentActorCard;
+        _ctx.BattlingEnemyCard = cardClicked;
+        SwitchTo(States.Battle());
     }
 
     public override void HandlePlayerCardEndDrag(Card card, PointerEventData eventData)
@@ -122,7 +123,7 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
 
         if (goHit == null)
         {
-            _ctx.SwitchState(_ctx.States.Idle());
+            SwitchTo(States.Idle());
             return;
         }
 
@@ -131,23 +132,23 @@ public class Battle_CardSearchTarget : BaseBattleRoomState
 
         if (droppedCard == null)
         {
-            _ctx.SwitchState(_ctx.States.Idle());
+            SwitchTo(States.Idle());
             return;
         }
 
         if (droppedCard.Affinity == Affinity.Enemy && droppedCard.Targetable)
         {
-            _ctx.Ctx.BattlingPlayerCard = _ctx.Ctx.CurrentActorCard;
-            _ctx.Ctx.CurrentActorCard.visualHandler.DisableOutline();
+            _ctx.BattlingPlayerCard = _ctx.CurrentActorCard;
+            _ctx.CurrentActorCard.visualHandler.DisableOutline();
 
-            _ctx.Ctx.BattlingEnemyCard = droppedCard;
+            _ctx.BattlingEnemyCard = droppedCard;
 
-            _ctx.SwitchState(_ctx.States.Battle());
+            SwitchTo(States.Battle());
         }
 
         else
         {
-            _ctx.SwitchState(_ctx.States.Idle());
+            SwitchTo(States.Idle());
         }
     }
 

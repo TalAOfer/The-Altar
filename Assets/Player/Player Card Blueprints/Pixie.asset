@@ -19,7 +19,7 @@ MonoBehaviour:
     points: 1
     color: 1
   Affinity: 0
-  Description: 'Last Breath: grant +1 to the lowest card.'
+  Description: 'Last Breath: grant +1 to the lowest friendly card.'
   SpecialEffects: 0
   Effects:
   - UseAsset: 0
@@ -62,13 +62,13 @@ MonoBehaviour:
       replacePlaceholders: 1
       TargetPool: 3
       TargetStrategy: 3
-      FilterSelfFromTargets: 0
+      FilterSelfFromTargets: 1
       AmountOfTargets: 1
-      ShouldFilterTargets: 0
+      ShouldFilterTargets: 1
       TargetFilterBlueprint:
-        ShouldFilter: 0
+        ShouldFilter: 1
         Filter:
-          DecisionType: 0
+          DecisionType: 8
           PredefinedColor: 0
           AffinityComparison: 0
           PredefinedParity: 0

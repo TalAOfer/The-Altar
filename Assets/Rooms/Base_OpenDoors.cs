@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Base_OpenDoors : BaseRoomState<RoomStateMachine>
+public class Base_OpenDoors : BaseRoomState
 {
-    public Base_OpenDoors(RoomStateMachine ctx) : base(ctx)
+    public Base_OpenDoors(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
 
     public override IEnumerator EnterState()
     {
-        _ctx.StartCoroutine(_ctx.OpenDoors());
+        CoroutineRunner.Instance.StartCoroutine(_sm.OpenDoors());
         yield return null;
     }
 }

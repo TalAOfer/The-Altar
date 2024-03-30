@@ -4,73 +4,73 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Battle_Idle : BaseBattleRoomState
+public class Battle_Idle : BaseRoomState
 {
-    public Battle_Idle(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_Idle(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
 
     public override IEnumerator EnterState()
     {
-        if (_ctx.Ctx.CurrentActorCard != null && _ctx.Ctx.CurrentActorCard.isActiveAndEnabled)
+        if (_ctx.CurrentActorCard != null && _ctx.CurrentActorCard.isActiveAndEnabled)
         {
             yield return Tools.GetWait(0.1f);
-            if (!_ctx.Ctx.CurrentActorCard.interactionHandler.IsCursorOn)
+            if (!_ctx.CurrentActorCard.interactionHandler.IsCursorOn)
             {
-                _ctx.DemarkCardAsSelected(_ctx.Ctx.CurrentActorCard);
+                _sm.DemarkCardAsSelected(_ctx.CurrentActorCard);
             }
 
-            _ctx.Ctx.CurrentActorCard = null;
+            _ctx.CurrentActorCard = null;
         }
 
-        _ctx.Events.OnTurnEnd.Raise();
+        _sm.Events.OnTurnEnd.Raise();
 
         yield return base.EnterState();
     }
 
     public override void HandlePlayerCardPointerEnter(Card card, PointerEventData eventData)
     {
-        _ctx.Events.ShowTooltip.Raise(_ctx, card);
+        Events.ShowTooltip.Raise(_sm, card);
         card.movement.Highlight();
     }
 
     public override void HandlePlayerCardPointerExit(Card card, PointerEventData eventData)
     {
-        _ctx.Events.HideTooltip.Raise(_ctx, card);
+        Events.HideTooltip.Raise(_sm, card);
         card.movement.Dehighlight();
     }
 
     public override void HandleEnemyCardPointerEnter(Card card, PointerEventData eventData)
     {
-        _ctx.Events.ShowTooltip.Raise(_ctx, card);
+        Events.ShowTooltip.Raise(_sm, card);
         card.visualHandler.Animate("Jiggle");
     }
 
     public override void HandleEnemyCardPointerExit(Card card, PointerEventData eventData)
     {
-        _ctx.Events.HideTooltip.Raise(_ctx, card);
+        Events.HideTooltip.Raise(_sm, card);
     }
 
     #region Transitions
 
     public override void HandlePlayerCardPointerClick(Card cardClicked, PointerEventData eventData)
     {
-        _ctx.Ctx.CardClicked = cardClicked;
-        _ctx.Ctx.CardClicked.movement.Highlight();
-        _ctx.SwitchState(_ctx.States.CardSelected());
+        _ctx.CardClicked = cardClicked;
+        _ctx.CardClicked.movement.Highlight();
+        SwitchTo(States.CardSelected());
     }
 
     public override void HandlePlayerCardBeginDrag(Card cardDragged, PointerEventData eventData)
     {
-        _ctx.Ctx.CardClicked = cardDragged;
-        _ctx.Ctx.CardClicked.movement.Highlight();
-        _ctx.SwitchState(_ctx.States.CardSelected());
+        _ctx.CardClicked = cardDragged;
+        _ctx.CardClicked.movement.Highlight();
+        SwitchTo(States.CardSelected());
     }
 
     public override void OnAbilityClicked(AbilityManager abilityManager, Ability ability)
     {
-        _ctx.Ctx.CurrentAbilitySelected = ability;
-        _ctx.SwitchState(_ctx.States.AbilitySelected());
+        _ctx.CurrentAbilitySelected = ability;
+        SwitchTo(States.AbilitySelected());
     }
 
     #endregion

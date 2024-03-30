@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,12 +7,17 @@ using UnityEngine;
 [Serializable]
 public class BattleAmountModifier
 {
+    [ShowInInspector]
     public ModifierType ModifierType { get; private set; }
+    [ShowInInspector]
     public BattlePointType PointType { get; private set; }
-    private readonly Card _parentCard;
-    private readonly int _defaultAmount;
-    private readonly BattleRoomDataProvider _data;
+    [ShowInInspector]
     private readonly GetAmountStrategy _amountStrategy;
+    [ShowInInspector]
+    private readonly int _defaultAmount;
+
+    private readonly Card _parentCard;
+    private readonly BattleRoomDataProvider _data;
     private readonly BattleModifierFilter _filter;
     public BattleAmountModifier(ModifierType modifierType, Card parentCard, BattlePointType pointType, int defaultAmount, GetAmountStrategy amountStrategy, BattleRoomDataProvider data, BattleModifierFilter filter = null)
     {

@@ -5,7 +5,11 @@ using UnityEngine;
 public class EventRegistry : ScriptableObject
 {
     [Title("Effects")]
-    public GameEvent OnDamageEffect;
+    public GameEvent OnDamage;
+    public GameEvent OnDeath;
+    public GameEvent OnSummon;
+    public GameEvent OnHeal;
+
     public GameEvent OnEffectTriggered;
     public GameEvent OnTurnEnd;
    

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyCardManager : MonoBehaviour
 {
-    private BattleRoomStateMachine _ctx;
+    private RoomStateMachine _ctx;
     private GameObject _cardPrefab;
     private Vector3 _outsideScreenPosition = new(0, 30, 0);
     [SerializeField] CardData _cardData;
@@ -15,7 +15,7 @@ public class EnemyCardManager : MonoBehaviour
     [SerializeField] private Transform _container;
     [SerializeField] private Vector2 _enemySpacing = new(2.25f, 4f);
 
-    public void Initialize(BattleRoomStateMachine ctx)
+    public void Initialize(RoomStateMachine ctx)
     {
         _ctx = ctx;
         _cardPrefab = Locator.Prefabs.Card;

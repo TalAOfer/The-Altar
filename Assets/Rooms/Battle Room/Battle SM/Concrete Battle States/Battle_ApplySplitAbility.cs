@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Battle_ApplySplitAbility : BaseBattleRoomState
+public class Battle_ApplySplitAbility : BaseRoomState
 {
-    List<Card> PlayerCards => _ctx.PlayerCardManager.ActiveCards;
-    List<Card> EnemyCards => _ctx.EnemyCardManager.ActiveEnemies;
-    List<Card> CardsSelected => _ctx.Ctx.CurrentCardsSelected;
-    Card SelectedCard => _ctx.Ctx.CurrentCardsSelected[0];
-
-    public Battle_ApplySplitAbility(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_ApplySplitAbility(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
+
+    List<Card> PlayerCards => _sm.PlayerCardManager.ActiveCards;
+    List<Card> EnemyCards => _sm.EnemyCardManager.ActiveEnemies;
+    List<Card> CardsSelected => _ctx.CurrentCardsSelected;
+    Card SelectedCard => _ctx.CurrentCardsSelected[0];
+
+
 
     public override IEnumerator EnterState()
     {
@@ -34,15 +36,15 @@ public class Battle_ApplySplitAbility : BaseBattleRoomState
         CardArchetype secondArchetype = new(secondHalf, color);
 
         SelectedCard.gameObject.SetActive(false);
-        _ctx.PlayerCardManager.RemoveCardFromManager(SelectedCard);
+        _sm.PlayerCardManager.RemoveCardFromManager(SelectedCard);
 
-        _ctx.DataProvider.SpawnCardToHandByArchetype(firstArchetype);
+        _sm.DataProvider.SpawnCardToHandByArchetype(firstArchetype);
         yield return new WaitForSeconds(0.25f);
-        _ctx.DataProvider.SpawnCardToHandByArchetype(secondArchetype);
+        _sm.DataProvider.SpawnCardToHandByArchetype(secondArchetype);
 
         CardsSelected.Clear();
 
-        _ctx.SwitchState(_ctx.States.Idle());
+        SwitchTo(States.Idle());
     }
 
 }

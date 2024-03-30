@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class BattleRoomDataProvider
 {
-    private readonly BattleRoomStateMachine _sm;
-    public BattleRoomDataProvider(BattleRoomStateMachine SM)
+    private readonly RoomStateMachine _sm;
+    private readonly SMContext _ctx;
+    public BattleRoomDataProvider(RoomStateMachine sm, SMContext ctx)
     {
-        _sm = SM;
+        _sm = sm;
+        _ctx = ctx;
     }
 
     #region Action Providers
@@ -105,7 +107,7 @@ public class BattleRoomDataProvider
 
     public Card GetOpponent(Card card)
     {
-        return card.Affinity == Affinity.Player ? _sm.Ctx.BattlingEnemyCard : _sm.Ctx.BattlingPlayerCard;
+        return card.Affinity == Affinity.Player ? _ctx.BattlingEnemyCard : _ctx.BattlingPlayerCard;
     }
 
     public List<Card> GetAllActiveCards()

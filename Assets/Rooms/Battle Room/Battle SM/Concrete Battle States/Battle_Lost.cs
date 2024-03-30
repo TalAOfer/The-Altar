@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Battle_Lost : BaseBattleRoomState
+public class Battle_Lost : BaseRoomState
 {
-    public Battle_Lost(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_Lost(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
 
     public override IEnumerator EnterState()
     {
-        _ctx.LoseManager.CloseWalls();
+        _sm.LoseManager.CloseWalls();
         return base.EnterState();
     }
 }

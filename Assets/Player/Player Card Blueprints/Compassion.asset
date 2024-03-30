@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
+  m_Name: Compassion
+  m_EditorClassIdentifier: 
+  cardSprite: {fileID: 21300000, guid: b7925c4e2230abf4480071d833dd8511, type: 3}
+  isDefault: 0
+  cardName: Compassion
+  Archetype:
+    points: 2
+    color: 1
+  Affinity: 0
+  Description: 'Last Breath: summon 1 One of Hearts & turn all friendly cards Red.'
+  SpecialEffects: 0
+  Effects:
+  - UseAsset: 0
+    ManualValue:
+      Trigger: {fileID: 11400000, guid: 5fd36ce76206e2e43833bb9c1522129d, type: 2}
+      GlobalAmountEventsFilter:
+        FilterByReceiver: 0
+        RecieverFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      LocalAmountEventsFilter:
+        FilterByInflictor: 0
+        InflictorFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      NormalEventsFilter:
+        ShouldFilter: 0
+        Filter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      EffectTypeAsset: {fileID: 11400000, guid: 79986b3de614aec43a076a4eb30a33b4, type: 2}
+      replacePlaceholders: 1
+      TargetPool: 0
+      TargetStrategy: 0
+      FilterSelfFromTargets: 0
+      AmountOfTargets: 1
+      ShouldFilterTargets: 0
+      TargetFilterBlueprint:
+        ShouldFilter: 0
+        Filter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      IsPersistent: 0
+      amountStrategy: 0
+      amount: 1
+      cardArchetype:
+        points: 1
+        color: 1
+      battlePointType: 0
+      modifierType: 0
+      filterBattleModifier: 0
+      battleModifierfilter:
+        FilterByAttacker: 0
+        AttackerFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByOpponent: 0
+        OpponentFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByComparison: 0
+        ComparisonFilter:
+          comparison: 0
+      color: 0
+      guardianType: 0
+      guardianIsPresistent: 0
+      BuffType: 0
+      effectBlueprint: {fileID: 0}
+    Asset: {fileID: 0}
+  - UseAsset: 0
+    ManualValue:
+      Trigger: {fileID: 11400000, guid: 5fd36ce76206e2e43833bb9c1522129d, type: 2}
+      GlobalAmountEventsFilter:
+        FilterByReceiver: 0
+        RecieverFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      LocalAmountEventsFilter:
+        FilterByInflictor: 0
+        InflictorFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      NormalEventsFilter:
+        ShouldFilter: 0
+        Filter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      EffectTypeAsset: {fileID: 11400000, guid: f479711ca99750746b28865a2fd14c1d, type: 2}
+      replacePlaceholders: 1
+      TargetPool: 3
+      TargetStrategy: 0
+      FilterSelfFromTargets: 0
+      AmountOfTargets: 1
+      ShouldFilterTargets: 1
+      TargetFilterBlueprint:
+        ShouldFilter: 1
+        Filter:
+          DecisionType: 8
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      IsPersistent: 0
+      amountStrategy: 0
+      amount: 1
+      cardArchetype:
+        points: 0
+        color: 0
+      battlePointType: 0
+      modifierType: 0
+      filterBattleModifier: 0
+      battleModifierfilter:
+        FilterByAttacker: 0
+        AttackerFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByOpponent: 0
+        OpponentFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByComparison: 0
+        ComparisonFilter:
+          comparison: 0
+      color: 1
+      guardianType: 0
+      guardianIsPresistent: 0
+      BuffType: 0
+      effectBlueprint: {fileID: 0}
+    Asset: {fileID: 0}

@@ -2,54 +2,46 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Linq;
+using Sirenix.OdinInspector.Editor.GettingStarted;
 
 [CreateAssetMenu(menuName = "Blueprints/Rooms/Room Pool")]
 public class BattleRoomPoolAsset : SerializedScriptableObject
 {
-    public BattleRoomPool Value;
+    public List<BattleBlueprintAsset> Blueprints;
 }
+
 
 [Serializable]
 public class BattleRoomPool
 {
-    public List<BattleBlueprint> Earlyfloor;
-    public List<BattleBlueprint> Midfloor;
-    public List<BattleBlueprint> Endfloor;
+    public List<BattleBlueprint> Lists;
 
-    public BattleRoomPool(BattleRoomPoolAsset blueprint)
+    public BattleRoomPool(BattleRoomPoolAsset poolBlueprint)
     {
-        Earlyfloor = new List<BattleBlueprint>(blueprint.Value.Earlyfloor);
-        Midfloor = new List<BattleBlueprint>(blueprint.Value.Midfloor);
-        Endfloor = new List<BattleBlueprint>(blueprint.Value.Endfloor);
+        Lists = poolBlueprint.Blueprints.Select(blueprintAsset => blueprintAsset.Value).ToList();
     }
-
-    public BattleBlueprint GetBattleBlueprintAccordingToIndex(int index, int totalRoomCount)
+    public BattleBlueprint GetBattleBlueprintAccordingToIndex(int difficulty)
     {
-        float ratio = (float)index / totalRoomCount;
+        // Filter the list by difficulty
+        List<BattleBlueprint> filteredList = Lists.Where(asset => asset.Difficulty == difficulty).ToList();
 
-        // Determine the list based on the ratio
-        List<BattleBlueprint> selectedList;
-        if (ratio <= 1f / 3) // One third or less, select from Earlyfloor
+        // If there are no blueprints at the given difficulty, return null or handle accordingly
+        if (!filteredList.Any())
         {
-            selectedList = Earlyfloor;
-        }
-        else if (ratio <= 2f / 3) // Two thirds or less, select from Midfloor
-        {
-            selectedList = Midfloor;
-        }
-        else // More than two thirds, select from Endfloor
-        {
-            selectedList = Endfloor;
+            return null;
         }
 
-        // Ensure the selected list is not empty to avoid errors
-        if (selectedList.Count == 0)
-        {
-            Debug.LogError("Selected list is empty.");
-            return null; // Or handle this case as needed
-        }
+        // Select a random index from the filtered list
+        int blueprintIndex = UnityEngine.Random.Range(0, filteredList.Count);
 
-        // Select a random blueprint from the determined list
-        return selectedList[UnityEngine.Random.Range(0, selectedList.Count)];
+        // Get the selected BattleBlueprintAsset
+        BattleBlueprint selectedAsset = filteredList[blueprintIndex];
+
+        // Remove the selected asset from the original list to prevent re-selection
+        Lists.Remove(selectedAsset);
+
+        // Assuming BattleBlueprintAsset has a property Value of type BattleBlueprint
+        return selectedAsset;
     }
 }

@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,26 +14,56 @@ public class TreasureChest : MonoBehaviour
     private Vector3 _chestStartTransform;
     private SpriteRenderer _sr;
     private EventRegistry _events;
-    private PrefabRegistry _prefabs;
+    [SerializeField] private TreasureBlueprint TreasureBlueprint;
+    public Treasure Treasure {  get; private set; }
+
     void Awake()
     {
         _sr = GetComponent<SpriteRenderer>();
         _events = Locator.Events;
-        _prefabs = Locator.Prefabs;
         _chestStartTransform = transform.localPosition;
-        Fall();
     }
 
-    public void Fall()
+    public void Initialize()
+    {
+        Treasure = new Treasure(TreasureBlueprint);
+    }
+
+    public IEnumerator Fall()
     {
         _sr.sprite = closedSprite;
         transform.localPosition = _chestStartTransform;
-        transform.DOLocalMoveY(0, 1).SetEase(ease).OnComplete(() =>
-        {
-            _events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
-            _sr.sprite = openSprite;
-            Instantiate(_prefabs.BoosterPack);
-        });
+        yield return transform.DOLocalMoveY(0, 1).SetEase(ease).WaitForCompletion();
 
+        _events.ShakeScreen.Raise(this, CameraShakeTypes.Classic);
+        _sr.sprite = openSprite;
+
+        yield break;
     }
 }
+
+public class Treasure
+{
+    public List<TreasureItem> Items { get; private set; } = new();
+    public Treasure(TreasureBlueprint blueprint)
+    {
+        foreach(var itemBlueprint in  blueprint.Items)
+        {
+            Items.Add(itemBlueprint.InstantiateItem());
+        }
+    }
+}
+
+
+[Serializable]
+public class TreasureItem
+{
+    public TreasureItemType ItemType;
+    public int Amount;
+    public TreasureItem(TreasureItemType type, int amount)
+    {
+        ItemType = type;
+        Amount = amount;
+    }
+}
+

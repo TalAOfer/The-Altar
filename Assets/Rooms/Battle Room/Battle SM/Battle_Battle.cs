@@ -1,44 +1,60 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-internal class Battle_Battle : BaseBattleRoomState
+internal class Battle_Battle : BaseRoomState
 {
-    private bool IsEnemyOutOfCards => _ctx.EnemyCardManager.ActiveEnemies.Count == 0;
-    private bool IsPlayerOutOfCards => _ctx.PlayerCardManager.ActiveCards.Count == 0;
-
-    public Battle_Battle(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_Battle(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
+
+    private bool IsEnemyOutOfCards => _sm.EnemyCardManager.ActiveEnemies.Count == 0;
+    private bool IsPlayerOutOfCards => _sm.PlayerCardManager.ActiveCards.Count == 0;
+
 
     public override IEnumerator EnterState()
     {
 
-        yield return _ctx.BattleManager.BattleRoutine();
+        yield return _sm.BattleManager.BattleRoutine();
 
         if (IsEnemyOutOfCards)
         {
-            _ctx.SwitchState(new Base_OpenDoors(_ctx));
+            List<Coroutine> destructionRoutines = new();
+            List<Card> CardsToDestroy = new(_sm.PlayerCardManager.ActiveCards);
+
+            foreach (Card card in CardsToDestroy)
+            {
+                destructionRoutines.Add(_sm.StartCoroutine(card.DestroySelf()));
+            }
+
+            foreach (Coroutine routine in destructionRoutines)
+            {
+                yield return routine;
+            }
+        
+
+            SwitchTo(States.SpawnTreasure());
             yield break;
         }
 
         else if (IsPlayerOutOfCards)
         {
-            _ctx.SwitchState(_ctx.States.TakeRoomDamage());
+            SwitchTo(States.TakeRoomDamage());
             yield break;
         } 
         
         else
         {
-            _ctx.SwitchState(_ctx.States.Idle());
+            SwitchTo(States.Idle());
             yield break;
         }
     }
 
     public override IEnumerator ExitState()
     {
-        _ctx.Ctx.BattlingPlayerCard = null;
-        _ctx.Ctx.BattlingEnemyCard = null;
+        _ctx.BattlingPlayerCard = null;
+        _ctx.BattlingEnemyCard = null;
         yield return null;
     }
 }

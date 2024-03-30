@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 2939016573031674489}
   - component: {fileID: 2939016573031674494}
   - component: {fileID: 2939016573031674495}
-  - component: {fileID: 2939016573031674488}
-  - component: {fileID: 1010263963237927303}
-  - component: {fileID: 8570519533789758269}
   m_Layer: 0
   m_Name: Cardpack Prefab
   m_TagString: Untagged
@@ -101,110 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amountOfClicks: 3
-  xOffset: 2.5
-  amountOfCards: 3
-  cardLevelMinMax: {x: 1, y: 3}
   duration: 0.5
   ease: 8
   moveYAmount: 3
   floaty: {fileID: 11400000, guid: bbfce67848f80234eb9b36b85ab24020, type: 2}
   _loopType: 1
---- !u!114 &2939016573031674488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939016573031674490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8269f0675bc74f14fb44bcf6fa0f4410, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  test: 0
-  resetScale: 0
-  resetPosition: 0
-  testBlueprint: {fileID: 0}
---- !u!114 &1010263963237927303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939016573031674490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9e09fa15417beb49aa316a2c10572a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2939016573031674495}
-        m_TargetAssemblyTypeName: BoosterPack, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  animate: 1
-  _ClickReaction:
-    Animate: 1
-    Animation: {fileID: 11400000, guid: d3b342b5a0de34f4fa7e4dd553a615dc, type: 2}
-    ChangeSprite: 0
-    Sprite: {fileID: 0}
-    PlaySound: 0
-    soundEventName: 
-  _PointerDownReaction:
-    Animate: 0
-    Animation: {fileID: 0}
-    ChangeSprite: 0
-    Sprite: {fileID: 0}
-    PlaySound: 0
-    soundEventName: 
-  _PointerEnterReaction:
-    Animate: 0
-    Animation: {fileID: 0}
-    ChangeSprite: 0
-    Sprite: {fileID: 0}
-    PlaySound: 0
-    soundEventName: 
-  _PointerExitReaction:
-    Animate: 0
-    Animation: {fileID: 0}
-    ChangeSprite: 0
-    Sprite: {fileID: 0}
-    PlaySound: 0
-    soundEventName: 
-  disableAfterOneClick: 0
---- !u!61 &8570519533789758269
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939016573031674490}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0048390627, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 3.4375}
-    newSize: {x: 3, y: 3.4375}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.2547877, y: 3.205226}
-  m_EdgeRadius: 0

@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Battle_ApplyAbilityEffect : BaseBattleRoomState
+public class Battle_ApplyAbilityEffect : BaseRoomState
 {
-    Ability Ability => _ctx.Ctx.CurrentAbilitySelected;
-    List<Card> CardsSelected => _ctx.Ctx.CurrentCardsSelected;
-    List<Card> PlayerCards => _ctx.PlayerCardManager.ActiveCards;
-    List<Card> EnemyCards => _ctx.EnemyCardManager.ActiveEnemies;
-
-    public Battle_ApplyAbilityEffect(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_ApplyAbilityEffect(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
+
+    Ability Ability => _ctx.CurrentAbilitySelected;
+    List<Card> CardsSelected => _ctx.CurrentCardsSelected;
+    List<Card> PlayerCards => _sm.PlayerCardManager.ActiveCards;
+    List<Card> EnemyCards => _sm.EnemyCardManager.ActiveEnemies;
+
 
     public override IEnumerator EnterState()
     {
@@ -27,7 +28,7 @@ public class Battle_ApplyAbilityEffect : BaseBattleRoomState
 
         yield return Ability.Effect.Trigger(CardsSelected);
 
-        yield return _ctx.HandleAllShapeshiftsUntilStable();
+        yield return _sm.HandleAllShapeshiftsUntilStable();
 
         yield return Tools.GetWait(0.5f);
 
@@ -39,6 +40,6 @@ public class Battle_ApplyAbilityEffect : BaseBattleRoomState
 
         CardsSelected.Clear();
 
-        _ctx.SwitchState(_ctx.States.Idle());
+        _sm.SwitchState(_sm.States.Idle());
     }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Battle_TakeRoomDamage : BaseBattleRoomState
+public class Battle_TakeRoomDamage : BaseRoomState
 {
-    public Battle_TakeRoomDamage(BattleRoomStateMachine SM) : base(SM)
+    public Battle_TakeRoomDamage(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
 
@@ -12,9 +12,9 @@ public class Battle_TakeRoomDamage : BaseBattleRoomState
     {
         AttackPlayer();
 
-        if (_ctx.FloorCtx.RunData.PlayerHealth.Current > 0)
+        if (FloorCtx.RunData.PlayerHealth.Current > 0)
         {
-            _ctx.SwitchState(_ctx.States.DrawHand());
+            SwitchTo(States.DrawHand());
         }
 
         return base.EnterState();
@@ -22,13 +22,13 @@ public class Battle_TakeRoomDamage : BaseBattleRoomState
 
     private void AttackPlayer()
     {
-        List<Card> enemyCardsLeft = new(_ctx.EnemyCardManager.ActiveEnemies);
+        List<Card> enemyCardsLeft = new(_sm.EnemyCardManager.ActiveEnemies);
         int damage = 0;
         foreach (Card enemy in enemyCardsLeft)
         {
             damage += enemy.points;
         }
 
-        _ctx.FloorCtx.RunData.TakeGlobalDamage(damage);
+        FloorCtx.RunData.TakeGlobalDamage(damage);
     }
 }

@@ -9,21 +9,23 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     protected BattleRoomDataProvider data;
-    private BattleRoomStateMachine _ctx;
+    private RoomStateMachine _sm;
+    private SMContext _ctx;
     private EffectApplier _effectApplier;
-    protected Card EnemyCard => _ctx.Ctx.BattlingEnemyCard;
-    protected Card PlayerCard => _ctx.Ctx.BattlingPlayerCard;
+    protected Card EnemyCard => _ctx.BattlingEnemyCard;
+    protected Card PlayerCard => _ctx.BattlingPlayerCard;
 
     [FoldoutGroup("Dependencies")]
     [SerializeField] protected EventRegistry events;
     [FoldoutGroup("Dependencies")]
     [SerializeField] protected CardData cardData;
 
-    public void Initialize(BattleRoomStateMachine ctx)
+    public void Initialize(RoomStateMachine sm, SMContext ctx)
     {
+        _sm = sm;
         _ctx = ctx;
         _effectApplier = GetComponent<EffectApplier>();
-        data = _ctx.DataProvider;
+        data = _sm.DataProvider;
     }
 
     public virtual IEnumerator BattleRoutine()
@@ -43,7 +45,7 @@ public class BattleManager : MonoBehaviour
 
         yield return DeathPhase();
 
-        yield return _ctx.HandleAllShapeshiftsUntilStable();
+        yield return _sm.HandleAllShapeshiftsUntilStable();
     }
 
 
@@ -128,10 +130,10 @@ public class BattleManager : MonoBehaviour
                 destructionRoutines.Add(StartCoroutine(card.DestroySelf()));
             }
 
-            //foreach (Coroutine routine in destructionRoutines)
-            //{
-            //    yield return routine;
-            //}
+            foreach (Coroutine routine in destructionRoutines)
+            {
+                yield return routine;
+            }
 
             data.ReorderCards();
 
@@ -148,11 +150,5 @@ public class BattleManager : MonoBehaviour
 
     #endregion
 
-
-    #region Helpers
-
-    private bool DidEnemyCardDie => EnemyCard.PENDING_DESTRUCTION;
-    private bool DidPlayerCardDie => PlayerCard.PENDING_DESTRUCTION;
-    #endregion
 }
 

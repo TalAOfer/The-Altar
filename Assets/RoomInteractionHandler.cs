@@ -5,11 +5,11 @@ using UnityEngine.EventSystems;
 
 public class RoomInteractionHandler : CardInteractionHandler
 {
-    private BattleRoomStateMachine _ctx;
+    private RoomStateMachine _ctx;
 
     private void Awake()
     {
-        _ctx = GetComponentInParent<BattleRoomStateMachine>();
+        _ctx = GetComponentInParent<RoomStateMachine>();
     }
     public override void HandleDrag()
     {

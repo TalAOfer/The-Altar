@@ -3,10 +3,10 @@
 [Serializable]
 public class FloorLevel
 {
-    public void InitializeRooms(int totalRoomNumber, int index, BattleRoomPool battlePool)
+    public void InitializeRooms(BattleRoomPool battlePool)
     {
-        LeftRoom.InitializeRoom(totalRoomNumber, index, battlePool);
-        RightRoom.InitializeRoom(totalRoomNumber, index, battlePool);
+        LeftRoom.InitializeRoom(battlePool);
+        RightRoom.InitializeRoom(battlePool);
     }
 
     public Room LeftRoom;

@@ -7,10 +7,8 @@ using UnityEngine;
 public class PrefabRegistry : ScriptableObject
 {
     public GameObject Card;
-
-    #region Rooms
-    public GameObject BattleRoom;
-    #endregion
+    public GameObject Room;
+    public GameObject Title;
 
     #region Treasure
 

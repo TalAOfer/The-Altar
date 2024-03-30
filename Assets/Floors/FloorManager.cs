@@ -73,16 +73,7 @@ public class FloorManager : MonoBehaviour
 
     public RoomStateMachine SpawnRoomByType(RoomType roomType)
     {
-        GameObject roomPrefab = null;
-
-        switch (roomType)
-        {
-            case RoomType.Battle:
-                roomPrefab = _prefabs.BattleRoom;
-                break;
-        }
-
-        GameObject roomGo = Instantiate(roomPrefab, _newRoomSpawnPosition, Quaternion.identity, transform);
+        GameObject roomGo = Instantiate(_prefabs.Room, _newRoomSpawnPosition, Quaternion.identity, transform);
         RoomStateMachine room = roomGo.GetComponent<RoomStateMachine>();
         return room;
     }

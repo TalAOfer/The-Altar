@@ -23,9 +23,9 @@ public class CardSpawner : MonoBehaviour
 
 
 
-    public Card SpawnCard(CardBlueprint cardBlueprint, Vector3 position, string sortingLayerName, CardInteractionType cardType, Codex codex = null, BattleRoomDataProvider dataProvider = null)
+    public Card SpawnCard(CardBlueprint cardBlueprint, Vector3 position, Transform parent, string sortingLayerName, CardInteractionType cardType, Codex codex = null, BattleRoomDataProvider dataProvider = null)
     {
-        GameObject cardGO = Instantiate(_prefabRegistry.Card, position, Quaternion.identity, transform);
+        GameObject cardGO = Instantiate(_prefabRegistry.Card, position, Quaternion.identity, parent);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
         card.Init(codex, cardBlueprint, sortingLayerName, cardType, dataProvider);

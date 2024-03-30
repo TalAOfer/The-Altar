@@ -4,13 +4,15 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Battle_CardSelected : BaseBattleRoomState
+public class Battle_CardSelected : BaseRoomState
 {
-    private Card CurrentlySelectedCard => _ctx.Ctx.CurrentActorCard;
-    private Card CardClicked => _ctx.Ctx.CardClicked;
-    public Battle_CardSelected(BattleRoomStateMachine ctx) : base(ctx)
+    public Battle_CardSelected(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
+
+    private Card CurrentlySelectedCard => _ctx.CurrentActorCard;
+    private Card CardClicked => _ctx.CardClicked;
+
 
     public override IEnumerator EnterState()
     {
@@ -19,43 +21,43 @@ public class Battle_CardSelected : BaseBattleRoomState
 
         if (isACardCurrentlySelected)
         {
-            _ctx.DemarkCardAsSelected(CurrentlySelectedCard);
+            _sm.DemarkCardAsSelected(CurrentlySelectedCard);
 
             bool isClickedCardIsCurrentlySelected = CardClicked == CurrentlySelectedCard;
 
             if (isClickedCardIsCurrentlySelected)
             {
-                _ctx.Ctx.CurrentActorCard = null;
-                _ctx.SwitchState(_ctx.States.Idle());
+                _ctx.CurrentActorCard = null;
+                SwitchTo(States.Idle());
             } 
             
             else
             {
-                _ctx.Ctx.CurrentActorCard = CardClicked;
+                _ctx.CurrentActorCard = CardClicked;
             }
         }
 
         else
         {
-            _ctx.MarkCardAsSelected(CardClicked);
-            _ctx.Ctx.CurrentActorCard = CardClicked;
+            _sm.MarkCardAsSelected(CardClicked);
+            _ctx.CurrentActorCard = CardClicked;
         }
 
-        _ctx.Ctx.CardClicked = null;
+        _ctx.CardClicked = null;
 
         return base.EnterState();
     }
 
     public override void HandlePlayerCardPointerEnter(Card card, PointerEventData eventData)
     {
-        _ctx.Events.ShowTooltip.Raise(_ctx, card);
+        Events.ShowTooltip.Raise(_sm, card);
 
         card.movement.Highlight();
     }
 
     public override void HandlePlayerCardPointerExit(Card card, PointerEventData eventData)
     {
-        _ctx.Events.HideTooltip.Raise(_ctx, card);
+        Events.HideTooltip.Raise(_sm, card);
 
         bool isThisCardSelected = CurrentlySelectedCard == card;
         if (isThisCardSelected) return;
@@ -65,21 +67,21 @@ public class Battle_CardSelected : BaseBattleRoomState
 
     public override void HandlePlayerCardPointerClick(Card cardClicked, PointerEventData eventData)
     {
-        _ctx.Ctx.CardClicked = cardClicked;
+        _ctx.CardClicked = cardClicked;
 
-        _ctx.SwitchState(_ctx.States.CardSelected());
+        SwitchTo(States.CardSelected());
     }
 
     public override void HandlePlayerCardBeginDrag(Card cardDragged, PointerEventData eventData)
     {
-        _ctx.Ctx.CardClicked = cardDragged;
+        _ctx.CardClicked = cardDragged;
 
-        _ctx.SwitchState(_ctx.States.CardSelected());
+        SwitchTo(States.CardSelected());
     }
 
     public override void OnHandColliderPointerExit(HandCollisionDetector HandCollisionManager, PointerEventData data)
     {
-        _ctx.SwitchState(_ctx.States.CardSearchTarget());
+        SwitchTo(States.CardSearchTarget());
     }
 
 

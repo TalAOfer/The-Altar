@@ -17,7 +17,7 @@ public class Floor
 
         for (int i = 0; i < Levels.Count; i++)
         {
-            Levels[i].InitializeRooms(i, Levels.Count, BattlePool);
+            Levels[i].InitializeRooms(BattlePool);
         }
     }
 }

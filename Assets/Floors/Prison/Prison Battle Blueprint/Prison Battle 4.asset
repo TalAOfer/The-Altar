@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f57c829acc57c408541f9ac4631434, type: 3}
   m_Name: Prison Battle 4
   m_EditorClassIdentifier: 
-  codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
-  cards:
-  - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
-  - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
-  - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+  Value:
+    codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+    Difficulty: 0
+    cards:
+    - {fileID: 11400000, guid: d1eb7400b3b8c3f499e05689c48f7493, type: 2}

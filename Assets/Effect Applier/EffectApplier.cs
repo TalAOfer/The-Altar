@@ -68,6 +68,11 @@ public class EffectApplier : MonoBehaviour
     {
         EffectNode effectNode = (EffectNode)data;
 
+        if (effectNode.Effect.EffectTrigger.TriggerType is TriggerType.GlobalDeath)
+        {
+            Debug.Log("Got to applier");
+        }
+
         EffectNode currentNode = effectNodeStack.Count > 0 ? effectNodeStack.Peek() : null;
 
         if (currentNode != null)

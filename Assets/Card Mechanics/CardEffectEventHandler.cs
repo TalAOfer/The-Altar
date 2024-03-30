@@ -37,7 +37,7 @@ public class CardEffectEventHandler : MonoBehaviour
     {
         _handler.TriggerEffects(TriggerType.SelfDamage, damageData);
 
-        if (_card.PENDING_DESTRUCTION)
+        if (_card.FATALLY_WOUNDED)
         {
             _handler.TriggerEffects(TriggerType.SelfLethalDamage, damageData);
         }
@@ -52,7 +52,7 @@ public class CardEffectEventHandler : MonoBehaviour
     {
         _handler.TriggerEffects(TriggerType.GlobalDamage, damageData);
 
-        if (_card.PENDING_DESTRUCTION)
+        if (_card.FATALLY_WOUNDED)
         {
             _handler.TriggerEffects(TriggerType.GlobalLethalDamage, damageData);
         }
