@@ -45,7 +45,8 @@ public class RoomStateMachine : MonoBehaviour
         DataProvider = new BattleRoomDataProvider(this, _ctx);
 
         _room = room;
-        BattleBlueprint = room.BattleBlueprint;
+        if (room.Type is RoomType.Battle)
+            BattleBlueprint = FloorCtx.Floor.BattlePool.GetBattleBlueprintAccordingToIndex(room.Difficulty);
 
         BattleManager = GetComponentInChildren<BattleManager>();
         if (BattleManager != null) BattleManager.Initialize(this, _ctx);

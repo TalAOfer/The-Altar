@@ -19,9 +19,7 @@ MonoBehaviour:
     points: 1
     color: 1
   Affinity: 1
-  Description: 'Taunt.
-
-    This card starts with 1 Armor.'
+  Description: This card starts with 1 Armor.
   SpecialEffects: 2
   Effects:
   - UseAsset: 0

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8f57c829acc57c408541f9ac4631434, type: 3}
-  m_Name: Prison Battle 2
+  m_Name: Prison Battle 1B
   m_EditorClassIdentifier: 
   Value:
     codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
-    Difficulty: 0
+    Difficulty: 1
     cards:
-    - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
     - {fileID: 11400000, guid: 315d67634bc19864899c48244dbe75ad, type: 2}
+    - {fileID: 11400000, guid: 04b1d93140a4c93458f9ff804805a6b5, type: 2}

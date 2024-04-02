@@ -6,7 +6,6 @@ public class PlayerCardManager : MonoBehaviour
 {
     private RoomStateMachine _ctx;
     [field: SerializeField] public List<Card> ActiveCards { get; private set; } = new();
-    private GameObject _cardPrefab;
     public HandManager Hand { get; private set; }
     [SerializeField] private Transform _cardSpawnPosition;
     private RunData _runData;
@@ -17,7 +16,6 @@ public class PlayerCardManager : MonoBehaviour
     {
         Hand = GetComponentInChildren<HandManager>();
         _runData = Locator.RunData;
-        _cardPrefab = Locator.Prefabs.Card;
     }
 
     public void Initialize(RoomStateMachine ctx)
@@ -61,9 +59,6 @@ public class PlayerCardManager : MonoBehaviour
         CardBlueprint blueprint = Codex.GetCardOverride(archetype);
         SpawnCardToHandByBlueprint(blueprint);
     }
-
-
-
     public IEnumerator DrawCardsToHand(int amount)
     {
         if (amount <= 0) yield break;

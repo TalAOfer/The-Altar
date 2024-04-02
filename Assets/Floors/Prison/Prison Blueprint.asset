@@ -14,84 +14,174 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyCodexBlueprint: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
   BattleRoomPool: {fileID: 11400000, guid: d58a157084896d34082a70de04dfaf31, type: 2}
+  FirstRoom:
+    Type: 5
+    BattleBlueprint:
+      codex: {fileID: 0}
+      Difficulty: 0
+      cards: []
+    Difficulty: 1
+    Reward: 0
+    AmountOfOptions: 0
   Levels:
   - LeftRoom:
       Type: 1
-      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
-      Reward: 1
-      AmountOfOptions: 0
-    RightRoom:
-      Type: 1
-      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
-      Reward: 2
-      AmountOfOptions: 0
-  - LeftRoom:
-      Type: 1
-      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 6618d94e442059f4599e5fc17126d37a, type: 2}
+        - {fileID: 11400000, guid: 6618d94e442059f4599e5fc17126d37a, type: 2}
+      Difficulty: 1
       Reward: 0
       AmountOfOptions: 0
     RightRoom:
       Type: 1
-      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+        - {fileID: 11400000, guid: 08e2a45ed4a386d4587a63d8c1eec62a, type: 2}
+      Difficulty: 1
       Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
       Type: 1
-      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 315d67634bc19864899c48244dbe75ad, type: 2}
+        - {fileID: 11400000, guid: 04b1d93140a4c93458f9ff804805a6b5, type: 2}
+      Difficulty: 1
       Reward: 0
       AmountOfOptions: 0
     RightRoom:
       Type: 1
-      BattleBlueprint: {fileID: 11400000, guid: 3711081c4f510424b8a15a95bdceb480, type: 2}
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 11e6ccdf9b0d01f46a8c75c3bf97f80a, type: 2}
+      Difficulty: 1
       Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 2
+        cards:
+        - {fileID: 11400000, guid: d1eb7400b3b8c3f499e05689c48f7493, type: 2}
+        - {fileID: 11400000, guid: 206a070410c718c4d917bee8a60b9b5f, type: 2}
+      Difficulty: 1
       Reward: 0
       AmountOfOptions: 0
     RightRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+        - {fileID: 11400000, guid: 206a070410c718c4d917bee8a60b9b5f, type: 2}
+      Difficulty: 1
       Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 2
+        cards:
+        - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+        - {fileID: 11400000, guid: 11e6ccdf9b0d01f46a8c75c3bf97f80a, type: 2}
+        - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+      Difficulty: 2
       Reward: 0
       AmountOfOptions: 0
     RightRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+        - {fileID: 11400000, guid: 315d67634bc19864899c48244dbe75ad, type: 2}
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+      Difficulty: 2
       Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 2
+        cards:
+        - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+        - {fileID: 11400000, guid: 11e6ccdf9b0d01f46a8c75c3bf97f80a, type: 2}
+        - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+      Difficulty: 2
       Reward: 0
       AmountOfOptions: 0
     RightRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+        - {fileID: 11400000, guid: 315d67634bc19864899c48244dbe75ad, type: 2}
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+      Difficulty: 2
       Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 2
+        cards:
+        - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+        - {fileID: 11400000, guid: 11e6ccdf9b0d01f46a8c75c3bf97f80a, type: 2}
+        - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+      Difficulty: 2
       Reward: 0
       AmountOfOptions: 0
     RightRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+        - {fileID: 11400000, guid: 315d67634bc19864899c48244dbe75ad, type: 2}
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+      Difficulty: 2
       Reward: 0
       AmountOfOptions: 0
   - LeftRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 2
+        cards:
+        - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+        - {fileID: 11400000, guid: 11e6ccdf9b0d01f46a8c75c3bf97f80a, type: 2}
+        - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+      Difficulty: 2
       Reward: 0
       AmountOfOptions: 0
     RightRoom:
-      Type: 0
-      BattleBlueprint: {fileID: 0}
+      Type: 1
+      BattleBlueprint:
+        codex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+        Difficulty: 1
+        cards:
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+        - {fileID: 11400000, guid: 315d67634bc19864899c48244dbe75ad, type: 2}
+        - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+      Difficulty: 2
       Reward: 0
       AmountOfOptions: 0

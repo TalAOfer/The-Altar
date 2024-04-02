@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EffectApplier : MonoBehaviour
 {
-    public EffectNode RootEffectNode {  get; private set; }
+    public EffectNode RootEffectNode { get; private set; }
 
     public delegate void EffectsCompletedHandler();
     public event EffectsCompletedHandler OnEffectsCompleted;
@@ -32,6 +32,7 @@ public class EffectApplier : MonoBehaviour
     private IEnumerator ExecuteEffectSequence(EffectNode effectNode)
     {
         if (effectNode == null) yield break;
+        if (effectNode.Effect != null && effectNode.Effect.ParentCard.DESTROYING) yield break;
 
         effectNodeStack.Push(effectNode);
 

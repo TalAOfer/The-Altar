@@ -62,7 +62,7 @@ MonoBehaviour:
       replacePlaceholders: 1
       TargetPool: 3
       TargetStrategy: 1
-      FilterSelfFromTargets: 0
+      FilterSelfFromTargets: 1
       AmountOfTargets: 1
       ShouldFilterTargets: 0
       TargetFilterBlueprint:

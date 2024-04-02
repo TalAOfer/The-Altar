@@ -18,6 +18,7 @@ public class EffectTypeAsset : ScriptableObject
     public bool NeedsArchetype;
     public string BaseEffectText;
     public EffectTypeArchetype TypeArchetype;
+    public bool AnimateFlashoutWhenGranted;
 
     [ShowIf("TypeArchetype", EffectTypeArchetype.Grantable)]
     public string GrantVerb = "grant";

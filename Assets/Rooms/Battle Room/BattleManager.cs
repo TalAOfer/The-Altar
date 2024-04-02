@@ -96,6 +96,7 @@ public class BattleManager : MonoBehaviour
         do
         {
             List<Card> pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
+            Debug.Log(pendingDestruction.Count);
 
             if (pendingDestruction.Count <= 0) yield break;
 
@@ -116,12 +117,16 @@ public class BattleManager : MonoBehaviour
                 card.effects.TriggerEffects(TriggerType.LastBreath, null);
             }
 
-            yield return Tools.GetWait(0.05f);
+            yield return Tools.GetWait(0.1f);
 
             if (_effectApplier.RootEffectNode != null)
             {
                 yield return new WaitUntil(() => effectsCompleted);
             }
+
+            yield return Tools.GetWait(0.25f);
+
+            pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
 
             List<Coroutine> destructionRoutines = new();
 
@@ -137,7 +142,7 @@ public class BattleManager : MonoBehaviour
 
             data.ReorderCards();
 
-            moreCardsPendingDestruction = data.GetAllActiveCards().Any(card => card.PENDING_DESTRUCTION && card.gameObject.activeSelf);
+            moreCardsPendingDestruction = data.GetAllActiveCards().Any(card => card.PENDING_DESTRUCTION);
 
         } while (moreCardsPendingDestruction);
     }

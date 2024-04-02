@@ -6,7 +6,6 @@ public class CardEffectEventHandler : MonoBehaviour
 {
     private Card _card;
     private CardEffectHandler _handler;
-    //private CardEffectBlueprint _effect;
 
     private void Awake()
     {

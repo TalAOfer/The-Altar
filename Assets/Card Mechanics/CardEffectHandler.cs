@@ -12,9 +12,8 @@ public class CardEffectHandler : SerializedMonoBehaviour
     [ShowInInspector]
     public Dictionary<EffectTriggerAsset, List<Effect>> EffectsDict { get; private set; } = new();
 
-    public void Init(CardBlueprint blueprint)
+    public void Awake()
     {
-        InstantiateDefaultCardEffects(blueprint);
         _events = Locator.Events;
     }
 
@@ -102,6 +101,7 @@ public class CardEffectHandler : SerializedMonoBehaviour
         {
             foreach (Effect effect in allEffects)
             {
+                if (!effect.IsTriggerable()) continue;
                 if (effect.TriggerFilter == null || effect.TriggerFilter.Decide(_card, eventData))
                 {
                     EffectNode effectNode = new(effect, eventData, null);

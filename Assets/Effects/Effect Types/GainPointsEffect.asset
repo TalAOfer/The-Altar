@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 4
   NeedsTarget: 1
+  TargetOnlyAliveCards: 0
   NeedsAmount: 1
   NeedsArchetype: 0
   BaseEffectText: '{targetVerb} +{amount}'
   TypeArchetype: 0
+  AnimateFlashoutWhenGranted: 1
   GrantVerb: grant
   GainVerb: gain

@@ -60,10 +60,12 @@ public class TreasureItem
 {
     public TreasureItemType ItemType;
     public int Amount;
-    public TreasureItem(TreasureItemType type, int amount)
+    public Vector2Int MinMax;
+    public TreasureItem(TreasureItemType type, int amount, Vector2Int minMax)
     {
         ItemType = type;
         Amount = amount;
+        MinMax = minMax;
     }
 }
 

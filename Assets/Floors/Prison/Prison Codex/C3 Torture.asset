@@ -19,7 +19,7 @@ MonoBehaviour:
     points: 3
     color: 0
   Affinity: 1
-  Description: 'Retaliate: Swap all your cards to red.'
+  Description: 'Retaliate: Turn all enemy cards red.'
   SpecialEffects: 0
   Effects:
   - UseAsset: 0
@@ -66,11 +66,11 @@ MonoBehaviour:
       AmountOfTargets: 1
       ShouldFilterTargets: 1
       TargetFilterBlueprint:
-        ShouldFilter: 0
+        ShouldFilter: 1
         Filter:
-          DecisionType: 0
+          DecisionType: 8
           PredefinedColor: 0
-          AffinityComparison: 0
+          AffinityComparison: 1
           PredefinedParity: 0
       IsPersistent: 0
       amountStrategy: 0

@@ -30,11 +30,7 @@ public class FloorManager : MonoBehaviour
         Floor = new Floor(_floorBlueprint);
         EnemyCodex = new Codex(_enemyCodexBlueprint);
 
-        currentRoom.Initialize(this, new Room(RoomType.First, RewardType.Nothing));
-    }
-
-    public void InitializeRoomStateMachine()
-    {
+        currentRoom.Initialize(this, Floor.FirstRoom);
         currentRoom.InitializeStateMachine();
     }
 
@@ -47,7 +43,7 @@ public class FloorManager : MonoBehaviour
     {
         CurrentRoomIndex++;
 
-        RoomStateMachine newRoom = SpawnRoomByType(roomBlueprint.Type);
+        RoomStateMachine newRoom = SpawnRoom();
 
         newRoom.Initialize(this, roomBlueprint);
 
@@ -71,7 +67,7 @@ public class FloorManager : MonoBehaviour
         return swipeSequence;
     }
 
-    public RoomStateMachine SpawnRoomByType(RoomType roomType)
+    public RoomStateMachine SpawnRoom()
     {
         GameObject roomGo = Instantiate(_prefabs.Room, _newRoomSpawnPosition, Quaternion.identity, transform);
         RoomStateMachine room = roomGo.GetComponent<RoomStateMachine>();

@@ -15,5 +15,10 @@ MonoBehaviour:
   Items:
   - ItemType: 0
     MinMaxAmount: {x: 4, y: 10}
+    MinMaxDrawability: {x: 0, y: 0}
   - ItemType: 1
-    MinMaxAmount: {x: 1, y: 1}
+    MinMaxAmount: {x: 3, y: 3}
+    MinMaxDrawability: {x: 1, y: 1}
+  - ItemType: 1
+    MinMaxAmount: {x: 3, y: 3}
+    MinMaxDrawability: {x: 2, y: 3}

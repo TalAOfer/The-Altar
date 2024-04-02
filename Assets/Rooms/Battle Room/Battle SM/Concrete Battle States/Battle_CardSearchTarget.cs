@@ -17,6 +17,7 @@ public class Battle_CardSearchTarget : BaseRoomState
     {
         HighlightAttackableTargets();
         Events.EnableBezierArrow.Raise(_sm, TargetSeekingCard);
+        TargetSeekingCard.CalculateDamage();
         TargetSeekingCard.visualHandler.EnableDamageVisual();
         return base.EnterState();
     }

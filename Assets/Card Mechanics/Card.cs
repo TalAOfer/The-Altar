@@ -57,6 +57,7 @@ public class Card : MonoBehaviour
 
     private HigherBeing higherBeing = new(false, 0);
 
+    public bool HasTakenDamageThisTurn { get; private set; }
     public bool Targetable;
     public bool Taunt;
     public int Armor { get; private set; } = 0;
@@ -85,21 +86,55 @@ public class Card : MonoBehaviour
         points = blueprint.Archetype.points;
 
         Targetable = true;
-
-        higherBeing = new HigherBeing(blueprint.SpecialEffects.HasFlag(SpecialEffects.HigherBeing), 0);
-        Taunt = blueprint.SpecialEffects.HasFlag(SpecialEffects.Taunt);
-
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
-
-        effects.Init(blueprint);
 
         visualHandler.Init(blueprint, startingSortingLayer);
 
+        OnChange();
+
         _events = Locator.Events;
+    }
+
+    public void OnChange()
+    {
+        gameObject.name = Mask.name;
+
+        higherBeing = new HigherBeing(Mask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing), 0);
+        Taunt = Mask.SpecialEffects.HasFlag(SpecialEffects.Taunt);
+
+        effects.InstantiateDefaultCardEffects(Mask);
+
         if (cardInteractionType is CardInteractionType.Playable)
         {
             StartCoroutine(effects.ApplyEffects(TriggerType.OnChange, null));
         }
+    }
+
+    public bool ShouldShapeshift()
+    {
+        return !FATALLY_WOUNDED && Mask != GetCurrentMask();
+    }
+
+    public IEnumerator HandleShapeshift()
+    {
+        if (!ShouldShapeshift()) yield break;
+        else yield return StartCoroutine(Shapeshift());
+    }
+
+    public IEnumerator Shapeshift()
+    {
+        CardBlueprint newMask = GetCurrentMask();
+        Mask = newMask;
+
+        Tools.PlaySound("Shapeshift", transform);
+        yield return visualHandler.ToggleSpritesVanish(true);
+        visualHandler.SetNewCardVisual();
+        yield return StartCoroutine(effects.RemoveAllEffects());
+        ResetPointAlterations();
+
+        OnChange();
+
+        yield return visualHandler.ToggleSpritesVanish(false);
     }
 
     public CardBlueprint GetCurrentMask()
@@ -179,6 +214,8 @@ public class Card : MonoBehaviour
 
         _events.OnDamage.Raise(this, new AmountEventData(this, inflictor, damage));
 
+        HasTakenDamageThisTurn = true;
+
         return damage;
     }
 
@@ -193,6 +230,8 @@ public class Card : MonoBehaviour
     public void GainMight(int amount)
     {
         Might += amount;
+
+        visualHandler.HandleMightVisual();
     }
     public BattleAmountModifier GetCurrentMight()
     {
@@ -249,40 +288,6 @@ public class Card : MonoBehaviour
         visualHandler.SetNumberSprites();
     }
 
-    public bool ShouldShapeshift()
-    {
-        return !FATALLY_WOUNDED && Mask != GetCurrentMask();
-    }
-
-    public IEnumerator HandleShapeshift()
-    {
-        if (!ShouldShapeshift()) yield break;
-        else yield return StartCoroutine(Shapeshift());
-    }
-
-    public IEnumerator Shapeshift()
-    {
-        CardBlueprint newMask = GetCurrentMask();
-
-        if (Mask != newMask)
-        {
-            Mask = newMask;
-        }
-
-        Tools.PlaySound("Shapeshift", transform);
-        yield return visualHandler.ToggleSpritesVanish(true);
-        visualHandler.SetNewCardVisual();
-        gameObject.name = newMask.name;
-        higherBeing.isLocked = newMask.SpecialEffects.HasFlag(SpecialEffects.HigherBeing);
-        yield return StartCoroutine(effects.RemoveAllEffects());
-        ResetPointAlterations();
-        effects.InstantiateDefaultCardEffects(newMask);
-        yield return visualHandler.ToggleSpritesVanish(false);
-
-        yield return effects.ApplyEffects(TriggerType.OnChange, null);
-
-    }
-
     public IEnumerator DestroySelf()
     {
         DESTROYING = true;
@@ -313,6 +318,11 @@ public class Card : MonoBehaviour
         {
             cardState = newState;
         }
+    }
+
+    public void ResetTurnVariables()
+    {
+        HasTakenDamageThisTurn = false;
     }
 }
 

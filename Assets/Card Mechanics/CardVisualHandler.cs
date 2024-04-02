@@ -42,6 +42,11 @@ public class CardVisualHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI armorAmount;
     private bool isArmorActive;
     [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private GameObject mightVisualizer;
+    [FoldoutGroup("Damage Visualizer")]
+    [SerializeField] private TextMeshProUGUI mightAmount;
+    private bool isMightActive;
+    [FoldoutGroup("Damage Visualizer")]
     [SerializeField] private List<Sprite> slashAnimationSprites;
     [FoldoutGroup("Damage Visualizer")]
     [SerializeField] private float slashAnimationIntervals = 0.1f;
@@ -274,6 +279,22 @@ public class CardVisualHandler : MonoBehaviour
         {
             isArmorActive = false;
             armorVisualizer.SetActive(false);
+        }
+    }
+
+    public void HandleMightVisual()
+    {
+        mightAmount.text = card.Might.ToString();
+
+        if (!isMightActive && card.Might > 0)
+        {
+            isMightActive = true;
+            mightVisualizer.SetActive(true);
+        }
+        else if (isMightActive && card.Might == 0)
+        {
+            isMightActive = false;
+            mightVisualizer.SetActive(false);
         }
     }
 

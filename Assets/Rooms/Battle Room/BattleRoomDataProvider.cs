@@ -86,7 +86,7 @@ public class BattleRoomDataProvider
         targets.RemoveAll(card =>
         (filterSelfFromTargets && card == parentCard) ||
         (isThereASpecialFilter && !filter.Decide(parentCard, new NormalEventData(card))) ||
-        (shouldFilterMortallyWounded && card.PENDING_DESTRUCTION));
+        (shouldFilterMortallyWounded && card.FATALLY_WOUNDED));
 
         switch (targetStrategy)
         {

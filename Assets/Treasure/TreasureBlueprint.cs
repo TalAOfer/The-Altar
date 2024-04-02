@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,10 +20,12 @@ public class TreasureItemBlueprint
 {
     public TreasureItemType ItemType;
     public Vector2Int MinMaxAmount;
+    [ShowIf("ItemType", TreasureItemType.Pack)]
+    public Vector2Int MinMaxDrawability;
 
     public TreasureItem InstantiateItem()
     {
         int amount = UnityEngine.Random.Range(MinMaxAmount.x, MinMaxAmount.y + 1);
-        return new TreasureItem(ItemType, amount);
+        return new TreasureItem(ItemType, amount, MinMaxDrawability);
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   isDefault: 0
   cardName: 
   Archetype:
-    points: 0
+    points: 3
     color: 0
   Affinity: 0
   Description: 'Last Breath: summon 2 One of Spades.'

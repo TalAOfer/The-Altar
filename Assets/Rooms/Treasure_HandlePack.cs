@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class Treasure_HandlePack : BaseRoomState
 {
     Treasure Treasure => _ctx.currentTreasureChest.Treasure;
-    TreasureItem Pack => Treasure.Items[0];
+    TreasureItem Pack;
 
     MetaPoolInstance PlayerPool => RunData.playerPool;
 
@@ -23,6 +23,7 @@ public class Treasure_HandlePack : BaseRoomState
 
     public override IEnumerator EnterState()
     {
+        Pack = Treasure.Items[0];
         Treasure.Items.RemoveAt(0);
         GameObject packGO = _sm.InstantiatePrefab(Prefabs.BoosterPack, _ctx.currentTreasureChest.transform.position, Quaternion.identity, _ctx.currentTreasureChest.transform);
         _pack = packGO.GetComponent<BoosterPack>();
@@ -33,9 +34,12 @@ public class Treasure_HandlePack : BaseRoomState
 
     private IEnumerator SpawnCards()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < Pack.Amount; i++)
         {
-            CardBlueprint cardBlueprint = PlayerPool.GetRandomCardByPoints(1, 3, null);
+            Debug.Log("Amount of cards: " + Pack.Amount);
+            Debug.Log("Min: " + Pack.MinMax.x + "Max: " + Pack.MinMax.y);
+
+            CardBlueprint cardBlueprint = PlayerPool.GetRandomCardByPoints(Pack.MinMax.x, Pack.MinMax.y, null);
             Card card = CardSpawner.Instance.SpawnCard(cardBlueprint, _pack.transform.position, _sm.transform, GameConstants.PLAYER_CARD_LAYER,
             CardInteractionType.Selection, null, null);
             card.transform.SetParent(_ctx.currentTreasureChest.transform, false);
@@ -82,6 +86,11 @@ public class Treasure_HandlePack : BaseRoomState
             if (card == clickedCard)
             {
                 RunData.playerCodex.OverrideCard(card.Mask);
+            }
+            
+            else
+            {
+                RunData.playerPool.ReturnBlueprintToPool(card.Mask);
             }
 
             card.StartCoroutine(card.DestroySelf());

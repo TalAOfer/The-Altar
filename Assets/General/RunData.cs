@@ -9,7 +9,9 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
 {
     [ShowInInspector]
     [ReadOnly]
-    public PlayerHealth PlayerHealth { get; private set; } = new(100);
+    public PlayerHealth PlayerHealth { get; private set; }
+    public int DefaultMaxHealth = 20;
+    public int Money { get; private set; } 
 
     public CodexBlueprint playerCodexRecipe;
     public MetaPoolRecipe playerPoolRecipe;
@@ -29,7 +31,8 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
     [FoldoutGroup("Runtime Data")]
     [ReadOnly]
     public MetaPoolInstance playerPool;
-
+    
+    #region Initialization
     public void Initialize()
     {
         if (isInitialized) return;
@@ -41,6 +44,7 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
 
         isInitialized = true;
     }
+
 
     private void InitializePlayerDeck()
     {
@@ -58,6 +62,9 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
         playerPool.Initialize(playerPoolRecipe);
     }
 
+    #endregion
+
+    #region Health
     public void TakeGlobalDamage(int damage)
     {
         int newHealth = PlayerHealth.Current - damage;
@@ -75,12 +82,13 @@ public class RunData : ScriptableObject, IResetOnPlaymodeExit
         events.UpdateHealth.Raise(null, PlayerHealth);
     }
 
-
     private void ResetPlayerHealth()
     {
-        SetHealth(100);
-        SetMaxHealth(100);
+        SetHealth(DefaultMaxHealth);
+        SetMaxHealth(DefaultMaxHealth);
     }
+
+    #endregion
 
     public void PlaymodeExitReset()
     {

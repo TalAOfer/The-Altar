@@ -17,7 +17,7 @@ public abstract class Effect
     //Target Acquiry 
     public EffectTargetPool EffectTargetPool { get; private set; }
     public EffectTargetStrategy EffectTargetStrategy { get; private set; }
-    public bool FilterSelfFromTargets {  get; private set; }
+    public bool FilterSelfFromTargets { get; private set; }
     public int AmountOfTargets { get; private set; }
     public NormalEventFilter TargetFilter { get; private set; }
 
@@ -51,6 +51,8 @@ public abstract class Effect
 
             if (EffectTrigger != null)
             {
+                if (EffectTrigger.TriggerType is TriggerType.Bloodthirst) IsFrozenTillEndOfTurn = true;
+
                 switch (EffectTrigger.TriggerArchetype)
                 {
                     case TriggerArchetype.LocalNormalEvents:
@@ -75,6 +77,21 @@ public abstract class Effect
         }
     }
 
+    public bool IsTriggerable()
+    {
+        if (IsFrozenTillEndOfTurn) 
+        {
+            return false; 
+        }
+        
+        if (EffectTrigger.TriggerType is TriggerType.Bloodthirst && ParentCard.HasTakenDamageThisTurn)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public virtual IEnumerator Trigger(List<Card> predefinedTargets = null, IEventData eventData = null)
     {
         if (EffectTrigger != null && EffectTrigger.IsOnePerTurn) this.IsFrozenTillEndOfTurn = true;
@@ -97,9 +114,9 @@ public abstract class Effect
                     ParentCard.visualHandler.Animate("Jiggle");
                     ParentCard.visualHandler.Animate("FlashOut");
                 }
-                yield return Tools.GetWait(1f);
             }
 
+            yield return Tools.GetWait(0.5f);
             yield return ApplyEffectOnTargets(validTargetCards);
         }
     }
@@ -113,6 +130,11 @@ public abstract class Effect
     {
         foreach (var targetCard in targetCards)
         {
+            if (EffectTypeAsset != null && EffectTypeAsset.AnimateFlashoutWhenGranted)
+            {
+                targetCard.visualHandler.Animate("FlashOut");
+            }
+
             yield return ApplyEffect(targetCard);
         }
     }
