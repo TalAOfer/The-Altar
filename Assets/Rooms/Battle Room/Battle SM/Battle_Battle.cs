@@ -32,9 +32,17 @@ internal class Battle_Battle : BaseRoomState
             {
                 yield return routine;
             }
-        
 
-            SwitchTo(States.SpawnTreasure());
+            if (_sm.Room.RoomEvents.HasFlag(RoomEvent.Reward))
+            {
+                SwitchTo(States.SpawnTreasure());
+            }
+
+            else
+            {
+                SwitchTo(States.OpenDoors());
+            }
+
             yield break;
         }
 
@@ -42,8 +50,8 @@ internal class Battle_Battle : BaseRoomState
         {
             SwitchTo(States.TakeRoomDamage());
             yield break;
-        } 
-        
+        }
+
         else
         {
             SwitchTo(States.Idle());
