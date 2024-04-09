@@ -16,8 +16,6 @@ public class BoosterPack : MonoBehaviour
     [SerializeField] TweenBlueprint floaty;
     [SerializeField] private LoopType _loopType;
 
-    private Collider2D _coll;
-
     private void Awake()
     {
         SR = GetComponent<SpriteRenderer>();

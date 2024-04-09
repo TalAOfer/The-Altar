@@ -11,11 +11,7 @@ public class EffectIndicationManager : MonoBehaviour
     {
         EffectIndication indication = (EffectIndication) data;
 
-        GameObject go = Pooler.Spawn(indicatorPrefab, indication.effected.transform.position + offset, Quaternion.identity);
-        go.GetComponentInChildren<TextMeshProUGUI>().text = indication.effect;
-        CustomAnimator animator = go.GetComponent<CustomAnimator>();
-        animator.PlayAnimation("Fadeout");
-        animator.PlayAnimation("Float");
+        Pooler.Spawn(indicatorPrefab, indication.effected.transform.position + offset, Quaternion.identity);
     }
 }
 

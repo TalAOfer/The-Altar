@@ -479,7 +479,6 @@ MonoBehaviour:
   attackPointsModifiers: []
   hurtPointsModifiers: []
   guardians: []
-  Targetable: 0
   Taunt: 0
 --- !u!95 &3041129387846409227
 Animator:
@@ -1179,7 +1178,7 @@ GameObject:
   - component: {fileID: 2216122628612637660}
   - component: {fileID: 4433209074844692427}
   - component: {fileID: 7429251122306982337}
-  - component: {fileID: 3630613885514854115}
+  - component: {fileID: 2909738520465683694}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -1226,7 +1225,8 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: a0e0f4fafc2ffbe4ba6840fe3ba7ebbf, type: 2}
   card: {fileID: 3041129387846409230}
   anim: {fileID: 3041129387846409227}
-  c_anim: {fileID: 3630613885514854115}
+  tweener: {fileID: 2909738520465683694}
+  jiggleBlueprint: {fileID: 11400000, guid: ec530d688787da64b804da02346ae5db, type: 2}
   shaderMaterial: {fileID: 2100000, guid: e0d43abb29fa86741bb3eed349a2259c, type: 2}
   sprites: {fileID: 11400000, guid: f4ed473020af4d6498828631dd3c453b, type: 2}
   fallingDamagePrefab: {fileID: 2430946055613964823, guid: e7ab0e69567e7e04d946a2a403b7ee75, type: 3}
@@ -1332,7 +1332,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3630613885514854115
+--- !u!114 &2909738520465683694
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1341,18 +1341,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6305659742823639882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03ae83365d95bf42becb21ac61cee1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8269f0675bc74f14fb44bcf6fa0f4410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1076719916005953478}
-  StartOnEnable: 0
-  animNameOnEnable: 
-  lerpColor: 1
-  colorTarget: 1
-  sr: {fileID: 8576751965544182358}
-  image: {fileID: 0}
-  text: {fileID: 0}
-  animations: {fileID: 11400000, guid: b82b48239a3e0bb4e9e8faacd053b773, type: 2}
+  test: 0
+  resetScale: 1
+  resetPosition: 1
+  testBlueprint: {fileID: 0}
 --- !u!1 &6446433308016530197
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,4 +17,5 @@ MonoBehaviour:
     Difficulty: 1
     cards:
     - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
-    - {fileID: 11400000, guid: 08e2a45ed4a386d4587a63d8c1eec62a, type: 2}
+    - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}
+    - {fileID: 11400000, guid: 540ad12652ef3eb40bd563f6b9840503, type: 2}

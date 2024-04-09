@@ -1,92 +1,48 @@
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using UnityEditor;
-using UnityEngine;
 
 [Serializable]
 public class RoomBlueprint
 {
-    [TableColumnWidth(80, Resizable = false)]
-    [GUIColor("GetColorForRoomType")]
-    public RoomType RoomType;
-
-    public RewardType RewardType;
-
-    #region Battle
-    [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Battle)]
-    public int Difficulty = 3;
+    public RoomType Type;
+    public RoomEvent RoomEvents; 
+    [ShowIf("@RoomEvents.HasFlag(RoomEvent.Battle)")]
+    public int Difficulty;
+    [ShowIf("@RoomEvents.HasFlag(RoomEvent.Reward)")]
+    public TreasureBlueprint Reward;
 
     [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Battle)]
-    public int TotalStartValue = 6;
+    [ShowIf("@RoomEvents.HasFlag(RoomEvent.Battle)")]
+    public bool PredetermineBattle;
 
     [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RoomType.Battle)]
+    [ShowIf("@PredetermineBattle && RoomEvents.HasFlag(RoomEvent.Battle)")]
+    public BattleBlueprint BattleBlueprint;
+
+    [FoldoutGroup("Room Data")]
+    [ShowIf("@RoomEvents.HasFlag(RoomEvent.Battle)")]
     public bool PredetermineDeck;
-    
+
     [FoldoutGroup("Room Data")]
-    [ShowIf("@ShouldShowDeckBlueprint()")]
+    [ShowIf("@PredetermineDeck && RoomEvents.HasFlag(RoomEvent.Battle)")]
     public Deck Deck;
 
-    #endregion
-
-    #region Card Picking
-
-    [FoldoutGroup("Room Data")]
-    [ShowIf("roomType", RewardType.Cards)]
-    public int amountOfOptions;
-    
-    #endregion
-
-    private bool ShouldShowDeckBlueprint()
+    public RoomBlueprint(RoomType type, TreasureBlueprint reward)
     {
-        return RoomType is RoomType.Battle && PredetermineDeck;
-    }
-
-    private Color GetColorForRoomType()
-    {
-        Color color = Color.white;
-        switch (RoomType)
-        {
-            case RoomType.Battle:
-                //Muted red
-                color = new Color(0.8f, 0.3f, 0.3f, 1.0f);
-                break;
-        }
-
-        //Muted green
-        //color = new Color(0.3f, 0.6f, 0.3f, 1.0f);
-
-        //Muted blue
-        //color = new Color(0.3f, 0.4f, 0.8f, 1.0f);
-
-        //muted yellow
-        //color = new Color (0.9f, 0.9f, 0.5f, 1.0f)  
-
-        return color;
+        Type = type;
+        Reward = reward;
     }
 }
-
 
 public enum RoomType
 {
-    Nothing,
-    Battle,
-    Elite,
+    Regular,
     Shop,
-    Treasure,
-    First,
-    Boss,
 }
 
-public enum RewardType
+[Flags]
+public enum RoomEvent
 {
-    Nothing,
-    Cards,
-    Money,
-    Relics
+    Battle = 1,
+    Reward = 2
 }

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ public class CardVisualHandler : MonoBehaviour
     [FoldoutGroup("Components")]
     [SerializeField] private Animator anim;
     [FoldoutGroup("Components")]
-    [SerializeField] private CustomAnimator c_anim;
+    [SerializeField] private Tweener tweener;
+    [FoldoutGroup("Components")]
+    [SerializeField] private TweenBlueprint jiggleBlueprint;
 
     [FoldoutGroup("Sprites Dependencies")]
     [SerializeField] private Material shaderMaterial;
@@ -76,7 +79,7 @@ public class CardVisualHandler : MonoBehaviour
         InitializeSpritesMaterial();
         SetSpritesColor();
     }
-    public void Init(CardBlueprint blueprint, string startingSortingLayer)
+    public void Init(string startingSortingLayer)
     {
         SetNewCardVisual();
         SetSortingLayer(startingSortingLayer);
@@ -107,6 +110,12 @@ public class CardVisualHandler : MonoBehaviour
     public void DisableOutline()
     {
         cardMaterial.SetInt("_Outline_On", 0);
+    }
+
+    public void DisableBuffVisuals()
+    {
+        mightVisualizer.SetActive(false);
+        armorVisualizer.SetActive(false);
     }
 
     public void ToggleDarkOverlay(bool enable)
@@ -193,9 +202,15 @@ public class CardVisualHandler : MonoBehaviour
 
     #endregion
 
-    public void Animate(string animName)
+    public void Jiggle()
     {
-        c_anim.PlayAnimation(animName);
+        tweener.TriggerTween(jiggleBlueprint);
+    }
+
+    public void FlashOut()
+    {
+        overlaySr.color = Color.white;
+        overlaySr.DOFade(0, 0.5f).SetEase(Ease.InCubic);
     }
 
     public void Reveal()
@@ -216,29 +231,19 @@ public class CardVisualHandler : MonoBehaviour
 
     public IEnumerator ToggleSpritesVanish(bool toBlank)
     {
-        yield return StartCoroutine(LerpVanish(spritesMaterial, toBlank, data.spritesFadeDuration, data.spritesFadeCurve));
+        yield return LerpVanish(spritesMaterial, toBlank, data.spritesFadeDuration, data.spritesFadeCurve);
     }
 
     private IEnumerator LerpVanish(Material material, bool toTransparent, float duration, AnimationCurve fadeCurve)
     {
-        float timeElapsed = 0f;
         float startValue = toTransparent ? -0.5f : 1f;
         float endValue = toTransparent ? 1f : -0.5f;
 
-        while (timeElapsed < duration)
+        yield return DOVirtual.Float(startValue, endValue, duration, value =>
         {
-            float t = timeElapsed / duration;
-            float curveValue = fadeCurve.Evaluate(t); // This will give you a value based on the curve's shape
-            // Now map the curveValue (0-1) to your desired range (-0.5 to 1)
-            float value = Mathf.Lerp(startValue, endValue, curveValue);
             material.SetFloat("_Vanish", value);
-
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure the final value is set
-        material.SetFloat("_Vanish", endValue);
+        })
+        .SetEase(fadeCurve).WaitForCompletion(); 
     }
 
     #endregion

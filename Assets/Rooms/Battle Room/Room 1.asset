@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b818aa06f5e29ce47aa2befcd8e7ab18, type: 3}
+  m_Name: Room 1
+  m_EditorClassIdentifier: 
+  blueprint:
+    Type: 0
+    RoomEvents: 1
+    Difficulty: 0
+    Reward: {fileID: 0}
+    PredetermineBattle: 1
+    BattleBlueprint:
+      codex: {fileID: 11400000, guid: 22e0a38934fb5cf46a8485be875c42dd, type: 2}
+      Difficulty: 0
+      cards: []
+    PredetermineDeck: 1
+    Deck:
+      cards: []
+      min: 0
+      max: 0

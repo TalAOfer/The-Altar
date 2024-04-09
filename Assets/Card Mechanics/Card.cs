@@ -2,7 +2,6 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -11,7 +10,6 @@ public class Card : MonoBehaviour
     public int SpawnIndex { get; private set; }
     public BattleRoomDataProvider DataProvider { get; private set; }
     private EventRegistry _events;
-    public CardBase cardBase { get; private set; }
 
     [FoldoutGroup("Child Components")]
     public CardEffectHandler effects;
@@ -58,7 +56,7 @@ public class Card : MonoBehaviour
     private HigherBeing higherBeing = new(false, 0);
 
     public bool HasTakenDamageThisTurn { get; private set; }
-    public bool Targetable;
+    public bool Targetable { get; set; } = true;
     public bool Taunt;
     public int Armor { get; private set; } = 0;
     public int Might { get; private set; } = 0;
@@ -85,10 +83,9 @@ public class Card : MonoBehaviour
         Affinity = blueprint.Affinity;
         points = blueprint.Archetype.points;
 
-        Targetable = true;
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
 
-        visualHandler.Init(blueprint, startingSortingLayer);
+        visualHandler.Init(startingSortingLayer);
 
         OnChange();
 
@@ -118,7 +115,7 @@ public class Card : MonoBehaviour
     public IEnumerator HandleShapeshift()
     {
         if (!ShouldShapeshift()) yield break;
-        else yield return StartCoroutine(Shapeshift());
+        else yield return Shapeshift();
     }
 
     public IEnumerator Shapeshift()
@@ -128,12 +125,12 @@ public class Card : MonoBehaviour
 
         Tools.PlaySound("Shapeshift", transform);
         yield return visualHandler.ToggleSpritesVanish(true);
-        visualHandler.SetNewCardVisual();
-        yield return StartCoroutine(effects.RemoveAllEffects());
+        yield return effects.RemoveAllEffects();
         ResetPointAlterations();
 
         OnChange();
 
+        visualHandler.SetNewCardVisual();
         yield return visualHandler.ToggleSpritesVanish(false);
     }
 
@@ -292,6 +289,7 @@ public class Card : MonoBehaviour
     {
         DESTROYING = true;
         visualHandler.SetSortingOrder(-1);
+        visualHandler.DisableBuffVisuals();
         yield return visualHandler.ToggleOverallVanish(true);
         _events.OnDeath.Raise(this, new NormalEventData(this));
         DataProvider?.RemoveCard(this);

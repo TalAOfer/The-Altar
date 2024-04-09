@@ -14,7 +14,6 @@ public class TreasureChest : MonoBehaviour
     private Vector3 _chestStartTransform;
     private SpriteRenderer _sr;
     private EventRegistry _events;
-    [SerializeField] private TreasureBlueprint TreasureBlueprint;
     public Treasure Treasure {  get; private set; }
 
     void Awake()
@@ -24,9 +23,9 @@ public class TreasureChest : MonoBehaviour
         _chestStartTransform = transform.localPosition;
     }
 
-    public void Initialize()
+    public void Initialize(TreasureBlueprint blueprint)
     {
-        Treasure = new Treasure(TreasureBlueprint);
+        Treasure = new Treasure(blueprint);
     }
 
     public IEnumerator Fall()

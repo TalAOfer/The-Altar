@@ -12,7 +12,7 @@ public class Battle_TakeRoomDamage : BaseRoomState
     {
         AttackPlayer();
 
-        if (FloorCtx.RunData.PlayerHealth.Current > 0)
+        if (RunData.PlayerHealth.Current > 0)
         {
             SwitchTo(States.DrawHand());
         }
@@ -29,6 +29,6 @@ public class Battle_TakeRoomDamage : BaseRoomState
             damage += enemy.points;
         }
 
-        FloorCtx.RunData.TakeGlobalDamage(damage);
+        RunData.TakeGlobalDamage(damage);
     }
 }

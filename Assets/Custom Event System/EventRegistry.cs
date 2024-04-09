@@ -23,6 +23,8 @@ public class EventRegistry : ScriptableObject
     public GameEvent OnCursorEnterHand;
     public GameEvent OnCursorExitHand;
     public GameEvent OnAbilityClicked;
+    public GameEvent OnRoomButtonClicked;
+    public GameEvent OnDoorClicked;
 
     [Title("Battle")]
     public GameEvent EnableBezierArrow;

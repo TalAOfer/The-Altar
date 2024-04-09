@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c157122fd999949b0def9653df5158, type: 3}
+  m_Name: _First Prison Codex
+  m_EditorClassIdentifier: 
+  black:
+  - {fileID: 11400000, guid: 1b374250cc2fb6b4996330efa31fed86, type: 2}
+  - {fileID: 11400000, guid: 39a9afde8aa7adc48a487118f9625778, type: 2}
+  - {fileID: 11400000, guid: 64ca298fed2a871499d0cd70f7139c64, type: 2}
+  - {fileID: 11400000, guid: d1eb7400b3b8c3f499e05689c48f7493, type: 2}
+  - {fileID: 11400000, guid: efa6167168824844d95519383ed03c07, type: 2}
+  - {fileID: 11400000, guid: 33f5666db55778043877722dffb0ebfb, type: 2}
+  - {fileID: 11400000, guid: e662b6e4376365f439b310885ce1d77e, type: 2}
+  - {fileID: 11400000, guid: b7344e83184840741b931d61232f38e4, type: 2}
+  - {fileID: 11400000, guid: bf102e61e4ec9664494fb66e8a6c5822, type: 2}
+  - {fileID: 11400000, guid: dadcd1f89c7373a489c7e58f1c80ac80, type: 2}
+  red:
+  - {fileID: 11400000, guid: 110630c0d1cfdc148bb25c8eb2d6d7f6, type: 2}
+  - {fileID: 11400000, guid: 09d57c2bb696671448bd91a7ee2ceb38, type: 2}
+  - {fileID: 11400000, guid: 6618d94e442059f4599e5fc17126d37a, type: 2}
+  - {fileID: 11400000, guid: a6e9b8d7ee242024dbf1e35dd436f1c9, type: 2}
+  - {fileID: 11400000, guid: 119413f823912bc4d8792a711e23f94c, type: 2}
+  - {fileID: 11400000, guid: 00876678d20a5de4a95dfe0d4c705276, type: 2}
+  - {fileID: 11400000, guid: 5a89f8a776a02954aaad804416389510, type: 2}
+  - {fileID: 11400000, guid: ebccf1647e2ad214384fa099fadcb39b, type: 2}
+  - {fileID: 11400000, guid: 92a336fc4932a8542954769fbb41d2a2, type: 2}
+  - {fileID: 11400000, guid: b4286257e5600c74eb527abe0a49f26d, type: 2}

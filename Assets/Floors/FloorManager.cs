@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class FloorManager : MonoBehaviour
@@ -30,8 +31,7 @@ public class FloorManager : MonoBehaviour
         Floor = new Floor(_floorBlueprint);
         EnemyCodex = new Codex(_enemyCodexBlueprint);
 
-        currentRoom.Initialize(this, Floor.FirstRoom);
-        currentRoom.InitializeStateMachine();
+        currentRoom.Initialize(Floor, 0, Floor.FirstRoom, EnemyCodex);
     }
 
     private void OnDisable()
@@ -39,13 +39,24 @@ public class FloorManager : MonoBehaviour
         Pooler.ClearPools();
     }
 
-    public void NextRoom(Room roomBlueprint)
+    public void OnLevelFadeoutEnd()
+    {
+        StartCoroutine(FloorStartRoutine());
+    }
+
+    public IEnumerator FloorStartRoutine()
+    {
+        yield return ShowTitle();
+        currentRoom.InitializeStateMachine();
+    }
+
+    public void NextRoom(RoomBlueprint roomBlueprint)
     {
         CurrentRoomIndex++;
 
         RoomStateMachine newRoom = SpawnRoom();
 
-        newRoom.Initialize(this, roomBlueprint);
+        newRoom.Initialize(Floor, CurrentRoomIndex, roomBlueprint, EnemyCodex);
 
         previousRoom = currentRoom;
         currentRoom = newRoom;
@@ -56,6 +67,11 @@ public class FloorManager : MonoBehaviour
             newRoom.InitializeStateMachine();
             Destroy(previousRoom.gameObject);
         });
+    }
+
+    public void OnDoorClicked(Component sender, object data)
+    {
+        NextRoom(data as RoomBlueprint);
     }
 
     private Sequence SwipeRooms()
@@ -72,5 +88,18 @@ public class FloorManager : MonoBehaviour
         GameObject roomGo = Instantiate(_prefabs.Room, _newRoomSpawnPosition, Quaternion.identity, transform);
         RoomStateMachine room = roomGo.GetComponent<RoomStateMachine>();
         return room;
+    }
+
+    public IEnumerator ShowTitle()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        GameObject TitleGO = Instantiate(_prefabs.Title, _prefabs.Title.transform.position, Quaternion.identity, transform);
+        SpriteRenderer TitleSR = TitleGO.GetComponent<SpriteRenderer>();
+
+        yield return TitleSR.transform.DOLocalMoveY(6.5f, 1).SetEase(Ease.InOutFlash);
+
+        //Fade title
+        yield return TitleSR.DOFade(0, 2).SetEase(Ease.InExpo).WaitForCompletion();
     }
 }

@@ -122,7 +122,7 @@ internal class Battle_AbilitySelected : BaseRoomState
             card.movement.Highlight();
 
         else
-            card.visualHandler.Animate("Jiggle");
+            card.visualHandler.Jiggle();
     }
 
     public override void HandlePlayerCardPointerExit(Card card, PointerEventData eventData)

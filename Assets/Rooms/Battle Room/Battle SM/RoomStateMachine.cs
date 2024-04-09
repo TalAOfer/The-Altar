@@ -6,47 +6,59 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class RoomStateMachine : MonoBehaviour 
-{ 
+public class RoomStateMachine : MonoBehaviour
+{
     public StateFactory States { get; private set; }
     public BattleBlueprint BattleBlueprint { get; private set; }
     public PlayerCardManager PlayerCardManager { get; private set; }
+    public Codex EnemyCodex { get; private set; }
     public EnemyCardManager EnemyCardManager { get; private set; }
     public BattleRoomDataProvider DataProvider { get; private set; }
     public BattleManager BattleManager { get; private set; }
+    public EffectApplier EffectApplier { get; private set; }
     public LoseManager LoseManager { get; private set; }
     [ShowInInspector]
     private readonly SMContext _ctx = new();
-    protected IRoomState _currentState;
+    protected BaseRoomState _currentState;
 
     [ShowInInspector, ReadOnly]
     private string _currentStateName => _currentState?.GetType().Name ?? "None";
     public bool IsSwitchingStates { get; private set; }
-    public Room _room;
+    public RoomBlueprint Room { get; private set; }
 
-    [SerializeField] protected Door leftDoor;
-    [SerializeField] protected Door rightDoor;
-    public FloorManager FloorCtx { get; private set; }
+    [SerializeField] protected List<Door> Doors = new();
+
     public EventRegistry Events { get; private set; }
 
     public PrefabRegistry Prefabs { get; private set; }
-    public virtual void Initialize(FloorManager floorCtx, Room room)
+    public RunData RunData { get; private set; }
+
+    private void Awake()
     {
-        FloorCtx = floorCtx;
         Events = Locator.Events;
-        FloorLevel nextLevel = floorCtx.Floor.Levels[floorCtx.CurrentRoomIndex + 1];
-        leftDoor.Initialize(floorCtx, nextLevel.LeftRoom);
-        rightDoor.Initialize(floorCtx, nextLevel.RightRoom);
+        RunData = Locator.RunData;
         Prefabs = Locator.Prefabs;
 
         States = new StateFactory(this, _ctx);
-
-        #region Battle Init
         DataProvider = new BattleRoomDataProvider(this, _ctx);
+    }
 
-        _room = room;
-        if (room.Type is RoomType.Battle)
-            BattleBlueprint = FloorCtx.Floor.BattlePool.GetBattleBlueprintAccordingToIndex(room.Difficulty);
+    public virtual void Initialize(Floor floor, int index, RoomBlueprint room, Codex enemyCodex = null)
+    {
+        _ctx.RoomIndex = index;
+
+        HandleDoors(floor);
+
+        Room = room;
+
+        if (room.RoomEvents.HasFlag(RoomEvent.Battle))
+        {
+            BattleBlueprint = room.PredetermineBattle ?
+                room.BattleBlueprint :
+                floor.BattlePool.GetBattleBlueprintAccordingToIndex(room.Difficulty);
+        }
+
+        if (enemyCodex != null) EnemyCodex = enemyCodex;
 
         BattleManager = GetComponentInChildren<BattleManager>();
         if (BattleManager != null) BattleManager.Initialize(this, _ctx);
@@ -55,48 +67,87 @@ public class RoomStateMachine : MonoBehaviour
         if (PlayerCardManager != null) PlayerCardManager.Initialize(this);
 
         EnemyCardManager = GetComponentInChildren<EnemyCardManager>();
-        if (EnemyCardManager != null) EnemyCardManager.Initialize(this);
+        if (EnemyCardManager != null) EnemyCardManager.Initialize(EnemyCodex, DataProvider);
+
+        EffectApplier = GetComponentInChildren<EffectApplier>();
+        if (EffectApplier != null) EffectApplier.Initialize(this);
 
         LoseManager = GetComponentInChildren<LoseManager>();
-        #endregion
     }
 
-    public void InitializeStateMachine()
+    private void HandleDoors(Floor floor)
     {
-        switch (_room.Type)
+        FloorLevel nextLevel = floor.Levels[_ctx.RoomIndex];
+
+        int amountOfRoomsToChooseFrom = nextLevel.Rooms.Count;
+
+        if (amountOfRoomsToChooseFrom > 3)
         {
-            case RoomType.First:
-                SwitchState(States.ShowTitle());
-                break;
-            case RoomType.Battle:
-                SwitchState(States.SpawnEnemies());
-                break;
+            Debug.Log("Room count should be between 0-3, it is now " + amountOfRoomsToChooseFrom); 
+            return;
+        }
 
+        Door leftDoor = Doors[0];
+        Door midDoor = Doors[1];
+        Door rightDoor = Doors[2];
 
+        switch (amountOfRoomsToChooseFrom)
+        {
+            case 0:
+                foreach (Door door in Doors)
+                {
+                    door.ToggleDoor(false);
+                }
+                break;
+            case 1:
+                midDoor.ToggleDoor(true);
+                midDoor.Initialize(nextLevel.Rooms[0]);
 
+                leftDoor.ToggleDoor(false);
+                rightDoor.ToggleDoor(false);
+                break;
+            case 2:
 
-            case RoomType.Nothing:
-                break;
-            case RoomType.Elite:
-                break;
-            case RoomType.Shop:
-                break;
-            case RoomType.Treasure:
-                break;
+                leftDoor.ToggleDoor(true);
+                leftDoor.Initialize(nextLevel.Rooms[0]);
 
-            case RoomType.Boss:
+                rightDoor.ToggleDoor(true);
+                rightDoor.Initialize(nextLevel.Rooms[1]);
+
+                midDoor.ToggleDoor(false);
+
+                break;
+            case 3:
+                for (int i = 0; i < Doors.Count; i++)
+                {
+                    Door door = Doors[i];
+                    door.ToggleDoor(true);
+                    door.Initialize(nextLevel.Rooms[i]);
+                }
                 break;
         }
 
     }
+    public void InitializeStateMachine()
+    {
+        if (Room.RoomEvents.HasFlag(RoomEvent.Battle))
+        {
+            SwitchState(States.SpawnEnemies());
+        }
+
+        else if (Room.RoomEvents.HasFlag(RoomEvent.Reward))
+        {
+            SwitchState(States.SpawnTreasure());
+        }
+    }
 
 
-public virtual void SwitchState(IRoomState newState)
+    public virtual void SwitchState(BaseRoomState newState)
     {
         StartCoroutine(SwitchStateRoutine(newState));
     }
 
-    public IEnumerator SwitchStateRoutine(IRoomState newState)
+    public IEnumerator SwitchStateRoutine(BaseRoomState newState)
     {
         IsSwitchingStates = true;
 
@@ -118,11 +169,17 @@ public virtual void SwitchState(IRoomState newState)
 
     public IEnumerator OpenDoors()
     {
-        Coroutine LeftDoorRoutine = StartCoroutine(leftDoor.OpenDoorRoutine());
-        Coroutine RightDoorRoutine = StartCoroutine(rightDoor.OpenDoorRoutine());
+        List<Coroutine> openingRoutines = new();
 
-        yield return LeftDoorRoutine;
-        yield return RightDoorRoutine;
+        foreach (Door door in Doors)
+        {
+            openingRoutines.Add(StartCoroutine(door.OpenDoorRoutine()));
+        }
+
+        foreach (Coroutine coroutine in openingRoutines)
+        {
+            yield return coroutine;
+        }
     }
 
     public GameObject InstantiatePrefab(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
@@ -231,12 +288,19 @@ public virtual void SwitchState(IRoomState newState)
         _currentState?.OnAbilityClicked(abilityManager, ability);
     }
 
+    public void OnRoomButtonClicked(CustomButton button, int index)
+    {
+        _currentState?.OnRoomButtonClicked(button, index);
+    }
+
     #endregion
 }
 
 [Serializable]
 public class SMContext
 {
+    public int RoomIndex;
+
     public TreasureChest currentTreasureChest;
 
     public Card BattlingPlayerCard;

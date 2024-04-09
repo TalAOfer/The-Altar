@@ -96,7 +96,6 @@ public class BattleManager : MonoBehaviour
         do
         {
             List<Card> pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
-            Debug.Log(pendingDestruction.Count);
 
             if (pendingDestruction.Count <= 0) yield break;
 

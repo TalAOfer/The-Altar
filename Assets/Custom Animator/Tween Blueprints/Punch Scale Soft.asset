@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4dcb3e4b97f4e4e9d480cf2885852b, type: 3}
+  m_Name: Punch Scale Soft
+  m_EditorClassIdentifier: 
+  type: 1
+  ease: 4
+  Duration: 0.25
+  Strength: 0.1
+  Vibrato: 1
+  Randomness: 0
+  Elasticity: 55
+  Punch: {x: 0.1, y: 0.1, z: 0}

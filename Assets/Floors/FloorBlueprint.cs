@@ -10,7 +10,7 @@ public class FloorBlueprint : ScriptableObject
     public CodexBlueprint EnemyCodexBlueprint;
     public BattleRoomPoolAsset BattleRoomPool;
 
-    public Room FirstRoom;
+    public RoomBlueprint FirstRoom;
     [TableList(ShowIndexLabels = true)]
     public List<FloorLevel> Levels;
 }

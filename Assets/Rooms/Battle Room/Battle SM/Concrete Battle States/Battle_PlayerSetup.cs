@@ -11,7 +11,7 @@ public class Battle_PlayerSetup : BaseRoomState
 
     private void InitializeDeck()
     {
-        FloorCtx.RunData.playerDeck = new Deck(FloorCtx.RunData.playerDeck.min, FloorCtx.RunData.playerDeck.max);
+        RunData.playerDeck = new Deck(RunData.playerDeck.min, RunData.playerDeck.max);
     }
 
     public override IEnumerator EnterState()

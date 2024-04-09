@@ -111,8 +111,8 @@ public abstract class Effect
                 if (EffectTrigger.AnimationSpritePrefab != null)
                 {
                     Pooler.Spawn(EffectTrigger.AnimationSpritePrefab, ParentCard.transform.position, Quaternion.identity);
-                    ParentCard.visualHandler.Animate("Jiggle");
-                    ParentCard.visualHandler.Animate("FlashOut");
+                    ParentCard.visualHandler.Jiggle();
+                    ParentCard.visualHandler.FlashOut();
                 }
             }
 
@@ -132,7 +132,7 @@ public abstract class Effect
         {
             if (EffectTypeAsset != null && EffectTypeAsset.AnimateFlashoutWhenGranted)
             {
-                targetCard.visualHandler.Animate("FlashOut");
+                targetCard.visualHandler.FlashOut();
             }
 
             yield return ApplyEffect(targetCard);

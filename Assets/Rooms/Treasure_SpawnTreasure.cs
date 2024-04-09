@@ -15,7 +15,7 @@ public class Treasure_SpawnTreasure : BaseRoomState
         GameObject treasureChestGO = _sm.InstantiatePrefab(Prefabs.TreasureChest, Prefabs.TreasureChest.transform.position, Quaternion.identity, _sm.transform);
         TreasureChest treasureChest = treasureChestGO.GetComponent<TreasureChest>();
         _ctx.currentTreasureChest = treasureChest;
-        treasureChest.Initialize();
+        treasureChest.Initialize(_sm.Room.Reward);
         yield return treasureChest.Fall();
         SwitchTo(States.OpenTreasure());
     }

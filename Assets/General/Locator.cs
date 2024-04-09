@@ -16,8 +16,6 @@ public class Locator : MonoBehaviour
 
     [SerializeField] private CardData _cardData;
     public static CardData CardData { get; private set; }
-    public static PlayerActionProvider PlayerActionProvider { get; private set; }
-
 
     private void Awake()
     {
@@ -25,8 +23,6 @@ public class Locator : MonoBehaviour
         RunData = _runData;
         Prefabs = _prefabs;
         CardData = _cardData;
-
-        PlayerActionProvider = FindComponent<PlayerActionProvider>();
     }
 
     private T FindComponent<T>() where T : Component

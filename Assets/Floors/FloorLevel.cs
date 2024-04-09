@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class FloorLevel
 {
-    public Room LeftRoom;
-    public Room RightRoom;
+    public List<RoomBlueprint> Rooms;
 }
 
 

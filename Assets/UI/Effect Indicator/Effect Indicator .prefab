@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1550121172259986130}
-  - component: {fileID: 1550121172259986131}
+  - component: {fileID: -6457334714889808760}
   - component: {fileID: -1558602100431254788}
   m_Layer: 0
   m_Name: 'Effect Indicator '
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1550121172259986131
+--- !u!114 &-6457334714889808760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,18 +43,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1550121172259986128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03ae83365d95bf42becb21ac61cee1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5187886aa305e154c9e72f7dad21006c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1550121172259986130}
-  StartOnEnable: 1
-  animNameOnEnable: 
-  lerpColor: 1
-  colorTarget: 3
-  sr: {fileID: 0}
-  image: {fileID: 0}
-  text: {fileID: 2232518775033188956}
-  animations: {fileID: 11400000, guid: ad8a241f7b8637c4b880fcdb267e26e8, type: 2}
 --- !u!114 &-1558602100431254788
 MonoBehaviour:
   m_ObjectHideFlags: 0

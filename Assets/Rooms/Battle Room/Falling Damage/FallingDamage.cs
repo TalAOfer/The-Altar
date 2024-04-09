@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,12 +6,18 @@ using UnityEngine;
 
 public class FallingDamage : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float force;
     [SerializeField] private Vector2 direction;
     [SerializeField] private float gravityAmount;
-    [SerializeField] private TextMeshProUGUI text;
-    [SerializeField] private CustomAnimator customAnimator;
+    
+    private Rigidbody2D rb;
+    private TextMeshProUGUI text;
+
+    private void Awake()
+    {
+        text = GetComponentInChildren<TextMeshProUGUI>();
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     private void OnEnable()
     {
@@ -27,13 +34,6 @@ public class FallingDamage : MonoBehaviour
         rb.gravityScale = gravityAmount;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
 
-        customAnimator.PlayAnimation("Fadeout");
-        StartCoroutine(DespawnSelfInTime());
-    }
-
-    public IEnumerator DespawnSelfInTime()
-    {
-        yield return Tools.GetWait(2.5f);
-        Pooler.Despawn(gameObject);
+        text.DOFade(0, 1.25f).SetEase(Ease.InQuad);
     }
 }

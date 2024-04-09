@@ -27,6 +27,8 @@ MonoBehaviour:
   OnCursorEnterHand: {fileID: 11400000, guid: d16688ddad1130549b04e1f2ec0b5112, type: 2}
   OnCursorExitHand: {fileID: 11400000, guid: a5e6196b0217da746ae5626dd3c924bc, type: 2}
   OnAbilityClicked: {fileID: 11400000, guid: f5810c6c7a6062b479a50ca44b7aa23a, type: 2}
+  OnRoomButtonClicked: {fileID: 11400000, guid: a9ec38e2b590f264d9d17551516ac9ab, type: 2}
+  OnDoorClicked: {fileID: 11400000, guid: be63b565094b67c40973e156d84091fc, type: 2}
   EnableBezierArrow: {fileID: 11400000, guid: 9235b363696576642b9b3e17233ec1e4, type: 2}
   DisableBezierArrow: {fileID: 11400000, guid: 5f5f757a8c19fce4ea9801a3650c1fba, type: 2}
   OnFinishedHandFill: {fileID: 11400000, guid: 5f4112befb798c14c896321807103c78, type: 2}

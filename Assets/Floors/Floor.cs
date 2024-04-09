@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Floor
 {
     [TableList(ShowIndexLabels = true)]
-    public Room FirstRoom { get; private set; }
+    public RoomBlueprint FirstRoom { get; private set; }
     public List<FloorLevel> Levels { get; private set; }
     public BattleRoomPool BattlePool { get; private set; }
 

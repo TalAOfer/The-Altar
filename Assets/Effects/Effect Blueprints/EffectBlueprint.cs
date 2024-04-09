@@ -107,7 +107,7 @@ public class EffectBlueprint
 
     #region Buff
 
-    [ShowIf("@GetCurrentEffectType()", EffectType.GainBuff)]
+    [ShowIf("@GetCurrentEffectType()", EffectType.GrantBuff)]
     [FoldoutGroup("Effect")]
     public BuffType BuffType;
 
@@ -415,14 +415,14 @@ public enum EffectType
     AddBattlePointModifier,
     SetColor,
     ToggleColor,
-    GainPoints,
+    GrantPoints,
     DrawCard,
     SpawnCardToHand,
     AddEffect,
     AddGuardian,
     SpawnEnemy,
-    GainBuff,
-    TakeDamage,
+    GrantBuff,
+    DealDamage,
 }
 
 public enum GetAmountStrategy

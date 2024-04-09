@@ -12,11 +12,13 @@ public class Treasure_HandlePack : BaseRoomState
 
     MetaPoolInstance PlayerPool => RunData.playerPool;
 
+    private Vector3 buttonPos = new(0, -2.5f, 0);
     private float xOffset = 2.5f;
 
     private readonly List<Card> cards = new();
     private BoosterPack _pack;
-
+    private CustomButton _customButton;
+    
     public Treasure_HandlePack(RoomStateMachine sm, SMContext ctx) : base(sm, ctx)
     {
     }
@@ -26,19 +28,23 @@ public class Treasure_HandlePack : BaseRoomState
         Pack = Treasure.Items[0];
         Treasure.Items.RemoveAt(0);
         GameObject packGO = _sm.InstantiatePrefab(Prefabs.BoosterPack, _ctx.currentTreasureChest.transform.position, Quaternion.identity, _ctx.currentTreasureChest.transform);
+        packGO.transform.localScale = Vector3.zero;
         _pack = packGO.GetComponent<BoosterPack>();
         yield return _pack.AnimateOpening();
 
         yield return SpawnCards();
     }
 
+    public override IEnumerator ExitState()
+    {
+        _customButton.gameObject.SetActive(false);
+        return base.ExitState();
+    }
+
     private IEnumerator SpawnCards()
     {
         for (int i = 0; i < Pack.Amount; i++)
         {
-            Debug.Log("Amount of cards: " + Pack.Amount);
-            Debug.Log("Min: " + Pack.MinMax.x + "Max: " + Pack.MinMax.y);
-
             CardBlueprint cardBlueprint = PlayerPool.GetRandomCardByPoints(Pack.MinMax.x, Pack.MinMax.y, null);
             Card card = CardSpawner.Instance.SpawnCard(cardBlueprint, _pack.transform.position, _sm.transform, GameConstants.PLAYER_CARD_LAYER,
             CardInteractionType.Selection, null, null);
@@ -74,6 +80,8 @@ public class Treasure_HandlePack : BaseRoomState
             card.interactionHandler.SetInteractability(true);
         }
 
+        GameObject buttonGo = _sm.InstantiatePrefab(Prefabs.RoomButton, _pack.transform.position + buttonPos, Quaternion.identity, _sm.transform);
+        _customButton = buttonGo.GetComponent<CustomButton>();
         yield break;
     }
 
@@ -87,7 +95,7 @@ public class Treasure_HandlePack : BaseRoomState
             {
                 RunData.playerCodex.OverrideCard(card.Mask);
             }
-            
+
             else
             {
                 RunData.playerPool.ReturnBlueprintToPool(card.Mask);
@@ -109,6 +117,17 @@ public class Treasure_HandlePack : BaseRoomState
     {
         card.visualHandler.DisableOutline();
         Events.HideTooltip.Raise(_sm, card);
+    }
+
+    public override void OnRoomButtonClicked(CustomButton button, int index)
+    {
+        foreach (Card card in cards)
+        {
+            RunData.playerPool.ReturnBlueprintToPool(card.Mask);
+            card.StartCoroutine(card.DestroySelf());
+        }
+
+        SwitchTo(States.OpenTreasure());
     }
 
 }

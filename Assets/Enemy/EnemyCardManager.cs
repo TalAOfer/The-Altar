@@ -5,21 +5,22 @@ using UnityEngine;
 
 public class EnemyCardManager : MonoBehaviour
 {
-    private RoomStateMachine _ctx;
+    private Codex _enemyCodex;
+    private BattleRoomDataProvider _dataProvider;
+
     private GameObject _cardPrefab;
     private Vector3 _outsideScreenPosition = new(0, 30, 0);
     [SerializeField] CardData _cardData;
-    private Codex Codex => _ctx.FloorCtx.EnemyCodex;
     public List<Card> ActiveEnemies { get; private set; } = new();
     [SerializeField] private List<Transform> _enemyPlaceholders = new();
     [SerializeField] private Transform _container;
     [SerializeField] private Vector2 _enemySpacing = new(2.25f, 4f);
 
-    public void Initialize(RoomStateMachine ctx)
+    public void Initialize(Codex enemyCodex, BattleRoomDataProvider dataProvider)
     {
-        _ctx = ctx;
         _cardPrefab = Locator.Prefabs.Card;
-
+        _enemyCodex = enemyCodex;
+        _dataProvider = dataProvider;
         ActiveEnemies.Clear();
     }
 
@@ -106,7 +107,7 @@ public class EnemyCardManager : MonoBehaviour
         GameObject cardGO = Instantiate(_cardPrefab, _outsideScreenPosition, Quaternion.identity, _container);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
-        card.Init(Codex, cardBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable, _ctx.DataProvider);
+        card.Init(_enemyCodex, cardBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable, _dataProvider);
         AddEnemyToManager(card);
         card.ChangeCardState(CardState.Draw);
 
@@ -116,7 +117,7 @@ public class EnemyCardManager : MonoBehaviour
     public IEnumerator SpawnEnemiesByArchetype(CardArchetype archetype, int amount)
     {
         List<CardBlueprint> cardBlueprintsToSpawn = new();
-        CardBlueprint cardBlueprint = Codex.GetCardOverride(archetype);
+        CardBlueprint cardBlueprint = _enemyCodex.GetCardOverride(archetype);
         for (int i = 0; i < amount; i++)
         {
             cardBlueprintsToSpawn.Add(cardBlueprint);

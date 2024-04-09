@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 
 public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+    [SerializeField] private int index;
     [SerializeField] private CustomGameEvent response;
 
     [SerializeField] private bool animate;
@@ -24,12 +25,22 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     private SpriteRenderer sr;
     private Collider2D coll;
+    private EventRegistry _events;
     private Tweener tweener;
     [SerializeField] private bool disableAfterOneClick = true;
 
 
+    public void RaiseRoomClickEvent()
+    {
+        if (_events != null) 
+        {
+            _events.OnRoomButtonClicked.Raise(this, index);
+        }
+    }
+
     private void Awake()
     {
+        _events = Locator.Events;
         sr = GetComponentInChildren<SpriteRenderer>();
         coll = GetComponent<Collider2D>();
         if (animate) tweener = GetComponentInChildren<Tweener>();

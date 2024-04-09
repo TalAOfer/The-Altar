@@ -225,7 +225,7 @@ public class BattleRoomDataProvider
 
     public int GetRoomIndex()
     {
-        return _sm.FloorCtx.CurrentRoomIndex;
+        return _ctx.RoomIndex;
     }
 
     public int GetLowestEnemyCardValue(Card excludeThis)

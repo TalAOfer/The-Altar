@@ -33,14 +33,14 @@ public class EffectTypeAsset : ScriptableObject
             EffectType.AddBattlePointModifier => new AddBattlePointModifier(blueprint, data, parentCard),
             EffectType.SetColor => new SetColorEffect(blueprint, data, parentCard),
             EffectType.ToggleColor => new ToggleColorEffect(blueprint, data, parentCard),
-            EffectType.GainPoints => new GainPointsEffect(blueprint, data, parentCard),
+            EffectType.GrantPoints => new GrantPointsEffect(blueprint, data, parentCard),
             EffectType.DrawCard => new DrawCardEffect(blueprint, data, parentCard),
             EffectType.SpawnCardToHand => new SpawnCardToHandEffect(blueprint, data, parentCard),
             EffectType.AddEffect => new AddEffectEffect(blueprint, data, parentCard),
             EffectType.AddGuardian => new AddGuardianEffect(blueprint, data, parentCard),
             EffectType.SpawnEnemy => new SpawnEnemiesEffect(blueprint, data, parentCard),
-            EffectType.GainBuff => new GainBuffEffect(blueprint, data, parentCard),
-            EffectType.TakeDamage => new TakeDamageEffect(blueprint, data, parentCard),
+            EffectType.GrantBuff => new GrantBuffEffect(blueprint, data, parentCard),
+            EffectType.DealDamage => new DealDamageEffect(blueprint, data, parentCard),
             _ => null,
         };
     }

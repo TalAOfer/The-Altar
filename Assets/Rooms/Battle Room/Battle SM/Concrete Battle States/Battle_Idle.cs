@@ -43,7 +43,7 @@ public class Battle_Idle : BaseRoomState
     public override void HandleEnemyCardPointerEnter(Card card, PointerEventData eventData)
     {
         Events.ShowTooltip.Raise(_sm, card);
-        card.visualHandler.Animate("Jiggle");
+        card.visualHandler.Jiggle();
     }
 
     public override void HandleEnemyCardPointerExit(Card card, PointerEventData eventData)

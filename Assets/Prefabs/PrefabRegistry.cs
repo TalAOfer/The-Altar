@@ -16,4 +16,6 @@ public class PrefabRegistry : ScriptableObject
     public GameObject BoosterPack;
 
     #endregion
+
+    public GameObject RoomButton;
 }

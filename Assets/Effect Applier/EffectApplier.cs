@@ -7,11 +7,17 @@ using UnityEngine;
 public class EffectApplier : MonoBehaviour
 {
     public EffectNode RootEffectNode { get; private set; }
+    private RoomStateMachine _sm;
 
     public delegate void EffectsCompletedHandler();
     public event EffectsCompletedHandler OnEffectsCompleted;
 
     private readonly Stack<EffectNode> effectNodeStack = new();
+
+    public void Initialize(RoomStateMachine sm)
+    {
+        _sm = sm;
+    }
 
     // Call this to start the DFS from the root
     public IEnumerator InitializeEffectSequence(EffectNode effectNode)
@@ -62,17 +68,14 @@ public class EffectApplier : MonoBehaviour
         // After processing all children, pop the node from the stack
         // This step is crucial for backtracking
         effectNodeStack.Pop();
+
+        yield return _sm.HandleAllShapeshiftsUntilStable();
     }
 
 
     public void OnEffectTriggered(Component sender, object data)
     {
         EffectNode effectNode = (EffectNode)data;
-
-        if (effectNode.Effect.EffectTrigger.TriggerType is TriggerType.GlobalDeath)
-        {
-            Debug.Log("Got to applier");
-        }
 
         EffectNode currentNode = effectNodeStack.Count > 0 ? effectNodeStack.Peek() : null;
 
