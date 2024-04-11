@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
-  m_Name: S2 Devotion
+  m_Name: S1 Lazy Knight
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: 3d3bda5fbe6c80a478936df7d94bc863, type: 3}
+  cardSprite: {fileID: 21300000, guid: 06dd5887e49835248a434b9c396289cc, type: 3}
   isDefault: 0
-  cardName: Devotion
+  cardName: Lazy Knight
   Archetype:
-    points: 2
+    points: 1
     color: 0
   Affinity: 0
-  Description: 'Retaliate: summon 1 One of Hearts.'
+  Description: 'Bloodthirst: gain +1.'
   SpecialEffects: 0
   Effects:
   - UseAsset: 0
     ManualValue:
-      Trigger: {fileID: 11400000, guid: 6e1dba0c2fc013e4684c19634a0736d6, type: 2}
+      Trigger: {fileID: 11400000, guid: 2a3bda6e1fbee6648b5f8203185cf4f4, type: 2}
       GlobalAmountEventsFilter:
         FilterByReceiver: 0
         RecieverFilter:
@@ -58,7 +58,7 @@ MonoBehaviour:
           PredefinedColor: 0
           AffinityComparison: 0
           PredefinedParity: 0
-      EffectTypeAsset: {fileID: 11400000, guid: 79986b3de614aec43a076a4eb30a33b4, type: 2}
+      EffectTypeAsset: {fileID: 11400000, guid: c4aeb230c4de34045a810813b0e4033b, type: 2}
       replacePlaceholders: 1
       TargetPool: 0
       TargetStrategy: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
       amount: 1
       cardArchetype:
         points: 1
-        color: 1
+        color: 0
       battlePointType: 0
       modifierType: 0
       filterBattleModifier: 0

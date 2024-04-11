@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _Prison_PlayerCodex_Full
   m_EditorClassIdentifier: 
   black:
-  - {fileID: 11400000, guid: 1deda401fec960e468b39da382ef9591, type: 2}
+  - {fileID: 11400000, guid: 4a494199e2ca47046ad5af965dbe6b59, type: 2}
   - {fileID: 11400000, guid: 37ac7085fb00aa845a29415865058328, type: 2}
   - {fileID: 11400000, guid: a1ae76eeafa04484eb3f0880436d847a, type: 2}
   - {fileID: 11400000, guid: ecaa3d150bc722147a3599e32213bfc2, type: 2}

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
-  m_Name: C1 Lazy Knight
+  m_Name: D2 ImpCrossbow
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: 06dd5887e49835248a434b9c396289cc, type: 3}
+  cardSprite: {fileID: 0}
   isDefault: 0
-  cardName: Lazy Knight
+  cardName: Imp Crossbow
   Archetype:
     points: 1
     color: 0
   Affinity: 1
-  Description: 'Bloodthirst: gain +1.'
+  Description: 'Bloodthirst: deal 1 damage to the highest card in your hand.'
   SpecialEffects: 0
   Effects:
   - UseAsset: 0
@@ -58,19 +58,19 @@ MonoBehaviour:
           PredefinedColor: 0
           AffinityComparison: 0
           PredefinedParity: 0
-      EffectTypeAsset: {fileID: 11400000, guid: c4aeb230c4de34045a810813b0e4033b, type: 2}
+      EffectTypeAsset: {fileID: 11400000, guid: 330cc67fe82885646aec1b41a3fea009, type: 2}
       replacePlaceholders: 1
-      TargetPool: 0
-      TargetStrategy: 0
+      TargetPool: 3
+      TargetStrategy: 2
       FilterSelfFromTargets: 0
       AmountOfTargets: 1
-      ShouldFilterTargets: 0
+      ShouldFilterTargets: 1
       TargetFilterBlueprint:
-        ShouldFilter: 0
+        ShouldFilter: 1
         Filter:
-          DecisionType: 0
+          DecisionType: 8
           PredefinedColor: 0
-          AffinityComparison: 0
+          AffinityComparison: 1
           PredefinedParity: 0
       IsPersistent: 0
       amountStrategy: 0

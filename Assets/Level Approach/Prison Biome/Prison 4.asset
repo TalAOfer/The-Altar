@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993c8012651ae5f409e1cfed56288b7b, type: 3}
+  m_Name: Prison 4
+  m_EditorClassIdentifier: 
+  Biome: {fileID: 11400000, guid: c431494e6b0e21d49aa4487883253d17, type: 2}
+  EnemyProgressionMap:
+  - points: 1
+    color: 1
+  EnemyCards:
+  - {fileID: 11400000, guid: b5bf4e14561a41c42aec3d47a4d6564e, type: 2}
+  - {fileID: 11400000, guid: 1b374250cc2fb6b4996330efa31fed86, type: 2}
+  - {fileID: 11400000, guid: 64ca298fed2a871499d0cd70f7139c64, type: 2}
+  PlayerProgressionMap:
+  - points: 1
+    color: 1
+  PlayerCards:
+  - {fileID: 11400000, guid: 91302de18e7ca2c40a1963c7ced62a04, type: 2}
+  - {fileID: 11400000, guid: 1deda401fec960e468b39da382ef9591, type: 2}
+  - {fileID: 11400000, guid: 1deda401fec960e468b39da382ef9591, type: 2}

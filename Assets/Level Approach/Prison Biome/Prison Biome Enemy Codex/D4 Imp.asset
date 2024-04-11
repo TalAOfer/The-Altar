@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
-  m_Name: S2 Devotion
+  m_Name: D4 Imp
   m_EditorClassIdentifier: 
-  cardSprite: {fileID: 21300000, guid: 3d3bda5fbe6c80a478936df7d94bc863, type: 3}
+  cardSprite: {fileID: 0}
   isDefault: 0
-  cardName: Devotion
+  cardName: 
   Archetype:
-    points: 2
+    points: 1
     color: 0
-  Affinity: 0
-  Description: 'Retaliate: summon 1 One of Hearts.'
+  Affinity: 1
+  Description: 
   SpecialEffects: 0
   Effects:
   - UseAsset: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
           PredefinedColor: 0
           AffinityComparison: 0
           PredefinedParity: 0
-      EffectTypeAsset: {fileID: 11400000, guid: 79986b3de614aec43a076a4eb30a33b4, type: 2}
+      EffectTypeAsset: {fileID: 11400000, guid: d063b5d5ab68bed4694550bf3b6c7a76, type: 2}
       replacePlaceholders: 1
       TargetPool: 0
       TargetStrategy: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
       amountStrategy: 0
       amount: 1
       cardArchetype:
-        points: 1
+        points: 2
         color: 1
       battlePointType: 0
       modifierType: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _Prison_EnemyCodex_Full
   m_EditorClassIdentifier: 
   black:
-  - {fileID: 11400000, guid: 4a494199e2ca47046ad5af965dbe6b59, type: 2}
+  - {fileID: 11400000, guid: 1deda401fec960e468b39da382ef9591, type: 2}
   - {fileID: 11400000, guid: 8e7d3842c92807e448a42752bcab953b, type: 2}
   - {fileID: 11400000, guid: 04fb123d8a380e3439177034a99168aa, type: 2}
   - {fileID: 11400000, guid: d1eb7400b3b8c3f499e05689c48f7493, type: 2}
@@ -25,9 +25,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dadcd1f89c7373a489c7e58f1c80ac80, type: 2}
   red:
   - {fileID: 11400000, guid: b5bf4e14561a41c42aec3d47a4d6564e, type: 2}
-  - {fileID: 11400000, guid: 09d57c2bb696671448bd91a7ee2ceb38, type: 2}
+  - {fileID: 11400000, guid: 87479dcfb99948a478b12e6d71ce6049, type: 2}
   - {fileID: 11400000, guid: 6618d94e442059f4599e5fc17126d37a, type: 2}
-  - {fileID: 11400000, guid: a6e9b8d7ee242024dbf1e35dd436f1c9, type: 2}
+  - {fileID: 11400000, guid: c53882d33affe0c4e9ee6e38a6d4b10f, type: 2}
   - {fileID: 11400000, guid: 119413f823912bc4d8792a711e23f94c, type: 2}
   - {fileID: 11400000, guid: 00876678d20a5de4a95dfe0d4c705276, type: 2}
   - {fileID: 11400000, guid: 5a89f8a776a02954aaad804416389510, type: 2}
