@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class EffectIndicationManager : MonoBehaviour
@@ -11,7 +8,10 @@ public class EffectIndicationManager : MonoBehaviour
     {
         EffectIndication indication = (EffectIndication) data;
 
-        Pooler.Spawn(indicatorPrefab, indication.effected.transform.position + offset, Quaternion.identity);
+        EffectIndicator indicator = Pooler.Spawn(indicatorPrefab, indication.effected.transform.position + offset, Quaternion.identity).GetComponent<EffectIndicator>();
+
+        indicator.Initialize(indication);
+
     }
 }
 

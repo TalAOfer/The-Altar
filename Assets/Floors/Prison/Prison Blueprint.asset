@@ -16,24 +16,35 @@ MonoBehaviour:
   BattleRoomPool: {fileID: 11400000, guid: d58a157084896d34082a70de04dfaf31, type: 2}
   FirstRoom:
     Type: 0
-    RoomEvents: -1
+    RoomEvents: 1
     Difficulty: 1
-    Reward: {fileID: 11400000, guid: 355e4a10c2d6e2148b0d3c7d688534df, type: 2}
+    Reward: {fileID: 0}
     PredetermineBattle: 1
     BattleBlueprint:
       codex: {fileID: 11400000, guid: 4279f2c4816c8e045ba014936d041c13, type: 2}
-      Difficulty: 0
-      cards: []
+      Difficulty: 1
+      cards:
+      - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
     PredetermineDeck: 1
     Deck:
-      cards: []
+      cards:
+      - points: 1
+        color: 0
+      - points: 3
+        color: 1
+      - points: 2
+        color: 1
+      - points: 4
+        color: 0
+      - points: 3
+        color: 0
       min: 0
       max: 0
   Levels:
   - Rooms:
     - Type: 0
       RoomEvents: 1
-      Difficulty: 1
+      Difficulty: -63
       Reward: {fileID: 0}
       PredetermineBattle: 1
       BattleBlueprint:

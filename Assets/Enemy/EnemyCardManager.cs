@@ -1,11 +1,13 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnemyCardManager : MonoBehaviour
 {
-    private Codex _enemyCodex;
+    private RoomStateMachine _sm;
+    private Codex EnemyCodex => _sm.EnemyCodex;
     private BattleRoomDataProvider _dataProvider;
 
     private GameObject _cardPrefab;
@@ -16,10 +18,10 @@ public class EnemyCardManager : MonoBehaviour
     [SerializeField] private Transform _container;
     [SerializeField] private Vector2 _enemySpacing = new(2.25f, 4f);
 
-    public void Initialize(Codex enemyCodex, BattleRoomDataProvider dataProvider)
+    public void Initialize(RoomStateMachine sm, BattleRoomDataProvider dataProvider)
     {
+        _sm = sm;
         _cardPrefab = Locator.Prefabs.Card;
-        _enemyCodex = enemyCodex;
         _dataProvider = dataProvider;
         ActiveEnemies.Clear();
     }
@@ -107,7 +109,7 @@ public class EnemyCardManager : MonoBehaviour
         GameObject cardGO = Instantiate(_cardPrefab, _outsideScreenPosition, Quaternion.identity, _container);
         cardGO.name = cardBlueprint.name;
         Card card = cardGO.GetComponent<Card>();
-        card.Init(_enemyCodex, cardBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable, _dataProvider);
+        card.Init(EnemyCodex, cardBlueprint, GameConstants.ENEMY_CARD_LAYER, CardInteractionType.Playable, _dataProvider);
         AddEnemyToManager(card);
         card.ChangeCardState(CardState.Draw);
 
@@ -117,7 +119,7 @@ public class EnemyCardManager : MonoBehaviour
     public IEnumerator SpawnEnemiesByArchetype(CardArchetype archetype, int amount)
     {
         List<CardBlueprint> cardBlueprintsToSpawn = new();
-        CardBlueprint cardBlueprint = _enemyCodex.GetCardOverride(archetype);
+        CardBlueprint cardBlueprint = EnemyCodex.GetCardOverride(archetype);
         for (int i = 0; i < amount; i++)
         {
             cardBlueprintsToSpawn.Add(cardBlueprint);

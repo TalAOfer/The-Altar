@@ -33,22 +33,15 @@ internal class Battle_Battle : BaseRoomState
                 yield return routine;
             }
 
-            if (_sm.Room.RoomEvents.HasFlag(RoomEvent.Reward))
-            {
-                SwitchTo(States.SpawnTreasure());
-            }
-
-            else
-            {
-                SwitchTo(States.OpenDoors());
-            }
+            SwitchTo(States.OpenDoors());
 
             yield break;
         }
 
         else if (IsPlayerOutOfCards)
         {
-            SwitchTo(States.TakeRoomDamage());
+            //SwitchTo(States.TakeRoomDamage());
+            SwitchTo(States.Lose());
             yield break;
         }
 

@@ -288,11 +288,11 @@ public class Card : MonoBehaviour
     public IEnumerator DestroySelf()
     {
         DESTROYING = true;
+        DataProvider?.RemoveCard(this);
         visualHandler.SetSortingOrder(-1);
         visualHandler.DisableBuffVisuals();
         yield return visualHandler.ToggleOverallVanish(true);
         _events.OnDeath.Raise(this, new NormalEventData(this));
-        DataProvider?.RemoveCard(this);
         DOTween.Kill(transform);
         yield return Tools.GetWait(1f);
         gameObject.SetActive(false);

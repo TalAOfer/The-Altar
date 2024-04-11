@@ -42,9 +42,16 @@ public enum SpecialEffects
 [Serializable]
 public class CardArchetype
 {
-    public int points;
+    public int points = 1;
     public CardColor color;
 
+    public CardArchetype()
+    {
+        points = 1;
+        color = default;
+    }
+
+    // Parameterized constructor
     public CardArchetype(int points, CardColor color)
     {
         this.points = points;

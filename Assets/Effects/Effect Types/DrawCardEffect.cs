@@ -12,7 +12,7 @@ public class DrawCardEffect : Effect
     {
         int amount = GetAmount(target);
         RaiseEffectAppliedEvent(target, amount);
-        _data.DrawCardsToHand(amount);
+        //_data.DrawCardsToHand(amount);
         yield break; 
     }
 

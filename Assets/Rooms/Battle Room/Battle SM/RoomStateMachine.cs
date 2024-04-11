@@ -3,15 +3,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class RoomStateMachine : MonoBehaviour
 {
     public StateFactory States { get; private set; }
-    public BattleBlueprint BattleBlueprint { get; private set; }
-    public PlayerCardManager PlayerCardManager { get; private set; }
+    // Room Data
+
+    public CurrentLevel CurrentLevel { get; private set; }
     public Codex EnemyCodex { get; private set; }
+    public Codex PlayerCodex {  get; private set; }
+    public List<CardBlueprint> InitialPlayerSpawn { get; private set; }
+    public List<CardBlueprint> InitialEnemySpawn { get; private set; }
+    
+    public PlayerCardManager PlayerCardManager { get; private set; }
     public EnemyCardManager EnemyCardManager { get; private set; }
     public BattleRoomDataProvider DataProvider { get; private set; }
     public BattleManager BattleManager { get; private set; }
@@ -38,27 +45,10 @@ public class RoomStateMachine : MonoBehaviour
         Events = Locator.Events;
         RunData = Locator.RunData;
         Prefabs = Locator.Prefabs;
+        CurrentLevel = Locator.CurrentLevel;
 
         States = new StateFactory(this, _ctx);
         DataProvider = new BattleRoomDataProvider(this, _ctx);
-    }
-
-    public virtual void Initialize(Floor floor, int index, RoomBlueprint room, Codex enemyCodex = null)
-    {
-        _ctx.RoomIndex = index;
-
-        HandleDoors(floor);
-
-        Room = room;
-
-        if (room.RoomEvents.HasFlag(RoomEvent.Battle))
-        {
-            BattleBlueprint = room.PredetermineBattle ?
-                room.BattleBlueprint :
-                floor.BattlePool.GetBattleBlueprintAccordingToIndex(room.Difficulty);
-        }
-
-        if (enemyCodex != null) EnemyCodex = enemyCodex;
 
         BattleManager = GetComponentInChildren<BattleManager>();
         if (BattleManager != null) BattleManager.Initialize(this, _ctx);
@@ -67,7 +57,7 @@ public class RoomStateMachine : MonoBehaviour
         if (PlayerCardManager != null) PlayerCardManager.Initialize(this);
 
         EnemyCardManager = GetComponentInChildren<EnemyCardManager>();
-        if (EnemyCardManager != null) EnemyCardManager.Initialize(EnemyCodex, DataProvider);
+        if (EnemyCardManager != null) EnemyCardManager.Initialize(this, DataProvider);
 
         EffectApplier = GetComponentInChildren<EffectApplier>();
         if (EffectApplier != null) EffectApplier.Initialize(this);
@@ -75,59 +65,51 @@ public class RoomStateMachine : MonoBehaviour
         LoseManager = GetComponentInChildren<LoseManager>();
     }
 
-    private void HandleDoors(Floor floor)
+    //Standalone room initializer
+    public void Initialize()
     {
-        FloorLevel nextLevel = floor.Levels[_ctx.RoomIndex];
+        CurrentLevel.Value.ReinitializeCodices();
+        EnemyCodex = CurrentLevel.Value.EnemyCodex;
+        InitialEnemySpawn = CurrentLevel.Value.EnemyCards;
 
-        int amountOfRoomsToChooseFrom = nextLevel.Rooms.Count;
+        PlayerCodex = CurrentLevel.Value.PlayerCodex;
+        InitialPlayerSpawn = CurrentLevel.Value.PlayerCards;
 
-        if (amountOfRoomsToChooseFrom > 3)
-        {
-            Debug.Log("Room count should be between 0-3, it is now " + amountOfRoomsToChooseFrom); 
-            return;
-        }
-
-        Door leftDoor = Doors[0];
-        Door midDoor = Doors[1];
-        Door rightDoor = Doors[2];
-
-        switch (amountOfRoomsToChooseFrom)
-        {
-            case 0:
-                foreach (Door door in Doors)
-                {
-                    door.ToggleDoor(false);
-                }
-                break;
-            case 1:
-                midDoor.ToggleDoor(true);
-                midDoor.Initialize(nextLevel.Rooms[0]);
-
-                leftDoor.ToggleDoor(false);
-                rightDoor.ToggleDoor(false);
-                break;
-            case 2:
-
-                leftDoor.ToggleDoor(true);
-                leftDoor.Initialize(nextLevel.Rooms[0]);
-
-                rightDoor.ToggleDoor(true);
-                rightDoor.Initialize(nextLevel.Rooms[1]);
-
-                midDoor.ToggleDoor(false);
-
-                break;
-            case 3:
-                for (int i = 0; i < Doors.Count; i++)
-                {
-                    Door door = Doors[i];
-                    door.ToggleDoor(true);
-                    door.Initialize(nextLevel.Rooms[i]);
-                }
-                break;
-        }
-
+        SwitchState(States.SpawnEnemies());
     }
+
+    //Floor manager
+    //public void Initialize(Floor floor, int index, RoomBlueprint room, Codex enemyCodex)
+    //{
+    //    _ctx.RoomIndex = index;
+
+    //    Room = room;
+
+    //    if (room.RoomEvents.HasFlag(RoomEvent.Battle))
+    //    {
+    //        InitialEnemySpawn = floor.BattlePool.GetBattleBlueprintAccordingToIndex(room.Difficulty).GetCards();
+    //    }
+
+    //    EnemyCodex = enemyCodex;
+    //    PlayerCodex = RunData.playerCodex;
+    //}
+
+    public void NextLevel()
+    {
+        ResetDoor();
+        LevelBlueprint NextLevel = CurrentLevel.Value.Biome.GetNextLevel(CurrentLevel.Value);
+        CurrentLevel.Value = NextLevel;
+        if (CurrentLevel.Value == null) return;
+        Initialize();
+    }
+
+    public void ResetDoor()
+    {
+        Doors[0].gateGO.SetActive(true);
+        Doors[0].gateGO.transform.localPosition = Vector3.zero;
+    }
+
+
     public void InitializeStateMachine()
     {
         if (Room.RoomEvents.HasFlag(RoomEvent.Battle))
@@ -142,7 +124,7 @@ public class RoomStateMachine : MonoBehaviour
     }
 
 
-    public virtual void SwitchState(BaseRoomState newState)
+    public void SwitchState(BaseRoomState newState)
     {
         StartCoroutine(SwitchStateRoutine(newState));
     }
@@ -181,6 +163,8 @@ public class RoomStateMachine : MonoBehaviour
             yield return coroutine;
         }
     }
+
+
 
     public GameObject InstantiatePrefab(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
     {

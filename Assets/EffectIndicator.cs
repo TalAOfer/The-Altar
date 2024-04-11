@@ -8,6 +8,11 @@ public class EffectIndicator : MonoBehaviour
 {
     private TextMeshProUGUI textToFade; // Assign this in the inspector
 
+    public void Initialize(EffectIndication indication)
+    {
+        textToFade.text = indication.effect;
+    }
+
     private void Awake()
     {
         textToFade = GetComponentInChildren<TextMeshProUGUI>();

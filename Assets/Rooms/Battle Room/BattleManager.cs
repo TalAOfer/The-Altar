@@ -34,8 +34,6 @@ public class BattleManager : MonoBehaviour
 
         yield return RallyRoutine();
 
-        yield return Tools.GetWait(0.5f);
-
         HeadbuttEffect headbutt = new(null, null, PlayerCard);
         EffectNode headbuttNode = new(headbutt, null, EnemyCard);
 
@@ -60,7 +58,7 @@ public class BattleManager : MonoBehaviour
         PlayerCard.effects.TriggerEffects(TriggerType.Rally, new NormalEventData(PlayerCard));
         EnemyCard.effects.TriggerEffects(TriggerType.Rally, new NormalEventData(EnemyCard));
 
-        yield return Tools.GetWait(0.15f);
+        yield return Tools.GetWait(0.1f);
 
         if (_effectApplier.RootEffectNode != null)
         {
@@ -81,7 +79,7 @@ public class BattleManager : MonoBehaviour
             card.effects.TriggerEffects(TriggerType.Bloodthirst, new NormalEventData(PlayerCard));
         }
 
-        yield return Tools.GetWait(0.15f);
+        yield return Tools.GetWait(0.1f);
 
         if (_effectApplier.RootEffectNode != null)
         {
@@ -123,7 +121,7 @@ public class BattleManager : MonoBehaviour
                 yield return new WaitUntil(() => effectsCompleted);
             }
 
-            yield return Tools.GetWait(0.25f);
+            //yield return Tools.GetWait(0.25f);
 
             pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
 
@@ -131,13 +129,10 @@ public class BattleManager : MonoBehaviour
 
             foreach (Card card in pendingDestruction)
             {
-                destructionRoutines.Add(StartCoroutine(card.DestroySelf()));
+                StartCoroutine(card.DestroySelf());
             }
 
-            foreach (Coroutine routine in destructionRoutines)
-            {
-                yield return routine;
-            }
+            yield return Tools.GetWait(0.25f);
 
             data.ReorderCards();
 
@@ -148,11 +143,5 @@ public class BattleManager : MonoBehaviour
 
 
     #endregion
-
-    #region Animation Routines 
-
-
-    #endregion
-
 }
 

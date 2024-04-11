@@ -10,7 +10,21 @@ public class Battle_Lost : BaseRoomState
 
     public override IEnumerator EnterState()
     {
-        _sm.LoseManager.CloseWalls();
-        return base.EnterState();
+        //_sm.LoseManager.CloseWalls();
+        yield return Tools.GetWait(0.5f);
+        List<Coroutine> destructionRoutines = new();
+        List<Card> CardsToDestroy = new(_sm.EnemyCardManager.ActiveEnemies);
+
+        foreach (Card card in CardsToDestroy)
+        {
+            destructionRoutines.Add(_sm.StartCoroutine(card.DestroySelf()));
+        }
+
+        foreach (Coroutine routine in destructionRoutines)
+        {
+            yield return routine;
+        }
+
+        SwitchTo(States.OpenDoors());
     }
 }

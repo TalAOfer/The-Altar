@@ -17,7 +17,7 @@ public class Battle_PlayerSetup : BaseRoomState
     public override IEnumerator EnterState()
     {
         InitializeDeck();
-        yield return _sm.PlayerCardManager.DrawCardsToHand(3);
+        yield return _sm.PlayerCardManager.SpawnCardsToHandByBlueprint(_sm.InitialPlayerSpawn);
         yield return Tools.GetWait(0.5f);
         SwitchTo(States.Idle());
         yield break;

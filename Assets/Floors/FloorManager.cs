@@ -31,7 +31,7 @@ public class FloorManager : MonoBehaviour
         Floor = new Floor(_floorBlueprint);
         EnemyCodex = new Codex(_enemyCodexBlueprint);
 
-        currentRoom.Initialize(Floor, 0, Floor.FirstRoom, EnemyCodex);
+        //currentRoom.Initialize(Floor, 0, Floor.FirstRoom, EnemyCodex);
     }
 
     private void OnDisable()
@@ -56,7 +56,7 @@ public class FloorManager : MonoBehaviour
 
         RoomStateMachine newRoom = SpawnRoom();
 
-        newRoom.Initialize(Floor, CurrentRoomIndex, roomBlueprint, EnemyCodex);
+        //newRoom.Initialize(Floor, CurrentRoomIndex, roomBlueprint, EnemyCodex);
 
         previousRoom = currentRoom;
         currentRoom = newRoom;

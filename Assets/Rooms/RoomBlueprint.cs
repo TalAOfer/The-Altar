@@ -6,8 +6,9 @@ public class RoomBlueprint
 {
     public RoomType Type;
     public RoomEvent RoomEvents; 
-    [ShowIf("@RoomEvents.HasFlag(RoomEvent.Battle)")]
+    [ShowIf("@RoomEvents.HasFlag(RoomEvent.Battle) && !PredetermineBattle")]
     public int Difficulty;
+
     [ShowIf("@RoomEvents.HasFlag(RoomEvent.Reward)")]
     public TreasureBlueprint Reward;
 
@@ -17,7 +18,7 @@ public class RoomBlueprint
 
     [FoldoutGroup("Room Data")]
     [ShowIf("@PredetermineBattle && RoomEvents.HasFlag(RoomEvent.Battle)")]
-    public BattleBlueprint BattleBlueprint;
+    public PredeterminedBattleBlueprint BattleBlueprint;
 
     [FoldoutGroup("Room Data")]
     [ShowIf("@RoomEvents.HasFlag(RoomEvent.Battle)")]

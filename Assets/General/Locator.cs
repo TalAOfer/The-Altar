@@ -16,6 +16,8 @@ public class Locator : MonoBehaviour
 
     [SerializeField] private CardData _cardData;
     public static CardData CardData { get; private set; }
+    [SerializeField] private CurrentLevel _currentLevel;
+    public static CurrentLevel CurrentLevel { get; private set; }
 
     private void Awake()
     {
@@ -23,6 +25,7 @@ public class Locator : MonoBehaviour
         RunData = _runData;
         Prefabs = _prefabs;
         CardData = _cardData;
+        CurrentLevel = _currentLevel;
     }
 
     private T FindComponent<T>() where T : Component

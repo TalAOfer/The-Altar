@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3043c0e29575ff0498e0f5de174c0491, type: 3}
+  m_Name: Prison Biome
+  m_EditorClassIdentifier: 
+  DefaultPlayerCodex: {fileID: 11400000, guid: b4deaad8fc286364bb6294fc88f2abcc, type: 2}
+  FullPlayerCodex: {fileID: 11400000, guid: b3bae1edab728de49bba83be473349e1, type: 2}
+  DefaultEnemyCodex: {fileID: 11400000, guid: 22e0a38934fb5cf46a8485be875c42dd, type: 2}
+  FullEnemyCodex: {fileID: 11400000, guid: 4e94e6b49fcdb1941a5d40af00728569, type: 2}
+  Levels:
+  - {fileID: 11400000, guid: eff1bd22fd3078a488da7509df88d1ea, type: 2}
+  - {fileID: 11400000, guid: d9ba2eb80c03331458836b5618b5b473, type: 2}
+  - {fileID: 11400000, guid: b2c6c0b91495f7244aa99b2691d6ded9, type: 2}

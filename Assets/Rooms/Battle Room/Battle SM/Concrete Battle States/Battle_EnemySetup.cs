@@ -15,7 +15,7 @@ public class Battle_EnemySetup : BaseRoomState
 
     public IEnumerator SpawnEnemies()
     {
-        List<CardBlueprint> enemies = _sm.BattleBlueprint.cards;
+        List<CardBlueprint> enemies = _sm.InitialEnemySpawn;
 
         yield return _sm.EnemyCardManager.SpawnEnemies(enemies);
     }

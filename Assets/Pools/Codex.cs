@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class Codex
@@ -17,6 +15,20 @@ public class Codex
         red?.Clear();
         black = new(codexBlueprint.black);
         red = new(codexBlueprint.red);
+    }
+
+    public Codex (CodexBlueprint defaultCodexBlueprint, CodexBlueprint fullCodexBlueprint, List<CardArchetype> progressionMap)
+    {
+        black?.Clear();
+        red?.Clear();
+        black = new(defaultCodexBlueprint.black);
+        red = new(defaultCodexBlueprint.red);
+
+        foreach (CardArchetype archetype in progressionMap)
+        {
+            CardBlueprint cardBlueprint = fullCodexBlueprint.GetBlueprintByArchetype(archetype);
+            OverrideCard(cardBlueprint);
+        }
     }
 
     public CardBlueprint GetCardOverride(CardArchetype archetype)

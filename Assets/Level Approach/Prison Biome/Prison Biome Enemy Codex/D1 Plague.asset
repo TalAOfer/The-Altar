@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cd66726d16d5d418df44840fc05ec1, type: 3}
+  m_Name: D1 Plague
+  m_EditorClassIdentifier: 
+  cardSprite: {fileID: 21300000, guid: a23795f9f6c7775439d6d48df09e4dff, type: 3}
+  isDefault: 0
+  cardName: Plague
+  Archetype:
+    points: 1
+    color: 1
+  Affinity: 1
+  Description: 'Last Breath: Change the color of the highest card in your hand.'
+  SpecialEffects: 0
+  Effects:
+  - UseAsset: 0
+    ManualValue:
+      Trigger: {fileID: 11400000, guid: 5fd36ce76206e2e43833bb9c1522129d, type: 2}
+      GlobalAmountEventsFilter:
+        FilterByReceiver: 0
+        RecieverFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      LocalAmountEventsFilter:
+        FilterByInflictor: 0
+        InflictorFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      NormalEventsFilter:
+        ShouldFilter: 0
+        Filter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      EffectTypeAsset: {fileID: 11400000, guid: 24fbeaa75cbd11942a3ae4a8fb53ac50, type: 2}
+      replacePlaceholders: 1
+      TargetPool: 3
+      TargetStrategy: 2
+      FilterSelfFromTargets: 0
+      AmountOfTargets: 1
+      ShouldFilterTargets: 1
+      TargetFilterBlueprint:
+        ShouldFilter: 1
+        Filter:
+          DecisionType: 8
+          PredefinedColor: 0
+          AffinityComparison: 1
+          PredefinedParity: 0
+      IsPersistent: 0
+      amountStrategy: 0
+      amount: 1
+      cardArchetype:
+        points: 1
+        color: 0
+      battlePointType: 0
+      modifierType: 0
+      filterBattleModifier: 0
+      battleModifierfilter:
+        FilterByAttacker: 0
+        AttackerFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByOpponent: 0
+        OpponentFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByComparison: 0
+        ComparisonFilter:
+          comparison: 0
+      color: 0
+      guardianType: 0
+      guardianIsPresistent: 0
+      BuffType: 0
+      effectBlueprint: {fileID: 0}
+    Asset: {fileID: 0}

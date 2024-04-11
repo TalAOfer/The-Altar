@@ -26,11 +26,6 @@ public class BattleRoomDataProvider
         else _sm.EnemyCardManager.RemoveEnemyFromManager(card);
     }
 
-    public void DrawCardsToHand(int amount)
-    {
-        CoroutineRunner.Instance.StartCoroutine(_sm.PlayerCardManager.DrawCardsToHand(amount));
-    }
-
     public void SpawnCardToHandByArchetype(CardArchetype archetype)
     {
         _sm.PlayerCardManager.SpawnCardToHandByArchetype(archetype);

@@ -19,11 +19,24 @@ MonoBehaviour:
     Reward: {fileID: 0}
     PredetermineBattle: 1
     BattleBlueprint:
-      codex: {fileID: 11400000, guid: 22e0a38934fb5cf46a8485be875c42dd, type: 2}
-      Difficulty: 0
-      cards: []
+      defaultCodex: {fileID: 11400000, guid: 22e0a38934fb5cf46a8485be875c42dd, type: 2}
+      fullCodex: {fileID: 11400000, guid: a76fde7cd93a6e048ac8a245e7e847ed, type: 2}
+      ProgressionMap:
+        OpenMasksArchetypes:
+        - points: 1
+          color: 1
+      cards:
+      - {fileID: 11400000, guid: 49f199bf302f5664595803ad704c4ebf, type: 2}
+      - {fileID: 11400000, guid: 39a9afde8aa7adc48a487118f9625778, type: 2}
+      - {fileID: 11400000, guid: 39a9afde8aa7adc48a487118f9625778, type: 2}
     PredetermineDeck: 1
     Deck:
-      cards: []
+      cards:
+      - points: 1
+        color: 1
+      - points: 2
+        color: 0
+      - points: 1
+        color: 0
       min: 0
       max: 0
