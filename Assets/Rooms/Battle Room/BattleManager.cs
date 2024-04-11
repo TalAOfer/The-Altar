@@ -90,14 +90,19 @@ public class BattleManager : MonoBehaviour
 
     protected virtual IEnumerator DeathPhase()
     {
+        HashSet<Card> cardsTriggered = new HashSet<Card>(); // Tracks cards that have had effects triggered
         bool moreCardsPendingDestruction;
+
         do
         {
-            List<Card> pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
-
-            if (pendingDestruction.Count <= 0) yield break;
-
             moreCardsPendingDestruction = false;
+
+            // Get all active cards pending destruction that haven't had effects triggered yet
+            List<Card> pendingDestruction = data.GetAllActiveCards()
+                .Where(card => card.PENDING_DESTRUCTION && !cardsTriggered.Contains(card))
+                .ToList();
+
+            if (pendingDestruction.Count <= 0) yield break; // Exit if no cards are pending destruction
 
             bool effectsCompleted = false;
 
@@ -109,8 +114,10 @@ public class BattleManager : MonoBehaviour
 
             _effectApplier.OnEffectsCompleted += OnEffectsComplete;
 
+            // Trigger effects for all cards pending destruction
             foreach (Card card in pendingDestruction)
             {
+                cardsTriggered.Add(card); // Mark card as having had its effects triggered
                 card.effects.TriggerEffects(TriggerType.LastBreath, null);
             }
 
@@ -121,24 +128,23 @@ public class BattleManager : MonoBehaviour
                 yield return new WaitUntil(() => effectsCompleted);
             }
 
-            //yield return Tools.GetWait(0.25f);
-
-            pendingDestruction = data.GetAllActiveCards().Where(card => card.PENDING_DESTRUCTION).ToList();
-
-            List<Coroutine> destructionRoutines = new();
+            pendingDestruction = pendingDestruction
+                .Where(card => card.PENDING_DESTRUCTION) // Only include cards still marked for destruction
+                .ToList();
 
             foreach (Card card in pendingDestruction)
             {
-                StartCoroutine(card.DestroySelf());
+                StartCoroutine(card.DestroySelf()); // Initiate destruction of the card
             }
 
             yield return Tools.GetWait(0.25f);
 
             data.ReorderCards();
 
-            moreCardsPendingDestruction = data.GetAllActiveCards().Any(card => card.PENDING_DESTRUCTION);
+            // Check if there are any new cards pending destruction
+            moreCardsPendingDestruction = data.GetAllActiveCards().Any(card => card.PENDING_DESTRUCTION && !cardsTriggered.Contains(card));
 
-        } while (moreCardsPendingDestruction);
+        } while (moreCardsPendingDestruction); // Repeat if there are more cards pending destruction
     }
 
 

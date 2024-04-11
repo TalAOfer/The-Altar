@@ -39,6 +39,7 @@ public class EffectApplier : MonoBehaviour
     {
         if (effectNode == null) yield break;
         if (effectNode.Effect != null && effectNode.Effect.ParentCard.DESTROYING) yield break;
+        if (effectNode.Effect != null && effectNode.Effect.EffectTrigger != null && effectNode.Effect.EffectTrigger.TriggerType is TriggerType.LastBreath && !effectNode.Effect.ParentCard.FATALLY_WOUNDED) yield break;
 
         effectNodeStack.Push(effectNode);
 
