@@ -19,7 +19,8 @@ MonoBehaviour:
     points: 2
     color: 1
   Affinity: 1
-  Description: 'Bloodthirst: deal 1 damage to the highest card in your hand.'
+  Description: 'Bloodthirst: deal 1 damage to the highest card in your hand. This
+    card is destroyed after.'
   SpecialEffects: 0
   Effects:
   - UseAsset: 0
@@ -75,6 +76,89 @@ MonoBehaviour:
       IsPersistent: 0
       amountStrategy: 0
       amount: 1
+      cardArchetype:
+        points: 1
+        color: 0
+      battlePointType: 0
+      modifierType: 0
+      filterBattleModifier: 0
+      battleModifierfilter:
+        FilterByAttacker: 0
+        AttackerFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByOpponent: 0
+        OpponentFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          PredefinedParity: 0
+        FilterByComparison: 0
+        ComparisonFilter:
+          comparison: 0
+      color: 0
+      guardianType: 0
+      guardianIsPresistent: 0
+      BuffType: 0
+      effectBlueprint: {fileID: 0}
+    Asset: {fileID: 0}
+  - UseAsset: 0
+    ManualValue:
+      Trigger: {fileID: 11400000, guid: 2a3bda6e1fbee6648b5f8203185cf4f4, type: 2}
+      GlobalAmountEventsFilter:
+        FilterByReceiver: 0
+        RecieverFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      LocalAmountEventsFilter:
+        FilterByInflictor: 0
+        InflictorFilter:
+          DecisionType: 0
+          comparison: 0
+          PredefinedAmount: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+        FilterByAmount: 0
+        AmountFilter:
+          Comparison: 0
+          PredefinedAmount: 0
+      NormalEventsFilter:
+        ShouldFilter: 0
+        Filter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      EffectTypeAsset: {fileID: 11400000, guid: 330cc67fe82885646aec1b41a3fea009, type: 2}
+      replacePlaceholders: 1
+      TargetPool: 0
+      TargetStrategy: 0
+      FilterSelfFromTargets: 0
+      AmountOfTargets: 2
+      ShouldFilterTargets: 0
+      TargetFilterBlueprint:
+        ShouldFilter: 0
+        Filter:
+          DecisionType: 0
+          PredefinedColor: 0
+          AffinityComparison: 0
+          PredefinedParity: 0
+      IsPersistent: 0
+      amountStrategy: 0
+      amount: 2
       cardArchetype:
         points: 1
         color: 0
