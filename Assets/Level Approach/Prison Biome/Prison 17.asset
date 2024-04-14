@@ -25,9 +25,9 @@ MonoBehaviour:
   - points: 2
     color: 1
   EnemyCards:
-  - {fileID: 11400000, guid: 04fb123d8a380e3439177034a99168aa, type: 2}
-  - {fileID: 11400000, guid: 04fb123d8a380e3439177034a99168aa, type: 2}
-  - {fileID: 11400000, guid: 04fb123d8a380e3439177034a99168aa, type: 2}
+  - {fileID: 11400000, guid: efa6167168824844d95519383ed03c07, type: 2}
+  - {fileID: 11400000, guid: c53882d33affe0c4e9ee6e38a6d4b10f, type: 2}
+  - {fileID: 11400000, guid: 8e7d3842c92807e448a42752bcab953b, type: 2}
   PlayerProgressionMap:
   - points: 1
     color: 1
@@ -38,6 +38,6 @@ MonoBehaviour:
   - points: 2
     color: 1
   PlayerCards:
-  - {fileID: 11400000, guid: 7b6e3ffd966b6b147bbef52f11beb3e3, type: 2}
-  - {fileID: 11400000, guid: 2548e2a614d7c52479e0c8c88425ec53, type: 2}
   - {fileID: 11400000, guid: 37ac7085fb00aa845a29415865058328, type: 2}
+  - {fileID: 11400000, guid: 2548e2a614d7c52479e0c8c88425ec53, type: 2}
+  - {fileID: 11400000, guid: 7b6e3ffd966b6b147bbef52f11beb3e3, type: 2}
