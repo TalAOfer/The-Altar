@@ -69,7 +69,7 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638476734792063093
+  lastModified: 638431024027761825
   FileSizes:
   - Name: Desktop
     Value: 1280
@@ -251,7 +251,7 @@ MonoBehaviour:
   Path: Assets/Fmod/Cardgame/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638476734791983089
+  lastModified: 638432631633738525
   FileSizes:
   - Name: Desktop
     Value: 2181760
@@ -316,7 +316,7 @@ MonoBehaviour:
   - {fileID: -2091959578879752958}
   StringsBanks:
   - {fileID: -5086653365721492944}
-  cacheTime: 638476734792063093
+  cacheTime: 638432631633738525
   cacheVersion: 131609
 --- !u!114 &1265382808593118043
 MonoBehaviour:

@@ -9,7 +9,7 @@ public class TransformArranger : MonoBehaviour
     public float xOffset = 1.0f; // Horizontal offset between items
     public float yOffset = 1.0f; // Vertical offset between items
 
-    [Button]
+    [Button("Arrange")]
     public void Arrange()
     {
         if (columns <= 0) return; // Guard against invalid column count
@@ -35,7 +35,17 @@ public class TransformArranger : MonoBehaviour
             float yPosition = startY - (row * yOffset);
 
             // Set the position of the current transform
-            transforms[i].position = new Vector3(xPosition, yPosition, transforms[i].position.z);
+            transforms[i].localPosition = new Vector3(xPosition, yPosition, transforms[i].localPosition.z);
+        }
+    }
+
+    [Button("Populate")]
+    public void PopulateTransforms()
+    {
+        transforms.Clear(); // Clear existing transforms list
+        foreach (Transform child in transform) // Loop through each child transform
+        {
+            transforms.Add(child); // Add child transform to the list
         }
     }
 }
