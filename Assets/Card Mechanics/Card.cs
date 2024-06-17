@@ -85,7 +85,7 @@ public class Card : MonoBehaviour
 
         attackPoints = new BattlePoint(points, BattlePointType.Attack);
 
-        visualHandler.Init(startingSortingLayer);
+        visualHandler.Init(startingSortingLayer, cardInteractionType);
 
         OnChange();
 

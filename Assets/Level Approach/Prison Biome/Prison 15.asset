@@ -37,6 +37,6 @@ MonoBehaviour:
   - points: 1
     color: 0
   PlayerCards:
-  - {fileID: 11400000, guid: 37f8d96e9cbe4a44f96469f63cb7da6a, type: 2}
-  - {fileID: 11400000, guid: a1ae76eeafa04484eb3f0880436d847a, type: 2}
-  - {fileID: 11400000, guid: 7b6e3ffd966b6b147bbef52f11beb3e3, type: 2}
+  - {fileID: 11400000, guid: 4a494199e2ca47046ad5af965dbe6b59, type: 2}
+  - {fileID: 11400000, guid: 37ac7085fb00aa845a29415865058328, type: 2}
+  - {fileID: 11400000, guid: 91302de18e7ca2c40a1963c7ced62a04, type: 2}

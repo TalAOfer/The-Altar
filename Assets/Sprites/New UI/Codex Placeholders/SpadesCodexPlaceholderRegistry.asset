@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1e7eefed131c448a13ba50eee8aff5, type: 3}
+  m_Name: SpadesCodexPlaceholderRegistry
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 9047a0c7f19db534da59170cc0452cc5, type: 3}
+  - {fileID: 21300000, guid: b218a5828e900c94ebfd34673f430bca, type: 3}
+  - {fileID: 21300000, guid: 0110628ce433d304f96b81baa2d5840d, type: 3}
+  - {fileID: 21300000, guid: 68fcffe7e5032ba4fb3feb37dcbf8cfd, type: 3}
+  - {fileID: 21300000, guid: 80952333b7e9c7a40b80c7a6d15408a0, type: 3}
+  - {fileID: 21300000, guid: 3dc58922783344442b5cd7babacb4c97, type: 3}
+  - {fileID: 21300000, guid: e08492760498b574b9d22025d08171ab, type: 3}
+  - {fileID: 21300000, guid: 317f77ca8684abf4b8477bdef4b26126, type: 3}
+  - {fileID: 21300000, guid: b3301af4dca3f924db622084f0e4070a, type: 3}
+  - {fileID: 21300000, guid: 3107b39c365b6b544b1b16fd9c2d7a5e, type: 3}

@@ -47,10 +47,7 @@ public class CodexUI : MonoBehaviour
             var uiCard = cards[i];
             int amount = (i / 2) + 1; // Calculate amount based on the current index
             CardColor color = i % 2 == 0 ? CardColor.Black : CardColor.Red; // Alternate color based on the current index
-
-            
         }
-
 
 
         foreach (var card in cards) 

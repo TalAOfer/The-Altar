@@ -79,10 +79,19 @@ public class CardVisualHandler : MonoBehaviour
         InitializeSpritesMaterial();
         SetSpritesColor();
     }
-    public void Init(string startingSortingLayer)
+    public void Init(string startingSortingLayer, CardInteractionType interactionType)
     {
         SetNewCardVisual();
         SetSortingLayer(startingSortingLayer);
+
+    }
+
+    private void InitializeSpritesMaskInteraction(CardInteractionType interactionType)
+    {
+        if (interactionType is CardInteractionType.Codex)
+        {
+
+        }
     }
 
     private void InitializeCardMaterial()

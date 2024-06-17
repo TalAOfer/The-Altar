@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1e7eefed131c448a13ba50eee8aff5, type: 3}
+  m_Name: HeartsCodexPlaceholderRegistry
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 08168a58b44ef6243b08d37533f5bdf8, type: 3}
+  - {fileID: 21300000, guid: 493fab46a8964e2458e056ef3ec52c23, type: 3}
+  - {fileID: 21300000, guid: 66fba492ad169d743bdead0c660f0da0, type: 3}
+  - {fileID: 21300000, guid: f74ca9db78df7fa40819cc13d2f51a48, type: 3}
+  - {fileID: 21300000, guid: 365aab0caf804f649809a91243874069, type: 3}
+  - {fileID: 21300000, guid: f0ff48ab77d6f3f42ac70d84134dfed8, type: 3}
+  - {fileID: 21300000, guid: 17bc872fe8b1fca41a9b85649a67941e, type: 3}
+  - {fileID: 21300000, guid: 36b5aa4fc3ab8854a8b98f255cbbd7e4, type: 3}
+  - {fileID: 21300000, guid: f0057e9264d63634bacdd43ca906a1de, type: 3}
+  - {fileID: 21300000, guid: 29e5f2d4ba43f3f4793da6be5e1ff116, type: 3}
